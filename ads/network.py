@@ -10,17 +10,32 @@ __author__ = "Andy Casey <acasey@mso.anu.edu.au>"
 import json
 import logging
 
-def nodes(articles, attribute):
+def nodes(article, attribute, map_func=None):
     """Returns a dictionary of articles linked to each other, as
     defined by the attribute (either references or citations).
 
     Inputs
     ------
-    articles : list of Article objects
+    article : `Article` objects
         The articles with network information.
 
     attribute : citations or references
         The attribute build the nodes from.
+
+    map_func : func, optional
+        A callable function that takes a single `Article` object.
+        If not None, this callable will be applied to every `Article`
+        in the network.
+
+    Examples
+    --------
+    The psuedocode below will return a paper, build a citation tree from
+    it of depth 2, then return a network of how first authors cite `articles`.
+
+        paper = ads.search("etc")
+        paper.build_citation_tree(2)
+        network = ads.network.nodes(paper, "citations", lambda article: article.author[0])
+
     """
 
     if not attribute in ("references", "citations"):
@@ -30,11 +45,19 @@ def nodes(articles, attribute):
 
     def append_nodes(article):
         if hasattr(article, "_{attribute}".format(attribute=attribute)):
+
+            key = article
+            links = getattr(article, "_{attribute}".format(attribute=attribute))
+
+            if map_func is not None:
+                key = map_func(key)
+                links = map(map_func, links)
+
             if article in nodes:
-                nodes.extend(getattr(article, "_{attribute}".format(attribute=attribute)))
+                nodes.extend(links)
 
             else:
-                nodes[article] = getattr(article, "_{attribute}".format(attribute=attribute))
+                nodes[key] = links
             return True
 
         else:
