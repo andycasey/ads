@@ -21,8 +21,8 @@ def get_dev_key():
 
         return dev_key
 
-    if 'ADS_API_KEY' in os.environ:
-        return os.environ['ADS_API_KEY']
+    if 'ADS_DEV_KEY' in os.environ:
+        return os.environ['ADS_DEV_KEY']
 
 
     raise IOError("no ADS API key found in ~/.ads/dev_key")
