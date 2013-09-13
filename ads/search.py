@@ -198,15 +198,14 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None,
     return payload
 
 
-def search(query=None, author=None, dates=None, affiliation=None,
+def search(query=None, authors=None, dates=None, affiliation=None,
     sort='date', order='desc', start=0, rows=20):
     """Search ADS and retrieve Article objects."""
 
     payload = _build_payload(**locals())
 
     r = requests.get(ADS_HOST, params=payload)
-    print(r.url)
-
+    
     if r.status_code == 200:
 
         results = r.json()
