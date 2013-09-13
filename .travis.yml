@@ -12,3 +12,6 @@ script:
   - nosetests
 notifications:
   email: false
+env:
+  global:
+    - secure: "ZtElK3u1qdX9xDcZcd1mU1jzFofzfc2HJqUM0kBluGSPBuDOkV+0rCa6Gz/nPvRnClEq95pVM2YKLzJ30JOYOwDrZmGnCLmoPIP4ePl+xlnuQb6SvMmjxc+0Kv35moXtUrhdBn39MPBBUg6gSdggNcD/DPLXYAURfRA4HIfJy9E="
