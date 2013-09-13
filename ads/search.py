@@ -17,6 +17,7 @@ import requests
 import requests_futures.sessions
 
 # Module specific
+import parser as parse
 from utils import get_dev_key, get_api_settings
 
 __all__ = ['search']
@@ -164,100 +165,21 @@ class Article(object):
 
 
 
-def _build_payload(query=None, author=None, year=None, sort='date', order='desc',
+def _build_payload(query=None, author=None, dates=None, sort='date', order='desc',
     start=0, rows=20):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
-    query_refinements = []
+    # Check inputs
+    start = parse.start(start)
+    rows = parse.rows(rows)
+    sort, order = parse.ordering(sort, order)
 
-    # Check rows
-    if rows == 'max':
-        # This checks your settings based on your developer API key
+    # Filters
+    date_filter = parse.dates(dates)
 
-        rows = get_api_settings(DEV_KEY)["max_rows"]
-
-    else:
-        try: rows = int(rows)
-        except TypeError:
-            raise TypeError("rows must be an integer-like type")
-
-        if rows < 1:
-            raise ValueError("rows must be a positive integer")
-
-    # Verify year
-    if isinstance(year, (list, tuple)):
-        if len(year) > 2:
-            raise ValueError("if year is specified as a list, it must"
-                " be as '(start, end)', either of which can be empty")
-
-        if len(year) == 1:
-            start_year, end_year = (year[0], None)
-
-        else:
-            start_year, end_year = year
-
-        # Ensure they are integer-types
-        # TODO: Months will come later
-        check_years = {
-            'start': start_year,
-            'end':   end_year
-        }
-        for label in check_years:
-            if check_years[label] is not None:
-                try: check_years[label] = int(check_years[label])
-                except TypeError:
-                    raise TypeError("{label} year must be integer-like type or None"
-                        .format(label=label))
-
-            else:
-                check_years[label] = '*'
-
-        # Check that end comes after start
-        if start_year is not None and end_year is not None \
-        and start_year > end_year:
-            raise ValueError("end year cannot be after the start year")
-
-        # If both years are None then filter nothing.
-        if start_year is not None or end_year is not None:
-            query_refinements.append('year:[{start_year} TO {end_year}]'
-                .format(start_year=check_years['start'], end_year=check_years['end']))
-
-    elif isinstance(year, (str, unicode)):
-
-        # We will accept '2002-', '2002..', '..2003', '2002..2003'
-        # '2002.01..2002.08', '2002.04..', '2002/07', '2002-7', '2002-07
-
-        raise NotImplementedError
-
-    elif isinstance(year, (float, int)):
-        # Should be float or integer
-        # TODO: Months will come later
-
-        year = int(year)
-        query_refinements.append('year:{year}'.format(year=year))
-
-    else:
-        if year is not None:
-            raise TypeError("year type not understood")
-
-    try:
-        start = int(start)
-    except TypeError:
-        raise TypeError("start must be an integer-like type")
-
-    if start < 0:
-        raise ValueError("start must be positive")
-
-    if order.lower() not in ('asc', 'desc'):
-        raise ValueError("order must be either 'asc' or 'desc'")
-
-    acceptable_sorts = ("date", "relevance", "cited", "popularity")
-    if sort.lower() not in acceptable_sorts:
-        raise ValueError("sort must be one of: {acceptable_sorts}"
-            .format(acceptable_sorts=', '.join(acceptable_sorts)))
-
-    if len(query_refinements) > 0:
-        query += ' ' + ' '.join(query_refinements)
+    # Apply filters
+    if date_filter is not None:
+        query += date_filter
 
     payload = {
         "q": query,
@@ -271,7 +193,7 @@ def _build_payload(query=None, author=None, year=None, sort='date', order='desc'
     return payload
 
 
-def search(query=None, author=None, year=None, sort='date', order='desc',
+def search(query=None, author=None, dates=None, sort='date', order='desc',
     start=0, rows=20):
     """Search ADS and retrieve Article objects."""
 
