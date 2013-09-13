@@ -35,7 +35,6 @@ class Article(object):
 
     @property
     def references(self):
-
         if hasattr(self, '_references'):
             return self._references
 
@@ -58,7 +57,6 @@ class Article(object):
 
 
     def build_reference_tree(self, depth):
-        # 4.5x faster than serial
         """Builds a reference tree for this paper.
 
         Inputs
@@ -106,6 +104,7 @@ class Article(object):
             total_articles += len(level)
 
         return total_articles          
+
 
     def build_citation_tree(self, depth):
         """Builds a citation tree for this paper.
@@ -175,7 +174,6 @@ def _build_payload(query=None, author=None, year=None, sort='date', order='desc'
 
         if rows < 1:
             raise ValueError("rows must be a positive integer")
-
 
     # Verify year
     if isinstance(year, (list, tuple)):
