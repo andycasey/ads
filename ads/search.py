@@ -165,9 +165,11 @@ class Article(object):
 
 
 
-def _build_payload(query=None, author=None, dates=None, sort='date', order='desc',
-    start=0, rows=20):
+def _build_payload(query=None, authors=None, dates=None, affiliation=None, 
+    sort='date', order='desc', start=0, rows=20):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
+
+    query = parse.query(query, authors, dates)
 
     # Check inputs
     start = parse.start(start)
@@ -176,10 +178,12 @@ def _build_payload(query=None, author=None, dates=None, sort='date', order='desc
 
     # Filters
     date_filter = parse.dates(dates)
+    affiliation_filter = parse.affiliation(affiliation)
 
-    # Apply filters
-    if date_filter is not None:
-        query += date_filter
+    filters = (date_filter, affiliation_filter)
+    for query_filter in filters:
+        if query_filter is not None:
+            query += query_filter
 
     payload = {
         "q": query,
@@ -187,19 +191,21 @@ def _build_payload(query=None, author=None, dates=None, sort='date', order='desc
         "sort": "{sort} {order}".format(sort=sort.upper(), order=order),
         "start": start,
         "fmt": "json",
-        "rows": rows
+        "rows": rows,
+        "filter": "database:astronomy" # For the moment,..
         }
 
     return payload
 
 
-def search(query=None, author=None, dates=None, sort='date', order='desc',
-    start=0, rows=20):
+def search(query=None, author=None, dates=None, affiliation=None,
+    sort='date', order='desc', start=0, rows=20):
     """Search ADS and retrieve Article objects."""
 
     payload = _build_payload(**locals())
 
     r = requests.get(ADS_HOST, params=payload)
+    print(r.url)
 
     if r.status_code == 200:
 
@@ -210,6 +216,7 @@ def search(query=None, author=None, dates=None, sort='date', order='desc',
         for docinfo in results['results']['docs']:
             articles.append(Article(**docinfo))
 
+        return articles
         return (articles, metadata, r)
 
 

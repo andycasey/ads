@@ -17,13 +17,38 @@ from dateutil.parser import parse as dutil_parser
 # Module specific
 from utils import get_dev_key, get_api_settings
 
-__all__ = ['rows', 'ordering', 'dates', ]
+__all__ = ['rows', 'ordering', 'dates', 'start']
 
 DEV_KEY = get_dev_key()
 
+def query(query, authors, dates):
+
+    if query is None: return ''
+
+    # Regex match for a date range
+
+    # Assume rest is author/title interpreted?
+    return query
+    
+
+def affiliation(affiliation):
+    """Creates a parser based on the affiliation input."""
+
+    if affiliation is None: return
+
+    try:
+        affiliation = str(affiliation)
+    except TypeError:
+        raise TypeError("affiliation must be a string-type")
+
+    query_refinement = " aff:{affiliation}".format(affiliation=affiliation)
+    return query_refinement
+
+
+
 def start(start):
     """Checks that the start number is valid."""
-    
+
     try:
         start = int(start)
     except TypeError:
@@ -58,10 +83,23 @@ def ordering(sort, order):
     if order.lower() not in ('asc', 'desc'):
         raise ValueError("order must be either 'asc' or 'desc'")
 
-    acceptable_sorts = ("date", "relevance", "cited", "popularity")
-    if sort.lower() not in acceptable_sorts:
+    acceptable_sorts = {
+        "date": "time",
+        "relevance": "relevance",
+        "cited": "citations",
+        "popularity": "popular"
+    }
+
+    if sort.lower() not in acceptable_sorts \
+    and sort.lower() not in acceptable_sorts.values():
         raise ValueError("sort must be one of: {acceptable_sorts}"
-            .format(acceptable_sorts=', '.join(acceptable_sorts)))
+            .format(acceptable_sorts=', '.join(acceptable_sorts.keys())))
+
+    if sort.lower() not in acceptable_sorts:
+        for key in acceptable_sorts:
+            if sort.lower() in acceptable_sorts[key]:
+                sort = key
+                break
 
     return (sort, order)
 
