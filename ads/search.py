@@ -9,9 +9,12 @@ __author__ = "Andy Casey <acasey@mso.anu.edu.au>"
 # Standard library
 import json
 import logging
+import multiprocessing
+import time
 
 # Third party
 import requests
+import requests_futures.sessions
 
 # Module specific
 from utils import get_dev_key
@@ -30,19 +33,133 @@ class Article(object):
 
         return None
 
-    def get_references(self):
-        raise NotImplementedError
+    @property
+    def references(self):
 
-    def get_citations(self):
-        #&q=references(bibcode:2011ApSSP...1..125H)
+        if hasattr(self, '_references'):
+            return self._references
 
-        self.citations = search("citations(bibcode:{bibcode})"
-            .format(bibcode=self.bibcode), rows=200)
+        else:
+            articles, metadata, request = search("references(bibcode:{bibcode})"
+                .format(bibcode=self.bibcode), rows=200)
+            self._references = articles
+            return articles
+
+    @property
+    def citations(self):
+        if hasattr(self, '_citations'):
+            return self._citations
+
+        else:
+            articles, metadata, request = search("citations(bibcode:{bibcode})"
+                .format(bibcode=self.bibcode), rows=200)
+            self._citations = articles
+            return articles
 
 
-def search(query=None, author=None, year=None, sort='date', order='desc',
+    def build_reference_tree(self, depth):
+        # 4.5x faster than serial
+        """Builds a reference tree for this paper.
+
+        Inputs
+        ------
+        depth : int
+            The number of levels to fetch in the reference tree.
+
+        Returns
+        -------
+        num_articles_in_tree : int
+            The total number of referenced articles in the reference tree.
+        """
+
+        try: depth = int(depth)
+        except TypeError:
+            raise TypeError("depth must be an integer-like type")
+
+        if depth < 1:
+            raise ValueError("depth must be a positive integer")
+
+        session = requests_futures.sessions.FuturesSession()
+
+        # To understand recursion, first you must understand recursion.
+        level = [self]
+        total_articles = len(level)
+
+        for level_num in xrange(depth):
+
+            level_requests = []
+            for article in level:
+                payload = _build_payload("references(bibcode:{bibcode})"
+                    .format(bibcode=article.bibcode))
+
+                level_requests.append(session.get(ADS_HOST, params=payload))
+
+            # Complete all requests
+            new_level = []
+            for request, article in zip(level_requests, level):
+                data = request.result().json()["results"]["docs"]
+
+                setattr(article, "_references", [Article(**doc_info) for doc_info in data])
+                new_level.extend(article.references)
+
+            level = sum([new_level], [])
+            total_articles += len(level)
+
+        return total_articles          
+
+    def build_citation_tree(self, depth):
+        """Builds a citation tree for this paper.
+
+        Inputs
+        ------
+        depth : int
+            The number of levels to fetch in the citation tree.
+
+        Returns
+        -------
+        num_articles_in_tree : int
+            The total number of cited articles in the citation tree.
+        """
+
+        try: depth = int(depth)
+        except TypeError:
+            raise TypeError("depth must be an integer-like type")
+
+        if depth < 1:
+            raise ValueError("depth must be a positive integer")
+
+        session = requests_futures.sessions.FuturesSession()
+
+        # To understand recursion, first you must understand recursion.
+        level = [self]
+        total_articles = len(level)
+
+        for level_num in xrange(depth):
+
+            level_requests = []
+            for article in level:
+                payload = _build_payload("citations(bibcode:{bibcode})"
+                    .format(bibcode=article.bibcode))
+
+                level_requests.append(session.get(ADS_HOST, params=payload))
+
+            # Complete all requests
+            new_level = []
+            for request, article in zip(level_requests, level):
+                data = request.result().json()["results"]["docs"]
+
+                setattr(article, "_citations", [Article(**doc_info) for doc_info in data])
+                new_level.extend(article.citations)
+
+            level = sum([new_level], [])
+            total_articles += len(level)
+
+        return total_articles     
+
+
+def _build_payload(query=None, author=None, year=None, sort='date', order='desc',
     start=0, rows=20):
-    """Search ADS and retrieve Article objects."""
+    """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
     query_refinements = []
 
@@ -143,6 +260,15 @@ def search(query=None, author=None, year=None, sort='date', order='desc',
         "fmt": "json",
         "rows": rows
         }
+
+    return payload
+
+
+def search(query=None, author=None, year=None, sort='date', order='desc',
+    start=0, rows=20):
+    """Search ADS and retrieve Article objects."""
+
+    payload = _build_payload(**locals())
 
     r = requests.get(ADS_HOST, params=payload)
 
