@@ -1,6 +1,8 @@
 **A Python module to interact with NASA's ADS that doesn't suck™**
 ==================================================================
 
+[![Build Status](https://travis-ci.org/andycasey/ads-python.png?branch=master)](https://travis-ci.org/andycasey/ads-python)
+
 If you're in research, then you pretty much _need_ NASA's ADS. It's tried, true, and on the rare occasions when it goes down, people go crazy on Twitter.
 
 I wanted some way to be able to easily search ADS from the terminal, and a mate wanted a way to make visualisations from all the ADS data. So I've written this module to use the new API from NASA ADS. Hooray!
