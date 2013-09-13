@@ -6,17 +6,16 @@ from __future__ import division, print_function
 
 __author__ = "Andy Casey <acasey@mso.anu.edu.au>"
 
-# Standard library
-import json
-import logging
+__all__ = ['nodes']
 
-def nodes(article, attribute, map_func=None):
+
+def nodes(articles, attribute, map_func=None):
     """Returns a dictionary of articles linked to each other, as
     defined by the attribute (either references or citations).
 
     Inputs
     ------
-    article : `Article` objects
+    articles : list of `Article` objects
         The articles with network information.
 
     attribute : citations or references
@@ -41,37 +40,26 @@ def nodes(article, attribute, map_func=None):
     if not attribute in ("references", "citations"):
         raise ValueError("attribute must be either 'references' or 'citations'")
 
-    nodes = {}
+    if map_func is None:
+        map_func = lambda _: _
 
-    def append_nodes(article):
-        if hasattr(article, "_{attribute}".format(attribute=attribute)):
+    def recursive_walk(articles):
 
-            key = article
-            links = getattr(article, "_{attribute}".format(attribute=attribute))
-
-            if map_func is not None:
-                key = map_func(key)
-                links = map(map_func, links)
-
-            if article in nodes:
-                nodes.extend(links)
+        branch = []
+        for article in articles:
+            if hasattr(article, "_{attribute}".format(attribute=attribute)):
+                branch.append({
+                    map_func(article): recursive_walk(getattr(article, "_{attribute}".format(attribute=attribute)))
+                    })
 
             else:
-                nodes[key] = links
-            return True
+                branch.append(map_func(article))
 
-        else:
-            return False
+        return branch
 
-    def recursive_append(articles):
-        for article in articles:
-            if append_nodes(article):
-                recursive_append(getattr(article, "_{attribute}".format(attribute=attribute)))
+    if not isinstance(articles, (list, tuple)):
+        articles = [articles]
 
-    # This line is so that we can take either a single article, or a list of articles. A list
-    # will just get flattened.
-    articles = sum([[articles]], [])
-    recursive_append(articles)
+    return recursive_walk(articles)
 
-    return nodes
 
