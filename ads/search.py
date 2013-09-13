@@ -17,7 +17,7 @@ import requests
 import requests_futures.sessions
 
 # Module specific
-from utils import get_dev_key
+from utils import get_dev_key, get_api_settings
 
 __all__ = ['search']
 
@@ -26,12 +26,18 @@ ADS_HOST = 'http://adslabs.org/adsabs/api/search/'
 
 
 class Article(object):
+    """An object to represent a single publication in NASA's Astrophysical
+    Data System."""
 
     def __init__(self, **kwargs):
         for key, value in kwargs.iteritems():
             setattr(self, key, value)
 
         return None
+
+    # TODO __repr__
+
+    # TODO bibtex @property
 
     @property
     def references(self):
@@ -156,6 +162,8 @@ class Article(object):
         return total_articles     
 
 
+
+
 def _build_payload(query=None, author=None, year=None, sort='date', order='desc',
     start=0, rows=20):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
@@ -164,8 +172,9 @@ def _build_payload(query=None, author=None, year=None, sort='date', order='desc'
 
     # Check rows
     if rows == 'max':
+        # This checks your settings based on your developer API key
 
-        raise NotImplementedError
+        rows = get_api_settings(DEV_KEY)["max_rows"]
 
     else:
         try: rows = int(rows)

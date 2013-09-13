@@ -9,7 +9,10 @@ __author__ = "Andy Casey <acasey@mso.anu.edu.au>"
 # Standard library
 import os
 
-__all__ = ['get_dev_key']
+# Third party
+import requests
+
+__all__ = ["get_dev_key", "get_api_settings"]
 
 def get_dev_key():
 
@@ -24,7 +27,11 @@ def get_dev_key():
     if 'ADS_DEV_KEY' in os.environ:
         return os.environ['ADS_DEV_KEY']
 
-
     raise IOError("no ADS API key found in ~/.ads/dev_key")
 
 
+def get_api_settings(developer_api_key):
+    """Gets the API settings for the developer key provided."""
+
+    r = requests.get("http://labs.adsabs.harvard.edu/adsabs/api/settings/", params={"dev_key": developer_api_key})
+    return r.json()
