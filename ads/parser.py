@@ -76,7 +76,9 @@ def rows(rows):
 def ordering(sort, order):
     """Checks that the ordering and sorting inputs are valid."""
 
-    if order.lower() not in ('asc', 'desc'):
+    sort, order = sort.lower(), order.lower()
+
+    if order not in ('asc', 'desc'):
         raise ValueError("order must be either 'asc' or 'desc'")
 
     acceptable_sorts = {
@@ -86,14 +88,14 @@ def ordering(sort, order):
         "popularity": "popular"
     }
 
-    if sort.lower() not in acceptable_sorts \
-    and sort.lower() not in acceptable_sorts.values():
+    if sort not in acceptable_sorts \
+    and sort not in acceptable_sorts.values():
         raise ValueError("sort must be one of: {acceptable_sorts}"
             .format(acceptable_sorts=', '.join(acceptable_sorts.keys())))
 
-    if sort.lower() not in acceptable_sorts:
+    if sort not in acceptable_sorts:
         for key in acceptable_sorts:
-            if sort.lower() in acceptable_sorts[key]:
+            if sort in acceptable_sorts[key]:
                 sort = key
                 break
 
