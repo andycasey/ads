@@ -68,7 +68,7 @@ def nodes(articles, attribute, map_func=None):
 
 
 def export(articles, attribute, output_filename, structure="nested", article_repr=None,
-    new_branch_func=None, end_branch_func=None, clobber=False, **kwargs):
+    new_branch_repr=None, end_branch_repr=None, clobber=False, **kwargs):
     """Export the article network attributes (e.g. either references or citations) for the
     given articles.
 
@@ -89,10 +89,10 @@ def export(articles, attribute, output_filename, structure="nested", article_rep
     article_repr : callable, optional
         A callable function to represent the article for each node.
 
-    new_branch_func : callable, optional
+    new_branch_repr : callable, optional
         A callable function to represent each sub branch.
 
-    end_branch_func : callable, optional
+    end_branch_repr : callable, optional
         A callable function to represent the end of a branch.
 
     clobber : bool
@@ -112,11 +112,11 @@ def export(articles, attribute, output_filename, structure="nested", article_rep
     if article_repr is None:
         article_repr = lambda x: x
 
-    if new_branch_func is None:
-        new_branch_func = lambda x, y: {x: y}
+    if new_branch_repr is None:
+        new_branch_repr = lambda x, y: {x: y}
 
-    if end_branch_func is None:
-        end_branch_func = lambda x: x
+    if end_branch_repr is None:
+        end_branch_repr = lambda x: x
 
     flat_data = []
 
@@ -129,8 +129,8 @@ def export(articles, attribute, output_filename, structure="nested", article_rep
         for article in articles:
             if hasattr(article, "_{attribute}".format(attribute=attribute)):
                 # New branch
-                new_branch = new_branch_func(
-                    article_repr(article),
+                new_branch = new_branch_repr(
+                    article,
                     recursive_walk(getattr(article, "_{attribute}"
                         .format(attribute=attribute)), flat_data))
 
@@ -139,7 +139,7 @@ def export(articles, attribute, output_filename, structure="nested", article_rep
 
             else:
                 # Branch end
-                end_branch = end_branch_func(article_repr(article))
+                end_branch = end_branch_repr(article)
 
                 branch.append(end_branch)
                 flat_data.append(end_branch)
