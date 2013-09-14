@@ -8,6 +8,7 @@ __author__ = "Andy Casey <acasey@mso.anu.edu.au>"
 
 # Standard libary
 import json
+import os
 
 __all__ = ['nodes']
 
@@ -152,7 +153,7 @@ def export(articles, attribute, output_filename, structure="nested", article_rep
         json.dump(data, fp, **kwargs)
 
     return True
-    
+
 
 # These functions below are just temporary and are immediately deprecated
 def export_to_d3rt(paper, attribute="citations", map_func=None):
