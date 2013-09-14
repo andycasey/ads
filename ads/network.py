@@ -92,18 +92,24 @@ def export(articles, attribute, structure="nested", article_repr=None, new_branc
         A callable function to represent the end of a branch.
     """
 
+    if attribute not in ("citations", "references"):
+        raise ValueError("attribute must be either 'citations' or 'references'")
+
+    if structure not in ("nested", "flat"):
+        raise ValueError("structure must be either 'flat' or 'nested'")
+
     if article_repr is None:
         article_repr = lambda x: x
 
     if new_branch_func is None:
-        new_branch_func = lambda x: x
+        new_branch_func = lambda x, y: {x: y}
 
     if end_branch_func is None:
         end_branch_func = lambda x: x
 
     flat_data = []
 
-    def recursive_walk(articles):
+    def recursive_walk(articles, flat_data):
         branch = []
 
         if not isinstance(articles, (list, tuple)):
@@ -111,25 +117,25 @@ def export(articles, attribute, structure="nested", article_repr=None, new_branc
 
         for article in articles:
             if hasattr(article, "_{attribute}".format(attribute=attribute)):
-                # Sub-branch
-                sub_branch = {
-                    article_repr(article): recursive_walk(getattr(article, "_{attribute}".format(attribute=attribute)))
-                    }
+                # New branch
+                new_branch = new_branch_func(
+                    article_repr(article),
+                    recursive_walk(getattr(article, "_{attribute}"
+                        .format(attribute=attribute)), flat_data))
 
-                branch.append(sub_branch)
-                flat_data.append(sub_branch)
+                branch.append(new_branch)
+                flat_data.append(new_branch)
 
             else:
                 # Branch end
-                end_branch = new_branch_func(article_repr(article))
+                end_branch = end_branch_func(article_repr(article))
 
                 branch.append(end_branch)
                 flat_data.append(end_branch)
 
         return branch
 
-    tree_data = recursive_walk(articles)
-
+    tree_data = recursive_walk(articles, flat_data)
     data = tree_data if structure == "nested" else flat_data
 
     return json.dumps(data, **kwargs)
