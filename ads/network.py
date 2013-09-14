@@ -6,6 +6,9 @@ from __future__ import division, print_function
 
 __author__ = "Andy Casey <acasey@mso.anu.edu.au>"
 
+# Standard libary
+import json
+
 __all__ = ['nodes']
 
 
@@ -62,4 +65,157 @@ def nodes(articles, attribute, map_func=None):
 
     return recursive_walk(articles)
 
+
+def export(articles, attribute, structure="nested", article_repr=None, new_branch_func=None,
+    end_branch_func=None, **kwargs):
+    """Export the article network attributes (e.g. either references or citations) for the
+    given articles.
+
+    Inputs
+    ------
+    articles : `Article` or list of `Articles`
+        The articles to build the network with.
+
+    attribute : "citations" or "references"
+        The attribute to build the network with.
+
+    structure : "nested" or "flat"
+        Whether to return a nested or flat structure.
+
+    article_repr : callable, optional
+        A callable function to represent the article for each node.
+
+    new_branch_func : callable, optional
+        A callable function to represent each sub branch.
+
+    end_branch_func : callable, optional
+        A callable function to represent the end of a branch.
+    """
+
+    if article_repr is None:
+        article_repr = lambda x: x
+
+    if new_branch_func is None:
+        new_branch_func = lambda x: x
+
+    if end_branch_func is None:
+        end_branch_func = lambda x: x
+
+    flat_data = []
+
+    def recursive_walk(articles):
+        branch = []
+
+        if not isinstance(articles, (list, tuple)):
+            articles = [articles]
+
+        for article in articles:
+            if hasattr(article, "_{attribute}".format(attribute=attribute)):
+                # Sub-branch
+                sub_branch = {
+                    article_repr(article): recursive_walk(getattr(article, "_{attribute}".format(attribute=attribute)))
+                    }
+
+                branch.append(sub_branch)
+                flat_data.append(sub_branch)
+
+            else:
+                # Branch end
+                end_branch = new_branch_func(article_repr(article))
+
+                branch.append(end_branch)
+                flat_data.append(end_branch)
+
+        return branch
+
+    tree_data = recursive_walk(articles)
+
+    data = tree_data if structure == "nested" else flat_data
+
+    return json.dumps(data, **kwargs)
+
+
+# These functions below are just temporary and are immediately deprecated
+def export_to_d3rt(paper, attribute="citations", map_func=None):
+    """Export the paper provided to a JSON-format for D3.js Reingold-Tilford Tree visualisations."""
+
+    if map_func is None:
+        map_func = lambda x: x
+    
+
+    def map_as_children(articles):
+        branch = []
+
+        if not isinstance(articles, (list, tuple)):
+            articles = [articles]
+
+        for article in articles:
+            if hasattr(article, "_{attribute}".format(attribute=attribute)):
+                branch.append({
+                    "name": map_func(article),
+                    "children": map_as_children(getattr(article, "_{attribute}".format(attribute=attribute)))
+                    })
+            else:
+                branch.append({
+                    "name": map_func(article)
+                    })
+
+        return branch
+
+    return map_as_children(paper)
+
+
+
+def export_to_d3_heb(paper, attribute="citations", map_func=None):
+
+    if map_func is None:
+        map_func = lambda x: x
+
+    data = []
+
+    def map_flat(articles, data):
+
+        if not isinstance(articles, (list, tuple)):
+            articles = [articles]
+
+        for article in articles:
+            if hasattr(article, "_{attribute}".format(attribute=attribute)):
+                data.append({
+                    "name": map_func(article),
+                    "imports": map(map_func, getattr(article, "_{attribute}".format(attribute=attribute))),
+                    "size": article.citation_count
+                    })
+
+                map_flat(getattr(article, "_{attribute}".format(attribute=attribute)), data)
+
+            else:
+                # Check to see it's not a double up.
+                if map_func(article) in [item["name"] for item in data]:
+                    continue
+
+                # Find out who cited this
+                data.append({
+                    "name": map_func(article),
+                    "size": article.citation_count,
+                    "imports": []
+                    })
+
+    map_flat(paper, data)
+    
+    # Sort the data
+    data = sorted(data, key=lambda x: x["name"])
+
+    # Do the backlinks lazily
+    for item in data:
+        
+        if len(item["imports"]) == 0:
+            imports = []
+            for sub_item in data:
+                if item["name"] in sub_item["imports"]:
+                    imports.append(item["name"])
+
+            item["imports"] = imports
+
+
+    return data
 
