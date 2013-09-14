@@ -66,8 +66,8 @@ def nodes(articles, attribute, map_func=None):
     return recursive_walk(articles)
 
 
-def export(articles, attribute, structure="nested", article_repr=None, new_branch_func=None,
-    end_branch_func=None, **kwargs):
+def export(articles, attribute, output_filename, structure="nested", article_repr=None,
+    new_branch_func=None, end_branch_func=None, clobber=False, **kwargs):
     """Export the article network attributes (e.g. either references or citations) for the
     given articles.
 
@@ -78,6 +78,9 @@ def export(articles, attribute, structure="nested", article_repr=None, new_branc
 
     attribute : "citations" or "references"
         The attribute to build the network with.
+
+    output_filename : str
+        The output filename to save the network to.
 
     structure : "nested" or "flat"
         Whether to return a nested or flat structure.
@@ -90,6 +93,9 @@ def export(articles, attribute, structure="nested", article_repr=None, new_branc
 
     end_branch_func : callable, optional
         A callable function to represent the end of a branch.
+
+    clobber : bool
+        Whether to clobber `output_filename` if it already exists.
     """
 
     if attribute not in ("citations", "references"):
@@ -97,6 +103,10 @@ def export(articles, attribute, structure="nested", article_repr=None, new_branc
 
     if structure not in ("nested", "flat"):
         raise ValueError("structure must be either 'flat' or 'nested'")
+
+    if os.path.exists(output_filename) and not clobber:
+        raise IOError("output filename ({filename}) already exists, and we've "
+            "been told not to clobber it".format(filename=output_filename))
 
     if article_repr is None:
         article_repr = lambda x: x
@@ -138,8 +148,11 @@ def export(articles, attribute, structure="nested", article_repr=None, new_branc
     tree_data = recursive_walk(articles, flat_data)
     data = tree_data if structure == "nested" else flat_data
 
-    return json.dumps(data, **kwargs)
+    with open(output_filename, 'w') as fp:
+        json.dump(data, fp, **kwargs)
 
+    return True
+    
 
 # These functions below are just temporary and are immediately deprecated
 def export_to_d3rt(paper, attribute="citations", map_func=None):
