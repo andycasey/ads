@@ -1,3 +1,2 @@
-dateutil
 requests
 requests_futures

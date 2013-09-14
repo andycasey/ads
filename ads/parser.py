@@ -9,11 +9,7 @@ __author__ = "Andy Casey <acasey@mso.anu.edu.au>"
 # Standard library
 import datetime
 import time
-
-from dateutil.parser import parse as dutil_parser
-
-# Third party
-
+    
 # Module specific
 from utils import get_dev_key, get_api_settings
 
@@ -29,7 +25,7 @@ def query(query, authors, dates):
 
     # Assume rest is author/title interpreted?
     return query
-    
+
 
 def affiliation(affiliation):
     """Creates a parser based on the affiliation input."""
@@ -104,13 +100,35 @@ def ordering(sort, order):
     return (sort, order)
 
 
-def _date(date_str, default=None, format="%Y-%m"):
+def _date(date_str, default_month=None, output_format="%Y-%m"):
     """Parses a date input into the preferred format for ADS."""
 
     if date_str in (None, "*"): return "*"
+
     date_str = str(date_str)
 
-    return dutil_parser(date_str, default=default).strftime(format)
+    formats = ("%Y", "%Y-%m", "%Y-%m-%d", "%Y/%m", "%Y/%m/%d")
+
+    time_struct = None
+    for i, format in enumerate(formats):
+        try:
+            time_struct = time.strptime(date_str, format)
+        
+        except ValueError:
+            pass
+
+        else:
+            break
+
+    if i == 0 and default_month is not None:
+        time_struct = time.strptime("{year}-{month:.0f}"
+            .format(year=time_struct.tm_year, month=default_month), "%Y-%m")
+        
+    if time_struct is None:
+        raise ValueError("cannot parse date string '{date_str}'"
+            .format(date_str=date_str))
+
+    return time.strftime(output_format, time_struct)
     
 
 def dates(input_dates):
@@ -131,8 +149,8 @@ def dates(input_dates):
         else:
             start_date, end_date = input_dates
 
-        start_date = _date(start_date, datetime.datetime(1885, 1, 1))
-        end_date = _date(end_date, datetime.datetime(1885, 12, 31))
+        start_date = _date(start_date, default_month=1)
+        end_date = _date(end_date, default_month=12)
 
     elif isinstance(input_dates, (str, unicode)):
 
@@ -140,12 +158,12 @@ def dates(input_dates):
         # '2002/01..2002/08', '2002/04..', '2002/07', '2002-7', '2002-07
 
         if input_dates.endswith("-") or input_dates.endswith(".."):
-            start_date = _date(input_dates.strip("-."), datetime.datetime(1885, 1, 1))
+            start_date = _date(input_dates.strip("-."), default_month=1)
             end_date = "*"
 
         elif input_dates.startswith("-") or input_dates.startswith(".."):
             start_date = "*"
-            end_date = _date(input_dates.strip("-."), datetime.datetime(1885, 12, 31))
+            end_date = _date(input_dates.strip("-."), default_month=12)
 
         elif ".." in input_dates:
             start_date, end_date = input_dates.split("..")
@@ -153,14 +171,14 @@ def dates(input_dates):
             if len(end_date) == 2:
                 end_date = start_date[:2] + end_date
 
-            start_date = _date(start_date, datetime.datetime(1885, 1, 1))
-            end_date = _date(end_date, datetime.datetime(1885, 12, 31))
+            start_date = _date(start_date, default_month=1)
+            end_date = _date(end_date, default_month=12)
 
         else:
             if "/" in input_dates or "-" in input_dates:
                 date = _date(input_dates)
             else:
-                date = _date(int(input_dates), format="%Y")
+                date = _date(int(input_dates), output_format="%Y")
 
             start_date, end_date = date, date
 
@@ -168,10 +186,11 @@ def dates(input_dates):
 
         # Is there a month component as a fractional?
         if input_dates % 1 > 0:
-            date = _date("{year:.0f}/{month:.0f}".format(year=int(input_dates), month=(input_dates % 1)*100))
+            date = _date("{year:.0f}/{month:.0f}"
+                .format(year=int(input_dates), month=(input_dates % 1)*100))
 
         else:
-            date = _date(int(input_dates), format="%Y")
+            date = _date(int(input_dates), output_format="%Y")
 
         start_date, end_date = date, date
 
