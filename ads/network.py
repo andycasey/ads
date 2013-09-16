@@ -18,7 +18,7 @@ from utils import unique_preserved_list
 __all__ = ['nodes', 'export', 'coauthors']
 
 
-def coauthors(name, depth, author_repr=None, rows=5):
+def coauthors(name, depth=1, author_repr=None, max_papers=100):
     """Build a network of co-authors based on the name provided,
     to a level depth as provided.
 
@@ -29,6 +29,12 @@ def coauthors(name, depth, author_repr=None, rows=5):
 
     depth : int
         The number of depth levels to progress from `name`.
+
+    author_repr : callable function
+        A function that formats the author name (generally LastName, Firstname I.)
+
+    max_papers : int
+        The maximum number of papers to query for a given author.
     """
 
     try:
@@ -42,11 +48,18 @@ def coauthors(name, depth, author_repr=None, rows=5):
     if author_repr is None:
         author_repr = lambda x: x
 
+    try:
+        max_papers = int(max_papers)
+    except TypeError:
+        raise TypeError("max_papers must be an integer-like type")
+
+    if max_papers < 1:
+        raise ValueError("max_papers must be a positive integer")
+
     all_articles = []
     level_authors = [name]
     for i in xrange(depth):
 
-        print((i, level_authors))
         next_level_authors = []
         for j, author in enumerate(level_authors):
 
@@ -60,7 +73,7 @@ def coauthors(name, depth, author_repr=None, rows=5):
 
             # Get 5 top articles by this author
             articles = ads_search(u'"{author}"'.format(author=author),
-                fl="author,citation_count", filter="property:refereed", rows=rows if [i, j] != [0, 0] else 5,
+                fl="author,citation_count", filter="property:refereed", rows=max_papers,
                 order="desc", sort="citations")
 
             # Add these articles to the list
@@ -84,9 +97,7 @@ def coauthors(name, depth, author_repr=None, rows=5):
     # Go through all articles
     for group_number, article in enumerate(all_articles, start=1):
 
-        print(article.author)
         # Make sure each co-author has a node
-        # Limit each paper to 10 authors
         for co_author in article.author:
 
             co_author = author_repr(co_author)
@@ -99,11 +110,7 @@ def coauthors(name, depth, author_repr=None, rows=5):
         # Links should be drawn between all these article.author's,
         # since they all published together.
         for (author_one, author_two) in itertools.combinations(article.author, 2):
-            print((author_one, author_two))
-            if name in (author_one, author_two):
-                print("!!!!!!")
             if author_repr(author_one) == author_repr(author_two):
-                print("skipped")
                 continue
 
             source = nodes.index(author_repr(author_one))
@@ -112,12 +119,10 @@ def coauthors(name, depth, author_repr=None, rows=5):
             link = (source, target)
             knil = (target, source)
             if link not in links and knil not in links:
-                print("adding link")
                 links.append(link)
                 values.append(1)
 
             else:
-                print(" ")
                 try:
                     index = links.index(link)
                 except:
