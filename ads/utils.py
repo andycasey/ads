@@ -35,3 +35,8 @@ def get_api_settings(developer_api_key):
 
     r = requests.get("http://labs.adsabs.harvard.edu/adsabs/api/settings/", params={"dev_key": developer_api_key})
     return r.json()
+
+def unique_preserved_list(original_list):
+    seen = set()
+    seen_add = seen.add
+    return [ x for x in original_list if x not in seen and not seen_add(x)]

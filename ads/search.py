@@ -30,6 +30,9 @@ class Article(object):
     """An object to represent a single publication in NASA's Astrophysical
     Data System."""
 
+    author = ['Anonymous']
+    aff = ['Unknown']
+
     def __init__(self, **kwargs):
         for key, value in kwargs.iteritems():
             setattr(self, key, value)
@@ -165,8 +168,8 @@ class Article(object):
 
 
 
-def _build_payload(query=None, authors=None, dates=None, affiliation=None, 
-    sort='date', order='desc', start=0, rows=20):
+def _build_payload(query=None, authors=None, dates=None, affiliation=None, filter=None,
+    fl=None, sort='date', order='desc', start=0, rows=20):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
     query = parse.query(query, authors, dates)
@@ -192,14 +195,22 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None,
         "start": start,
         "fmt": "json",
         "rows": rows,
-        "filter": "database:astronomy" # For the moment,..
         }
+
+    if fl is not None:
+        payload["fl"] = fl
+
+    if filter is not None:
+        payload["filter"] = 'database:astronomy AND {filter}'.format(filter=filter)
+
+    else:
+        payload["filter"] = "database:astronomy"
 
     return payload
 
 
-def search(query=None, authors=None, dates=None, affiliation=None,
-    sort='date', order='desc', start=0, rows=20):
+def search(query=None, authors=None, dates=None, affiliation=None, filter=None,
+    fl=None, sort='date', order='desc', start=0, rows=20):
     """Search ADS and retrieve Article objects."""
 
     payload = _build_payload(**locals())
