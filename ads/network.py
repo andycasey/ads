@@ -180,6 +180,11 @@ def nodes(articles, attribute, map_func=None, structure="nested"):
         paper.build_citation_tree(2)
         network = ads.network.nodes(paper, "citations", lambda article: article.author[0])
 
+    Or we can use a flat network to just retrieve a list of all the articles in
+    the citation tree:
+
+        flat_network = ads.network.nodes(paper, "citations", structure="flat")
+
     """
 
     if not attribute in ("references", "citations"):
@@ -196,7 +201,7 @@ def nodes(articles, attribute, map_func=None, structure="nested"):
 
         branch = []
         for article in articles:
-            flat_data.append(article)
+            flat_data.append(map_func(article))
 
             if hasattr(article, "_{attribute}".format(attribute=attribute)):
                 branch.append({
