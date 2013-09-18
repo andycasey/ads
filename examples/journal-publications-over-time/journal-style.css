@@ -1,0 +1,44 @@
+@font-face {font-family: "Computer Modern";src: url('./cmunss.otf');}
+
+*{outline:none;}.clearfix:before,.clearfix:after{content:"";display:table;}.clearfix:after{clear:both;}/* For IE 6/7 (trigger hasLayout) */.clearfix{zoom:1;}
+html {min-width: 1040px;}
+body {background: #FFF;color: #333;font-family:'Computer Modern', 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif;margin: 1em auto 4em auto;position: relative;width: 960px;}
+
+header,footer,h1,h2,h3,h4,aside {color: #000;}
+h1 {font-size: 52px;font-weight: 300;letter-spacing: -2px;margin: .3em 0 .1em 0;line-height:1.2em;}
+h2 {margin-top: 2em;}
+h1, h2 {text-rendering: optimizeLegibility;}
+h2 a {color: #ccc;left:-30px;position: absolute;width: 740px;}h2 a:hover{text-decoration:none;}
+
+header{margin-top:2em;}
+footer {font-size: small;margin-top: 8em;clear:both;}
+
+header aside {}
+header aside,footer aside {color: #636363;text-align: right;}
+aside {font-size: small;line-height:1.2em;right: 0;position: absolute;width: 180px;}
+
+.attribution {font-size: small;margin-bottom: 2em;}
+body > p, li > p {line-height: 1.5em;}
+body > p {width: 720px;font-size:17px;line-height:24px;}
+body > blockquote {width: 640px;}
+body > ol {font-size:16px;line-height:24px;}
+
+blockquote q {display: block;font-style: oblique;}
+blockquote:before {position: absolute;left: 2em;}
+blockquote:after {position: absolute;}
+li {width: 680px;}
+sup, sub {line-height: 0;}
+
+a {color: steelblue;}
+a:not(:hover) {text-decoration: none;}
+
+pre, code, textarea {font-family: "Menlo", monospace;}
+pre{}
+code {line-height: 1.4em;font-size:12px;}
+textarea {font-size: 100%;}
+body > pre {margin: 2em 0 2em 0;}
+
+svg {font: 10px sans-serif;}
+.axis path, .axis line {fill: none;stroke: #000;shape-rendering: crispEdges;}
+
+iframe{border:0;}
