@@ -30,8 +30,7 @@ if __name__ == "__main__":
     articles = ads.search(
         affiliation=my_affiliation,
         filter="database:astronomy AND property:refereed",
-        dates="{start_year}/{start_month}..{end_year}/{end_month}"
-            .format(start_year=year, start_month=month, end_year=current_time.tm_year, end_month=current_time.tm_mon))
+        dates="{year}/{month}".format(year=year, month=month))
 
     # Let's do something interesting with the data first
     # We'll sort all the articles by first-authors with our matched affiliation first.
