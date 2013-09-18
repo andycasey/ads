@@ -37,7 +37,7 @@ def affiliation(affiliation):
     except TypeError:
         raise TypeError("affiliation must be a string-type")
 
-    query_refinement = " aff:{affiliation}".format(affiliation=affiliation)
+    query_refinement = " aff:\"{affiliation}\"".format(affiliation=affiliation)
     return query_refinement
 
 
@@ -204,7 +204,7 @@ def dates(input_dates):
             .format(start_date=start_date, end_date=end_date))
 
     # Build query
-    query_refinement = " year:[{start_date} TO {end_date}]".format(
+    query_refinement = " pubdate:[{start_date} TO {end_date}]".format(
         start_date=start_date, end_date=end_date)
 
     return query_refinement

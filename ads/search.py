@@ -180,10 +180,10 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, filte
     sort, order = parse.ordering(sort, order)
 
     # Filters
-    date_filter = parse.dates(dates)
+    pubdate_filter = parse.dates(dates)
     affiliation_filter = parse.affiliation(affiliation)
 
-    filters = (date_filter, affiliation_filter)
+    filters = (pubdate_filter, affiliation_filter)
     for query_filter in filters:
         if query_filter is not None:
             query += query_filter
@@ -201,15 +201,12 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, filte
         payload["fl"] = fl
 
     if filter is not None:
-        payload["filter"] = 'database:astronomy AND {filter}'.format(filter=filter)
-
-    else:
-        payload["filter"] = "database:astronomy"
+        payload["filter"] = filter
 
     return payload
 
 
-def metadata(query=None, authors=None, dates=None, affiliation=None, filter=None,
+def metadata(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
     fl=None, sort='date', order='desc', start=0, rows=1):
     """Search ADS for the given inputs and just return the metadata."""
 
@@ -226,12 +223,12 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, filter=None
         return r
 
 
-def search(query=None, authors=None, dates=None, affiliation=None, filter=None,
+def search(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
     fl=None, sort='date', order='desc', start=0, rows=20):
     """Search ADS and retrieve Article objects."""
 
     payload = _build_payload(**locals())
-
+    
     r = requests.get(ADS_HOST, params=payload)
     
     if r.status_code == 200:
