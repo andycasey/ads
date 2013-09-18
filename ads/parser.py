@@ -19,9 +19,11 @@ DEV_KEY = get_dev_key()
 
 def query(query, authors, dates):
 
-    if query is None: return ''
+    if query is None:
+        # With great power comes great responsibility.
+        return " *"
 
-    # Regex match for a date range
+    # Regex match for a date range?
 
     # Assume rest is author/title interpreted?
     return query
