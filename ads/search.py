@@ -10,6 +10,7 @@ __author__ = "Andy Casey <acasey@mso.anu.edu.au>"
 import json
 import logging
 import multiprocessing
+import os
 import time
 
 # Third party
@@ -20,7 +21,7 @@ import requests_futures.sessions
 import parser as parse
 from utils import get_dev_key, get_api_settings
 
-__all__ = ['search', 'metadata']
+__all__ = ['search', 'metadata', 'retrieve_article']
 
 DEV_KEY = get_dev_key()
 ADS_HOST = 'http://adslabs.org/adsabs/api/search/'
@@ -250,3 +251,65 @@ def search(query=None, authors=None, dates=None, affiliation=None, filter="datab
         return (False, {
                 'error': r.text
             })
+
+
+def retrieve_article(article, output_filename, clobber=False):
+    """Download the journal article (preferred) or pre-print version
+    of the article provided, and save the PDF to disk.
+
+    Inputs
+    ------
+    article : `Article` object
+        The article to retrieve.
+
+    output_filename : str
+        The filename to save the article to.
+
+    clobber : bool, optional
+        Overwrite the filename if it already exists.
+    """
+
+    if os.path.exists(output_filename) and not clobber:
+        raise IOError("output filename (\"{filename}\") exists and we've been "
+            "asked not to clobber it.".format(filename=output_filename))
+
+    # Get the ADS url
+    ads_redirect_url = "http://adsabs.harvard.edu/cgi-bin/nph-data_query"
+    arxiv_payload = {
+        "bibcode": article.bibcode,
+        "link_type": "PREPRINT",
+        "db_key": "PRE"
+    }
+    article_payload = {
+        "bibcode": article.bibcode,
+        "link_type": "ARTICLE",
+        "db_key": "AST"
+    }
+    
+    # Let's try and download the article from the journal first
+    article_r = requests.get(ads_redirect_url, params=article_payload)
+
+    if not article_r.ok or "Requested scanned pages are not available" in article_r.text:
+
+        # Use the arxiv payload
+        arxiv_r = requests.get(ads_redirect_url, params=arxiv_payload)
+
+        if not arxiv_r.ok:
+            return False
+
+        article_pdf_url = arxiv_r.url.replace("abs", "pdf")
+
+    else:
+        # Parse the PDF url
+        article_pdf_url = None
+    
+    article_pdf_r = requests.get(article_pdf_url)
+
+    if not article_pdf_r.ok: return None
+
+    with open(output_filename, "wb") as fp:
+        fp.write(article_pdf_r.content)
+
+    return True
+
+
