@@ -151,7 +151,7 @@ def coauthors(name, depth=1, author_repr=None, max_papers=100):
     return output
 
 
-def nodes(articles, attribute, map_func=None):
+def nodes(articles, attribute, map_func=None, structure="nested"):
     """Returns a dictionary of articles linked to each other, as
     defined by the attribute (either references or citations).
 
@@ -168,6 +168,9 @@ def nodes(articles, attribute, map_func=None):
         If not None, this callable will be applied to every `Article`
         in the network.
 
+    structure: nested (default) or flat, optional
+        The structure to return the node network in.
+
     Examples
     --------
     The psuedocode below will return a paper, build a citation tree from
@@ -182,16 +185,22 @@ def nodes(articles, attribute, map_func=None):
     if not attribute in ("references", "citations"):
         raise ValueError("attribute must be either 'references' or 'citations'")
 
+    if not structure in ("nested", "flat"):
+        raise ValueError("structure must be either 'nested' or 'flat'")
+
     if map_func is None:
         map_func = lambda _: _
 
-    def recursive_walk(articles):
+    flat_data = []
+    def recursive_walk(articles, flat_data):
 
         branch = []
         for article in articles:
+            flat_data.append(article)
+
             if hasattr(article, "_{attribute}".format(attribute=attribute)):
                 branch.append({
-                    map_func(article): recursive_walk(getattr(article, "_{attribute}".format(attribute=attribute)))
+                    map_func(article): recursive_walk(getattr(article, "_{attribute}".format(attribute=attribute)), flat_data)
                     })
 
             else:
@@ -202,7 +211,9 @@ def nodes(articles, attribute, map_func=None):
     if not isinstance(articles, (list, tuple)):
         articles = [articles]
 
-    return recursive_walk(articles)
+    nested_data = recursive_walk(articles, flat_data)
+
+    return nested_data if structure == "nested" else flat_data
 
 
 def export(articles, attribute, output_filename, structure="nested", article_repr=None,
