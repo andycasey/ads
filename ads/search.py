@@ -20,7 +20,7 @@ import requests_futures.sessions
 import parser as parse
 from utils import get_dev_key, get_api_settings
 
-__all__ = ['search']
+__all__ = ['search', 'metadata']
 
 DEV_KEY = get_dev_key()
 ADS_HOST = 'http://adslabs.org/adsabs/api/search/'
@@ -207,6 +207,23 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, filte
         payload["filter"] = "database:astronomy"
 
     return payload
+
+
+def metadata(query=None, authors=None, dates=None, affiliation=None, filter=None,
+    fl=None, sort='date', order='desc', start=0, rows=1):
+    """Search ADS for the given inputs and just return the metadata."""
+
+    payload = _build_payload(**locals())
+
+    r = requests.get(ADS_HOST, params=payload)
+
+    if r.status_code == 200:
+        metadata = r.json()["meta"]
+
+        return metadata
+
+    else:
+        return r
 
 
 def search(query=None, authors=None, dates=None, affiliation=None, filter=None,
