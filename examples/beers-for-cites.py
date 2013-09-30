@@ -38,8 +38,8 @@ all_citations["total"] = sum(citations)
 # Check if we have more citations than last time, but only if we have run this script
 # beforehand, too. Otherwise we'll get 1,000 notifications on the first time the script
 # has been run
-if  all_citations["total"] > all_citations_last_time["total"]:# \
-    #and len(all_citations_last_time) > 1:
+if  all_citations["total"] > all_citations_last_time["total"]
+and len(all_citations_last_time) > 1:
 
     # Someone has cited us since the last time we checked.
     newly_cited_papers = {}
