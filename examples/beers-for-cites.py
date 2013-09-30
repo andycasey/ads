@@ -45,11 +45,7 @@ and len(all_citations_last_time) > 1:
     newly_cited_papers = {}
     for bibcode, citation_count in zip(bibcodes, citations):
 
-        if bibcode not in all_citations_last_time:
-            new_citations = citation_count
-
-        else:
-            new_citations = citation_count - all_citations_last_time[bibcode]
+        new_citations = citation_count - all_citations_last_time[bibcode]
 
         if new_citations > 0:
             # Who were the first authors for the new papers that cited us?
