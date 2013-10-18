@@ -31,6 +31,7 @@ class Article(object):
     """An object to represent a single publication in NASA's Astrophysical
     Data System."""
 
+    citation_count = 0
     author = ['Anonymous']
     aff = ['Unknown']
 
@@ -170,7 +171,7 @@ class Article(object):
 
 
 def _build_payload(query=None, authors=None, dates=None, affiliation=None, filter=None,
-    fl=None, sort='date', order='desc', start=0, rows=20):
+    fl=None, facet=None, sort='date', order='desc', start=0, rows=20):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
     query = parse.query(query, authors, dates)
@@ -198,23 +199,28 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, filte
         "rows": rows,
         }
 
-    if fl is not None:
-        payload["fl"] = fl
+    additional_payload = {
+        "fl": fl,
+        "filter": filter,
+        "facet": facet
+    }
+    for key, value in additional_payload.iteritems():
+        if value is None: continue
+        payload[key] = value
 
-    if filter is not None:
-        payload["filter"] = filter
 
     return payload
 
 
 def metadata(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
-    fl=None, sort='date', order='desc', start=0, rows=1):
+    fl=None, facet=None, sort='date', order='desc', start=0, rows=1):
     """Search ADS for the given inputs and just return the metadata."""
 
     payload = _build_payload(**locals())
 
     r = requests.get(ADS_HOST, params=payload)
 
+    return r
     if r.status_code == 200:
         metadata = r.json()["meta"]
 
@@ -225,7 +231,7 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, filter="dat
 
 
 def search(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
-    fl=None, sort='date', order='desc', start=0, rows=20):
+    fl=None, facet=None, sort='date', order='desc', start=0, rows=20):
     """Search ADS and retrieve Article objects."""
 
     payload = _build_payload(**locals())
