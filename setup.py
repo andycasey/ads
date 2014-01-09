@@ -30,7 +30,7 @@ contents = readfile(os.path.join(
 version = version_regex.findall(contents)[0]
 
 setup(name="ads",
-      version=__version__,
+      version=version,
       author="Andrew R. Casey",
       author_email="andy@the.astrowizici.st",
       packages=["ads"],
