@@ -2,6 +2,7 @@
 
 """ A Python module for NASA's Astrophysical Data Service (ADS) that doesn't suck. """
 
+import os
 import re
 import sys
 
