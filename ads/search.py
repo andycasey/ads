@@ -220,7 +220,6 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, filter="dat
 
     r = requests.get(ADS_HOST, params=payload)
 
-    return r
     if r.status_code == 200:
         metadata = r.json()["meta"]
 
