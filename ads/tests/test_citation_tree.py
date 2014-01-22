@@ -11,7 +11,7 @@ from .. import search, network
 
 def test_citation_tree():
 
-    paper = search("^Casey, A", sort="citations", order="desc")[0]
+    paper = search("^Casey, A", sort="citations", order="desc", rows=1).next()
 
     paper.build_citation_tree(depth=3)
 
