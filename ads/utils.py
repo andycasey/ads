@@ -12,7 +12,11 @@ import os
 # Third party
 import requests
 
-__all__ = ["get_dev_key", "get_api_settings"]
+ADS_HOST = "http://adslabs.org/adsabs/api"
+API_MAX_ROWS = 200
+
+__all__ = ["get_dev_key", "get_api_settings", "ADS_HOST", "API_MAX_ROWS"]
+
 
 def get_dev_key():
     """Retrieves the API key for ADS Labs."""

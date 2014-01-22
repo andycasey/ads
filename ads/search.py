@@ -19,13 +19,11 @@ import requests_futures.sessions
 
 # Module specific
 import parser as parse
-from utils import get_dev_key, get_api_settings
+from utils import get_dev_key, get_api_settings, ADS_HOST, API_MAX_ROWS
 
 __all__ = ["Article", "search", "metrics", "metadata", "retrieve_article"]
 
 DEV_KEY = get_dev_key()
-ADS_HOST = "http://adslabs.org/adsabs/api"
-
 
 class Article(object):
     """An object to represent a single publication in NASA's Astrophysical
@@ -48,13 +46,13 @@ class Article(object):
 
     #__str__ should be readable
     def __str__(self):
-        return "<{0} {1} {2}, {3}>".format(self.author[0].split(",")[0],
-            "" if len(self.author) == 1 else (" & {0}".format(self.author[1].split(",")[0]) if len(self.author) == 2 else "et al."),
+        return u"<{0} {1} {2}, {3}>".format(self.author[0].split(",")[0],
+            "" if len(self.author) == 1 else (u" & {0}".format(self.author[1].split(",")[0]) if len(self.author) == 2 else "et al."),
             self.year, self.bibcode)
     
     #__repr__ should be unambiguous
     def __repr__(self):
-        return "<ads.{0} object at {1}>".format(self.__class__.__name__, hex(id(self)))
+        return u"<ads.{0} object at {1}>".format(self.__class__.__name__, hex(id(self)))
 
 
     # TODO bibtex @property
@@ -67,10 +65,8 @@ class Article(object):
             return self._references
 
         else:
-            articles, metadata, request = search("references(bibcode:{bibcode})"
-                .format(bibcode=self.bibcode), rows=200, verbose=True)
-            self._references = articles
-            return articles
+            self._references = search("references(bibcode:{bibcode})".format(bibcode=self.bibcode), rows="all")
+            return self._references
 
 
     @property
@@ -80,10 +76,8 @@ class Article(object):
             return self._citations
 
         else:
-            articles, metadata, request = search("citations(bibcode:{bibcode})"
-                .format(bibcode=self.bibcode), rows=200, verbose=True)
-            self._citations = articles
-            return articles
+            self._citations = search("citations(bibcode:{bibcode})".format(bibcode=self.bibcode), rows="all")
+            return self._citations
 
 
     @property
@@ -134,8 +128,7 @@ class Article(object):
 
             level_requests = []
             for article in level:
-                payload = _build_payload("references(bibcode:{bibcode})"
-                    .format(bibcode=article.bibcode))
+                payload = _build_payload("references(bibcode:{bibcode})".format(bibcode=article.bibcode))
 
                 level_requests.append(session.get(ADS_HOST + "/search/", params=payload))
 
@@ -184,8 +177,7 @@ class Article(object):
 
             level_requests = []
             for article in level:
-                payload = _build_payload("citations(bibcode:{bibcode})"
-                    .format(bibcode=article.bibcode))
+                payload = _build_payload("citations(bibcode:{bibcode})".format(bibcode=article.bibcode))
 
                 level_requests.append(session.get(ADS_HOST + "/search/", params=payload))
 
@@ -204,14 +196,13 @@ class Article(object):
 
 
 def _build_payload(query=None, authors=None, dates=None, affiliation=None, filter=None,
-    fl=None, facet=None, sort='date', order='desc', start=0, rows=20, verbose=False):
+    fl=None, facet=None, sort="date", order="desc", start=0, rows=20):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
     query = parse.query(query, authors, dates)
 
     # Check inputs
-    start = parse.start(start)
-    rows = parse.rows(rows)
+    start, rows = parse.rows(start, rows)
     sort, order = parse.ordering(sort, order)
 
     # Filters
@@ -230,21 +221,18 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, filte
         "start": start,
         "fmt": "json",
         "rows": rows,
-        }
-
+    }
     additional_payload = {
         "fl": fl,
         "filter": filter,
         "facet": facet
     }
-    for key, value in additional_payload.iteritems():
-        if value is None: continue
-        payload[key] = value
-
+    payload.update(additional_payload)
+        
     return payload
 
 
-def metrics(author, verbose=False, **kwargs):
+def metrics(author, metadata=False):
     """ Retrieves metrics for a given author query """
 
     payload = {
@@ -257,16 +245,16 @@ def metrics(author, verbose=False, **kwargs):
     contents = r.json()
     metadata, results = contents["meta"], contents["results"]
 
-    if verbose:
-        return (results, metadata, r)
+    if metadata:
+        return (results, metadata)
     return results
 
 
-def metadata(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
-    fl=None, facet=None, sort='date', order='desc', start=0, rows=1):
+def metadata(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy"):
     """Search ADS for the given inputs and just return the metadata."""
 
     payload = _build_payload(**locals())
+    payload["rows"] = 1 # It's meta-data, baby.
     r = requests.get(ADS_HOST + "/search/", params=payload)
     if not r.ok: r.raise_for_status()
     
@@ -274,24 +262,73 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, filter="dat
     return metadata
 
 
-def search(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
-    fl=None, facet=None, sort='date', order='desc', start=0, rows=20, verbose=False):
+
+class search(object):
     """Search ADS and retrieve Article objects."""
 
-    payload = _build_payload(**locals())
-    r = requests.get(ADS_HOST + "/search/", params=payload)
-    if not r.ok: r.raise_for_status()
+    active_requests = []
+    retrieved_articles = []
 
-    results = r.json()
-    metadata = results['meta']
+    def __init__(self, query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
+        fl=None, facet=None, sort="date", order="desc", start=0, rows=20):
+        
+        arguments = locals().copy()
+        del arguments["self"]
 
-    articles = []
-    for docinfo in results['results']['docs']:
-        articles.append(Article(**docinfo))
+        payload = _build_payload(**arguments)
+        session = requests_futures.sessions.FuturesSession()
 
-    if verbose:
-        return (articles, metadata, r)
-    return articles
+        self.active_requests.append(session.get(ADS_HOST + "/search/", params=payload))
+        
+        # Do we have to do query and return ALL results?
+        if rows == "all" or rows > API_MAX_ROWS:
+
+            # Get metadata from serial request
+            metadata_payload = payload.copy()
+            metadata_payload["rows"] = 1
+            r = requests.get(ADS_HOST + "/search/", params=metadata_payload)
+            if not r.ok: r.raise_for_status()
+            metadata = r.json()["meta"]
+
+            # Are there enough rows such that we actually have to make more requests?
+            if API_MAX_ROWS >= metadata["hits"]: return
+
+            if rows == "all":
+                num_additional_queries = int(metadata["hits"]/API_MAX_ROWS)
+                if not metadata["hits"] % API_MAX_ROWS: num_additional_queries -= 1
+
+            else:
+                num_additional_queries = int(rows/API_MAX_ROWS)
+                if not rows % API_MAX_ROWS: num_additional_queries -= 1
+
+            # Initiate future requests
+            for i in xrange(1, num_additional_queries + 1):
+                # Update payload to start at new point
+                payload["start"] = i * API_MAX_ROWS
+
+                # Limit total number of rows if required
+                if rows != "all" and (i + 1) * API_MAX_ROWS > rows:
+                    payload["rows"] = rows - i * API_MAX_ROWS
+
+                self.active_requests.append(session.get(ADS_HOST + "/search/", params=payload))
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if len(self.active_requests) == 0 and len(self.retrieved_articles) == 0:
+            raise StopIteration
+
+        if len(self.retrieved_articles) == 0:
+            active_request = self.active_requests.pop(0)
+            response = active_request.result().json() if hasattr(active_request, "result") else active_request.json()
+
+            if "results" in response:
+                self.retrieved_articles.extend([Article(**article_info) for article_info in response["results"]["docs"]])
+
+        return self.retrieved_articles.pop(0)
+
+
 
 
 def retrieve_article(article, output_filename, clobber=False):

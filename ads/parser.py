@@ -11,11 +11,10 @@ import datetime
 import time
     
 # Module specific
-from utils import get_dev_key, get_api_settings
+from utils import API_MAX_ROWS
 
 __all__ = ['rows', 'ordering', 'dates', 'start']
 
-DEV_KEY = get_dev_key()
 
 def query(query, authors, dates):
 
@@ -43,28 +42,23 @@ def affiliation(affiliation):
     return query_refinement
 
 
-
-def start(start):
-    """Checks that the start number is valid."""
-
-    try:
-        start = int(start)
-    except TypeError:
-        raise TypeError("start must be an integer-like type")
-
-    if start < 0:
-        raise ValueError("start must be positive")
-
-
-def rows(rows):
+def rows(start, rows):
     """Checks that the number of rows provided is valid."""
 
-    if rows == 'max':
-        # This checks your settings based on your developer API key
-
-        rows = get_api_settings(DEV_KEY)["max_rows"]
+    if rows == "all" or rows > API_MAX_ROWS:
+        # We may have to run multiple queries here
+        start, rows = 0, API_MAX_ROWS
 
     else:
+
+        try:
+            start = int(start)
+        except TypeError:
+            raise TypeError("start must be an integer-like type")
+
+        if start < 0:
+            raise ValueError("start must be positive")
+
         try: rows = int(rows)
         except TypeError:
             raise TypeError("rows must be an integer-like type")
@@ -72,7 +66,7 @@ def rows(rows):
         if rows < 1:
             raise ValueError("rows must be a positive integer")
 
-    return rows
+    return start, rows
 
 
 def ordering(sort, order):
