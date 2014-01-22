@@ -21,10 +21,10 @@ import requests_futures.sessions
 import parser as parse
 from utils import get_dev_key, get_api_settings
 
-__all__ = ['search', 'metadata', 'retrieve_article']
+__all__ = ['search', "metrics", 'metadata', 'retrieve_article']
 
 DEV_KEY = get_dev_key()
-ADS_HOST = 'http://adslabs.org/adsabs/api/search/'
+ADS_HOST = "http://adslabs.org/adsabs/api"
 
 
 class Article(object):
@@ -68,6 +68,29 @@ class Article(object):
             return articles
 
 
+    @property
+    def metrics(self):
+        """ Returns metrics for the current article """
+
+        if hasattr(self, "_metrics"):
+            return self._metrics
+
+        url = "{0}/record/{1}/metrics/".format(ADS_HOST, self.bibcode)
+        payload = {"dev_key": DEV_KEY}
+
+        r = requests.get(url, params=payload)
+
+        if r.status_code == 200:
+            self._metrics = r.json()
+
+            return self._metrics
+
+        else: 
+
+            return r
+
+
+
     def build_reference_tree(self, depth):
         """Builds a reference tree for this paper.
 
@@ -102,7 +125,7 @@ class Article(object):
                 payload = _build_payload("references(bibcode:{bibcode})"
                     .format(bibcode=article.bibcode))
 
-                level_requests.append(session.get(ADS_HOST, params=payload))
+                level_requests.append(session.get(ADS_HOST + "/search/", params=payload))
 
             # Complete all requests
             new_level = []
@@ -152,7 +175,7 @@ class Article(object):
                 payload = _build_payload("citations(bibcode:{bibcode})"
                     .format(bibcode=article.bibcode))
 
-                level_requests.append(session.get(ADS_HOST, params=payload))
+                level_requests.append(session.get(ADS_HOST + "/search/", params=payload))
 
             # Complete all requests
             new_level = []
@@ -211,13 +234,33 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, filte
     return payload
 
 
+def metrics(author, verbose=False, **kwargs):
+    """ Retrieves metrics for a given author query """
+
+    payload = {
+        "q": author,
+        "dev_key": DEV_KEY,
+    }
+    r = requests.get(ADS_HOST + "/search/metrics/", params=payload)
+
+    if r.status_code == 200:
+        contents = r.json()
+        metadata, results = contents["meta"], contents["results"]
+
+        if verbose:
+            return results, metadata, r
+        else:
+            return results
+
+    else: return r
+
+
 def metadata(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
     fl=None, facet=None, sort='date', order='desc', start=0, rows=1):
     """Search ADS for the given inputs and just return the metadata."""
 
     payload = _build_payload(**locals())
-
-    r = requests.get(ADS_HOST, params=payload)
+    r = requests.get(ADS_HOST + "/search/", params=payload)
 
     if r.status_code == 200:
         metadata = r.json()["meta"]
@@ -233,8 +276,7 @@ def search(query=None, authors=None, dates=None, affiliation=None, filter="datab
     """Search ADS and retrieve Article objects."""
 
     payload = _build_payload(**locals())
-    
-    r = requests.get(ADS_HOST, params=payload)
+    r = requests.get(ADS_HOST + "/search/", params=payload)
     
     if r.status_code == 200:
 
