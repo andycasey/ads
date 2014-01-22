@@ -37,7 +37,7 @@ setup(name="ads",
       url="http://www.github.com/andycasey/ads-python/",
       license="GPLv2",
       description="A Python module for NASA's ADS that doesn't suck.",
-      long_description=readfile("README.md"),
+      long_description=readfile(os.path.join(os.path.dirname(__file__), "README.md")),
       install_requires=[
         "requests",
         "requests_futures"
