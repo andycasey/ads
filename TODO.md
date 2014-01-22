@@ -1,0 +1,11 @@
+Milestones for 0.10:
+- [x] ads.search to return a generator so that we can obtain >200 queries
+- [x] metrics built-in
+- [ ] >200 objects returned for each node level in citations and references
+- [ ] refactor
+- [ ] more comprehensive test suite
+- [ ] better handling of unicode/funny characters
+- [ ] some kind of hard warning for queries that try to retrieve >10,000 objects?
+- [ ] natural queries can be interpreted by the payload parser
+- [ ] BiBTeX on demand!
+- [ ] automagic parsing of metrics data to Numpy arrays?
