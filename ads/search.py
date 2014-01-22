@@ -82,12 +82,9 @@ class Article(object):
 
         if r.status_code == 200:
             self._metrics = r.json()
-
             return self._metrics
 
-        else: 
-
-            return r
+        r.raise_for_status()
 
 
 
@@ -248,11 +245,11 @@ def metrics(author, verbose=False, **kwargs):
         metadata, results = contents["meta"], contents["results"]
 
         if verbose:
-            return results, metadata, r
+            return (results, metadata, r)
         else:
             return results
 
-    else: return r
+    r.raise_for_status()
 
 
 def metadata(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
@@ -267,8 +264,7 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, filter="dat
 
         return metadata
 
-    else:
-        return r
+    r.raise_for_status()
 
 
 def search(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
@@ -291,10 +287,7 @@ def search(query=None, authors=None, dates=None, affiliation=None, filter="datab
             return (articles, metadata, r)
         return articles
 
-    else:
-        if verbose:
-            return (False, {"error": r.text}, r)
-        return r
+    r.raise_for_status()
 
 
 def retrieve_article(article, output_filename, clobber=False):
