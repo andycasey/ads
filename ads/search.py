@@ -171,7 +171,7 @@ class Article(object):
 
 
 def _build_payload(query=None, authors=None, dates=None, affiliation=None, filter=None,
-    fl=None, facet=None, sort='date', order='desc', start=0, rows=20):
+    fl=None, facet=None, sort='date', order='desc', start=0, rows=20, verbose=False):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
     query = parse.query(query, authors, dates)
@@ -207,7 +207,6 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, filte
     for key, value in additional_payload.iteritems():
         if value is None: continue
         payload[key] = value
-
 
     return payload
 
