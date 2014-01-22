@@ -230,7 +230,7 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, filter="dat
 
 
 def search(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
-    fl=None, facet=None, sort='date', order='desc', start=0, rows=20):
+    fl=None, facet=None, sort='date', order='desc', start=0, rows=20, verbose=False):
     """Search ADS and retrieve Article objects."""
 
     payload = _build_payload(**locals())
@@ -246,16 +246,14 @@ def search(query=None, authors=None, dates=None, affiliation=None, filter="datab
         for docinfo in results['results']['docs']:
             articles.append(Article(**docinfo))
 
+        if verbose:
+            return (articles, metadata, r)
         return articles
-        return (articles, metadata, r)
-
-
 
     else:
-        return r # For debugging -- remove this later
-        return (False, {
-                'error': r.text
-            })
+        if verbose:
+            return (False, {"error": r.text}, r)
+        return r
 
 
 def retrieve_article(article, output_filename, clobber=False):
