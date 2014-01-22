@@ -19,7 +19,6 @@ readfile_kwargs = {"encoding": "utf-8"} if major >= 3 else {}
 def readfile(filename):
     with open(filename, **readfile_kwargs) as fp:
         contents = fp.read()
-
     return contents
 
 version_regex = re.compile("__version__ = \"(.*?)\"")
@@ -33,11 +32,12 @@ version = version_regex.findall(contents)[0]
 setup(name="ads",
       version=version,
       author="Andrew R. Casey",
-      author_email="andy@the.astrowizici.st",
+      author_email="andy@astrowizici.st",
       packages=["ads"],
       url="http://www.github.com/andycasey/ads-python/",
       license="GPLv2",
       description="A Python module for NASA's ADS that doesn't suck.",
+      long_description=readfile("README.md"),
       install_requires=[
         "requests",
         "requests_futures"

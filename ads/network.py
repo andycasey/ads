@@ -4,7 +4,7 @@
 
 from __future__ import division, print_function
 
-__author__ = "Andy Casey <acasey@mso.anu.edu.au>"
+__author__ = "Andy Casey <andy@astrowizici.st>"
 
 # Standard libary
 import itertools
