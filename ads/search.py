@@ -52,7 +52,7 @@ class Article(object):
 
         else:
             articles, metadata, request = search("references(bibcode:{bibcode})"
-                .format(bibcode=self.bibcode), rows=200)
+                .format(bibcode=self.bibcode), rows=200, verbose=True)
             self._references = articles
             return articles
 
@@ -63,7 +63,7 @@ class Article(object):
 
         else:
             articles, metadata, request = search("citations(bibcode:{bibcode})"
-                .format(bibcode=self.bibcode), rows=200)
+                .format(bibcode=self.bibcode), rows=200, verbose=True)
             self._citations = articles
             return articles
 
