@@ -15,6 +15,7 @@ import requests
 __all__ = ["get_dev_key", "get_api_settings"]
 
 def get_dev_key():
+    """Retrieves the API key for ADS Labs."""
 
     ads_dev_key_filename = os.path.abspath(os.path.expanduser('~/.ads/dev_key'))
 
@@ -34,9 +35,12 @@ def get_api_settings(developer_api_key):
     """Gets the API settings for the developer key provided."""
 
     r = requests.get("http://labs.adsabs.harvard.edu/adsabs/api/settings/", params={"dev_key": developer_api_key})
+    if not r.ok: r.raise_for_status()
+
     return r.json()
+
 
 def unique_preserved_list(original_list):
     seen = set()
     seen_add = seen.add
-    return [ x for x in original_list if x not in seen and not seen_add(x)]
+    return [x for x in original_list if x not in seen and not seen_add(x)]

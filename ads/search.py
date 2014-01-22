@@ -21,7 +21,7 @@ import requests_futures.sessions
 import parser as parse
 from utils import get_dev_key, get_api_settings
 
-__all__ = ['search', "metrics", 'metadata', 'retrieve_article']
+__all__ = ["Article", "search", "metrics", "metadata", "retrieve_article"]
 
 DEV_KEY = get_dev_key()
 ADS_HOST = "http://adslabs.org/adsabs/api"
@@ -31,22 +31,38 @@ class Article(object):
     """An object to represent a single publication in NASA's Astrophysical
     Data System."""
 
+    aff = ["Unknown"]
+    author = ["Anonymous"]
     citation_count = 0
-    author = ['Anonymous']
-    aff = ['Unknown']
+    url = None
 
     def __init__(self, **kwargs):
         for key, value in kwargs.iteritems():
             setattr(self, key, value)
 
+        if "bibcode" in kwargs:
+            self.url = "http://adsabs.harvard.edu/abs/{0}".format(kwargs["bibcode"])
+
         return None
 
-    # TODO __repr__
+
+    #__str__ should be readable
+    def __str__(self):
+        return "<{0} {1} {2}, {3}>".format(self.author[0].split(",")[0],
+            "" if len(self.author) == 1 else (" & {0}".format(self.author[1].split(",")[0]) if len(self.author) == 2 else "et al."),
+            self.year, self.bibcode)
+    
+    #__repr__ should be unambiguous
+    def __repr__(self):
+        return "<ads.{0} object at {1}>".format(self.__class__.__name__, hex(id(self)))
+
 
     # TODO bibtex @property
 
+
     @property
     def references(self):
+        """Retrieves reference list for the current article and stores them."""
         if hasattr(self, '_references'):
             return self._references
 
@@ -56,8 +72,10 @@ class Article(object):
             self._references = articles
             return articles
 
+
     @property
     def citations(self):
+        """Retrieves citation list for the current article and stores them."""
         if hasattr(self, '_citations'):
             return self._citations
 
@@ -70,7 +88,7 @@ class Article(object):
 
     @property
     def metrics(self):
-        """ Returns metrics for the current article """
+        """Retrieves metrics for the current article and stores them."""
 
         if hasattr(self, "_metrics"):
             return self._metrics
@@ -79,13 +97,10 @@ class Article(object):
         payload = {"dev_key": DEV_KEY}
 
         r = requests.get(url, params=payload)
+        if not r.ok: r.raise_for_status()
 
-        if r.status_code == 200:
-            self._metrics = r.json()
-            return self._metrics
-
-        r.raise_for_status()
-
+        self._metrics = r.json()
+        return self._metrics
 
 
     def build_reference_tree(self, depth):
@@ -188,8 +203,6 @@ class Article(object):
         return total_articles     
 
 
-
-
 def _build_payload(query=None, authors=None, dates=None, affiliation=None, filter=None,
     fl=None, facet=None, sort='date', order='desc', start=0, rows=20, verbose=False):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
@@ -239,17 +252,14 @@ def metrics(author, verbose=False, **kwargs):
         "dev_key": DEV_KEY,
     }
     r = requests.get(ADS_HOST + "/search/metrics/", params=payload)
+    if not r.ok: r.raise_for_status()
+    
+    contents = r.json()
+    metadata, results = contents["meta"], contents["results"]
 
-    if r.status_code == 200:
-        contents = r.json()
-        metadata, results = contents["meta"], contents["results"]
-
-        if verbose:
-            return (results, metadata, r)
-        else:
-            return results
-
-    r.raise_for_status()
+    if verbose:
+        return (results, metadata, r)
+    return results
 
 
 def metadata(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
@@ -258,13 +268,10 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, filter="dat
 
     payload = _build_payload(**locals())
     r = requests.get(ADS_HOST + "/search/", params=payload)
-
-    if r.status_code == 200:
-        metadata = r.json()["meta"]
-
-        return metadata
-
-    r.raise_for_status()
+    if not r.ok: r.raise_for_status()
+    
+    metadata = r.json()["meta"]
+    return metadata
 
 
 def search(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
@@ -273,21 +280,18 @@ def search(query=None, authors=None, dates=None, affiliation=None, filter="datab
 
     payload = _build_payload(**locals())
     r = requests.get(ADS_HOST + "/search/", params=payload)
-    
-    if r.status_code == 200:
+    if not r.ok: r.raise_for_status()
 
-        results = r.json()
-        metadata = results['meta']
+    results = r.json()
+    metadata = results['meta']
 
-        articles = []
-        for docinfo in results['results']['docs']:
-            articles.append(Article(**docinfo))
+    articles = []
+    for docinfo in results['results']['docs']:
+        articles.append(Article(**docinfo))
 
-        if verbose:
-            return (articles, metadata, r)
-        return articles
-
-    r.raise_for_status()
+    if verbose:
+        return (articles, metadata, r)
+    return articles
 
 
 def retrieve_article(article, output_filename, clobber=False):
@@ -341,8 +345,7 @@ def retrieve_article(article, output_filename, clobber=False):
         article_pdf_url = None
     
     article_pdf_r = requests.get(article_pdf_url)
-
-    if not article_pdf_r.ok: return None
+    if not article_pdf_r.ok: article_pdf_r.raise_for_status()
 
     with open(output_filename, "wb") as fp:
         fp.write(article_pdf_r.content)
