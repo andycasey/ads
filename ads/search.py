@@ -266,25 +266,23 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, filter="dat
 class search(object):
     """Search ADS and retrieve Article objects."""
 
-    active_requests = []
-    retrieved_articles = []
-
     def __init__(self, query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
         fl=None, facet=None, sort="date", order="desc", start=0, rows=20):
         
         arguments = locals().copy()
         del arguments["self"]
 
-        payload = _build_payload(**arguments)
+        self.payload = _build_payload(**arguments)
         session = requests_futures.sessions.FuturesSession()
 
-        self.active_requests.append(session.get(ADS_HOST + "/search/", params=payload))
+        self.active_requests = [session.get(ADS_HOST + "/search/", params=self.payload)]
+        self.retrieved_articles = []
         
         # Do we have to perform more queries?
         if rows == "all" or rows > API_MAX_ROWS:
 
             # Get metadata from serial request
-            metadata_payload = payload.copy()
+            metadata_payload = self.payload.copy()
             metadata_payload["rows"] = 1
             r = requests.get(ADS_HOST + "/search/", params=metadata_payload)
             if not r.ok: r.raise_for_status()
@@ -304,13 +302,13 @@ class search(object):
             # Initiate future requests
             for i in xrange(1, num_additional_queries + 1):
                 # Update payload to start at new point
-                payload["start"] = i * API_MAX_ROWS
+                self.payload["start"] = i * API_MAX_ROWS
 
                 # Limit total number of rows if required
                 if rows != "all" and (i + 1) * API_MAX_ROWS > rows:
-                    payload["rows"] = rows - i * API_MAX_ROWS
+                    self.payload["rows"] = rows - i * API_MAX_ROWS
 
-                self.active_requests.append(session.get(ADS_HOST + "/search/", params=payload))
+                self.active_requests.append(session.get(ADS_HOST + "/search/", params=self.payload))
 
     def __iter__(self):
         return self
@@ -327,6 +325,8 @@ class search(object):
                 self.retrieved_articles.extend([Article(**article_info) for article_info in response["results"]["docs"]])
             else:
                 print("NO RESPONSE FOUND?")
+                print(response)
+                
                 if len(self.active_requests) == 0:
                     raise StopIteration
 
