@@ -280,7 +280,7 @@ class search(object):
 
         self.active_requests.append(session.get(ADS_HOST + "/search/", params=payload))
         
-        # Do we have to do query and return ALL results?
+        # Do we have to perform more queries?
         if rows == "all" or rows > API_MAX_ROWS:
 
             # Get metadata from serial request
@@ -321,10 +321,14 @@ class search(object):
 
         if len(self.retrieved_articles) == 0:
             active_request = self.active_requests.pop(0)
-            response = active_request.result().json() if hasattr(active_request, "result") else active_request.json()
+            response = active_request.result().json()
 
             if "results" in response:
                 self.retrieved_articles.extend([Article(**article_info) for article_info in response["results"]["docs"]])
+            else:
+                print("NO RESPONSE FOUND?")
+                if len(self.active_requests) == 0:
+                    raise StopIteration
 
         return self.retrieved_articles.pop(0)
 
