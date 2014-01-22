@@ -314,6 +314,7 @@ class search(object):
         return self
 
     def next(self):
+
         if len(self.active_requests) == 0 and len(self.retrieved_articles) == 0:
             raise StopIteration
 
@@ -321,18 +322,12 @@ class search(object):
             active_request = self.active_requests.pop(0)
             response = active_request.result().json()
 
-            if "results" in response:
-                self.retrieved_articles.extend([Article(**article_info) for article_info in response["results"]["docs"]])
-            else:
-                print("NO RESPONSE FOUND?")
-                print(response)
-                
-                if len(self.active_requests) == 0:
-                    raise StopIteration
+            self.retrieved_articles.extend([Article(**article_info) for article_info in response["results"]["docs"]])
+            
+        if len(self.retrieved_articles) == 0:
+            raise StopIteration
 
         return self.retrieved_articles.pop(0)
-
-
 
 
 def retrieve_article(article, output_filename, clobber=False):
