@@ -38,7 +38,7 @@ def affiliation(affiliation):
     except TypeError:
         raise TypeError("affiliation must be a string-type")
 
-    query_refinement = " aff:\"{affiliation}\"".format(affiliation=affiliation)
+    query_refinement = " aff:({affiliation})".format(affiliation=affiliation)
     return query_refinement
 
 

@@ -17,11 +17,10 @@ API_MAX_ROWS = 200
 
 __all__ = ["get_dev_key", "get_api_settings", "ADS_HOST", "API_MAX_ROWS"]
 
-
 def get_dev_key():
     """Retrieves the API key for ADS Labs."""
 
-    ads_dev_key_filename = os.path.abspath(os.path.expanduser('~/.ads/dev_key'))
+    ads_dev_key_filename = os.path.abspath(os.path.expanduser("~/.ads/dev_key"))
 
     if os.path.exists(ads_dev_key_filename):
         with open(ads_dev_key_filename, 'r') as fp:
@@ -29,10 +28,10 @@ def get_dev_key():
 
         return dev_key
 
-    if 'ADS_DEV_KEY' in os.environ:
-        return os.environ['ADS_DEV_KEY']
+    if "ADS_DEV_KEY" in os.environ:
+        return os.environ["ADS_DEV_KEY"]
 
-    raise IOError("no ADS API key found in ~/.ads/dev_key")
+    raise IOError("no ADS API key found in ~/.ads/dev_key and no ADS_DEV_KEY environment variable found")
 
 
 def get_api_settings(developer_api_key):

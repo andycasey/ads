@@ -25,6 +25,9 @@ __all__ = ["Article", "search", "metrics", "metadata", "retrieve_article"]
 
 DEV_KEY = get_dev_key()
 
+class APIError(Exception):
+    pass
+
 class Article(object):
     """An object to represent a single publication in NASA's Astrophysical
     Data System."""
@@ -78,16 +81,13 @@ class Article(object):
     def metrics(self):
         """Retrieves metrics for the current article and stores them."""
 
-        if hasattr(self, "_metrics"):
-            return self._metrics
+        if not hasattr(self, "_metrics"):
+            url = "{0}/record/{1}/metrics/".format(ADS_HOST, self.bibcode)
+            payload = {"dev_key": DEV_KEY}
 
-        url = "{0}/record/{1}/metrics/".format(ADS_HOST, self.bibcode)
-        payload = {"dev_key": DEV_KEY}
-
-        r = requests.get(url, params=payload)
-        if not r.ok: r.raise_for_status()
-
-        self._metrics = r.json()
+            r = requests.get(url, params=payload)
+            if not r.ok: r.raise_for_status()
+            self._metrics = r.json()
         return self._metrics
 
 
@@ -225,6 +225,8 @@ def metrics(author, metadata=False):
     if not r.ok: r.raise_for_status()
     
     contents = r.json()
+    if "error" in contents:
+        raise APIError(contents["error"])
     metadata, results = contents["meta"], contents["results"]
 
     if metadata:
@@ -240,9 +242,10 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, filter="dat
     r = requests.get(ADS_HOST + "/search/", params=payload)
     if not r.ok: r.raise_for_status()
     
-    metadata = r.json()["meta"]
-    return metadata
-
+    contents = r.json()
+    if "error" in contents:
+        raise APIError(contents["error"])
+    return contents["meta"]
 
 
 class search(object):
@@ -303,6 +306,9 @@ class search(object):
         if len(self.retrieved_articles) == 0:
             active_request = self.active_requests.pop(0)
             response = active_request.result().json()
+
+            if "error" in response:
+                raise APIError(response["error"])
 
             self.retrieved_articles.extend([Article(**article_info) for article_info in response["results"]["docs"]])
             
