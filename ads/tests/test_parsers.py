@@ -2,9 +2,9 @@ from .. import parser as parse
 
 def test_date_parser():
 
-    assert parse.dates(2002)                == " pubdate:[2002 TO 2002]"
-    assert parse.dates(2002.)               == " pubdate:[2002 TO 2002]"
-    assert parse.dates("2002")              == " pubdate:[2002 TO 2002]"
+    assert parse.dates(2002)                == " pubdate:[2002-01 TO 2002-12]"
+    assert parse.dates(2002.)               == " pubdate:[2002-01 TO 2002-12]"
+    assert parse.dates("2002")              == " pubdate:[2002-01 TO 2002-12]"
     assert parse.dates("2002-07")           == " pubdate:[2002-07 TO 2002-07]"
     assert parse.dates("2002-07-15")        == " pubdate:[2002-07 TO 2002-07]"
     assert parse.dates("2002/07")           == " pubdate:[2002-07 TO 2002-07]"

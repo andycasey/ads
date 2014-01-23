@@ -186,11 +186,11 @@ def dates(input_dates):
         if input_dates % 1 > 0:
             date = _date("{year:.0f}/{month:.0f}"
                 .format(year=int(input_dates), month=(input_dates % 1)*100))
+            start_date, end_date = date, date
 
         else:
-            date = _date(int(input_dates), output_format="%Y")
-
-        start_date, end_date = date, date
+            start_date = _date("{year:.0f}-1".format(year=int(input_dates)))
+            end_date = _date("{year:.0f}-12".format(year=int(input_dates)))
 
     else:
         raise TypeError("date type not understood")
