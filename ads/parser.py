@@ -136,6 +136,11 @@ def dates(input_dates):
 
     if input_dates is None: return
 
+    try:
+        input_dates = float(input_dates)
+    except:
+        None
+
     if isinstance(input_dates, (list, tuple)):
         if len(input_dates) > 2:
             raise ValueError("if dates is specified as a list, it must"
