@@ -61,23 +61,17 @@ class Article(object):
     @property
     def references(self):
         """Retrieves reference list for the current article and stores them."""
-        if hasattr(self, '_references'):
-            return self._references
-
-        else:
-            self._references = search("references(bibcode:{bibcode})".format(bibcode=self.bibcode), rows="all")
-            return self._references
+        if not hasattr(self, '_references'):
+            self._references = list(search("references(bibcode:{bibcode})".format(bibcode=self.bibcode), rows="all"))
+        return self._references
 
 
     @property
     def citations(self):
         """Retrieves citation list for the current article and stores them."""
-        if hasattr(self, '_citations'):
-            return self._citations
-
-        else:
-            self._citations = search("citations(bibcode:{bibcode})".format(bibcode=self.bibcode), rows="all")
-            return self._citations
+        if not hasattr(self, '_citations'):
+            self._citations = list(search("citations(bibcode:{bibcode})".format(bibcode=self.bibcode), rows="all"))
+        return self._citations
 
 
     @property
@@ -122,23 +116,17 @@ class Article(object):
 
         # To understand recursion, first you must understand recursion.
         level = [self]
-        total_articles = len(level)
+        total_articles = len(level) - 1
 
         for level_num in xrange(depth):
 
-            level_requests = []
-            for article in level:
-                payload = _build_payload("references(bibcode:{bibcode})".format(bibcode=article.bibcode))
-
-                level_requests.append(session.get(ADS_HOST + "/search/", params=payload))
+            level_requests = [search("references(bibcode:{bibcode})".format(bibcode=article.bibcode), rows="all") for article in level]
 
             # Complete all requests
             new_level = []
             for request, article in zip(level_requests, level):
-                data = request.result().json()["results"]["docs"]
-
-                setattr(article, "_references", [Article(**doc_info) for doc_info in data])
-                new_level.extend(article.references)
+                setattr(article, "references", list(request))
+                new_level.extend(article.citations)
 
             level = sum([new_level], [])
             total_articles += len(level)
@@ -171,22 +159,16 @@ class Article(object):
 
         # To understand recursion, first you must understand recursion.
         level = [self]
-        total_articles = len(level)
+        total_articles = len(level) - 1
 
         for level_num in xrange(depth):
 
-            level_requests = []
-            for article in level:
-                payload = _build_payload("citations(bibcode:{bibcode})".format(bibcode=article.bibcode))
-
-                level_requests.append(session.get(ADS_HOST + "/search/", params=payload))
+            level_requests = [search("citations(bibcode:{bibcode})".format(bibcode=article.bibcode), rows="all") for article in level]
 
             # Complete all requests
             new_level = []
             for request, article in zip(level_requests, level):
-                data = request.result().json()["results"]["docs"]
-
-                setattr(article, "_citations", [Article(**doc_info) for doc_info in data])
+                setattr(article, "_citations", list(request))
                 new_level.extend(article.citations)
 
             level = sum([new_level], [])
