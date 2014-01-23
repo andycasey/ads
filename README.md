@@ -13,5 +13,5 @@ If you're in research, then you pretty much _need_ NASA's ADS. It's tried, true,
 
 2. When you get your API key, save it to a file called ``~/.ads/dev_key``
 
-3. Happy hacking. Pull requests are welcomed.
+3. ``pip install ads`` -- Happy Hacking!
 
