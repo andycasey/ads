@@ -9,9 +9,10 @@ If you're in research, then you pretty much _need_ NASA's ADS. It's tried, true,
 
 **Getting Started**
 
-1. You'll need an API key from NASA ADS labs first. You can apply for one [here](https://docs.google.com/spreadsheet/viewform?formkey=dFJZbHp1WERWU3hQVVJnZFJjbE05SGc6MQ#gid=0).
+1. You'll need an API key from NASA ADS labs. You can apply for one [here](https://docs.google.com/spreadsheet/viewform?formkey=dFJZbHp1WERWU3hQVVJnZFJjbE05SGc6MQ#gid=0).
 
-2. When you get your API key, save it to a file called ``~/.ads/dev_key``
+2. When you get your API key, save it to a file called ``~/.ads/dev_key`` or save it as an environment variable named ``ADS_DEV_KEY``.
 
-3. ``pip install ads`` -- Happy Hacking!
+3. From a terminal type ``pip install ads`` (or [if you must](https://stackoverflow.com/questions/3220404/why-use-pip-over-easy-install), use ``easy_install ads``)
 
+Happy Hacking!
