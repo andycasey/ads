@@ -15,8 +15,7 @@ import os
 from core import search
 from utils import unique_preserved_list
 
-__all__ = ['nodes', 'export', 'coauthors']
-
+__all__ = ["nodes", "export", "coauthors"]
 
 def coauthors(name, depth=1, author_repr=None):
     """Build a network of co-authors based on the name provided,
@@ -298,89 +297,3 @@ def export(articles, attribute, output_filename, structure="nested", article_rep
         json.dump(data, fp, **kwargs)
 
     return True
-
-
-# These functions below are just temporary and are immediately deprecated
-def export_to_d3rt(paper, attribute="citations", map_func=None):
-    """Export the paper provided to a JSON-format for D3.js Reingold-Tilford Tree visualisations."""
-
-    if map_func is None:
-        map_func = lambda x: x
-    
-
-    def map_as_children(articles):
-        branch = []
-
-        if not isinstance(articles, (list, tuple)):
-            articles = [articles]
-
-        for article in articles:
-            if hasattr(article, "_{attribute}".format(attribute=attribute)):
-                branch.append({
-                    "name": map_func(article),
-                    "children": map_as_children(getattr(article, "_{attribute}".format(attribute=attribute)))
-                    })
-            else:
-                branch.append({
-                    "name": map_func(article)
-                    })
-
-        return branch
-
-    return map_as_children(paper)
-
-
-
-def export_to_d3_heb(paper, attribute="citations", map_func=None):
-
-    if map_func is None:
-        map_func = lambda x: x
-
-    data = []
-
-    def map_flat(articles, data):
-
-        if not isinstance(articles, (list, tuple)):
-            articles = [articles]
-
-        for article in articles:
-            if hasattr(article, "_{attribute}".format(attribute=attribute)):
-                data.append({
-                    "name": map_func(article),
-                    "imports": map(map_func, getattr(article, "_{attribute}".format(attribute=attribute))),
-                    "size": article.citation_count
-                    })
-
-                map_flat(getattr(article, "_{attribute}".format(attribute=attribute)), data)
-
-            else:
-                # Check to see it's not a double up.
-                if map_func(article) in [item["name"] for item in data]:
-                    continue
-
-                # Find out who cited this
-                data.append({
-                    "name": map_func(article),
-                    "size": article.citation_count,
-                    "imports": []
-                    })
-
-    map_flat(paper, data)
-    
-    # Sort the data
-    data = sorted(data, key=lambda x: x["name"])
-
-    # Do the backlinks lazily
-    for item in data:
-        
-        if len(item["imports"]) == 0:
-            imports = []
-            for sub_item in data:
-                if item["name"] in sub_item["imports"]:
-                    imports.append(item["name"])
-
-            item["imports"] = imports
-
-
-    return data
-

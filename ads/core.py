@@ -6,6 +6,7 @@ __author__ = "Andy Casey <andy@astrowizici.st>"
 
 # Standard library
 import os
+import warnings
 
 # Third party
 import requests
@@ -39,12 +40,13 @@ class Article(object):
 
         return None
 
-
     def __str__(self):
+        return unicode(self).encode("utf-8")
+
+    def __unicode__(self):
         return u"<{0} {1} {2}, {3}>".format(self.author[0].split(",")[0],
             "" if len(self.author) == 1 else (u" & {0}".format(self.author[1].split(",")[0]) if len(self.author) == 2 else "et al."),
-            self.year, self.bibcode)
-    
+            self.year, self.bibcode)    
 
     def __repr__(self):
         return u"<ads.{0} object at {1}>".format(self.__class__.__name__, hex(id(self)))
@@ -178,7 +180,8 @@ class search(object):
     """Search ADS and retrieve Article objects."""
 
     def __init__(self, query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-        filter="database:astronomy", fl=None, facet=None, sort="date", order="desc", start=0, rows=20):
+        filter="database:astronomy", acknowledgements=None, fl=None, facet=None, sort="date", 
+        order="desc", start=0, rows=20):
         
         arguments = locals().copy()
         del arguments["self"]
@@ -191,13 +194,19 @@ class search(object):
         
         # Do we have to perform more queries?
         if rows == "all" or rows > API_MAX_ROWS:
-
+    
             # Get metadata from serial request
             metadata_payload = self.payload.copy()
             metadata_payload["rows"] = 1
             r = requests.get(ADS_HOST + "/search/", params=metadata_payload)
             if not r.ok: r.raise_for_status()
             metadata = r.json()["meta"]
+
+            # Should we issue a warning about excessive rows retrieved?
+            if metadata["hits"] >= 10000:
+                long_query_message = "ADS query is retrieving more than 10,000 records. Use ads.metadata" \
+                    " to find the number of rows for a search query before executing it with ads.search"
+                warnings.warn(long_query_message)
 
             # Are there enough rows such that we actually have to make more requests?
             if API_MAX_ROWS >= metadata["hits"]: return
@@ -280,7 +289,8 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, affiliation
 
 
 def _build_payload(query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-    filter=None, fl=None, facet=None, sort="date", order="desc", start=0, rows=20):
+    filter=None, fl=None, acknowledgements=None, facet=None, sort="date", order="desc", start=0,
+    rows=20):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
     query = parser.query(query, authors, dates)
@@ -292,8 +302,9 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, affil
     # Filters
     pubdate_filter = parser.dates(dates)
     affiliation_filter = parser.affiliation(affiliation, affiliation_pos)
+    acknowledgements_filter = parser.acknowledgements(acknowledgements)
 
-    filters = (pubdate_filter, affiliation_filter)
+    filters = (pubdate_filter, affiliation_filter, acknowledgements_filter)
     for query_filter in filters:
         if query_filter is not None:
             query += query_filter

@@ -24,7 +24,20 @@ def query(query, authors, dates):
     return query
 
 
-def affiliation(affiliation, pos=None):
+def acknowledgements(acknowledgement=None):
+    """Creates a parser based on the acknowledgement input."""
+
+    if acknowledgement is None: return
+
+    try:
+        acknowledgement = str(acknowledgement)
+    except TypeError:
+        raise TypeError("acknowledgement must be a string-type")
+
+    return " ack:({0})".format(acknowledgement)
+
+
+def affiliation(affiliation=None, pos=None):
     """Creates a parser based on the affiliation input."""
 
     if affiliation is None: return
@@ -44,7 +57,7 @@ def affiliation(affiliation, pos=None):
             pos = int(pos)
         except TypeError:
 
-            if not isinstance(pos, [list, tuple]):
+            if not isinstance(pos, (list, tuple)):
                 raise TypeError("affiliation position must be an integer or list-type of up to two integers")
 
             try:
