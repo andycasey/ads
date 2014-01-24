@@ -3,7 +3,6 @@
 """ A Python tool for interacting with NASA's ADS system. """
 
 __author__ = "Andy Casey <andy@astrowizici.st>"
-__version__ = "0.0.792"
+__version__ = "0.0.793"
 
-import network
-from search import *
+from core import search, metrics, metadata, retrieve_article

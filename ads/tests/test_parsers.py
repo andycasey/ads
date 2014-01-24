@@ -1,7 +1,18 @@
-from .. import parser as parse
+# coding: utf-8
+
+""" Test query parsers """
+
+from __future__ import division, print_function
+
+__author__ = "Andy Casey <andy@astrowizici.st>"
+
+# Module import
+import ads.parser as parse
+
 
 def test_date_parser():
 
+    assert parse.dates(None)                == None
     assert parse.dates(2002)                == " pubdate:[2002-01 TO 2002-12]"
     assert parse.dates(2002.)               == " pubdate:[2002-01 TO 2002-12]"
     assert parse.dates("2002")              == " pubdate:[2002-01 TO 2002-12]"

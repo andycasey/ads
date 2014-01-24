@@ -9,12 +9,8 @@ __author__ = "Andy Casey <andy@astrowizici.st>"
 # Standard library
 import datetime
 import time
-    
-# Module specific
-from utils import API_MAX_ROWS
 
-__all__ = ['rows', 'ordering', 'dates', 'start']
-
+__all__ = ["rows", "ordering", "dates", "start"]
 
 def query(query, authors, dates):
 
@@ -42,12 +38,12 @@ def affiliation(affiliation):
     return query_refinement
 
 
-def rows(start, rows):
+def rows(start, rows, max_rows=200):
     """Checks that the number of rows provided is valid."""
 
-    if rows == "all" or rows > API_MAX_ROWS:
+    if rows == "all" or rows > max_rows:
         # We may have to run multiple queries here
-        start, rows = 0, API_MAX_ROWS
+        start, rows = 0, max_rows
 
     else:
 
@@ -74,7 +70,7 @@ def ordering(sort, order):
 
     sort, order = sort.lower(), order.lower()
 
-    if order not in ('asc', 'desc'):
+    if order not in ("asc", "desc"):
         raise ValueError("order must be either 'asc' or 'desc'")
 
     acceptable_sorts = {
@@ -87,7 +83,7 @@ def ordering(sort, order):
     if sort not in acceptable_sorts \
     and sort not in acceptable_sorts.values():
         raise ValueError("sort must be one of: {acceptable_sorts}"
-            .format(acceptable_sorts=', '.join(acceptable_sorts.keys())))
+            .format(acceptable_sorts=", ".join(acceptable_sorts.keys())))
 
     if sort not in acceptable_sorts:
         for key in acceptable_sorts:
@@ -139,7 +135,7 @@ def dates(input_dates):
     if isinstance(input_dates, (list, tuple)):
         if len(input_dates) > 2:
             raise ValueError("if dates is specified as a list, it must"
-                " be as '(start, end)', either of which can be empty")
+                " be as (start, end), either of which can be empty")
 
         if len(input_dates) == 1:
             start_date, end_date = (input_dates[0], "*")
@@ -152,8 +148,8 @@ def dates(input_dates):
 
     elif isinstance(input_dates, (str, unicode)):
 
-        # We will accept '2002-', '2002..', '..2003', '2002..2003'
-        # '2002/01..2002/08', '2002/04..', '2002/07', '2002-7', '2002-07
+        # We will accept "2002-", "2002..", "..2003", "2002..2003"
+        # "2002/01..2002/08", "2002/04..", "2002/07", "2002-7", "2002-07
 
         if input_dates.endswith("-") or input_dates.endswith(".."):
             start_date = _date(input_dates.strip("-."), default_month=1)

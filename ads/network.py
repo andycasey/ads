@@ -12,13 +12,13 @@ import json
 import os
 
 # Module specific
-from search import search as ads_search
+from core import search
 from utils import unique_preserved_list
 
 __all__ = ['nodes', 'export', 'coauthors']
 
 
-def coauthors(name, depth=1, author_repr=None, max_papers=100):
+def coauthors(name, depth=1, author_repr=None):
     """Build a network of co-authors based on the name provided,
     to a level depth as provided.
 
@@ -48,14 +48,6 @@ def coauthors(name, depth=1, author_repr=None, max_papers=100):
     if author_repr is None:
         author_repr = lambda x: x
 
-    try:
-        max_papers = int(max_papers)
-    except TypeError:
-        raise TypeError("max_papers must be an integer-like type")
-
-    if max_papers < 1:
-        raise ValueError("max_papers must be a positive integer")
-
     all_articles = []
     level_authors = [name]
     for i in xrange(depth):
@@ -72,8 +64,8 @@ def coauthors(name, depth=1, author_repr=None, max_papers=100):
                 continue
 
             # Get 5 top articles by this author
-            articles = ads_search(u'"{author}"'.format(author=author),
-                fl="author,citation_count", filter="property:refereed", rows=max_papers,
+            articles = search(u'"{author}"'.format(author=author),
+                fl="author,citation_count", filter="property:refereed", rows="all",
                 order="desc", sort="citations")
 
             # Add these articles to the list
@@ -84,7 +76,6 @@ def coauthors(name, depth=1, author_repr=None, max_papers=100):
 
         level_authors = []
         level_authors.extend(next_level_authors)
-
 
     # Initialise a group with the name input
     links = []
