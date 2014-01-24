@@ -177,8 +177,8 @@ class APIError(Exception):
 class search(object):
     """Search ADS and retrieve Article objects."""
 
-    def __init__(self, query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy",
-        fl=None, facet=None, sort="date", order="desc", start=0, rows=20):
+    def __init__(self, query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
+        filter="database:astronomy", fl=None, facet=None, sort="date", order="desc", start=0, rows=20):
         
         arguments = locals().copy()
         del arguments["self"]
@@ -264,7 +264,8 @@ def metrics(author, metadata=False):
     return results
 
 
-def metadata(query=None, authors=None, dates=None, affiliation=None, filter="database:astronomy"):
+def metadata(query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
+    filter="database:astronomy"):
     """Search ADS for the given inputs and just return the metadata."""
 
     payload = _build_payload(**locals())
@@ -278,8 +279,8 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, filter="dat
     return contents["meta"]
 
 
-def _build_payload(query=None, authors=None, dates=None, affiliation=None, filter=None,
-    fl=None, facet=None, sort="date", order="desc", start=0, rows=20):
+def _build_payload(query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
+    filter=None, fl=None, facet=None, sort="date", order="desc", start=0, rows=20):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
     query = parser.query(query, authors, dates)
@@ -290,7 +291,7 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, filte
 
     # Filters
     pubdate_filter = parser.dates(dates)
-    affiliation_filter = parser.affiliation(affiliation)
+    affiliation_filter = parser.affiliation(affiliation, affiliation_pos)
 
     filters = (pubdate_filter, affiliation_filter)
     for query_filter in filters:

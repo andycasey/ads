@@ -24,7 +24,7 @@ def query(query, authors, dates):
     return query
 
 
-def affiliation(affiliation):
+def affiliation(affiliation, pos=None):
     """Creates a parser based on the affiliation input."""
 
     if affiliation is None: return
@@ -34,7 +34,40 @@ def affiliation(affiliation):
     except TypeError:
         raise TypeError("affiliation must be a string-type")
 
-    query_refinement = " aff:({affiliation})".format(affiliation=affiliation)
+    query_refinement = "aff:({affiliation})".format(affiliation=affiliation)
+    
+    if pos is not None:
+        # Can be any of the following:
+        # int-type
+        # list/tuple type of 2 int-types
+        try:
+            pos = int(pos)
+        except TypeError:
+
+            if not isinstance(pos, [list, tuple]):
+                raise TypeError("affiliation position must be an integer or list-type of up to two integers")
+
+            try:
+                pos = map(int, pos)
+            except TypeError:
+                raise TypeError("affiliation position must be an integer or list-type of up to two integers")
+
+            if len(pos) == 1:
+                query_refinement = "pos({0}, {1:.0f})".format(query_refinement, pos[0])
+
+            elif len(pos) == 2:
+                if pos[0] >= pos[1]:
+                    raise ValueError("affiliation position range is out of order")
+                query_refinement = "pos({0}, {1:.0f}, {2:.0f})".format(query_refinement, pos[0], pos[1])
+
+            else:
+                raise TypeError("affiliation position must be an integer or list-type of up to two integers")
+
+        else:
+            query_refinement = "pos({0}, {1:.0f})".format(query_refinement, pos)
+
+    query_refinement = " " + query_refinement
+
     return query_refinement
 
 
