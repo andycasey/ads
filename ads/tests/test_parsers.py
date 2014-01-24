@@ -12,9 +12,9 @@ import ads.parser as parse
 
 def test_affiliation_parser():
 
-    parse.affiliation("mit")                == " aff:(mit)"
-    parse.affiliation("mit", 1)             == " pos(aff:(mit), 1)"
-    parse.affiliation("stromlo", [3, 5])    == " pos(aff:(stromlo), 3, 5)"
+    assert parse.affiliation("mit")             == " aff:(mit)"
+    assert parse.affiliation("mit", 1)          == " pos(aff:(mit), 1)"
+    assert parse.affiliation("stromlo", [3, 5]) == " pos(aff:(stromlo), 3, 5)"
 
 
 def test_date_parser():
