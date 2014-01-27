@@ -29,10 +29,17 @@ class Article(object):
     aff = ["Unknown"]
     author = ["Anonymous"]
     citation_count = 0
+    reference_count = 0
     url = None
 
     def __init__(self, **kwargs):
         for key, value in kwargs.iteritems():
+            # It's not Pythonic to use '[citations]' as an attribute
+            if key == "[citations]":
+                if "num_references" in value:
+                    setattr(self, "reference_count", value["num_references"])
+                continue
+
             setattr(self, key, value)
 
         if "bibcode" in kwargs:
