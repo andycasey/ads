@@ -12,13 +12,11 @@ import time
 
 __all__ = ["rows", "ordering", "dates", "start"]
 
-def query(query, authors, dates):
+def query(query, authors):
 
     if query is None:
         # With great power comes great responsibility.
         return " *"
-
-    # Regex match for a date range?
 
     # Assume rest is author/title interpreted?
     return query
@@ -44,7 +42,7 @@ def affiliation(affiliation=None, pos=None):
 
     try:
         affiliation = str(affiliation)
-    except TypeError:
+    except (TypeError, ValueError):
         raise TypeError("affiliation must be a string-type")
 
     query_refinement = "aff:({affiliation})".format(affiliation=affiliation)
@@ -55,14 +53,14 @@ def affiliation(affiliation=None, pos=None):
         # list/tuple type of 2 int-types
         try:
             pos = int(pos)
-        except TypeError:
+        except (TypeError, ValueError):
 
             if not isinstance(pos, (list, tuple)):
                 raise TypeError("affiliation position must be an integer or list-type of up to two integers")
 
             try:
                 pos = map(int, pos)
-            except TypeError:
+            except (TypeError, ValueError):
                 raise TypeError("affiliation position must be an integer or list-type of up to two integers")
 
             if len(pos) == 1:
@@ -87,6 +85,11 @@ def affiliation(affiliation=None, pos=None):
 def rows(start, rows, max_rows=200):
     """Checks that the number of rows provided is valid."""
 
+    try: rows = int(rows)
+    except:
+        if rows != "all":
+            raise TypeError("rows must be an integer-type or 'all'")
+
     if rows == "all" or rows > max_rows:
         # We may have to run multiple queries here
         start, rows = 0, max_rows
@@ -95,15 +98,11 @@ def rows(start, rows, max_rows=200):
 
         try:
             start = int(start)
-        except TypeError:
+        except (TypeError, ValueError):
             raise TypeError("start must be an integer-like type")
 
         if start < 0:
             raise ValueError("start must be positive")
-
-        try: rows = int(rows)
-        except TypeError:
-            raise TypeError("rows must be an integer-like type")
 
         if rows < 1:
             raise ValueError("rows must be a positive integer")
@@ -113,6 +112,10 @@ def rows(start, rows, max_rows=200):
 
 def ordering(sort, order):
     """Checks that the ordering and sorting inputs are valid."""
+
+    try: sort, order = map(str, [sort, order])
+    except (TypeError, ValueError):
+        raise TypeError("sort and order must be string-like objects")
 
     sort, order = sort.lower(), order.lower()
 

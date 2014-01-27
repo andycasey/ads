@@ -390,7 +390,7 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, affil
     rows=20):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
-    query = parser.query(query, authors, dates)
+    q = parser.query(query, authors)
 
     # Check inputs
     start, rows = parser.rows(start, rows, max_rows=API_MAX_ROWS)
@@ -404,10 +404,10 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, affil
     filters = (pubdate_filter, affiliation_filter, acknowledgements_filter)
     for query_filter in filters:
         if query_filter is not None:
-            query += query_filter
+            q += query_filter
 
     payload = {
-        "q": query,
+        "q": q,
         "dev_key": DEV_KEY,
         "sort": "{sort} {order}".format(sort=sort.upper(), order=order),
         "start": start,
@@ -441,7 +441,7 @@ def retrieve_article(article, output_filename, clobber=False):
     """
 
     if os.path.exists(output_filename) and not clobber:
-        raise IOError("output filename (\"{filename}\") exists and we've been "
+        raise IOError("output filename ({filename}) exists and we've been "
             "asked not to clobber it.".format(filename=output_filename))
 
     # Get the ADS url
@@ -464,7 +464,6 @@ def retrieve_article(article, output_filename, clobber=False):
 
         # Use the arxiv payload
         arxiv_r = requests.get(ads_redirect_url, params=arxiv_payload)
-
         if not arxiv_r.ok:
             return False
 
