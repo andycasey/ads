@@ -28,8 +28,8 @@ class Article(object):
 
     aff = ["Unknown"]
     author = ["Anonymous"]
-    citation_count = 0
-    reference_count = 0
+    citation_count = None
+    reference_count = None
     url = None
 
     def __init__(self, **kwargs):
@@ -182,7 +182,7 @@ class Article(object):
         return self._metrics
 
 
-    def build_reference_tree(self, depth):
+    def build_reference_tree(self, depth=1, **kwargs):
         """Builds a reference tree for this paper.
 
         Inputs
@@ -209,15 +209,18 @@ class Article(object):
         level = [self]
         total_articles = len(level) - 1
 
+        if "rows" not in kwargs:
+            kwargs["rows"] = "all"
+
         for level_num in xrange(depth):
 
-            level_requests = [search("references(bibcode:{bibcode})".format(bibcode=article.bibcode), rows="all") for article in level]
+            level_requests = [search("references(bibcode:{bibcode})".format(bibcode=article.bibcode), **kwargs) for article in level]
 
             # Complete all requests
             new_level = []
             for request, article in zip(level_requests, level):
-                setattr(article, "references", list(request))
-                new_level.extend(article.citations)
+                setattr(article, "_references", list(request))
+                new_level.extend(article.references)
 
             level = sum([new_level], [])
             total_articles += len(level)
@@ -225,7 +228,7 @@ class Article(object):
         return total_articles          
 
 
-    def build_citation_tree(self, depth):
+    def build_citation_tree(self, depth=1, **kwargs):
         """Builds a citation tree for this paper.
 
         Inputs
@@ -252,9 +255,12 @@ class Article(object):
         level = [self]
         total_articles = len(level) - 1
 
+        if "rows" not in kwargs:
+            kwargs["rows"] = "all"
+
         for level_num in xrange(depth):
 
-            level_requests = [search("citations(bibcode:{bibcode})".format(bibcode=article.bibcode), rows="all") for article in level]
+            level_requests = [search("citations(bibcode:{bibcode})".format(bibcode=article.bibcode), **kwargs) for article in level]
 
             # Complete all requests
             new_level = []
