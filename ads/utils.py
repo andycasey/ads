@@ -31,9 +31,12 @@ def get_dev_key():
     raise IOError("no ADS API key found in ~/.ads/dev_key and no ADS_DEV_KEY environment variable found")
 
 
-def get_api_settings(developer_api_key):
+def get_api_settings(developer_api_key=None):
     """Gets the API settings for the developer key provided."""
 
+    if developer_api_key is None:
+        developer_api_key = get_dev_key()
+        
     r = requests.get("http://labs.adsabs.harvard.edu/adsabs/api/settings/", params={"dev_key": developer_api_key})
     if not r.ok: r.raise_for_status()
 
