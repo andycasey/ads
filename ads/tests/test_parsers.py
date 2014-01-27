@@ -97,7 +97,10 @@ class TestOrderingParser(unittest.TestCase):
                 assert (sort_option.lower(), order_option.lower()) == parse.ordering(sort_input, order_option.upper())
                 assert (sort_option.lower(), order_option.lower()) == parse.ordering(sort_input.upper(), order_option)
 
+
     def test_invalid_values(self):        
         self.assertRaises(ValueError, parse.ordering, 0, 0)
         self.assertRaises(ValueError, parse.ordering, "date", "hullo")
         self.assertRaises(ValueError, parse.ordering, [], {})
+
+

@@ -1,3 +1,10 @@
+# coding: utf-8
 
-def test_import():
-    from .. import search
+""" Test ADS queries """
+
+from __future__ import division, print_function
+
+__author__ = "Andy Casey <andy@astrowizici.st>"
+
+import unittest
+import ads
