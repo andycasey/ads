@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """ Beers for citations. The new underground currency. """
 
 __author__ = "Andy Casey <acasey@mso.anu.edu.au>"
