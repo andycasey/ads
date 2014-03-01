@@ -292,9 +292,9 @@ class search(object):
         del arguments["self"]
 
         self.payload = _build_payload(**arguments)
-        session = requests_futures.sessions.FuturesSession()
+        self.session = requests_futures.sessions.FuturesSession()
 
-        self.active_requests = [session.get(ADS_HOST + "/search/", params=self.payload)]
+        self.active_requests = [self.session.get(ADS_HOST + "/search/", params=self.payload)]
         self.retrieved_articles = []
 
         # Do we have to perform more queries?
@@ -333,7 +333,7 @@ class search(object):
                 if rows != "all" and (i + 1) * API_MAX_ROWS > rows:
                     self.payload["rows"] = rows - i * API_MAX_ROWS
 
-                self.active_requests.append(session.get(ADS_HOST + "/search/", params=self.payload))
+                self.active_requests.append(self.session.get(ADS_HOST + "/search/", params=self.payload))
 
     def __iter__(self):
         return self
@@ -341,6 +341,7 @@ class search(object):
     def next(self):
 
         if len(self.active_requests) == 0 and len(self.retrieved_articles) == 0:
+            self.session.executor.shutdown()
             raise StopIteration
 
         if len(self.retrieved_articles) == 0:
@@ -353,6 +354,7 @@ class search(object):
             self.retrieved_articles.extend([Article(**article_info) for article_info in response["results"]["docs"]])
 
         if len(self.retrieved_articles) == 0:
+            self.session.executor.shutdown()
             raise StopIteration
 
         return self.retrieved_articles.pop(0)
