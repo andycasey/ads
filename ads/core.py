@@ -28,6 +28,7 @@ class Article(object):
 
     aff = ["Unknown"]
     author = ["Anonymous"]
+    keyword = []
     citation_count = None
     reference_count = None
     url = None
@@ -53,7 +54,7 @@ class Article(object):
     def __unicode__(self):
         return u"<{0} {1} {2}, {3}>".format(self.author[0].split(",")[0],
             "" if len(self.author) == 1 else (u" & {0}".format(self.author[1].split(",")[0]) if len(self.author) == 2 else "et al."),
-            self.year, self.bibcode)    
+            self.year, self.bibcode)
 
     def __repr__(self):
         return u"<ads.{0} object at {1}>".format(self.__class__.__name__, hex(id(self)))
@@ -81,7 +82,7 @@ class Article(object):
 
         """
         TYPE = [required, [optional]]
-        
+
         article = [author, title, journal, year, [volume, number, pages, month, note, key]]
         book = [author or editor, title, publisher, year, [volume, series, address, edition, month, note, key]]
         inproceedings = [author, title, booktitle, year, [editor, pages, organization, publisher, address, month, note, key]]
@@ -114,7 +115,7 @@ class Article(object):
 
         # Create start of BiBTeX
         bibtex = ["@{0}{{{1}".format(entry_type, self.bibcode)]
-            
+
         if entry_type == "ARTICLE":
             required_entries = ["author", "title", "journal", "year"]
             optional_entries = ["volume", "pages", "month", "adsnote", "adsurl", "doi", "eprint", "keywords"]
@@ -140,7 +141,8 @@ class Article(object):
                 if value:
                     bibtex.append("{0} = {1}".format(required_entry.rjust(9), value))
             except:
-                raise TypeError("could not generate {0} BibTeX entry for {1}".format(required_entry, self.bibcode))
+                raise TypeError("could not generate {0} BibTeX entry for {1}".format(
+                    required_entry, self.bibcode))
 
         for optional_entry in optional_entries:
             try:
@@ -156,7 +158,8 @@ class Article(object):
     def references(self):
         """Retrieves reference list for the current article and stores them."""
         if not hasattr(self, '_references'):
-            self._references = list(search("references(bibcode:{bibcode})".format(bibcode=self.bibcode), rows="all"))
+            self._references = list(search("references(bibcode:{bibcode})".format(
+                bibcode=self.bibcode), rows="all"))
         return self._references
 
 
@@ -164,7 +167,8 @@ class Article(object):
     def citations(self):
         """Retrieves citation list for the current article and stores them."""
         if not hasattr(self, '_citations'):
-            self._citations = list(search("citations(bibcode:{bibcode})".format(bibcode=self.bibcode), rows="all"))
+            self._citations = list(search("citations(bibcode:{bibcode})".format(
+                bibcode=self.bibcode), rows="all"))
         return self._citations
 
 
@@ -208,13 +212,12 @@ class Article(object):
         # To understand recursion, first you must understand recursion.
         level = [self]
         total_articles = len(level) - 1
-
-        if "rows" not in kwargs:
-            kwargs["rows"] = "all"
+        kwargs.setdefault("rows", "all")
 
         for level_num in xrange(depth):
 
-            level_requests = [search("references(bibcode:{bibcode})".format(bibcode=article.bibcode), **kwargs) for article in level]
+            level_requests = [search("references(bibcode:{bibcode})".format(
+                bibcode=article.bibcode), **kwargs) for article in level]
 
             # Complete all requests
             new_level = []
@@ -225,7 +228,7 @@ class Article(object):
             level = sum([new_level], [])
             total_articles += len(level)
 
-        return total_articles          
+        return total_articles
 
 
     def build_citation_tree(self, depth=1, **kwargs):
@@ -254,13 +257,12 @@ class Article(object):
         # To understand recursion, first you must understand recursion.
         level = [self]
         total_articles = len(level) - 1
-
-        if "rows" not in kwargs:
-            kwargs["rows"] = "all"
+        kwargs.setdefault("rows", "all")
 
         for level_num in xrange(depth):
 
-            level_requests = [search("citations(bibcode:{bibcode})".format(bibcode=article.bibcode), **kwargs) for article in level]
+            level_requests = [search("citations(bibcode:{bibcode})".format(
+                bibcode=article.bibcode), **kwargs) for article in level]
 
             # Complete all requests
             new_level = []
@@ -271,7 +273,7 @@ class Article(object):
             level = sum([new_level], [])
             total_articles += len(level)
 
-        return total_articles     
+        return total_articles
 
 
 class APIError(Exception):
@@ -283,9 +285,9 @@ class search(object):
     """Search ADS and retrieve Article objects."""
 
     def __init__(self, query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-        filter="database:astronomy", acknowledgements=None, fl=None, facet=None, sort="date", 
+        filter="database:astronomy", acknowledgements=None, fl=None, facet=None, sort="date",
         order="desc", start=0, rows=20):
-        
+
         arguments = locals().copy()
         del arguments["self"]
 
@@ -294,10 +296,10 @@ class search(object):
 
         self.active_requests = [session.get(ADS_HOST + "/search/", params=self.payload)]
         self.retrieved_articles = []
-        
+
         # Do we have to perform more queries?
         if rows == "all" or rows > API_MAX_ROWS:
-    
+
             # Get metadata from serial request
             metadata_payload = self.payload.copy()
             metadata_payload["rows"] = 1
@@ -349,7 +351,7 @@ class search(object):
                 raise APIError(response["error"])
 
             self.retrieved_articles.extend([Article(**article_info) for article_info in response["results"]["docs"]])
-            
+
         if len(self.retrieved_articles) == 0:
             raise StopIteration
 
@@ -359,13 +361,10 @@ class search(object):
 def metrics(author, metadata=False):
     """ Retrieves metrics for a given author query """
 
-    payload = {
-        "q": author,
-        "dev_key": DEV_KEY,
-    }
+    payload = {"q": author, "dev_key": DEV_KEY}
     r = requests.get(ADS_HOST + "/search/metrics/", params=payload)
     if not r.ok: r.raise_for_status()
-    
+
     contents = r.json()
     if "error" in contents:
         raise APIError(contents["error"])
@@ -384,7 +383,7 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, affiliation
     payload["rows"] = 1 # It's meta-data, baby.
     r = requests.get(ADS_HOST + "/search/", params=payload)
     if not r.ok: r.raise_for_status()
-    
+
     contents = r.json()
     if "error" in contents:
         raise APIError(contents["error"])
@@ -426,7 +425,7 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, affil
         "facet": facet
     }
     payload.update(additional_payload)
-        
+
     return payload
 
 
@@ -462,7 +461,7 @@ def retrieve_article(article, output_filename, clobber=False):
         "link_type": "ARTICLE",
         "db_key": "AST"
     }
-    
+
     # Let's try and download the article from the journal first
     article_r = requests.get(ads_redirect_url, params=article_payload)
 
@@ -478,7 +477,7 @@ def retrieve_article(article, output_filename, clobber=False):
     else:
         # Parser the PDF url
         article_pdf_url = None
-    
+
     article_pdf_r = requests.get(article_pdf_url)
     if not article_pdf_r.ok: article_pdf_r.raise_for_status()
 
@@ -486,4 +485,3 @@ def retrieve_article(article, output_filename, clobber=False):
         fp.write(article_pdf_r.content)
 
     return True
-
