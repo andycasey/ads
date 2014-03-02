@@ -228,7 +228,7 @@ class Article(object):
             level = sum([new_level], [])
             total_articles += len(level)
 
-        return total_articles
+        return self._references
 
 
     def build_citation_tree(self, depth=1, **kwargs):
@@ -273,7 +273,7 @@ class Article(object):
             level = sum([new_level], [])
             total_articles += len(level)
 
-        return total_articles
+        return self._citations
 
 
 class APIError(Exception):
