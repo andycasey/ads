@@ -29,8 +29,8 @@ class Article(object):
     aff = ["Unknown"]
     author = ["Anonymous"]
     keyword = []
-    citation_count = None
-    reference_count = None
+    citation_count = 0 
+    reference_count = 0
     url = None
 
     def __init__(self, **kwargs):
