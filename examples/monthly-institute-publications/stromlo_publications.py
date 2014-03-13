@@ -24,7 +24,7 @@ if __name__ == "__main__":
     month = current_time.tm_mon - 1 if current_time.tm_mon > 1 else 12
     
     # The affiliation string to search for
-    my_affiliation = "Australian National University"
+    my_affiliation = '"Australian National University"'
 
     # Get all the articles
     articles = ads.search(
@@ -32,10 +32,14 @@ if __name__ == "__main__":
         filter="database:astronomy AND property:refereed",
         dates="{year}/{month}".format(year=year, month=month))
 
+    # ads.search yields a generator, so let's list-ify the articles for multiple use
+    articles = list(articles)
+    print("There were {0} articles found. Sorting and downloading..".format(len(articles)))
+
     # Let's do something interesting with the data first
     # We'll sort all the articles by first-authors with our matched affiliation first.
     sorted_articles = sorted(articles,
-        key=lambda article: [(my_affiliation.lower() in affiliation.lower()) for affiliation in article.aff].index(True))
+        key=lambda article: [(my_affiliation.strip('"').lower() in affiliation.lower()) for affiliation in article.aff].index(True))
 
     # Great! Now let's actually do something real with these articles
     # At Mount Stromlo Observatory (the Research School of Astronomy & Astrophysics within
@@ -43,7 +47,7 @@ if __name__ == "__main__":
     # first page of every paper published by someone at Stromlo within the last month.
 
     # Let's download each paper for our papers board and save them by their bibliography code.
-    [ads.retrieve_article(article, output_filename="{bibcode}.pdf".format(bibcode=article.bibcode)) for article in sorted_articles]
+    [ads.retrieve_article(article, output_filename=article.bibcode + ".pdf") for article in sorted_articles]
 
     # If we have the pyPdf module installed, let's put together a new PDF file that just has
     # the first page from each article. Otherwise, we'll just finish this example quietly.
@@ -60,11 +64,10 @@ if __name__ == "__main__":
 
         open_files = []
         for article in sorted_articles:
-            filename = "{bibcode}.pdf".format(bibcode=article.bibcode)
+            filename = article.bibcode + ".pdf"
 
             if not os.path.exists(filename):
-                print("Did not add {filename} to the summary file because it does not exist."
-                    .format(filename=filename))
+                print("Did not add {filename} to the summary file because it does not exist.".format(filename=filename))
                 continue
 
             with open(filename, "rb") as fp:
@@ -79,5 +82,5 @@ if __name__ == "__main__":
             fp.write(summary_pdf)
 
     finally:
-        print("There were {num} articles published by astronomy researchers from the {my_affiliation} last month."
-            .format(num=len(articles), my_affiliation=my_affiliation))
+        print("There were {num} articles published by astronomy researchers from the {my_affiliation} last month.".format(
+            num=len(articles), my_affiliation=my_affiliation))

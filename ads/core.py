@@ -479,6 +479,7 @@ def retrieve_article(article, output_filename, clobber=False):
     else:
         # Parser the PDF url
         article_pdf_url = None
+        return False
 
     article_pdf_r = requests.get(article_pdf_url)
     if not article_pdf_r.ok: article_pdf_r.raise_for_status()
