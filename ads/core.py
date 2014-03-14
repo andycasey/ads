@@ -463,26 +463,25 @@ def retrieve_article(article, output_filename, clobber=False):
         "link_type": "ARTICLE",
         "db_key": "AST"
     }
-
+    
     # Let's try and download the article from the journal first
     article_r = requests.get(ads_redirect_url, params=article_payload)
+    
+    if not article_r.ok:
 
-    if not article_r.ok or "Requested scanned pages are not available" in article_r.text:
-
-        # Use the arxiv payload
         arxiv_r = requests.get(ads_redirect_url, params=arxiv_payload)
         if not arxiv_r.ok:
-            return False
+            arxiv_r.raise_for_status()
 
         article_pdf_url = arxiv_r.url.replace("abs", "pdf")
 
     else:
         # Parser the PDF url
-        article_pdf_url = None
-        return False
+        article_pdf_url = article_r.url.rstrip("+html")
 
     article_pdf_r = requests.get(article_pdf_url)
-    if not article_pdf_r.ok: article_pdf_r.raise_for_status()
+    if not article_pdf_r.ok:
+        article_pdf_r.raise_for_status()
 
     with open(output_filename, "wb") as fp:
         fp.write(article_pdf_r.content)
