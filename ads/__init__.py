@@ -1,8 +1,9 @@
+
 # coding: utf-8
 
 """ A Python tool for interacting with NASA's ADS system. """
 
 __author__ = "Andy Casey <andy@astrowizici.st>"
-__version__ = "0.0.804"
+__version__ = "0.0.806"
 
 from core import search, metrics, metadata, retrieve_article

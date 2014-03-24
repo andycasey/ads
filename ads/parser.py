@@ -12,14 +12,20 @@ import time
 
 __all__ = ["rows", "ordering", "dates", "start"]
 
-def query(query, authors):
+def query(query, author):
 
-    if query is None:
-        # With great power comes great responsibility.
-        return " *"
+    query_refinement = ""
 
-    # Assume rest is author/title interpreted?
-    return query
+    if query is not None:
+        query_refinement += query
+
+    else:
+        query_refinement += " * "
+
+    if author is not None:
+        query_refinement += " author:\"{0}\"".format(author)
+
+    return query_refinement.strip()
 
 
 def acknowledgements(acknowledgement=None):
