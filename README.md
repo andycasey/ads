@@ -1,7 +1,7 @@
 **A Python Module to Interact with NASA's ADS that Doesn't Suck™**
 ==================================================================
 
-[![Build Status](https://travis-ci.org/andycasey/ads-python.png?branch=master)](https://travis-ci.org/andycasey/ads-python) [![PyPi download count image](https://pypip.in/d/ads/badge.png)](https://pypi.python.org/pypi/ads/)
+[![Build Status](https://travis-ci.org/andycasey/ads.png?branch=master)](https://travis-ci.org/andycasey/ads) [![PyPi download count image](https://pypip.in/d/ads/badge.png)](https://pypi.python.org/pypi/ads/)
 
 If you're in research, then you pretty much _need_ NASA's ADS. It's tried, true, and people go crazy on the rare occasions when it goes down.
 
@@ -103,5 +103,5 @@ first_paper.bibcode               first_paper.citation_count        first_paper.
 first_paper.bibstem               first_paper.citations             first_paper.issue                 first_paper.page                  first_paper.references            
 ````
 
-Which allows you to easily build complicated queries. A short list of [more advanced examples](https://github.com/andycasey/ads-python/tree/master/examples) are included, and there are more to come. Feel free to fork this repository and add your own examples!
+Which allows you to easily build complicated queries. A short list of [more advanced examples](https://github.com/andycasey/ads/tree/master/examples) are included, and there are more to come. Feel free to fork this repository and add your own examples!
 
