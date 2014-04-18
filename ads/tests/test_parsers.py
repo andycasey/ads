@@ -2,17 +2,40 @@
 
 """ Test query parsers """
 
-from __future__ import division, print_function
-
 __author__ = "Andy Casey <andy@astrowizici.st>"
 
 import unittest
 import ads.parser as parse
 
-
 def test_acknowledgement_parser():
     assert parse.acknowledgements("nasa")   == " ack:(nasa)"
     assert parse.acknowledgements()         == None
+
+
+class TestDatabaseParser(unittest.TestCase):
+
+    def test_database_parser(self):
+        assert parse.database() == None
+        assert parse.database("general") == "database:general"
+        assert parse.database("astronomy") == "database:astronomy"
+        assert parse.database("physics") == "database:physics"
+        assert parse.database("astronomy OR physics") == "database:astronomy OR database:physics"
+
+        self.assertRaises(TypeError, parse.properties, 3.14)
+        self.assertRaises(ValueError, parse.properties, "some database that doesn't exist")
+
+
+class TestPropertiesParser(unittest.TestCase):
+
+    def test_properties_parser(self):
+        assert parse.properties("BOoK") == " property:(BOoK)"
+        assert parse.properties("article") == " property:(article)"
+        assert parse.properties(("article", "REFEREED")) == " property:(article,REFEREED)"
+        assert parse.properties() == None
+
+        self.assertRaises(TypeError, parse.properties, 3)
+        self.assertRaises(ValueError, parse.properties, "")
+        self.assertRaises(ValueError, parse.properties, ("ARTICLE", "WHAT!@#"))
 
 
 class TestAffiliationParser(unittest.TestCase):
@@ -22,7 +45,6 @@ class TestAffiliationParser(unittest.TestCase):
         assert parse.affiliation("mit", 1)          == " pos(aff:(mit), 1)"
         assert parse.affiliation("stromlo", [3, 5]) == " pos(aff:(stromlo), 3, 5)"
         assert parse.affiliation("stromlo", ['1', '4']) == " pos(aff:(stromlo), 1, 4)"
-
 
     def test_invalid_pos(self):
         self.assertRaises(TypeError, parse.affiliation, "mit", "hullo")
@@ -102,5 +124,3 @@ class TestOrderingParser(unittest.TestCase):
         self.assertRaises(ValueError, parse.ordering, 0, 0)
         self.assertRaises(ValueError, parse.ordering, "date", "hullo")
         self.assertRaises(ValueError, parse.ordering, [], {})
-
-

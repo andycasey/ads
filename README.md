@@ -22,7 +22,7 @@ You can use this module to search for some popular supernova papers:
 ````
 In [1]: import ads
 
-In [2]: papers = ads.search("supernova", sort="citations", rows=5)
+In [2]: papers = ads.query("supernova", sort="citations", rows=5)
 
 In [3]: for paper in papers:
     print(paper.title)
@@ -36,7 +36,7 @@ In [3]: for paper in papers:
 
 Or search for papers first-authored by someone:
 ````
-In [4]: people = list(ads.search(authors="^Reiss, A"))
+In [4]: people = list(ads.query(authors="^Reiss, A"))
 
 In [5]: people[0].author
 Out[5]: [u'Reiss, A. E.', u'Marchis, F.', u'Emery, J. P.']
@@ -44,7 +44,7 @@ Out[5]: [u'Reiss, A. E.', u'Marchis, F.', u'Emery, J. P.']
 
 Or papers where they are anywhere in the author list:
 ````
-In [6]: papers = list(ads.search(authors="Reiss, A"))
+In [6]: papers = list(ads.query(authors="Reiss, A"))
 
 In [7]: papers[0].author
 Out[7]: 
@@ -61,7 +61,7 @@ Out[7]:
 
 Or search by affiliation:
 ````
-In [8]: papers = list(ads.search(affiliation="*stromlo*", rows=5))
+In [8]: papers = list(ads.query(affiliation="*stromlo*", rows=5))
 
 In [8]: papers[0].aff
 Out[8]: 
@@ -82,7 +82,7 @@ Out[8]:
  u'Research School of Astronomy and Astrophysics, The Australian National University, Mount Stromlo Observatory, Cotter Road, Weston Creek, ACT 2611, Australia']
 ````
 
-In the above examples we ````list()```` the results from ````ads.search```` because ````ads.search```` is a generator, allowing us to return any number of papers for a given query. It will parallelise threads and continue to retrieve papers relevant to your query. Each object returned is an ````ads.Article```` object, which has a number of *very* handy attributes:
+In the above examples we ````list()```` the results from ````ads.query```` because ````ads.query```` is a generator, allowing us to return any number of papers for a given query. It will parallelise threads and continue to retrieve papers relevant to your query. Each object returned is an ````ads.Article```` object, which has a number of *very* handy attributes:
 
 ````
 In [9]: first_paper = papers[0]

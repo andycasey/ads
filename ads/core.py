@@ -1,6 +1,6 @@
 # coding: utf-8
 
-""" A Python tool for interacting with NASA's ADS system. """
+""" A Python tool for interacting with NASA's ADS """
 
 __author__ = "Andy Casey <andy@astrowizici.st>"
 
@@ -20,7 +20,7 @@ API_MAX_ROWS = 200
 DEV_KEY = get_dev_key()
 ADS_HOST = "http://adslabs.org/adsabs/api"
 
-__all__ = ["Article", "search", "metrics", "metadata", "retrieve_article"]
+__all__ = ["Article", "query", "metrics", "metadata", "retrieve_article"]
 
 class Article(object):
     """An object to represent a single publication in NASA's Astrophysical
@@ -281,12 +281,15 @@ class APIError(Exception):
     pass
 
 
-class search(object):
-    """Search ADS and retrieve Article objects."""
+class query(object):
+    """Query ADS and retrieve Article objects"""
 
-    def __init__(self, query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-        filter="database:astronomy", acknowledgements=None, fl=None, facet=None, sort="date",
-        order="desc", start=0, rows=20):
+    def __init__(self, query=None, title=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
+        acknowledgements=None, fl=None, facet=None, sort="date", order="desc", start=0, rows=20,
+        database="astronomy or physics", property=None, **kwargs):
+
+        if "author" in kwargs.keys() and authors is None:
+            authors = kwargs["author"]
 
         arguments = locals().copy()
         del arguments["self"]
@@ -360,6 +363,14 @@ class search(object):
         return self.retrieved_articles.pop(0)
 
 
+def search(*args, **kwargs):
+    """ ads.search is deprecated; you should use ads.query from now on """
+    
+    warnings.warn("ads.search will be deprecated in v1.0. Please use ads.query instead.",
+        DeprecationWarning)
+    return query(*args, **kwargs)
+
+
 def metrics(author, metadata=False):
     """ Retrieves metrics for a given author query """
 
@@ -377,8 +388,8 @@ def metrics(author, metadata=False):
     return results
 
 
-def metadata(query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-    filter="database:astronomy"):
+def metadata(query=None, title=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
+    database="astronomy or physics"):
     """Search ADS for the given inputs and just return the metadata."""
 
     payload = _build_payload(**locals())
@@ -392,12 +403,12 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, affiliation
     return contents["meta"]
 
 
-def _build_payload(query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-    filter=None, fl=None, acknowledgements=None, facet=None, sort="date", order="desc", start=0,
-    rows=20):
+def _build_payload(query=None, title=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
+    fl=None, acknowledgements=None, facet=None, sort="date", order="desc", start=0, rows=20,
+    database="astronomy or physics", property=None, **kwargs):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
-    q = parser.query(query, authors)
+    q = parser.query(query, title, authors)
 
     # Check inputs
     start, rows = parser.rows(start, rows, max_rows=API_MAX_ROWS)
@@ -407,11 +418,11 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, affil
     pubdate_filter = parser.dates(dates)
     affiliation_filter = parser.affiliation(affiliation, affiliation_pos)
     acknowledgements_filter = parser.acknowledgements(acknowledgements)
+    # You shouldn't ever use 'property' since it's special, but we're being consistent with ADS
+    properties_filter = parser.properties(property)
 
-    filters = (pubdate_filter, affiliation_filter, acknowledgements_filter)
-    for query_filter in filters:
-        if query_filter is not None:
-            q += query_filter
+    q += " ".join([each for each in (pubdate_filter, affiliation_filter, acknowledgements_filter,
+        properties_filter) if each is not None])
 
     payload = {
         "q": q,
@@ -423,7 +434,7 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, affil
     }
     additional_payload = {
         "fl": fl,
-        "filter": filter,
+        "filter": parser.database(database),
         "facet": facet
     }
     payload.update(additional_payload)

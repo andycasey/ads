@@ -1,6 +1,6 @@
 # coding: utf-8
 
-""" Visualize network components. """
+""" Visualize network components """
 
 from __future__ import division, print_function
 
