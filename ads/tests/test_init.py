@@ -2,9 +2,11 @@
 
 """ Test ADS queries """
 
-from __future__ import division, print_function
-
 __author__ = "Andy Casey <andy@astrowizici.st>"
 
 import unittest
 import ads
+
+
+def test_api_key():
+    ads.utils.get_api_settings()
