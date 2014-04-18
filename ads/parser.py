@@ -1,6 +1,6 @@
 # coding: utf-8
 
-""" Parsing inputs into a payload. """
+""" Parsing inputs into a payload """
 
 from __future__ import division, print_function
 

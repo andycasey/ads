@@ -1,6 +1,6 @@
 # coding: utf-8
 
-""" Utilities for interacting with NASA's ADS system. """
+""" Utilities for interacting with NASA's ADS """
 
 from __future__ import division, print_function
 
