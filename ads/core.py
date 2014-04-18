@@ -282,7 +282,7 @@ class APIError(Exception):
 
 
 class query(object):
-    """Search ADS and retrieve Article objects."""
+    """Query ADS and retrieve Article objects"""
 
     def __init__(self, query=None, title=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
         acknowledgements=None, fl=None, facet=None, sort="date", order="desc", start=0, rows=20,

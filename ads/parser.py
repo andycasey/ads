@@ -158,6 +158,7 @@ def properties(properties=None):
 
     return " property:({0})".format(",".join(properties))
 
+
 def rows(start, rows, max_rows=200):
     """Checks that the number of rows provided is valid."""
 
