@@ -20,7 +20,7 @@ API_MAX_ROWS = 200
 DEV_KEY = get_dev_key()
 ADS_HOST = "http://adslabs.org/adsabs/api"
 
-__all__ = ["Article", "search", "metrics", "metadata", "retrieve_article"]
+__all__ = ["Article", "query", "metrics", "metadata", "retrieve_article"]
 
 class Article(object):
     """An object to represent a single publication in NASA's Astrophysical
@@ -281,7 +281,7 @@ class APIError(Exception):
     pass
 
 
-class search(object):
+class query(object):
     """Search ADS and retrieve Article objects."""
 
     def __init__(self, query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
@@ -358,6 +358,12 @@ class search(object):
             raise StopIteration
 
         return self.retrieved_articles.pop(0)
+
+
+def search(*args, **kwargs):
+    warnings.warn("ads.search will be deprecated in v1.0. Please use ads.query instead.",
+        DeprecationWarning)
+    return query(*args, **kwargs)
 
 
 def metrics(author, metadata=False):

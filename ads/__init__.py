@@ -4,6 +4,10 @@
 """ A Python tool for interacting with NASA's ADS system. """
 
 __author__ = "Andy Casey <andy@astrowizici.st>"
-__version__ = "0.0.806"
+__version__ = "0.0.806dev"
 
-from core import search, metrics, metadata, retrieve_article
+from core import query, metrics, metadata, retrieve_article
+
+# ads.core.search will be deprecated in future
+# You should use ads.core.query instead
+from core import search
