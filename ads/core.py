@@ -364,6 +364,8 @@ class query(object):
 
 
 def search(*args, **kwargs):
+    """ ads.search is deprecated; you should use ads.query from now on """
+    
     warnings.warn("ads.search will be deprecated in v1.0. Please use ads.query instead.",
         DeprecationWarning)
     return query(*args, **kwargs)
