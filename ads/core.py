@@ -285,8 +285,8 @@ class query(object):
     """Search ADS and retrieve Article objects."""
 
     def __init__(self, query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-        filter="database:astronomy", acknowledgements=None, fl=None, facet=None, sort="date",
-        order="desc", start=0, rows=20):
+        acknowledgements=None, fl=None, facet=None, sort="date", order="desc", start=0, rows=20,
+        database="astronomy", properties=None):
 
         arguments = locals().copy()
         del arguments["self"]
@@ -384,7 +384,7 @@ def metrics(author, metadata=False):
 
 
 def metadata(query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-    filter="database:astronomy"):
+    database="astronomy"):
     """Search ADS for the given inputs and just return the metadata."""
 
     payload = _build_payload(**locals())
@@ -399,8 +399,8 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, affiliation
 
 
 def _build_payload(query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-    filter=None, fl=None, acknowledgements=None, facet=None, sort="date", order="desc", start=0,
-    rows=20):
+    fl=None, acknowledgements=None, facet=None, sort="date", order="desc", start=0, rows=20,
+    database="astronomy", properties=None):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
     q = parser.query(query, authors)
@@ -413,11 +413,10 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, affil
     pubdate_filter = parser.dates(dates)
     affiliation_filter = parser.affiliation(affiliation, affiliation_pos)
     acknowledgements_filter = parser.acknowledgements(acknowledgements)
+    properties_filter = parser.properties(properties)
 
-    filters = (pubdate_filter, affiliation_filter, acknowledgements_filter)
-    for query_filter in filters:
-        if query_filter is not None:
-            q += query_filter
+    q += " ".join([each for each in (pubdate_filter, affiliation_filter, acknowledgements_filter,
+        properties_filter) if each is not None])
 
     payload = {
         "q": q,
@@ -429,7 +428,7 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, affil
     }
     additional_payload = {
         "fl": fl,
-        "filter": filter,
+        "filter": parser.database(database),
         "facet": facet
     }
     payload.update(additional_payload)

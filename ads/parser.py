@@ -88,32 +88,13 @@ def affiliation(affiliation=None, pos=None):
     return query_refinement
 
 
-def rows(start, rows, max_rows=200):
-    """Checks that the number of rows provided is valid."""
+def database(database=None):
+    """ Filters search results by database """
 
-    try: rows = int(rows)
-    except:
-        if rows != "all":
-            raise TypeError("rows must be an integer-type or 'all'")
-
-    if rows == "all" or rows > max_rows:
-        # We may have to run multiple queries here
-        start, rows = 0, max_rows
-
-    else:
-
-        try:
-            start = int(start)
-        except (TypeError, ValueError):
-            raise TypeError("start must be an integer-like type")
-
-        if start < 0:
-            raise ValueError("start must be positive")
-
-        if rows < 1:
-            raise ValueError("rows must be a positive integer")
-
-    return start, rows
+    if database is None: return
+    elif database.lower() not in ("general", "astronomy", "physics"):
+        return ValueError("database must be either general, astronomy, or physics")
+    return "database:{0}".format(database)
 
 
 def ordering(sort, order):
@@ -147,6 +128,55 @@ def ordering(sort, order):
                 break
 
     return (sort, order)
+
+
+def properties(properties=None):
+    """Produces filters based on article properties """
+
+    if properties is None: return
+
+    available_properties = "ARTICLE, REFEREED, NOT_REFEREED, INPROCEEDINGS,"\
+        " OPENACCESS, NONARTICLE, EPRINT, BOOK, PROCEEDINGS, CATALOG, SOFTWARE"
+    available_properties_list = map(str.lower, available_properties.split(", "))
+
+    if isinstance(properties, str):
+        properties = (properties, )
+
+    all_strings = lambda _: isinstance(_, str)
+    if not all(map(all_strings, properties)):
+        raise TypeError("properties must be a string or list-type of strings")
+
+    if not all([each.lower() in available_properties_list for each in properties]):
+        raise ValueError("available properties are {0}".format(available_properties))
+
+    return " property:({0})".format(",".join(properties))
+
+def rows(start, rows, max_rows=200):
+    """Checks that the number of rows provided is valid."""
+
+    try: rows = int(rows)
+    except:
+        if rows != "all":
+            raise TypeError("rows must be an integer-type or 'all'")
+
+    if rows == "all" or rows > max_rows:
+        # We may have to run multiple queries here
+        start, rows = 0, max_rows
+
+    else:
+
+        try:
+            start = int(start)
+        except (TypeError, ValueError):
+            raise TypeError("start must be an integer-like type")
+
+        if start < 0:
+            raise ValueError("start must be positive")
+
+        if rows < 1:
+            raise ValueError("rows must be a positive integer")
+
+    return start, rows
 
 
 def _date(date_str, default_month=None, output_format="%Y-%m"):
