@@ -12,7 +12,7 @@ import time
 
 __all__ = ["rows", "ordering", "dates", "start"]
 
-def query(query, author):
+def query(query, title, author):
 
     query_refinement = ""
 
@@ -24,6 +24,9 @@ def query(query, author):
 
     if author is not None:
         query_refinement += " author:\"{0}\"".format(author)
+
+    if title is not None:
+        query_refinement += " title:\"{0}\"".format(title)
 
     return query_refinement.strip()
 
@@ -92,9 +95,13 @@ def database(database=None):
     """ Filters search results by database """
 
     if database is None: return
-    elif database.lower() not in ("general", "astronomy", "physics"):
-        return ValueError("database must be either general, astronomy, or physics")
-    return "database:{0}".format(database)
+
+    database = database.lower().split(" or ")
+    for each in database:
+        if each not in ("general", "astronomy", "physics"):
+            return ValueError("database must be either general, astronomy, or physics")
+    
+    return " OR ".join(["database:{0}".format(each) for each in database])
 
 
 def ordering(sort, order):

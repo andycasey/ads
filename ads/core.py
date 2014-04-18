@@ -284,9 +284,12 @@ class APIError(Exception):
 class query(object):
     """Search ADS and retrieve Article objects."""
 
-    def __init__(self, query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
+    def __init__(self, query=None, title=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
         acknowledgements=None, fl=None, facet=None, sort="date", order="desc", start=0, rows=20,
-        database="astronomy", properties=None):
+        database="astronomy or physics", property=None, **kwargs):
+
+        if "author" in kwargs.keys() and authors is None:
+            authors = kwargs["author"]
 
         arguments = locals().copy()
         del arguments["self"]
@@ -383,8 +386,8 @@ def metrics(author, metadata=False):
     return results
 
 
-def metadata(query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-    database="astronomy"):
+def metadata(query=None, title=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
+    database="astronomy or physics"):
     """Search ADS for the given inputs and just return the metadata."""
 
     payload = _build_payload(**locals())
@@ -398,12 +401,12 @@ def metadata(query=None, authors=None, dates=None, affiliation=None, affiliation
     return contents["meta"]
 
 
-def _build_payload(query=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
+def _build_payload(query=None, title=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
     fl=None, acknowledgements=None, facet=None, sort="date", order="desc", start=0, rows=20,
-    database="astronomy", properties=None):
+    database="astronomy or physics", property=None, **kwargs):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
-    q = parser.query(query, authors)
+    q = parser.query(query, title, authors)
 
     # Check inputs
     start, rows = parser.rows(start, rows, max_rows=API_MAX_ROWS)
@@ -413,7 +416,8 @@ def _build_payload(query=None, authors=None, dates=None, affiliation=None, affil
     pubdate_filter = parser.dates(dates)
     affiliation_filter = parser.affiliation(affiliation, affiliation_pos)
     acknowledgements_filter = parser.acknowledgements(acknowledgements)
-    properties_filter = parser.properties(properties)
+    # You shouldn't ever use 'property' since it's special, but we're being consistent with ADS
+    properties_filter = parser.properties(property)
 
     q += " ".join([each for each in (pubdate_filter, affiliation_filter, acknowledgements_filter,
         properties_filter) if each is not None])
