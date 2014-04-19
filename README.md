@@ -96,13 +96,16 @@ In [11]: print first_paper
 
 # You can access attributes of an object in IPython by using the 'tab' button:
 In [12]: first_paper.
-first_paper.aff                   first_paper.citations             first_paper.pub
-first_paper.author                first_paper.database              first_paper.pubdate
-first_paper.bibcode               first_paper.id                    first_paper.reference_count
-first_paper.bibstem               first_paper.identifier            first_paper.references
+first_paper.abstract              first_paper.database              first_paper.property
+first_paper.aff                   first_paper.doi                   first_paper.pub
+first_paper.author                first_paper.id                    first_paper.pubdate
+first_paper.bibcode               first_paper.identifier            first_paper.reference_count
+first_paper.bibstem               first_paper.issue                 first_paper.references
 first_paper.bibtex                first_paper.keyword               first_paper.title
-first_paper.build_citation_tree   first_paper.metrics               first_paper.url
-first_paper.build_reference_tree  first_paper.page                  first_paper.year         
+first_paper.build_citation_tree   first_paper.keyword_norm          first_paper.url
+first_paper.build_reference_tree  first_paper.keyword_schema        first_paper.volume
+first_paper.citation_count        first_paper.metrics               first_paper.year
+first_paper.citations             first_paper.page         
 ````
 
 Which allows you to easily build complicated queries. A short list of [more advanced examples](https://github.com/andycasey/ads/tree/master/examples) are included, and there are more to come. Feel free to fork this repository and add your own examples!
