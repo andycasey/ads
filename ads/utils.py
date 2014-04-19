@@ -43,6 +43,22 @@ def get_api_settings(developer_api_key=None):
     return r.json()
 
 
+def pythonify_metrics_json(metrics):
+    """Converts JSON-style metrics information to native Python objects"""
+
+    metrics = metrics.copy()
+    for key in metrics.keys():
+        if key.endswith("_histogram") or key.endswith("_series"):
+            branch = metrics[key]
+            for sub_key in branch.keys():
+                try:
+                    branch[sub_key] = map(float, branch[sub_key].split(":"))
+                except (ValueError, TypeError):
+                    continue
+                metrics[key] = branch
+    return metrics
+
+
 def unique_preserved_list(original_list):
     seen = set()
     seen_add = seen.add
