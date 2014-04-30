@@ -29,18 +29,22 @@ class Article(object):
     aff = ["Unknown"]
     author = ["Anonymous"]
     keyword = []
-    citation_count = 0 
+    citation_count = 0
     reference_count = 0
     url = None
 
     def __init__(self, **kwargs):
-        for key, value in kwargs.iteritems():
-            # It's not Pythonic to use '[citations]' as an attribute
-            if key == "[citations]":
-                if "num_references" in value:
-                    setattr(self, "reference_count", value["num_references"])
-                continue
+        # It's not Pythonic to use '[citations]' as an attribute so start by
+        # remapping that.
+        kwargs[u"reference_count"] = (kwargs.pop(u"[citations]", {})
+                                      .pop(u"num_references", 0))
 
+        # Save the raw dictionary of attributes for later use.
+        self._raw = kwargs
+
+        # Update this object to have attributes for everything in attribute
+        # dictionary.
+        for key, value in kwargs.iteritems():
             setattr(self, key, value)
 
         if "bibcode" in kwargs:
@@ -58,6 +62,18 @@ class Article(object):
 
     def __repr__(self):
         return u"<ads.{0} object at {1}>".format(self.__class__.__name__, hex(id(self)))
+
+    def __getitem__(self, k):
+        return self._raw[k]
+
+    def keys(self):
+        return self._raw.keys()
+
+    def items(self):
+        return self._raw.items()
+
+    def iteritems(self):
+        return self._raw.iteritems()
 
     @property
     def bibtex(self):
@@ -365,7 +381,7 @@ class query(object):
 
 def search(*args, **kwargs):
     """ ads.search is deprecated; you should use ads.query from now on """
-    
+
     warnings.warn("ads.search will be deprecated in v1.0. Please use ads.query instead.",
         DeprecationWarning)
     return query(*args, **kwargs)
@@ -474,10 +490,10 @@ def retrieve_article(article, output_filename, clobber=False):
         "link_type": "ARTICLE",
         "db_key": "AST"
     }
-    
+
     # Let's try and download the article from the journal first
     article_r = requests.get(ads_redirect_url, params=article_payload)
-    
+
     if not article_r.ok:
 
         arxiv_r = requests.get(ads_redirect_url, params=arxiv_payload)
