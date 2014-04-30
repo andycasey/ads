@@ -106,8 +106,8 @@ first_paper.bibstem               first_paper.citations             first_paper.
 Which allows you to easily build complicated queries. A short list of [more advanced examples](https://github.com/andycasey/ads/tree/master/examples) are included, and there are more to come. Feel free to fork this repository and add your own examples!
 
 **Contributors**
-Dan Foreman-Mackey
-Miguel de Val-Borro
+
+Dan Foreman-Mackey, Miguel de Val-Borro
 
 **License**
 
