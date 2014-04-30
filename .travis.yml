@@ -9,7 +9,7 @@ virtualenv:
 install: 
   - pip install -r requirements.txt --use-mirrors
 script:
-  - nosetests
+  - '[ "${TRAVIS_SECURE_ENV_VARS}" = "true" ] && nosetests || 0'
 notifications:
   email: false
 env:

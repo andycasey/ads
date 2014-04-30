@@ -13,11 +13,10 @@ import requests
 import requests_futures.sessions
 
 # Module specific
-import parser
-from utils import get_dev_key
+import parser, utils
 
 API_MAX_ROWS = 200
-DEV_KEY = get_dev_key()
+DEV_KEY = utils.get_dev_key()
 ADS_HOST = "http://adslabs.org/adsabs/api"
 
 __all__ = ["Article", "query", "metrics", "metadata", "retrieve_article"]
@@ -198,7 +197,9 @@ class Article(object):
 
             r = requests.get(url, params=payload)
             if not r.ok: r.raise_for_status()
-            self._metrics = r.json()
+
+            # Prettify the metrics to Python objects
+            self._metrics = utils.pythonify_metrics_json(r.json())
         return self._metrics
 
 
@@ -397,7 +398,7 @@ def metrics(author, metadata=False):
     contents = r.json()
     if "error" in contents:
         raise APIError(contents["error"])
-    metadata, results = contents["meta"], contents["results"]
+    metadata, results = contents["meta"], utils.pythonify_metrics_json(contents["results"])
 
     if metadata:
         return (results, metadata)
