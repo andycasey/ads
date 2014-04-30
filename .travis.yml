@@ -9,7 +9,7 @@ virtualenv:
 install: 
   - pip install -r requirements.txt --use-mirrors
 script:
-  - nosetests
+  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && nosetests || false'
 notifications:
   email: false
 env:
