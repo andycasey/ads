@@ -28,7 +28,7 @@ def query(query, title, author):
     if title is not None:
         query_refinement += " title:\"{0}\"".format(title)
 
-    return query_refinement.strip()
+    return query_refinement.strip() + " "
 
 
 def acknowledgements(acknowledgement=None):
