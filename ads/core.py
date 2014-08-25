@@ -56,7 +56,8 @@ class Article(object):
 
     def __unicode__(self):
         return u"<{0} {1} {2}, {3}>".format(self.author[0].split(",")[0],
-            "" if len(self.author) == 1 else (u" & {0}".format(self.author[1].split(",")[0]) if len(self.author) == 2 else "et al."),
+            "" if len(self.author) == 1 else (u" & {0}".format(
+                self.author[1].split(",")[0]) if len(self.author) == 2 else "et al."),
             self.year, self.bibcode)
 
     def __repr__(self):
@@ -78,8 +79,8 @@ class Article(object):
     def bibtex(self):
         """Return a BiBTeX entry for the current article."""
 
-        all_entry_types = "ARTICLE, INPROCEEDINGS, PHDTHESIS, MASTERSTHESIS, NONARTICLE, " \
-            "EPRINT, BOOK, PROCEEDINGS, CATALOG, SOFTWARE".split(", ")
+        all_entry_types = "ARTICLE, INPROCEEDINGS, PHDTHESIS, MASTERSTHESIS, "\
+            "NONARTICLE, EPRINT, BOOK, PROCEEDINGS, CATALOG, SOFTWARE".split(", ")
 
         # Find the entry type
         entry_type = [entry_type in self.property for entry_type in all_entry_types]
@@ -148,6 +149,7 @@ class Article(object):
             optional_entries = ["publisher", "month"]
 
         else:
+            # We should retrieve it from the ADS page.
             raise NotImplementedError
 
         for required_entry in required_entries:
@@ -204,17 +206,22 @@ class Article(object):
 
 
     def build_reference_tree(self, depth=1, **kwargs):
-        """Builds a reference tree for this paper.
+        """
+        Builds a reference tree for this paper.
 
-        Inputs
-        ------
-        depth : int
+        :param depth: [optional]
             The number of levels to fetch in the reference tree.
 
-        Returns
-        -------
-        num_articles_in_tree : int
-            The total number of referenced articles in the reference tree.
+        :type depth:
+            int
+
+        :param kwargs: [optional]
+            Keyword arguments to pass to ``ads.search``.
+
+
+        :returns:
+            A list of references to the current article, with pre-loaded
+            references down by ``depth``.
         """
 
         try: depth = int(depth)
@@ -249,17 +256,22 @@ class Article(object):
 
 
     def build_citation_tree(self, depth=1, **kwargs):
-        """Builds a citation tree for this paper.
+        """
+        Builds a citation tree for this paper.
 
-        Inputs
-        ------
-        depth : int
+        :param depth: [optional]
             The number of levels to fetch in the citation tree.
 
-        Returns
-        -------
-        num_articles_in_tree : int
-            The total number of cited articles in the citation tree.
+        :type depth:
+            int
+
+        :param kwargs: [optional]
+            Keyword arguments to pass to ``ads.search``.
+
+
+        :returns:
+            A list of citation to the current article, with pre-loaded
+            citation down by ``depth``.
         """
 
         try: depth = int(depth)
@@ -301,8 +313,9 @@ class APIError(Exception):
 class query(object):
     """Query ADS and retrieve Article objects"""
 
-    def __init__(self, query=None, title=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-        acknowledgements=None, fl=None, facet=None, sort="date", order="desc", start=0, rows=20,
+    def __init__(self, query=None, title=None, authors=None, dates=None, 
+        affiliation=None, affiliation_pos=None, acknowledgements=None, fl=None, 
+        facet=None, sort="date", order="desc", start=0, rows=20,
         database="astronomy or physics", property=None, **kwargs):
 
         if "author" in kwargs.keys() and authors is None:
@@ -314,7 +327,8 @@ class query(object):
         self.payload = _build_payload(**arguments)
         self.session = requests_futures.sessions.FuturesSession()
 
-        self.active_requests = [self.session.get(ADS_HOST + "/search/", params=self.payload)]
+        self.active_requests = [self.session.get(ADS_HOST + "/search/",
+            params=self.payload)]
         self.retrieved_articles = []
 
         # Do we have to perform more queries?
@@ -329,8 +343,9 @@ class query(object):
 
             # Should we issue a warning about excessive rows retrieved?
             if metadata["hits"] >= 10000:
-                long_query_message = "ADS query is retrieving more than 10,000 records. Use ads.metadata" \
-                    " to find the number of rows for a search query before executing it with ads.search"
+                long_query_message = "ADS query is retrieving more than 10,000"\
+                    " records. Use ads.metadata to find the number of rows for"\
+                    " a search query before executing it with ads.search"
                 warnings.warn(long_query_message)
 
             # Are there enough rows such that we actually have to make more requests?
@@ -353,7 +368,8 @@ class query(object):
                 if rows != "all" and (i + 1) * API_MAX_ROWS > rows:
                     self.payload["rows"] = rows - i * API_MAX_ROWS
 
-                self.active_requests.append(self.session.get(ADS_HOST + "/search/", params=self.payload))
+                self.active_requests.append(self.session.get(ADS_HOST \
+                    + "/search/", params=self.payload))
 
     def __iter__(self):
         return self
@@ -371,7 +387,8 @@ class query(object):
             if "error" in response:
                 raise APIError(response["error"])
 
-            self.retrieved_articles.extend([Article(**article_info) for article_info in response["results"]["docs"]])
+            self.retrieved_articles.extend([Article(**article_info) \
+                for article_info in response["results"]["docs"]])
 
         if len(self.retrieved_articles) == 0:
             self.session.executor.shutdown()
@@ -390,7 +407,7 @@ def search(*args, **kwargs):
 
 def metrics(author, dates=None, database="astronomy or physics", rows=20,
     metadata=False):
-    """ Retrieves metrics for a given author query """
+    """ Retrieves metrics for a given author query. """
 
     payload = _build_payload(authors=author, database=database, rows=rows)
     r = requests.get(ADS_HOST + "/search/metrics/", params=payload)
@@ -406,8 +423,8 @@ def metrics(author, dates=None, database="astronomy or physics", rows=20,
     return results
 
 
-def metadata(query=None, title=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-    database="astronomy or physics"):
+def metadata(query=None, title=None, authors=None, dates=None, affiliation=None,
+    affiliation_pos=None, database="astronomy or physics"):
     """Search ADS for the given inputs and just return the metadata."""
 
     payload = _build_payload(**locals())
@@ -421,8 +438,9 @@ def metadata(query=None, title=None, authors=None, dates=None, affiliation=None,
     return contents["meta"]
 
 
-def _build_payload(query=None, title=None, authors=None, dates=None, affiliation=None, affiliation_pos=None,
-    fl=None, acknowledgements=None, facet=None, sort="date", order="desc", start=0, rows=20,
+def _build_payload(query=None, title=None, authors=None, dates=None,
+    affiliation=None, affiliation_pos=None, fl=None, acknowledgements=None,
+    facet=None, sort="date", order="desc", start=0, rows=20,
     database="astronomy or physics", property=None, **kwargs):
     """Builds a dictionary payload for NASA's ADS based on the input criteria."""
 
@@ -461,19 +479,33 @@ def _build_payload(query=None, title=None, authors=None, dates=None, affiliation
 
 
 def retrieve_article(article, output_filename, clobber=False):
-    """Download the journal article (preferred) or pre-print version
-    of the article provided, and save the PDF to disk.
+    """
+    Download the journal article (preferred) or pre-print version of the article
+    provided, and save the PDF to disk.
 
-    Inputs
-    ------
-    article : `Article` object
+    :param article:
         The article to retrieve.
 
-    output_filename : str
-        The filename to save the article to.
+    :type article:
+        :class:`ads.Article`
 
-    clobber : bool, optional
-        Overwrite the filename if it already exists.
+    :param output_filename:
+        The path to save the PDF article to.
+
+    :type output_filename:
+        str
+
+    :param clobber: [optional]
+        Clobber the existing ``output_filename`` if it already exists.
+
+    :type clobber:
+        bool
+
+    :returns:
+        ``True`` when the article has downloaded.
+
+    :raise IOError:
+        If the ``output_filename`` exists and ``clobber`` is set to ``False``.
     """
 
     if os.path.exists(output_filename) and not clobber:
