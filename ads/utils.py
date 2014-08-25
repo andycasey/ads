@@ -28,7 +28,8 @@ def get_dev_key():
     if "ADS_DEV_KEY" in os.environ:
         return os.environ["ADS_DEV_KEY"]
 
-    raise IOError("no ADS API key found in ~/.ads/dev_key and no ADS_DEV_KEY environment variable found")
+    raise IOError("no ADS API key found in ~/.ads/dev_key and no ADS_DEV_KEY "\
+        "environment variable found")
 
 
 def get_api_settings(developer_api_key=None):
@@ -37,14 +38,31 @@ def get_api_settings(developer_api_key=None):
     if developer_api_key is None:
         developer_api_key = get_dev_key()
         
-    r = requests.get("http://labs.adsabs.harvard.edu/adsabs/api/settings/", params={"dev_key": developer_api_key})
+    r = requests.get("http://labs.adsabs.harvard.edu/adsabs/api/settings/",
+        params={"dev_key": developer_api_key})
     if not r.ok: r.raise_for_status()
 
     return r.json()
 
 
 def pythonify_metrics_json(metrics):
-    """Converts JSON-style metrics information to native Python objects"""
+    """
+    Converts JSON-style metrics information to native Python objects.
+
+    :param metrics:
+        A metrics result from the ADS API, which includes results as colon-
+        separated strings.
+
+    :type metrics:
+        dict
+
+    :returns:
+        A dictionary containing metrics results with :class:`numpy.arrays`
+        instead of strings.
+
+    :rtype:
+        dict
+    """
 
     metrics = metrics.copy()
     for key in metrics.keys():
@@ -60,6 +78,8 @@ def pythonify_metrics_json(metrics):
 
 
 def unique_preserved_list(original_list):
+    """Return a list of unique values in the same order as the original list."""
+    
     seen = set()
     seen_add = seen.add
     return [x for x in original_list if x not in seen and not seen_add(x)]
