@@ -9,11 +9,12 @@ import os
 import warnings
 
 # Third party
+import six
 import requests
 import requests_futures.sessions
 
 # Module specific
-import parser, utils
+from . import parser, utils
 
 API_MAX_ROWS = 200
 DEV_KEY = utils.get_dev_key()
@@ -43,7 +44,7 @@ class Article(object):
 
         # Update this object to have attributes for everything in attribute
         # dictionary.
-        for key, value in kwargs.iteritems():
+        for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
 
         if "bibcode" in kwargs:
@@ -73,7 +74,7 @@ class Article(object):
         return self._raw.items()
 
     def iteritems(self):
-        return self._raw.iteritems()
+        return six.iteritems(self._raw)
 
     @property
     def bibtex(self):
@@ -115,7 +116,7 @@ class Article(object):
         }
         parsers = {
             "author":           lambda article: _(" and \n".join([" and ".join(["{{{0}}}, {1}".format(author.split(",")[0], "~".join(["{0}.".format(name[0]) \
-                                    for name in author.split(",")[1].split()])) for author in article.author[i:i+4]]) for i in xrange(0, len(article.author), 4)])),
+                                    for name in author.split(",")[1].split()])) for author in article.author[i:i+4]]) for i in range(0, len(article.author), 4)])),
             "month":            lambda article: months[int(article.pubdate.split("-")[1])],
             "pages":            lambda article: _(article.page[0]),
             "title":            lambda article: "{{{{{0}}}}}".format(article.title[0]),
@@ -238,7 +239,7 @@ class Article(object):
         total_articles = len(level) - 1
         kwargs.setdefault("rows", "all")
 
-        for level_num in xrange(depth):
+        for level_num in range(depth):
 
             level_requests = [search("references(bibcode:{bibcode})".format(
                 bibcode=article.bibcode), **kwargs) for article in level]
@@ -288,7 +289,7 @@ class Article(object):
         total_articles = len(level) - 1
         kwargs.setdefault("rows", "all")
 
-        for level_num in xrange(depth):
+        for level_num in range(depth):
 
             level_requests = [search("citations(bibcode:{bibcode})".format(
                 bibcode=article.bibcode), **kwargs) for article in level]
@@ -360,7 +361,7 @@ class query(object):
                 if not rows % API_MAX_ROWS: num_additional_queries -= 1
 
             # Initiate future requests
-            for i in xrange(1, num_additional_queries + 1):
+            for i in range(1, num_additional_queries + 1):
                 # Update payload to start at new point
                 self.payload["start"] = i * API_MAX_ROWS
 
@@ -375,6 +376,9 @@ class query(object):
         return self
 
     def next(self):
+        return self.__next__()
+
+    def __next__(self):
 
         if len(self.active_requests) == 0 and len(self.retrieved_articles) == 0:
             self.session.executor.shutdown()
