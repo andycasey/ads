@@ -6,13 +6,9 @@ from __future__ import division, print_function
 
 __author__ = "Andy Casey <andy@astrowizici.st>"
 
-# Standard library
 import os
-
-# Third party
 import requests
 
-__all__ = ["get_dev_key", "get_api_settings", "unique_preserved_list"]
 
 def get_dev_key():
     """Retrieves the API key for ADS Labs."""
