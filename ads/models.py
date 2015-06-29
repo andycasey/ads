@@ -20,7 +20,7 @@ class SolrResponse(object):
         """
         self._raw = raw
         self.json = json.loads(raw)
-        self.articles = None
+        self._articles = None
         try:
             self.responseHeader = self.json['responseHeader']
             self.params = self.json['responseHeader']['params']
@@ -31,7 +31,7 @@ class SolrResponse(object):
             raise SolrResponseParseError("{}".format(e))
 
     @classmethod
-    def load_articles(cls, HTTPResponse):
+    def load_http_response(cls, HTTPResponse):
         """
         Returns an instansiated SolrResponse using data in a requests.response.
         Sets class attribute `articles` to a list containing Article instances.
@@ -41,10 +41,26 @@ class SolrResponse(object):
         """
         HTTPResponse.raise_for_status()
         c = cls(HTTPResponse.text)
-        c.articles = []
-        for doc in c.docs:
-            c.articles.append(Article(**doc))
+        c.articles  # The getter will set this attribute
         return c
+
+    @property
+    def articles(self):
+        """
+        articles getter
+        """
+        if self._articles is None:
+            self._articles = []
+            for doc in self.docs:
+                self._articles.append(Article(**doc))
+        return self._articles
+
+    @articles.setter
+    def articles(self, value):
+        """
+        transparent .articles setter
+        """
+        self._articles = value
 
 
 class Article(object):
@@ -53,69 +69,22 @@ class Article(object):
     Data System.
     """
 
-    # Pre-set instance these attributes
-    _FIELDS = [
-        'alternate_bibcode',
-        'issn',
-        'isbn',
-        'pubdate',
-        'facility',
-        'first_author',
-        'abstract',
-        'keyword_schema',
-        'links_data',
-        'read_count',
-        'date',
-        'keyword_norm',
-        'vizier',
-        'thesis',
-        'year',
-        'vizier_facet',
-        'property',
-        'id',
-        'simbtype',
-        'simbid',
-        'bibcode',
-        'bibgroup',
-        'reference',
-        'copyright',
-        'author',
-        'aff',
-        'reader',
-        'first_author_facet_hier',
-        'issue',
-        'pub_raw',
-        'arxiv_class',
-        'data_facet',
-        'grant',
-        'simbad_object_facet_hier',
-        'pub',
-        'volume',
-        'author_norm',
-        'alternate_title',
-        'first_author_norm',
-        'data',
-        'lang',
-        'doi',
-        'keyword',
-        'database',
-        'grant_facet_hier',
-        'bibstem',
-        'citation_count',
-        'email',
-        'recid',
-        'eid',
-        'orcid',
-        'title',
-        'identifier',
-        'page',
-        'keyword_facet']
+    # define these class attributes; these are expected to exist
+    # by various instance methods
+    _references = None
+    _citations = None
+    _bibtex = None
+    first_author = None
+    author_norm = []
+    year = None
+    bibcode = None
 
     def __init__(self, **kwargs):
         """
         :param kwargs: Set object attributes from kwargs
         """
         self._raw = kwargs
+
         for key, value in kwargs.iteritems():
             setattr(self, key, value)
 
@@ -123,7 +92,7 @@ class Article(object):
         return unicode(self).encode('utf-8')
 
     def __unicode__(self):
-        author = self.first_author
+        author = self.first_author or "Unknown author"
         if len(self.author_norm) > 1:
             author = "{} et al.".format(author)
 
@@ -241,35 +210,18 @@ class Article(object):
     @property
     def references(self):
         """Retrieves reference list for the current article and stores them."""
-        if self._references is None:
-            self._references = list(search("references(bibcode:{bibcode})".format(
-                bibcode=self.bibcode), rows="all"))
-        return self._references
+        raise NotImplementedError
 
 
     @property
     def citations(self):
         """Retrieves citation list for the current article and stores them."""
-        if not hasattr(self, '_citations'):
-            self._citations = list(search("citations(bibcode:{bibcode})".format(
-                bibcode=self.bibcode), rows="all"))
-        return self._citations
-
+        raise NotImplementedError
 
     @property
     def metrics(self):
         """Retrieves metrics for the current article and stores them."""
-
-        if not hasattr(self, "_metrics"):
-            url = "{0}/record/{1}/metrics/".format(ADS_HOST, self.bibcode)
-            payload = {"dev_key": DEV_KEY}
-
-            r = requests.get(url, params=payload)
-            if not r.ok: r.raise_for_status()
-
-            # Prettify the metrics to Python objects
-            self._metrics = utils.pythonify_metrics_json(r.json())
-        return self._metrics
+        raise NotImplementedError
 
 
     def build_reference_tree(self, depth=1, **kwargs):
@@ -291,35 +243,7 @@ class Article(object):
             references down by ``depth``.
         """
 
-        try: depth = int(depth)
-        except TypeError:
-            raise TypeError("depth must be an integer-like type")
-
-        if depth < 1:
-            raise ValueError("depth must be a positive integer")
-
-        session = requests_futures.sessions.FuturesSession()
-
-        # To understand recursion, first you must understand recursion.
-        level = [self]
-        total_articles = len(level) - 1
-        kwargs.setdefault("rows", "all")
-
-        for level_num in xrange(depth):
-
-            level_requests = [search("references(bibcode:{bibcode})".format(
-                bibcode=article.bibcode), **kwargs) for article in level]
-
-            # Complete all requests
-            new_level = []
-            for request, article in zip(level_requests, level):
-                setattr(article, "_references", list(request))
-                new_level.extend(article.references)
-
-            level = sum([new_level], [])
-            total_articles += len(level)
-
-        return self._references
+        raise NotImplementedError
 
 
     def build_citation_tree(self, depth=1, **kwargs):
@@ -341,32 +265,4 @@ class Article(object):
             citation down by ``depth``.
         """
 
-        try: depth = int(depth)
-        except TypeError:
-            raise TypeError("depth must be an integer-like type")
-
-        if depth < 1:
-            raise ValueError("depth must be a positive integer")
-
-        session = requests_futures.sessions.FuturesSession()
-
-        # To understand recursion, first you must understand recursion.
-        level = [self]
-        total_articles = len(level) - 1
-        kwargs.setdefault("rows", "all")
-
-        for level_num in xrange(depth):
-
-            level_requests = [search("citations(bibcode:{bibcode})".format(
-                bibcode=article.bibcode), **kwargs) for article in level]
-
-            # Complete all requests
-            new_level = []
-            for request, article in zip(level_requests, level):
-                setattr(article, "_citations", list(request))
-                new_level.extend(article.citations)
-
-            level = sum([new_level], [])
-            total_articles += len(level)
-
-        return self._citations
+        raise NotImplementedError
