@@ -9,6 +9,7 @@ from ads.exceptions import SolrResponseParseError
 
 import requests
 from mocks import MockSolrResponse
+from urllib2 import HTTPError
 
 
 class TestSolrResponse(unittest.TestCase):
@@ -49,19 +50,22 @@ class TestSolrResponse(unittest.TestCase):
         self.assertIsNone(sr._articles)
         self.assertEqual(len(sr.articles), 1)
         self.assertEqual(sr._articles, sr.articles)
+        self.assertEqual(sr.articles[0].doi, [u'10.1051/0004-6361/201321247'])
         with self.assertRaises(AttributeError):
             sr.articles = 'this should be read-only'
 
     def test_load_http_response(self):
         """
         the classmethod load_http_response() should return an instansiated
-        SolrResponse class that has an .articles attribute that are Article
-        objects
+        SolrResponse class
         """
         sr = SolrResponse.load_http_response(self.response)
-        self.assertEquals(len(sr.articles), 1)
-        self.assertIsInstance(sr.articles[0], Article)
-        self.assertEqual(sr.articles[0].doi, [u'10.1051/0004-6361/201321247'])
+        self.assertIsInstance(sr, SolrResponse)
+
+        # Response with a non-200 return code should raise
+        self.response.status_code = 500
+        with self.assertRaises(HTTPError):
+            SolrResponse.load_http_response(self.response)
 
 
 class TestArticle(unittest.TestCase):

@@ -41,7 +41,6 @@ class SolrResponse(object):
         """
         HTTPResponse.raise_for_status()
         c = cls(HTTPResponse.text)
-        c.articles  # The getter will set this attribute
         return c
 
     @property
@@ -169,8 +168,8 @@ class SolrQuery(object):
     """
     Represents a query to apache solr
     """
-    pass
-
+    def __init__(self):
+        pass
 
 
 
