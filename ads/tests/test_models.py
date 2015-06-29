@@ -9,7 +9,7 @@ from ads.exceptions import SolrResponseParseError
 
 import requests
 from mocks import MockSolrResponse
-from urllib2 import HTTPError
+from requests.exceptions import HTTPError
 
 
 class TestSolrResponse(unittest.TestCase):
@@ -75,12 +75,39 @@ class TestArticle(unittest.TestCase):
 
     def setUp(self):
         """
-        Set up these tests by loading stub data via the SolrResponse class
-        using an http interface --> dependency on ads.models.SolrResponse
+        Create a test Article instance
         """
-        with MockSolrResponse('http://solr-response.unittest'):
-            response = requests.get('http://solr-response.unittest')
-        self.article = SolrResponse.load_http_response(response).articles[0]
+        self.article = Article(
+            bibcode="2013A&A...552A.143S",
+            year=2013,
+            first_author="Sudilovsky, V.",
+            author_norm=[
+                "Sudilovsky, V",
+                "Greiner, J",
+                "Rau, A",
+                "Salvato, M",
+                "Savaglio, S",
+                "Vergani, S",
+                "Schady, P",
+                "Elliott, J",
+                "Kruehler, T",
+                "Kann, D",
+                "Klose, S",
+                "Rossi, A",
+                "Filgas, R",
+                "Schmidl, S"
+            ],
+        )
+
+    def test_equals(self):
+        """
+        the __eq__ method should compare bibcodes, and raise if bibcode isn't
+        defined
+        """
+        self.assertNotEqual(Article(bibcode="Not the same"), self.article)
+        self.assertEqual(Article(bibcode="2013A&A...552A.143S"), self.article)
+        with self.assertRaises(TypeError):
+            Article() == self.article
 
     def test_init(self):
         """
@@ -107,8 +134,6 @@ class TestArticle(unittest.TestCase):
             self.article.__str__()
         )
         self.assertEqual(self.article.__unicode__(), self.article.__str__())
-
-
 
 
 if __name__ == '__main__':
