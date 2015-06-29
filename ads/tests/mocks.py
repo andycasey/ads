@@ -6,7 +6,25 @@ from httpretty import HTTPretty
 from stubdata.solr import example_solr_response
 
 
-class MockSolrResponse:
+class HTTPrettyMock(object):
+    """
+    httpretty context manager scaffolding
+    """
+
+    def __enter__(self):
+        HTTPretty.enable()
+
+    def __exit__(self, etype, value, traceback):
+        """
+        :param etype: exit type
+        :param value: exit value
+        :param traceback: the traceback for the exit
+        """
+        HTTPretty.reset()
+        HTTPretty.disable()
+
+
+class MockSolrResponse(HTTPrettyMock):
     """
     context manager that mocks a Solr response
     """
@@ -32,15 +50,3 @@ class MockSolrResponse:
             body=request_callback,
             content_type="application/json"
         )
-
-    def __enter__(self):
-        HTTPretty.enable()
-
-    def __exit__(self, etype, value, traceback):
-        """
-        :param etype: exit type
-        :param value: exit value
-        :param traceback: the traceback for the exit
-        """
-        HTTPretty.reset()
-        HTTPretty.disable()
