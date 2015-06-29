@@ -92,6 +92,14 @@ class Article(object):
             bibcode=self.bibcode,
         )
 
+    def __eq__(self, other):
+        if self.bibcode is None or other.bibcode is None:
+            raise TypeError("Cannot compare articles without bibcodes")
+        return self.bibcode == other.bibcode
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def keys(self):
         return self._raw.keys()
 
@@ -164,19 +172,35 @@ class Article(object):
         raise NotImplementedError
 
 
-class SolrQuery(object):
-    """
-    Represents a query to apache solr
-    """
-    def __init__(self):
-        pass
-
-
-
-class Query(SolrQuery):
+class BaseQuery(object):
     """
     Represents an arbitrary query to the adsws-api
     """
-    def __init__(self):
-        pass
+
+    def set_token(self, token=None):
+        """
+        set the instance attribute `token` following the following logic,
+        stopping whenever a token is found. Raises NoTokenFound is no token
+        is found
+        1. method argument `token`
+        2. environment variable ADS_DEV_KEY
+        3. file containg plaintext ADS_DEV_KEY as the contents in ~/.ads/key
+
+        :param token: plaintext token
+        """
+        if token is not None:
+            self.token = token
+            return
+
+        # TODO: Implement
+
+    def __call__(self):
+        return self.execute()
+
+    def execute(self):
+        """
+        Each subclass should define their own execute method
+        """
+        raise NotImplementedError
+
 
