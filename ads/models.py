@@ -3,6 +3,7 @@ ADS API data models
 """
 
 import json
+import requests
 
 from ads.exceptions import SolrResponseParseError
 
@@ -176,6 +177,7 @@ class BaseQuery(object):
     """
     Represents an arbitrary query to the adsws-api
     """
+    _session = None
 
     def set_token(self, token=None):
         """
@@ -196,6 +198,15 @@ class BaseQuery(object):
 
     def __call__(self):
         return self.execute()
+
+    @property
+    def session(self):
+        """
+        http session interface, transparent proxy to requests.session
+        """
+        if self._session is None:
+            self._session = requests.session()
+        return self._session
 
     def execute(self):
         """
