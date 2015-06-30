@@ -15,7 +15,9 @@ class TestSearchQuery(unittest.TestCase):
 
     def test_iter(self):
         """
-        the iteration method
+        the iteration method should handle pagination automatically
+        based on rows and max_rows; use the mock solr server to query
+        data row by row and ensure that the data return as expected
         """
 
         sq = SearchQuery(q="unittest", rows=1, max_pages=20)
@@ -26,6 +28,16 @@ class TestSearchQuery(unittest.TestCase):
             self.assertEqual(sq._query['start'], 1)
             self.assertEqual(next(sq).bibcode, '2012GCN..13229...1S')
             self.assertEqual(len(list(sq)), 19)  # 2 already returned
+            with self.assertRaisesRegexp(
+                    StopIteration,
+                    "Maximum number of pages queried"):
+                next(sq)
+            sq.max_pages = 500
+            self.assertEqual(len(list(sq)), 28-19-2)
+            with self.assertRaisesRegexp(
+                    StopIteration,
+                    "All records found"):
+                next(sq)
 
 
 
