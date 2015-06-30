@@ -1,9 +1,11 @@
 """
-Mock http responses
+Mock responses
 """
 
 from httpretty import HTTPretty
 from stubdata.solr import example_solr_response
+import json
+from collections import OrderedDict
 
 
 class HTTPrettyMock(object):
@@ -42,7 +44,20 @@ class MockSolrResponse(HTTPrettyMock):
             :param headers: header of the HTTP request
             :return: httpretty response
             """
-            return 200, headers, example_solr_response
+
+            resp = json.loads(example_solr_response)
+            rows = int(
+                request.querystring.get(
+                    'rows', [len(resp['response']['docs'])]
+                )[0]
+            )
+            start = int(request.querystring.get('start', [0])[0])
+            try:
+                resp['response']['docs'] = resp['response']['docs'][start:start+rows]
+            except IndexError:
+                resp['response']['docs'] = resp['response']['docs'][start:]
+
+            return 200, headers, json.dumps(resp)
 
         HTTPretty.register_uri(
             HTTPretty.GET,

@@ -32,7 +32,7 @@ class TestSolrResponse(unittest.TestCase):
         sr = SolrResponse(self.response.text)
         self.assertIn('responseHeader', sr.json)
         self.assertIn('response', sr.json)
-        self.assertEqual(sr.numFound, 1)
+        self.assertEqual(sr.numFound, 28)
 
         malformed_text = self.response.text.replace(
             'responseHeader',
@@ -48,9 +48,9 @@ class TestSolrResponse(unittest.TestCase):
         """
         sr = SolrResponse(self.response.text)
         self.assertIsNone(sr._articles)
-        self.assertEqual(len(sr.articles), 1)
+        self.assertEqual(len(sr.articles), 28)
         self.assertEqual(sr._articles, sr.articles)
-        self.assertEqual(sr.articles[0].doi, [u'10.1051/0004-6361/201321247'])
+        self.assertEqual(sr.articles[0].doi, [u'10.1126/science.174.4005.142'])
         with self.assertRaises(AttributeError):
             sr.articles = 'this should be read-only'
 
