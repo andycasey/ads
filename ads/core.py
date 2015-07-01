@@ -14,7 +14,21 @@ from .config import SEARCH_URL, TOKEN_FILES, TOKEN_ENVIRON_VARS
 from . import __version__
 
 
-class SolrResponse(object):
+class APIResponse(object):
+    """
+    Base class that represents an adsws-api http response
+    """
+    response = None
+
+    def get_ratelimits(self):
+        """
+        Return the current, maximum, and reset rate limits from the response
+        header
+        """
+        raise NotImplemented
+
+
+class SolrResponse(APIResponse):
     """
     Base class for storing a solr response
     """
@@ -49,6 +63,7 @@ class SolrResponse(object):
         if not HTTPResponse.ok:
             raise SolrResponseError(HTTPResponse.text)
         c = cls(HTTPResponse.text)
+        c.response = HTTPResponse
         return c
 
     @property
