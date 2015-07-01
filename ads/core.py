@@ -7,10 +7,11 @@ import warnings
 import math
 import json
 import requests
+import os
 
 from .exceptions import SolrResponseParseError
-from .config import SEARCH_URL
-
+from .config import SEARCH_URL, TOKEN_FILES, TOKEN_ENVIRON_VARS
+from . import __version__
 
 class SolrResponse(object):
     """
@@ -191,12 +192,22 @@ class BaseQuery(object):
         set the instance attribute `token` following the following logic,
         stopping whenever a token is found. Raises NoTokenFound is no token
         is found
-        1. method argument `token`
-        2. environment variable ADS_DEV_KEY
-        3. file containg plaintext ADS_DEV_KEY as the contents in ~/.ads/key
+        2. environment variables TOKEN_ENVIRON_VARS
+        3. file containing plaintext as the contents in TOKEN_FILES
         """
         if self._token is None:
-           self_token = ''
+            for v in map(os.environ.get, TOKEN_ENVIRON_VARS):
+                if v is not None:
+                    self._token = v
+                    return self._token
+            for f in TOKEN_FILES:
+                try:
+                    with open(f) as fp:
+                        self._token = fp.read().strip()
+                        return self._token
+                except IOError:
+                    pass
+            warnings.warn("No token found", RuntimeWarning)
         return self._token
 
     @token.setter
@@ -211,7 +222,10 @@ class BaseQuery(object):
         if self._session is None:
             self._session = requests.session()
             self._session.headers.update(
-                {"Authorization": "Bearer {}".format(self.token)}
+                {
+                    "Authorization": "Bearer {}".format(self.token),
+                    "User-Agent": "ads-api-client/{}".format(__version__)
+                }
             )
         return self._session
 
@@ -223,9 +237,6 @@ class BaseQuery(object):
         Each subclass should define their own execute method
         """
         raise NotImplementedError
-
-
-
 
 
 class SearchQuery(BaseQuery):
@@ -395,7 +406,6 @@ class query(SearchQuery):
             "ads.query will be deprectated. Use ads.SearchQuery in the future",
             DeprecationWarning
         )
-        # TODO implement title, author kwargs
         super(self.__class__, self).__init__(*args, **kwargs)
 
 

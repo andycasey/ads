@@ -4,12 +4,64 @@ defined in core.py
 """
 import unittest
 
-from ads.core import SolrResponse, Article
+import ads.core
+from ads.core import SolrResponse, Article, BaseQuery
 from ads.exceptions import SolrResponseParseError
+from mocks import MockSolrResponse
 
 import requests
-from mocks import MockSolrResponse
 from requests.exceptions import HTTPError
+import os
+from tempfile import NamedTemporaryFile
+
+
+class TestBaseQuery(unittest.TestCase):
+    """
+    Test the BaseQuery object
+    """
+    def test_token(self):
+        """
+        the token should be set in the following order:
+        (first in list) environmental variables defined in TOKEN_ENVIRON_VARS
+        (first in list) files on disk defined in TOKEN_FILES
+        """
+        def reset_token():
+            bq.token = None
+
+        # In-place override of the config variables responsible for identifying
+        # how to look for a token
+        ads.core.TOKEN_ENVIRON_VARS = ['TOKEN_1', 'TOKEN_2']
+        os.environ['TOKEN_1'] = "tok1"
+        os.environ['TOKEN_2'] = "tok2"
+
+        # Write temporary file and override the config variable with the
+        # tempfile paths
+        tf1, tf2 = NamedTemporaryFile(), NamedTemporaryFile()
+        tf1.write('tok3\n')
+        tf2.write(' tok4 ')
+        [f.flush() for f in [tf1, tf2]]
+        [f.seek(0) for f in [tf1, tf2]]
+        ads.core.TOKEN_FILES = [tf1.name, tf2.name]
+
+        bq = BaseQuery()
+
+        self.assertEqual(bq.token, 'tok1')
+        reset_token()
+        del os.environ['TOKEN_1']
+
+        self.assertEqual(bq.token, 'tok2')
+        reset_token()
+        del os.environ['TOKEN_2']
+
+        self.assertEqual(bq.token, 'tok3')
+        reset_token()
+        tf1.close()
+
+        self.assertEqual(bq.token, 'tok4')
+        reset_token()
+        tf2.close()
+
+        self.assertEqual(bq.token, None)
 
 
 class TestSolrResponse(unittest.TestCase):
