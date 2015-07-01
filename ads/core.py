@@ -9,9 +9,10 @@ import json
 import requests
 import os
 
-from .exceptions import SolrResponseParseError
+from .exceptions import SolrResponseParseError, SolrResponseError
 from .config import SEARCH_URL, TOKEN_FILES, TOKEN_ENVIRON_VARS
 from . import __version__
+
 
 class SolrResponse(object):
     """
@@ -45,7 +46,8 @@ class SolrResponse(object):
         :type HTTPResponse: requests.Response
         :return SolrResponse instance
         """
-        HTTPResponse.raise_for_status()
+        if not HTTPResponse.ok:
+            raise SolrResponseError(HTTPResponse.text)
         c = cls(HTTPResponse.text)
         return c
 
@@ -184,7 +186,6 @@ class BaseQuery(object):
     """
     _session = None
     _token = None
-    response = None
 
     @property
     def token(self):
@@ -246,7 +247,7 @@ class SearchQuery(BaseQuery):
     HTTP_ENDPOINT = SEARCH_URL
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=None, sort=None,
-                 start=0, rows=50, max_pages=3):
+                 start=0, rows=50, max_pages=3, **kwargs):
         """
         constructor
         :param query_dict: raw query that will be sent unmodified. raw takes
@@ -260,6 +261,7 @@ class SearchQuery(BaseQuery):
         :param rows: solr "rows" param (rows)
         :param max_pages: Maximum number of pages to return. This value may
             be modified after instansiation to increase the number of results
+        :param kwargs: kwargs to add to `q` as "key:value"
         """
         self._articles = []
         self.response = None  # current SolrResponse object
@@ -270,18 +272,23 @@ class SearchQuery(BaseQuery):
             query_dict.setdefault('start', 0)
             self._query = query_dict
         else:
-            # Construct query from kwargs and filter out None values
             _ = {
-                "q": q,
+                "q": q or '',
                 "fq": fq,
                 "fl": fl,
                 "sort": sort,
                 "start": start,
                 "rows": rows,
             }
+            # Filter out None values
             self._query = dict(
                 (k, v) for k, v in _.iteritems() if v is not None
             )
+
+            # Format and add kwarg key, value pairs to q
+            _ = ['{}:"{}"'.format(k, v) for k, v in kwargs.iteritems()]
+            self._query['q'] += ' '.join(_)
+
         assert self._query.get('rows') > 0, "rows must be greater than 0"
         assert self._query.get('q'), "q must not be empty"
 

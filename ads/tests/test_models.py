@@ -6,11 +6,10 @@ import unittest
 
 import ads.core
 from ads.core import SolrResponse, Article, BaseQuery
-from ads.exceptions import SolrResponseParseError
+from ads.exceptions import SolrResponseParseError, SolrResponseError
 from mocks import MockSolrResponse
 
 import requests
-from requests.exceptions import HTTPError
 import os
 from tempfile import NamedTemporaryFile
 
@@ -116,7 +115,7 @@ class TestSolrResponse(unittest.TestCase):
 
         # Response with a non-200 return code should raise
         self.response.status_code = 500
-        with self.assertRaises(HTTPError):
+        with self.assertRaises(SolrResponseError):
             SolrResponse.load_http_response(self.response)
 
 
