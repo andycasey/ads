@@ -1,10 +1,10 @@
 """
 Test that classes for representing the adsws-api specific data structures
-defined in models.py
+defined in core.py
 """
 import unittest
 
-from ads.models import SolrResponse, Article
+from ads.core import SolrResponse, Article
 from ads.exceptions import SolrResponseParseError
 
 import requests
