@@ -39,7 +39,28 @@ class TestSearchQuery(unittest.TestCase):
                     "All records found"):
                 next(sq)
 
+    def test_init(self):
+        """
+        init should result in a properly formatted query attribute
+        """
 
+        with self.assertRaisesRegexp(AssertionError, "q must not be empty"):
+            SearchQuery()
+
+        sq = SearchQuery(q="star")
+        self.assertIn("star", sq.query['q'])
+
+        sq = SearchQuery(title="t", author="ln, fn")
+        self.assertItemsEqual(
+            sq.query['q'].split(),
+            'title:"t" author:"ln, fn"'.split(),
+        )
+
+        sq = SearchQuery(q="star", aff="institute")
+        self.assertItemsEqual(
+            sq.query['q'].split(),
+            'aff:"institute" star'.split(),
+        )
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
