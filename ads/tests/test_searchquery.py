@@ -21,7 +21,7 @@ class TestSearchQuery(unittest.TestCase):
         """
 
         sq = SearchQuery(q="unittest", rows=1, max_pages=20)
-        with MockSolrResponse(sq.api_endpoint):
+        with MockSolrResponse(sq.HTTP_ENDPOINT):
             self.assertEqual(sq._query['start'], 0)
             self.assertEqual(next(sq).bibcode, '1971Sci...174..142S')
             self.assertEqual(len(sq.articles), 1)

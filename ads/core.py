@@ -15,7 +15,7 @@ class SearchQuery(BaseQuery):
     """
     Represents a query to apache solr
     """
-    api_endpoint = SEARCH_URL
+    HTTP_ENDPOINT = SEARCH_URL
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=None, sort=None,
                  start=0, rows=50, max_pages=3):
@@ -127,7 +127,7 @@ class SearchQuery(BaseQuery):
         to provide the next page of results
         """
         self.response = SolrResponse.load_http_response(
-            self.session.get(self.api_endpoint, params=self._query)
+            self.session.get(self.HTTP_ENDPOINT, params=self._query)
         )
         self._articles.extend(self.response.articles)
         self._query['start'] += self._query['rows']
