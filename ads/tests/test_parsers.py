@@ -4,6 +4,7 @@
 
 __author__ = "Andy Casey <andy@astrowizici.st>"
 
+import six
 import unittest
 import ads.parser as parse
 
@@ -113,7 +114,7 @@ class TestOrderingParser(unittest.TestCase):
             "popularity": "popularity",
             "relevance": "relevance"
         }
-        for sort_input, sort_option in sort_options.iteritems():
+        for sort_input, sort_option in six.iteritems(sort_options):
             for order_option in order_options:        
                 assert (sort_option.lower(), order_option.lower()) == parse.ordering(sort_input, order_option)
                 assert (sort_option.lower(), order_option.lower()) == parse.ordering(sort_input, order_option.upper())

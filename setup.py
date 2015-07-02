@@ -39,6 +39,7 @@ setup(name="ads",
       description="A Python module for NASA's ADS that doesn't suck.",
       long_description=readfile(os.path.join(os.path.dirname(__file__), "README.md")),
       install_requires=[
+        "six",
         "requests",
         "requests_futures"
       ]

@@ -12,8 +12,8 @@ import json
 import os
 
 # Module specific
-from core import search
-from utils import unique_preserved_list
+from .core import search
+from .utils import unique_preserved_list
 
 __all__ = ["nodes", "export", "coauthors"]
 
@@ -49,7 +49,7 @@ def coauthors(name, depth=1, author_repr=None):
 
     all_articles = []
     level_authors = [name]
-    for i in xrange(depth):
+    for i in range(depth):
 
         next_level_authors = []
         for j, author in enumerate(level_authors):
