@@ -7,7 +7,7 @@ import unittest
 import ads.core
 from ads.core import SolrResponse, Article, BaseQuery
 from ads.exceptions import SolrResponseParseError, SolrResponseError
-from mocks import MockSolrResponse
+from .mocks import MockSolrResponse
 
 import requests
 import os
