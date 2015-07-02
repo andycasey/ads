@@ -4,7 +4,7 @@ Tests for SearchQuery and it's query proxy class.
 import sys
 import unittest
 
-from mocks import MockSolrResponse
+from .mocks import MockSolrResponse
 
 from ads.core import SearchQuery, query
 
