@@ -3,7 +3,7 @@ Mock responses
 """
 
 from httpretty import HTTPretty
-from stubdata.solr import example_solr_response
+from .stubdata.solr import example_solr_response
 import json
 from collections import OrderedDict
 
