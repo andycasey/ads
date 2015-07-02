@@ -9,7 +9,6 @@ __author__ = "Andy Casey <andy@astrowizici.st>"
 # Standard library
 import datetime
 import time
-
 import six
 
 __all__ = ["rows", "ordering", "dates", "start"]
@@ -229,10 +228,10 @@ def properties(properties=None):
         " OPENACCESS, NONARTICLE, EPRINT, BOOK, PROCEEDINGS, CATALOG, SOFTWARE"
     available_properties_list = map(str.lower, available_properties.split(", "))
 
-    if isinstance(properties, str):
+    if isinstance(properties, (str, six.text_type)):
         properties = (properties, )
 
-    all_strings = lambda _: isinstance(_, str)
+    all_strings = lambda _: isinstance(_, (str, six.text_type))
     if not all(map(all_strings, properties)):
         raise TypeError("properties must be a string or list-type of strings")
 

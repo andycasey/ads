@@ -1,71 +1,130 @@
-# coding: utf-8
+"""
+Core interface to the adsws-api, including data models and user facing
+interfaces
+"""
 
-""" A Python tool for interacting with NASA's ADS """
-
-__author__ = "Andy Casey <andy@astrowizici.st>"
-
-# Standard library
-import os
 import warnings
-
-# Third party
-import six
+import math
+import json
 import requests
-import requests_futures.sessions
+import os
+import six
+import sys
 
-# Module specific
-from . import parser, utils
+from .exceptions import SolrResponseParseError, SolrResponseError
+from .config import SEARCH_URL, TOKEN_FILES, TOKEN_ENVIRON_VARS
+from . import __version__
 
-API_MAX_ROWS = 200
-DEV_KEY = utils.get_dev_key()
-ADS_HOST = "http://adslabs.org/adsabs/api"
+PY3 = sys.version_info > (3, )
 
-__all__ = ["Article", "query", "metrics", "metadata", "retrieve_article"]
+class APIResponse(object):
+    """
+    Base class that represents an adsws-api http response
+    """
+    response = None
+
+    def get_ratelimits(self):
+        """
+        Return the current, maximum, and reset rate limits from the response
+        header
+        """
+        raise NotImplemented
+
+
+class SolrResponse(APIResponse):
+    """
+    Base class for storing a solr response
+    """
+
+    def __init__(self, raw):
+        """
+        De-serialize a json string representing a solr response
+        :param raw: complete json response from solr
+        :type raw: basestring
+        """
+        self._raw = raw
+        self.json = json.loads(raw)
+        self._articles = None
+        try:
+            self.responseHeader = self.json['responseHeader']
+            self.params = self.json['responseHeader']['params']
+            self.response = self.json['response']
+            self.numFound = self.response['numFound']
+            self.docs = self.response['docs']
+        except KeyError as e:
+            raise SolrResponseParseError("{}".format(e))
+
+    @classmethod
+    def load_http_response(cls, HTTPResponse):
+        """
+        Returns an instansiated SolrResponse using data in a requests.response.
+        Sets class attribute `articles` to a list containing Article instances.
+        :param HTTPResponse: response object
+        :type HTTPResponse: requests.Response
+        :return SolrResponse instance
+        """
+        if not HTTPResponse.ok:
+            raise SolrResponseError(HTTPResponse.text)
+        c = cls(HTTPResponse.text)
+        c.response = HTTPResponse
+        return c
+
+    @property
+    def articles(self):
+        """
+        articles getter
+        """
+        if self._articles is None:
+            self._articles = []
+            for doc in self.docs:
+                self._articles.append(Article(**doc))
+        return self._articles
+
 
 class Article(object):
-    """An object to represent a single publication in NASA's Astrophysical
-    Data System."""
+    """
+    An object to represent a single record in NASA's Astrophysical
+    Data System.
+    """
 
-    aff = ["Unknown"]
-    author = ["Anonymous"]
-    keyword = []
-    citation_count = 0
-    reference_count = 0
-    url = None
+    # define these class attributes; these are expected to exist
+    # by various instance methods
+    _references = None
+    _citations = None
+    _bibtex = None
+    first_author = None
+    author_norm = []
+    year = None
+    bibcode = None
 
     def __init__(self, **kwargs):
-        # It's not Pythonic to use '[citations]' as an attribute so start by
-        # remapping that.
-        kwargs[u"reference_count"] = (kwargs.pop(u"[citations]", {})
-                                      .pop(u"num_references", 0))
-
-        # Save the raw dictionary of attributes for later use.
+        """
+        :param kwargs: Set object attributes from kwargs
+        """
         self._raw = kwargs
-
-        # Update this object to have attributes for everything in attribute
-        # dictionary.
         for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
 
-        if "bibcode" in kwargs:
-            self.url = "http://adsabs.harvard.edu/abs/{0}".format(kwargs["bibcode"])
-
-        return None
-
     def __str__(self):
-        return unicode(self).encode("utf-8")
-
+        return self.__unicode__() if PY3 else self.__unicode__().encode("utf-8")
+        
     def __unicode__(self):
-        return u"<{0} {1} {2}, {3}>".format(self.author[0].split(",")[0],
-            "" if len(self.author) == 1 else (u" & {0}".format(
-                self.author[1].split(",")[0]) if len(self.author) == 2 else "et al."),
-            self.year, self.bibcode)
+        author = self.first_author or "Unknown author"
+        if len(self.author_norm) > 1:
+            author = "{} et al.".format(author)
+        return u"<{author} {year}, {bibcode}>".format(
+            author=author,
+            year=self.year,
+            bibcode=self.bibcode,
+        )
 
-    def __repr__(self):
-        return u"<ads.{0} object at {1}>".format(self.__class__.__name__, hex(id(self)))
+    def __eq__(self, other):
+        if self.bibcode is None or other.bibcode is None:
+            raise TypeError("Cannot compare articles without bibcodes")
+        return self.bibcode == other.bibcode
 
-    def __getitem__(self, k):
-        return self._raw[k]
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
     def keys(self):
         return self._raw.keys()
@@ -79,132 +138,22 @@ class Article(object):
     @property
     def bibtex(self):
         """Return a BiBTeX entry for the current article."""
-
-        all_entry_types = "ARTICLE, INPROCEEDINGS, PHDTHESIS, MASTERSTHESIS, "\
-            "NONARTICLE, EPRINT, BOOK, PROCEEDINGS, CATALOG, SOFTWARE".split(", ")
-
-        # Find the entry type
-        entry_type = [entry_type in self.property for entry_type in all_entry_types]
-        if not any(entry_type):
-            raise TypeError("article entry type not recognised")
-
-        entry_type = all_entry_types[entry_type.index(True)]
-
-        # Is it an EPRINT? If so, mark as ARTICLE and use arXiv as journal
-        if entry_type == "EPRINT":
-            entry_type = "ARTICLE"
-
-        elif entry_type in ("NONARTICLE", "CATALOG", "SOFTWARE"):
-            entry_type = "MISC"
-
-        """
-        TYPE = [required, [optional]]
-
-        article = [author, title, journal, year, [volume, number, pages, month, note, key]]
-        book = [author or editor, title, publisher, year, [volume, series, address, edition, month, note, key]]
-        inproceedings = [author, title, booktitle, year, [editor, pages, organization, publisher, address, month, note, key]]
-        MASTERSTHESIS = [author, title, school, year, [address, month, note, key]]
-        misc = [[author, title, howpublished ,month, year, note, key]]
-        phdthesis = [author, title, school, year, [address, month, note, key]]
-        proceedings = [title, year, [editor, publisher, organization, address, month, note, key]]
-        """
-
-        _ = lambda item: "{{{0}}}".format(item)
-        months = {
-            0: '', 1: 'jan', 2: 'feb', 3: 'mar', 4: 'apr', 5: 'may',
-            6: 'jun', 7: 'jul', 8: 'aug', 9: 'sep', 10: 'oct', 11: 'nov', 12: 'dec'
-        }
-        parsers = {
-            "author":           lambda article: _(" and \n".join([" and ".join(["{{{0}}}, {1}".format(author.split(",")[0], "~".join(["{0}.".format(name[0]) \
-                                    for name in author.split(",")[1].split()])) for author in article.author[i:i+4]]) for i in range(0, len(article.author), 4)])),
-            "month":            lambda article: months[int(article.pubdate.split("-")[1])],
-            "pages":            lambda article: _(article.page[0]),
-            "title":            lambda article: "{{{{{0}}}}}".format(article.title[0]),
-            "journal":          lambda article: _(article.pub),
-            "year":             lambda article: _(article.year),
-            "volume":           lambda article: _(article.volume),
-            "adsnote":          lambda article: "{Provided by the SAO/NASA Astrophysics Data System API}",
-            "adsurl":           lambda article: _("http:/adsabs.harvard.edu/abs/{0}".format(article.bibcode)),
-            "keywords":         lambda article: _(", ".join(article.keyword)),
-            "doi":              lambda article: _(article.doi[0]),
-            "eprint":           lambda article: _("arXiv:{0}".format(article.identifier[["astro-" in i for i in article.identifier].index(True)]))
-        }
-
-        # Create start of BiBTeX
-        bibtex = ["@{0}{{{1}".format(entry_type, self.bibcode)]
-
-        if entry_type == "ARTICLE":
-            required_entries = ["author", "title", "journal", "year"]
-            optional_entries = ["volume", "pages", "month", "adsnote", "adsurl", "doi", "eprint", "keywords"]
-
-        elif entry_type == "BOOK":
-            required_entries = ["author", "title", "publisher", "year"]
-            optional_entries = ["volume", "issue", "month", "adsurl"]
-
-        elif entry_type == "INPROCEEDINGS":
-            required_entries = ["author", "title", "year"]
-            optional_entries = ["pages", "publisher", "month", "adsurl"]
-
-        elif entry_type == "PROCEEDINGS":
-            required_entries = ["title", "year"]
-            optional_entries = ["publisher", "month"]
-
-        else:
-            # We should retrieve it from the ADS page.
-            raise NotImplementedError
-
-        for required_entry in required_entries:
-            try:
-                value = parsers[required_entry](self)
-                if value:
-                    bibtex.append("{0} = {1}".format(required_entry.rjust(9), value))
-            except:
-                raise TypeError("could not generate {0} BibTeX entry for {1}".format(
-                    required_entry, self.bibcode))
-
-        for optional_entry in optional_entries:
-            try:
-                value = parsers[optional_entry](self)
-                if value:
-                    bibtex.append("{0} = {1}".format(optional_entry.rjust(9), value))
-            except: pass
-
-        return ",\n".join(bibtex) + "\n}\n"
-
+        raise NotImplementedError
 
     @property
     def references(self):
         """Retrieves reference list for the current article and stores them."""
-        if not hasattr(self, '_references'):
-            self._references = list(search("references(bibcode:{bibcode})".format(
-                bibcode=self.bibcode), rows="all"))
-        return self._references
-
+        raise NotImplementedError
 
     @property
     def citations(self):
         """Retrieves citation list for the current article and stores them."""
-        if not hasattr(self, '_citations'):
-            self._citations = list(search("citations(bibcode:{bibcode})".format(
-                bibcode=self.bibcode), rows="all"))
-        return self._citations
-
+        raise NotImplementedError
 
     @property
     def metrics(self):
         """Retrieves metrics for the current article and stores them."""
-
-        if not hasattr(self, "_metrics"):
-            url = "{0}/record/{1}/metrics/".format(ADS_HOST, self.bibcode)
-            payload = {"dev_key": DEV_KEY}
-
-            r = requests.get(url, params=payload)
-            if not r.ok: r.raise_for_status()
-
-            # Prettify the metrics to Python objects
-            self._metrics = utils.pythonify_metrics_json(r.json())
-        return self._metrics
-
+        raise NotImplementedError
 
     def build_reference_tree(self, depth=1, **kwargs):
         """
@@ -225,36 +174,7 @@ class Article(object):
             references down by ``depth``.
         """
 
-        try: depth = int(depth)
-        except TypeError:
-            raise TypeError("depth must be an integer-like type")
-
-        if depth < 1:
-            raise ValueError("depth must be a positive integer")
-
-        session = requests_futures.sessions.FuturesSession()
-
-        # To understand recursion, first you must understand recursion.
-        level = [self]
-        total_articles = len(level) - 1
-        kwargs.setdefault("rows", "all")
-
-        for level_num in range(depth):
-
-            level_requests = [search("references(bibcode:{bibcode})".format(
-                bibcode=article.bibcode), **kwargs) for article in level]
-
-            # Complete all requests
-            new_level = []
-            for request, article in zip(level_requests, level):
-                setattr(article, "_references", list(request))
-                new_level.extend(article.references)
-
-            level = sum([new_level], [])
-            total_articles += len(level)
-
-        return self._references
-
+        raise NotImplementedError
 
     def build_citation_tree(self, depth=1, **kwargs):
         """
@@ -275,102 +195,149 @@ class Article(object):
             citation down by ``depth``.
         """
 
-        try: depth = int(depth)
-        except TypeError:
-            raise TypeError("depth must be an integer-like type")
-
-        if depth < 1:
-            raise ValueError("depth must be a positive integer")
-
-        session = requests_futures.sessions.FuturesSession()
-
-        # To understand recursion, first you must understand recursion.
-        level = [self]
-        total_articles = len(level) - 1
-        kwargs.setdefault("rows", "all")
-
-        for level_num in range(depth):
-
-            level_requests = [search("citations(bibcode:{bibcode})".format(
-                bibcode=article.bibcode), **kwargs) for article in level]
-
-            # Complete all requests
-            new_level = []
-            for request, article in zip(level_requests, level):
-                setattr(article, "_citations", list(request))
-                new_level.extend(article.citations)
-
-            level = sum([new_level], [])
-            total_articles += len(level)
-
-        return self._citations
+        raise NotImplementedError
 
 
-class APIError(Exception):
-    """Exception class for ADS API errors"""
-    pass
+class BaseQuery(object):
+    """
+    Represents an arbitrary query to the adsws-api
+    """
+    _session = None
+    _token = None
+
+    @property
+    def token(self):
+        """
+        set the instance attribute `token` following the following logic,
+        stopping whenever a token is found. Raises NoTokenFound is no token
+        is found
+        2. environment variables TOKEN_ENVIRON_VARS
+        3. file containing plaintext as the contents in TOKEN_FILES
+        """
+        if self._token is None:
+            for v in map(os.environ.get, TOKEN_ENVIRON_VARS):
+                if v is not None:
+                    self._token = v
+                    return self._token
+            for f in TOKEN_FILES:
+                try:
+                    with open(f) as fp:
+                        self._token = fp.read().strip()
+                        return self._token
+                except IOError:
+                    pass
+            warnings.warn("No token found", RuntimeWarning)
+        return self._token
+
+    @token.setter
+    def token(self, value):
+        self._token = value
+
+    @property
+    def session(self):
+        """
+        http session interface, transparent proxy to requests.session
+        """
+        if self._session is None:
+            self._session = requests.session()
+            self._session.headers.update(
+                {
+                    "Authorization": "Bearer {}".format(self.token),
+                    "User-Agent": "ads-api-client/{}".format(__version__)
+                }
+            )
+        return self._session
+
+    def __call__(self):
+        return self.execute()
+
+    def execute(self):
+        """
+        Each subclass should define their own execute method
+        """
+        raise NotImplementedError
 
 
-class query(object):
-    """Query ADS and retrieve Article objects"""
+class SearchQuery(BaseQuery):
+    """
+    Represents a query to apache solr
+    """
+    HTTP_ENDPOINT = SEARCH_URL
 
-    def __init__(self, query=None, title=None, authors=None, dates=None, 
-        affiliation=None, affiliation_pos=None, acknowledgements=None, fl=None, 
-        facet=None, sort="date", order="desc", start=0, rows=20,
-        database="astronomy or physics", property=None, **kwargs):
+    def __init__(self, query_dict=None, q=None, fq=None, fl=None, sort=None,
+                 start=0, rows=50, max_pages=3, **kwargs):
+        """
+        constructor
+        :param query_dict: raw query that will be sent unmodified. raw takes
+            precedence over individually defined query params
+        :type query_dict: dict
+        :param q: solr "q" param (query)
+        :param fq: solr "fq" param (filter query)
+        :param fl: solr "fl" param (filter limit)
+        :param sort: solr "sort" param (sort)
+        :param start: solr "start" param (start)
+        :param rows: solr "rows" param (rows)
+        :param max_pages: Maximum number of pages to return. This value may
+            be modified after instansiation to increase the number of results
+        :param kwargs: kwargs to add to `q` as "key:value"
+        """
+        self._articles = []
+        self.response = None  # current SolrResponse object
+        self.max_pages = max_pages
+        self.__iter_counter = 0  # Counter for our custom iterator method
+        if query_dict is not None:
+            query_dict.setdefault('rows', 50)
+            query_dict.setdefault('start', 0)
+            self._query = query_dict
+        else:
+            _ = {
+                "q": q or '',
+                "fq": fq,
+                "fl": fl,
+                "sort": sort,
+                "start": start,
+                "rows": rows,
+            }
+            # Filter out None values
+            self._query = dict(
+                (k, v) for k, v in six.iteritems(_) if v is not None
+            )
 
-        if "author" in kwargs.keys() and authors is None:
-            authors = kwargs["author"]
+            # Format and add kwarg (key, value) pairs to q
+            if kwargs:
+                _ = ['{}:"{}"'.format(k, v) for k, v in six.iteritems(kwargs)]
+                self._query['q'] = '{} {}'.format(self._query['q'], ' '.join(_))
 
-        arguments = locals().copy()
-        del arguments["self"]
+        assert self._query.get('rows') > 0, "rows must be greater than 0"
+        assert self._query.get('q'), "q must not be empty"
 
-        self.payload = _build_payload(**arguments)
-        self.session = requests_futures.sessions.FuturesSession()
+    @property
+    def articles(self):
+        """
+        Read-only articles attribute should not be modified directly, as
+        it is used to gauge the progress of the query
+        """
+        return self._articles
 
-        self.active_requests = [self.session.get(ADS_HOST + "/search/",
-            params=self.payload)]
-        self.retrieved_articles = []
+    @property
+    def progress(self):
+        """
+        Returns a string representation of the progress of the search such as
+        "1234/5000", which refers to the number of results retrived / the
+        total number of results found
+        """
+        if self.response is None:
+            return "Query has not been executed"
+        return "{}/{}".format(len(self.articles), self.response.numFound)
 
-        # Do we have to perform more queries?
-        if rows == "all" or rows > API_MAX_ROWS:
-
-            # Get metadata from serial request
-            metadata_payload = self.payload.copy()
-            metadata_payload["rows"] = 1
-            r = requests.get(ADS_HOST + "/search/", params=metadata_payload)
-            if not r.ok: r.raise_for_status()
-            metadata = r.json()["meta"]
-
-            # Should we issue a warning about excessive rows retrieved?
-            if metadata["hits"] >= 10000:
-                long_query_message = "ADS query is retrieving more than 10,000"\
-                    " records. Use ads.metadata to find the number of rows for"\
-                    " a search query before executing it with ads.search"
-                warnings.warn(long_query_message)
-
-            # Are there enough rows such that we actually have to make more requests?
-            if API_MAX_ROWS >= metadata["hits"]: return
-
-            if rows == "all":
-                num_additional_queries = int(metadata["hits"]/API_MAX_ROWS)
-                if not metadata["hits"] % API_MAX_ROWS: num_additional_queries -= 1
-
-            else:
-                num_additional_queries = int(rows/API_MAX_ROWS)
-                if not rows % API_MAX_ROWS: num_additional_queries -= 1
-
-            # Initiate future requests
-            for i in range(1, num_additional_queries + 1):
-                # Update payload to start at new point
-                self.payload["start"] = i * API_MAX_ROWS
-
-                # Limit total number of rows if required
-                if rows != "all" and (i + 1) * API_MAX_ROWS > rows:
-                    self.payload["rows"] = rows - i * API_MAX_ROWS
-
-                self.active_requests.append(self.session.get(ADS_HOST \
-                    + "/search/", params=self.payload))
+    @property
+    def query(self):
+        """
+        Read-only query attribute should only be created at init. Create
+        a new class instance to modify a query.
+        SearchQuery.query represents the *next* query that will be executed
+        """
+        return self._query
 
     def __iter__(self):
         return self
@@ -379,176 +346,95 @@ class query(object):
         return self.__next__()
 
     def __next__(self):
+        """
+        iterator method, for backwards compatibility with the list() workflow
+        """
+        # Allow immediate iteration without forcing a user to call .execute()
+        # explicitly
+        if self.response is None:
+            self.execute()
 
-        if len(self.active_requests) == 0 and len(self.retrieved_articles) == 0:
-            self.session.executor.shutdown()
-            raise StopIteration
+        try:
+            cur = self._articles[self.__iter_counter]
+            # If no more articles, check to see if we should query for the
+            # next page of results
+        except IndexError:
+            # If we already have all the results, then iteration is done.
+            if len(self.articles) >= self.response.numFound:
+                raise StopIteration("All records found")
 
-        if len(self.retrieved_articles) == 0:
-            active_request = self.active_requests.pop(0)
-            response = active_request.result().json()
+            # if we have hit the max_pages limit, then iteration is done.
+            page = math.ceil(len(self.articles)/self.query['rows'])
+            if page > self.max_pages:
+                raise StopIteration("Maximum number of pages queried")
 
-            if "error" in response:
-                raise APIError(response["error"])
+            # We aren't on the max_page of results nor do we have all
+            # results: execute the next query and yield from the newly
+            # extended .articles array.
+            self.execute()
+            cur = self._articles[self.__iter_counter]
 
-            self.retrieved_articles.extend([Article(**article_info) \
-                for article_info in response["results"]["docs"]])
+        self.__iter_counter += 1
+        return cur
 
-        if len(self.retrieved_articles) == 0:
-            self.session.executor.shutdown()
-            raise StopIteration
-
-        return self.retrieved_articles.pop(0)
-
-
-def search(*args, **kwargs):
-    """ ads.search is deprecated; you should use ads.query from now on """
-
-    warnings.warn("ads.search will be deprecated in v1.0. Please use ads.query instead.",
-        DeprecationWarning)
-    return query(*args, **kwargs)
-
-
-def metrics(author, dates=None, database="astronomy or physics", rows=20,
-    metadata=False):
-    """ Retrieves metrics for a given author query. """
-
-    payload = _build_payload(authors=author, database=database, rows=rows)
-    r = requests.get(ADS_HOST + "/search/metrics/", params=payload)
-    if not r.ok: r.raise_for_status()
-
-    contents = r.json()
-    if "error" in contents:
-        raise APIError(contents["error"])
-    metadata, results = contents["meta"], utils.pythonify_metrics_json(contents["results"])
-
-    if metadata:
-        return (results, metadata)
-    return results
+    def execute(self):
+        """
+        Sends the http request implied by the self.query
+        In addition, set up the request such that we can call next()
+        to provide the next page of results
+        """
+        self.response = SolrResponse.load_http_response(
+            self.session.get(self.HTTP_ENDPOINT, params=self.query)
+        )
+        self._articles.extend(self.response.articles)
+        self._query['start'] += self._query['rows']
 
 
-def metadata(query=None, title=None, authors=None, dates=None, affiliation=None,
-    affiliation_pos=None, database="astronomy or physics"):
-    """Search ADS for the given inputs and just return the metadata."""
-
-    payload = _build_payload(**locals())
-    payload["rows"] = 1 # It's meta-data, baby.
-    r = requests.get(ADS_HOST + "/search/", params=payload)
-    if not r.ok: r.raise_for_status()
-
-    contents = r.json()
-    if "error" in contents:
-        raise APIError(contents["error"])
-    return contents["meta"]
-
-
-def _build_payload(query=None, title=None, authors=None, dates=None,
-    affiliation=None, affiliation_pos=None, fl=None, acknowledgements=None,
-    facet=None, sort="date", order="desc", start=0, rows=20,
-    database="astronomy or physics", property=None, **kwargs):
-    """Builds a dictionary payload for NASA's ADS based on the input criteria."""
-
-    q = parser.query(query, title, authors)
-
-    # Check inputs
-    start, rows = parser.rows(start, rows, max_rows=API_MAX_ROWS)
-    sort, order = parser.ordering(sort, order)
-
-    # Filters
-    pubdate_filter = parser.dates(dates)
-    affiliation_filter = parser.affiliation(affiliation, affiliation_pos)
-    acknowledgements_filter = parser.acknowledgements(acknowledgements)
-    # You shouldn't ever use 'property' since it's special, but we're being consistent with ADS
-    properties_filter = parser.properties(property)
-
-    q += " ".join([each for each in (pubdate_filter, affiliation_filter, acknowledgements_filter,
-        properties_filter) if each is not None])
-
-    payload = {
-        "q": q,
-        "dev_key": DEV_KEY,
-        "sort": "{sort} {order}".format(sort=sort.upper(), order=order),
-        "start": start,
-        "fmt": "json",
-        "rows": rows,
-    }
-    additional_payload = {
-        "fl": fl,
-        "filter": parser.database(database),
-        "facet": facet
-    }
-    payload.update(additional_payload)
-
-    return payload
-
-
-def retrieve_article(article, output_filename, clobber=False):
+class ExportQuery(BaseQuery):
     """
-    Download the journal article (preferred) or pre-print version of the article
-    provided, and save the PDF to disk.
-
-    :param article:
-        The article to retrieve.
-
-    :type article:
-        :class:`ads.Article`
-
-    :param output_filename:
-        The path to save the PDF article to.
-
-    :type output_filename:
-        str
-
-    :param clobber: [optional]
-        Clobber the existing ``output_filename`` if it already exists.
-
-    :type clobber:
-        bool
-
-    :returns:
-        ``True`` when the article has downloaded.
-
-    :raise IOError:
-        If the ``output_filename`` exists and ``clobber`` is set to ``False``.
+    Represents a query to the adsws export service
     """
+    def __init__(self):
+        raise NotImplementedError
 
-    if os.path.exists(output_filename) and not clobber:
-        raise IOError("output filename ({filename}) exists and we've been "
-            "asked not to clobber it.".format(filename=output_filename))
 
-    # Get the ADS url
-    ads_redirect_url = "http://adsabs.harvard.edu/cgi-bin/nph-data_query"
-    arxiv_payload = {
-        "bibcode": article.bibcode,
-        "link_type": "PREPRINT",
-        "db_key": "PRE"
-    }
-    article_payload = {
-        "bibcode": article.bibcode,
-        "link_type": "ARTICLE",
-        "db_key": "AST"
-    }
+class BigQuery(BaseQuery):
+    """
+    Represents a query to the adsws bigquery service
+    """
+    def __init__(self):
+        raise NotImplementedError
 
-    # Let's try and download the article from the journal first
-    article_r = requests.get(ads_redirect_url, params=article_payload)
 
-    if not article_r.ok:
+class VisQuery(BaseQuery):
+    """
+    Represents a query to the adsws visualizations service
+    """
+    def __init__(self):
+        raise NotImplementedError
 
-        arxiv_r = requests.get(ads_redirect_url, params=arxiv_payload)
-        if not arxiv_r.ok:
-            arxiv_r.raise_for_status()
 
-        article_pdf_url = arxiv_r.url.replace("abs", "pdf")
+class MetricsQuery(BaseQuery):
+    """
+    Represents a query to the adsws metrics service
+    """
+    def __init__(self):
+        raise NotImplementedError
 
-    else:
-        # Parser the PDF url
-        article_pdf_url = article_r.url.rstrip("+html")
 
-    article_pdf_r = requests.get(article_pdf_url)
-    if not article_pdf_r.ok:
-        article_pdf_r.raise_for_status()
+class query(SearchQuery):
+    """
+    Backwards compatible proxy to SearchQuery
+    """
+    def __init__(self, *args, **kwargs):
+        """
+        Override parent's __init__ to show the deprecation warning and
+        re-construct the old query API into the newer SearchQuery api
+        """
+        warnings.warn(
+            "ads.query will be deprectated. Use ads.SearchQuery in the future",
+            DeprecationWarning
+        )
+        super(self.__class__, self).__init__(*args, **kwargs)
 
-    with open(output_filename, "wb") as fp:
-        fp.write(article_pdf_r.content)
 
-    return True

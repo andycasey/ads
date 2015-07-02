@@ -1,6 +1,8 @@
 # coding: utf-8
 
-""" A Python module for NASA's Astrophysical Data Service (ADS) that doesn't suck. """
+"""
+A Python module for NASA's Astrophysical Data Service (ADS) that doesn't suck.
+"""
 
 import os
 import re
@@ -24,8 +26,7 @@ def readfile(filename):
 version_regex = re.compile("__version__ = \"(.*?)\"")
 contents = readfile(os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
-    "ads",
-    "__init__.py"))
+    "ads", "__init__.py"))
 
 version = version_regex.findall(contents)[0]
 
@@ -37,10 +38,8 @@ setup(name="ads",
       url="http://www.github.com/andycasey/ads/",
       license="MIT",
       description="A Python module for NASA's ADS that doesn't suck.",
-      long_description=readfile(os.path.join(os.path.dirname(__file__), "README.md")),
-      install_requires=[
-        "six",
-        "requests",
-        "requests_futures"
-      ]
+      long_description=\
+          readfile(os.path.join(os.path.dirname(__file__), "README.md")),
+      install_requires=\
+          readfile(os.path.join(os.path.dirname(__file__), "requirements.txt"))
      )
