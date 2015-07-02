@@ -38,8 +38,8 @@ class TestBaseQuery(unittest.TestCase):
         # Write temporary file and override the config variable with the
         # tempfile paths
         tf1, tf2 = NamedTemporaryFile(), NamedTemporaryFile()
-        tf1.write('tok3\n')
-        tf2.write(' tok4 ')
+        tf1.write('tok3\n'.encode("utf-8"))
+        tf2.write(' tok4 '.encode("utf-8"))
         [f.flush() for f in [tf1, tf2]]
         [f.seek(0) for f in [tf1, tf2]]
         ads.core.TOKEN_FILES = [tf1.name, tf2.name]
