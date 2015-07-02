@@ -92,8 +92,7 @@ class Article(object):
     _references = None
     _citations = None
     _bibtex = None
-    first_author = None
-    author_norm = []
+    author = None
     year = None
     bibcode = None
 
@@ -109,9 +108,13 @@ class Article(object):
         return self.__unicode__() if PY3 else self.__unicode__().encode("utf-8")
         
     def __unicode__(self):
-        author = self.first_author or "Unknown author"
-        if len(self.author_norm) > 1:
-            author = "{} et al.".format(author)
+        if self.author:
+            author = "{}".format(self.author[0])
+            if len(self.author) > 1:
+                author += " et al."
+        else:
+            author = "Unknown author"
+
         return u"<{author} {year}, {bibcode}>".format(
             author=author,
             year=self.year,
@@ -264,7 +267,8 @@ class SearchQuery(BaseQuery):
     """
     HTTP_ENDPOINT = SEARCH_URL
 
-    def __init__(self, query_dict=None, q=None, fq=None, fl=None, sort=None,
+    def __init__(self, query_dict=None, q=None, fq=None,
+                 fl="author,bibcode,id,year", sort=None,
                  start=0, rows=50, max_pages=3, **kwargs):
         """
         constructor
@@ -290,6 +294,10 @@ class SearchQuery(BaseQuery):
             query_dict.setdefault('start', 0)
             self._query = query_dict
         else:
+            if fl is not None:
+                fl_items = [v for v in fl.split(",") if len(v)] + ["id"]
+                fl = ",".join(set(fl_items))
+
             _ = {
                 "q": q or '',
                 "fq": fq,
