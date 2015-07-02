@@ -9,6 +9,7 @@ __author__ = "Andy Casey <andy@astrowizici.st>"
 # Standard library
 import datetime
 import time
+import six
 
 __all__ = ["rows", "ordering", "dates", "start"]
 
@@ -132,7 +133,7 @@ def affiliation(affiliation=None, pos=None):
                     "list-type of up to two integers")
 
             try:
-                pos = map(int, pos)
+                pos = list(map(int, pos))
             except (TypeError, ValueError):
                 raise TypeError("affiliation position must be an integer or "\
                     "list-type of up to two integers")
@@ -227,10 +228,10 @@ def properties(properties=None):
         " OPENACCESS, NONARTICLE, EPRINT, BOOK, PROCEEDINGS, CATALOG, SOFTWARE"
     available_properties_list = map(str.lower, available_properties.split(", "))
 
-    if isinstance(properties, str):
+    if isinstance(properties, (str, six.text_type)):
         properties = (properties, )
 
-    all_strings = lambda _: isinstance(_, str)
+    all_strings = lambda _: isinstance(_, (str, six.text_type))
     if not all(map(all_strings, properties)):
         raise TypeError("properties must be a string or list-type of strings")
 
@@ -319,7 +320,7 @@ def dates(input_dates):
         start_date = _date(start_date, default_month=1)
         end_date = _date(end_date, default_month=12)
 
-    elif isinstance(input_dates, (str, unicode)):
+    elif isinstance(input_dates, (str, six.text_type)):
 
         # We will accept "2002-", "2002..", "..2003", "2002..2003"
         # "2002/01..2002/08", "2002/04..", "2002/07", "2002-7", "2002-07

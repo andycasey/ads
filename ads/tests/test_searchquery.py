@@ -1,6 +1,7 @@
 """
 Tests for SearchQuery and it's query proxy class.
 """
+import sys
 import unittest
 
 from mocks import MockSolrResponse
@@ -51,13 +52,18 @@ class TestSearchQuery(unittest.TestCase):
         self.assertIn("star", sq.query['q'])
 
         sq = SearchQuery(title="t", author="ln, fn")
-        self.assertItemsEqual(
+
+        # In Python 3, assertItemsEqual is named assertCountEqual
+        assertItemsEqual = self.assertItemsEqual if sys.version_info[0] == 2 \
+            else self.assertCountEqual
+        
+        assertItemsEqual(
             sq.query['q'].split(),
             'title:"t" author:"ln, fn"'.split(),
         )
 
         sq = SearchQuery(q="star", aff="institute")
-        self.assertItemsEqual(
+        assertItemsEqual(
             sq.query['q'].split(),
             'aff:"institute" star'.split(),
         )

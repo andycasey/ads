@@ -11,6 +11,8 @@ from mocks import MockSolrResponse
 
 import requests
 import os
+import six
+
 from tempfile import NamedTemporaryFile
 
 
@@ -168,7 +170,7 @@ class TestArticle(unittest.TestCase):
         self.assertIsNone(self.article._references)
         self.assertIsNone(self.article._citations)
         self.assertIsNone(self.article._bibtex)
-        for key, value in self.article._raw.iteritems():
+        for key, value in six.iteritems(self.article._raw):
             self.assertEqual(
                 self.article.__getattribute__(key),
                 value,

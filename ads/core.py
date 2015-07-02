@@ -8,11 +8,14 @@ import math
 import json
 import requests
 import os
+import six
+import sys
 
 from .exceptions import SolrResponseParseError, SolrResponseError
 from .config import SEARCH_URL, TOKEN_FILES, TOKEN_ENVIRON_VARS
 from . import __version__
 
+PY3 = sys.version_info > (3, )
 
 class APIResponse(object):
     """
@@ -48,7 +51,7 @@ class SolrResponse(APIResponse):
             self.response = self.json['response']
             self.numFound = self.response['numFound']
             self.docs = self.response['docs']
-        except KeyError, e:
+        except KeyError as e:
             raise SolrResponseParseError("{}".format(e))
 
     @classmethod
@@ -99,12 +102,12 @@ class Article(object):
         :param kwargs: Set object attributes from kwargs
         """
         self._raw = kwargs
-        for key, value in kwargs.iteritems():
+        for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
 
     def __str__(self):
-        return unicode(self).encode('utf-8')
-
+        return self.__unicode__() if PY3 else self.__unicode__().encode("utf-8")
+        
     def __unicode__(self):
         author = self.first_author or "Unknown author"
         if len(self.author_norm) > 1:
@@ -130,7 +133,7 @@ class Article(object):
         return self._raw.items()
 
     def iteritems(self):
-        return self._raw.iteritems()
+        return six.iteritems(self._raw)
 
     @property
     def bibtex(self):
@@ -297,12 +300,12 @@ class SearchQuery(BaseQuery):
             }
             # Filter out None values
             self._query = dict(
-                (k, v) for k, v in _.iteritems() if v is not None
+                (k, v) for k, v in six.iteritems(_) if v is not None
             )
 
             # Format and add kwarg (key, value) pairs to q
             if kwargs:
-                _ = ['{}:"{}"'.format(k, v) for k, v in kwargs.iteritems()]
+                _ = ['{}:"{}"'.format(k, v) for k, v in six.iteritems(kwargs)]
                 self._query['q'] = '{} {}'.format(self._query['q'], ' '.join(_))
 
         assert self._query.get('rows') > 0, "rows must be greater than 0"
@@ -340,6 +343,9 @@ class SearchQuery(BaseQuery):
         return self
 
     def next(self):
+        return self.__next__()
+
+    def __next__(self):
         """
         iterator method, for backwards compatibility with the list() workflow
         """
