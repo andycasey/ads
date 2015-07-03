@@ -10,6 +10,8 @@ import requests
 import os
 import six
 import sys
+import functools
+import types
 
 from .exceptions import SolrResponseParseError, SolrResponseError
 from .config import SEARCH_URL, TOKEN_FILES, TOKEN_ENVIRON_VARS
@@ -81,6 +83,20 @@ class SolrResponse(APIResponse):
         return self._articles
 
 
+class lazy_property(object):
+    
+    def __init__(self, fget, func_name=None):
+        self.fget = fget
+        self.func_name = fget.__name__ if func_name is None else func_name
+
+    def __get__(self, obj, cls=None):
+        if obj is None:
+            return None
+        value = self.fget(obj)
+        setattr(obj, self.func_name, value)
+        return value
+
+
 class Article(object):
     """
     An object to represent a single record in NASA's Astrophysical
@@ -92,14 +108,14 @@ class Article(object):
     _references = None
     _citations = None
     _bibtex = None
-    author = None
-    year = None
-    bibcode = None
 
     def __init__(self, **kwargs):
         """
         :param kwargs: Set object attributes from kwargs
         """
+        if "id" not in kwargs:
+            raise ValueError("missing id")
+        
         self._raw = kwargs
         for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
@@ -128,6 +144,7 @@ class Article(object):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
 
     def keys(self):
         return self._raw.keys()
@@ -200,6 +217,51 @@ class Article(object):
 
         raise NotImplementedError
 
+
+    # Lazy-loading functionality.
+    def _lazy_load(self, field):
+        response = SolrResponse.load_http_response(BaseQuery().session.get(
+            SEARCH_URL, params={"q": "id:{}".format(self.id), "fl": field}))
+        value = response.docs[0][field]
+        self._raw[field] = value
+        return value
+
+    abstract = lazy_property(
+        lambda self: self._lazy_load("abstract"), "abstract")
+    aff = lazy_property(
+        lambda self: self._lazy_load("aff"), "aff")
+    author = lazy_property(
+        lambda self: self._lazy_load("author"), "author")
+    citation_count = lazy_property(
+        lambda self: self._lazy_load("citation_count"), "citation_count")
+    bibcode = lazy_property(
+        lambda self: self._lazy_load("bibcode"), "bibcode")
+    bibstem = lazy_property(
+        lambda self: self._lazy_load("bibstem"), "bibstem")
+    citation_count = lazy_property(
+        lambda self: self._lazy_load("citation_count"), "citation_count")
+    database = lazy_property(
+        lambda self: self._lazy_load("database"), "database")
+    identifier = lazy_property(
+        lambda self: self._lazy_load("identifier"), "identifier")
+    issue = lazy_property(
+        lambda self: self._lazy_load("issue"), "issue")
+    keyword = lazy_property(
+        lambda self: self._lazy_load("keyword"), "keyword")
+    page = lazy_property(
+        lambda self: self._lazy_load("page"), "page")
+    property = lazy_property(
+        lambda self: self._lazy_load("property"), "property")    
+    pub = lazy_property(
+        lambda self: self._lazy_load("pub"), "pub")
+    pubdate = lazy_property(
+        lambda self: self._lazy_load("pubdate"), "pubdate")
+    title = lazy_property(
+        lambda self: self._lazy_load("title"), "title")
+    volume = lazy_property(
+        lambda self: self._lazy_load("volume"), "volume")
+    
+    
 
 class BaseQuery(object):
     """
