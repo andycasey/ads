@@ -127,7 +127,7 @@ class Article(object):
         
     def __unicode__(self):
         author = self.first_author_norm or "Unknown author"
-        if len(self.author) > 1:
+        if self.author and len(self.author) > 1:
             author += " et al."
 
         return u"<{author} {year}, {bibcode}>".format(
