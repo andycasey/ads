@@ -115,7 +115,7 @@ class Article(object):
         """
         if "id" not in kwargs:
             raise ValueError("missing id")
-        
+
         self._raw = kwargs
         for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
@@ -226,40 +226,27 @@ class Article(object):
         self._raw[field] = value
         return value
 
-    abstract = lazy_property(
-        lambda self: self._lazy_load("abstract"), "abstract")
-    aff = lazy_property(
-        lambda self: self._lazy_load("aff"), "aff")
-    author = lazy_property(
-        lambda self: self._lazy_load("author"), "author")
-    citation_count = lazy_property(
-        lambda self: self._lazy_load("citation_count"), "citation_count")
-    bibcode = lazy_property(
-        lambda self: self._lazy_load("bibcode"), "bibcode")
-    bibstem = lazy_property(
-        lambda self: self._lazy_load("bibstem"), "bibstem")
-    citation_count = lazy_property(
-        lambda self: self._lazy_load("citation_count"), "citation_count")
-    database = lazy_property(
-        lambda self: self._lazy_load("database"), "database")
-    identifier = lazy_property(
-        lambda self: self._lazy_load("identifier"), "identifier")
-    issue = lazy_property(
-        lambda self: self._lazy_load("issue"), "issue")
-    keyword = lazy_property(
-        lambda self: self._lazy_load("keyword"), "keyword")
-    page = lazy_property(
-        lambda self: self._lazy_load("page"), "page")
-    property = lazy_property(
-        lambda self: self._lazy_load("property"), "property")    
-    pub = lazy_property(
-        lambda self: self._lazy_load("pub"), "pub")
-    pubdate = lazy_property(
-        lambda self: self._lazy_load("pubdate"), "pubdate")
-    title = lazy_property(
-        lambda self: self._lazy_load("title"), "title")
-    volume = lazy_property(
-        lambda self: self._lazy_load("volume"), "volume")
+    abstract = lazy_property(lambda s: s._lazy_load("abstract"), "abstract")
+    aff = lazy_property(lambda s: s._lazy_load("aff"), "aff")
+    author = lazy_property(lambda s: s._lazy_load("author"), "author")
+    citation_count = lazy_property(lambda s: s._lazy_load("citation_count"),
+        "citation_count")
+    bibcode = lazy_property(lambda s: s._lazy_load("bibcode"), "bibcode")
+    bibstem = lazy_property(lambda s: s._lazy_load("bibstem"), "bibstem")
+    database = lazy_property(lambda s: s._lazy_load("database"), "database")
+    identifier = lazy_property(lambda s: s._lazy_load("identifier"),
+        "identifier")
+    issue = lazy_property(lambda s: s._lazy_load("issue"), "issue")
+    keyword = lazy_property(lambda s: s._lazy_load("keyword"), "keyword")
+    page = lazy_property(lambda s: s._lazy_load("page"), "page")
+    property = lazy_property(lambda s: s._lazy_load("property"), "property")    
+    pub = lazy_property(lambda s: s._lazy_load("pub"), "pub")
+    pubdate = lazy_property(lambda s: s._lazy_load("pubdate"), "pubdate")
+    read_count = lazy_property(lambda s: s._lazy_load("read_count"),
+        "read_count")
+    title = lazy_property(lambda s: s._lazy_load("title"), "title")
+    volume = lazy_property(lambda s: s._lazy_load("volume"), "volume")
+    year = lazy_property(lambda s: s._lazy_load("year"), "year")
     
     
 
