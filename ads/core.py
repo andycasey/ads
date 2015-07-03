@@ -219,6 +219,8 @@ class Article(object):
 
     # Lazy-loading functionality.
     def _lazy_load(self, field):
+        if not hasattr(self, "id"):
+            return None
         response = SolrResponse.load_http_response(BaseQuery().session.get(
             SEARCH_URL, params={"q": "id:{}".format(self.id), "fl": field}))
         value = response.docs[0][field]
