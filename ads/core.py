@@ -113,8 +113,10 @@ class Article(object):
         """
         :param kwargs: Set object attributes from kwargs
         """
+        
+
         if "id" not in kwargs:
-            raise ValueError("missing id")
+            warnings.warn("No article id found", RuntimeWarning)
 
         self._raw = kwargs
         for key, value in six.iteritems(kwargs):
@@ -124,12 +126,9 @@ class Article(object):
         return self.__unicode__() if PY3 else self.__unicode__().encode("utf-8")
         
     def __unicode__(self):
-        if self.author:
-            author = "{}".format(self.author[0])
-            if len(self.author) > 1:
-                author += " et al."
-        else:
-            author = "Unknown author"
+        author = self.first_author_norm or "Unknown author"
+        if len(self.author) > 1:
+            author += " et al."
 
         return u"<{author} {year}, {bibcode}>".format(
             author=author,
@@ -315,7 +314,7 @@ class SearchQuery(BaseQuery):
     Represents a query to apache solr
     """
     HTTP_ENDPOINT = SEARCH_URL
-    DEFAULT_FIELDS = "author,bibcode,id,year"
+    DEFAULT_FIELDS = "author,first_author_norm,bibcode,id,year"
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
                  sort=None, start=0, rows=50, max_pages=3, **kwargs):
