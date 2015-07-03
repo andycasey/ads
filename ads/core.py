@@ -237,6 +237,8 @@ class Article(object):
     database = lazy_property(lambda s: s._lazy_load("database"), "database")
     identifier = lazy_property(lambda s: s._lazy_load("identifier"),
         "identifier")
+    first_author_norm = lazy_property(
+        lambda s: s._lazy_load("first_author_norm"), "first_author_norm")
     issue = lazy_property(lambda s: s._lazy_load("issue"), "issue")
     keyword = lazy_property(lambda s: s._lazy_load("keyword"), "keyword")
     page = lazy_property(lambda s: s._lazy_load("page"), "page")
