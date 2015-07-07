@@ -46,6 +46,8 @@ class MockSolrResponse(HTTPrettyMock):
             """
 
             resp = json.loads(example_solr_response)
+
+            # Mimic the start, rows behaviour
             rows = int(
                 request.querystring.get(
                     'rows', [len(resp['response']['docs'])]
@@ -56,6 +58,13 @@ class MockSolrResponse(HTTPrettyMock):
                 resp['response']['docs'] = resp['response']['docs'][start:start+rows]
             except IndexError:
                 resp['response']['docs'] = resp['response']['docs'][start:]
+
+            # Mimic the filter "fl" behaviour
+            fl = request.querystring.get('fl', ['id'])
+            resp['response']['docs'] = [
+                {field: doc.get(field) for field in fl}
+                for doc in resp['response']['docs']
+            ]
 
             return 200, headers, json.dumps(resp)
 

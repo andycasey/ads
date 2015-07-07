@@ -74,7 +74,10 @@ class TestSolrResponse(unittest.TestCase):
         setup this test with a mocked solr response via http
         """
         with MockSolrResponse('http://solr-response.unittest'):
-            self.response = requests.get('http://solr-response.unittest')
+            self.response = requests.get(
+                'http://solr-response.unittest',
+                params={'fl': ["id", "doi", "bibcode"]}
+            )
 
     def test_init(self):
         """
