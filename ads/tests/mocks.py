@@ -26,6 +26,26 @@ class HTTPrettyMock(object):
         HTTPretty.disable()
 
 
+class MockApiResponse(HTTPrettyMock):
+    """
+    context manager than mocks an static adsws-api response
+    """
+    def __init__(self, api_endpoint):
+        self.api_endpoint = api_endpoint
+
+        HTTPretty.register_uri(
+            HTTPretty.GET,
+            self.api_endpoint,
+            body='''{"status": "online", "app": "adsws.api"}''',
+            content_type="application/json",
+            adding_headers={
+                'X-RateLimit-Limit': 400,
+                'X-RateLimit-Remaining': 397,
+                'X-RateLimit-Reset': 1436313600
+            }
+        )
+
+
 class MockSolrResponse(HTTPrettyMock):
     """
     context manager that mocks a Solr response

@@ -17,6 +17,7 @@ from . import __version__
 
 PY3 = sys.version_info > (3, )
 
+
 class APIResponse(object):
     """
     Base class that represents an adsws-api http response
@@ -26,9 +27,13 @@ class APIResponse(object):
     def get_ratelimits(self):
         """
         Return the current, maximum, and reset rate limits from the response
-        header
+        header as a dictionary. The values will be strings.
         """
-        raise NotImplemented
+        return {
+            "limit": self.response.headers.get('X-RateLimit-Limit'),
+            "remaining": self.response.headers.get('X-RateLimit-Remaining'),
+            "reset": self.response.headers.get('X-RateLimit-Reset')
+        }
 
 
 class SolrResponse(APIResponse):
