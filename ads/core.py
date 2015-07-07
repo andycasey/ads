@@ -17,6 +17,7 @@ from . import __version__
 
 PY3 = sys.version_info > (3, )
 
+
 class APIResponse(object):
     """
     Base class that represents an adsws-api http response
@@ -26,9 +27,13 @@ class APIResponse(object):
     def get_ratelimits(self):
         """
         Return the current, maximum, and reset rate limits from the response
-        header
+        header as a dictionary. The values will be strings.
         """
-        raise NotImplemented
+        return {
+            "limit": self.response.headers.get('X-RateLimit-Limit'),
+            "remaining": self.response.headers.get('X-RateLimit-Remaining'),
+            "reset": self.response.headers.get('X-RateLimit-Reset')
+        }
 
 
 class SolrResponse(APIResponse):
@@ -263,9 +268,10 @@ class SearchQuery(BaseQuery):
     Represents a query to apache solr
     """
     HTTP_ENDPOINT = SEARCH_URL
+    DEFAULT_FIELDS = ["author", "first_author", "bibcode", "id", "year"]
 
-    def __init__(self, query_dict=None, q=None, fq=None, fl=None, sort=None,
-                 start=0, rows=50, max_pages=3, **kwargs):
+    def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
+                 sort=None, start=0, rows=50, max_pages=3, **kwargs):
         """
         constructor
         :param query_dict: raw query that will be sent unmodified. raw takes

@@ -5,15 +5,35 @@ defined in core.py
 import unittest
 
 import ads.core
-from ads.core import SolrResponse, Article, BaseQuery
+from ads.core import SolrResponse, Article, BaseQuery, APIResponse
 from ads.exceptions import SolrResponseParseError, SolrResponseError
-from .mocks import MockSolrResponse
+from .mocks import MockSolrResponse, MockApiResponse
 
 import requests
 import os
 import six
 
 from tempfile import NamedTemporaryFile
+
+
+class TestApiResponse(unittest.TestCase):
+    """
+    test the base Api response class
+    """
+    def setUp(self):
+        with MockApiResponse('http://api.unittest'):
+            self.APIResponse = APIResponse()
+            self.APIResponse.response = requests.get('http://api.unittest')
+
+    def test_get_ratelimits(self):
+        """
+        the get_ratelimit method should return the X-RateLimit headers in
+        a dictionary
+        """
+        limits = self.APIResponse.get_ratelimits()
+        self.assertEqual(limits['limit'], '400')
+        self.assertEqual(limits['remaining'], '397')
+        self.assertEqual(limits['reset'], '1436313600')
 
 
 class TestBaseQuery(unittest.TestCase):
@@ -74,7 +94,10 @@ class TestSolrResponse(unittest.TestCase):
         setup this test with a mocked solr response via http
         """
         with MockSolrResponse('http://solr-response.unittest'):
-            self.response = requests.get('http://solr-response.unittest')
+            self.response = requests.get(
+                'http://solr-response.unittest',
+                params={'fl': ["id", "doi", "bibcode"]}
+            )
 
     def test_init(self):
         """
@@ -114,11 +137,14 @@ class TestSolrResponse(unittest.TestCase):
         """
         sr = SolrResponse.load_http_response(self.response)
         self.assertIsInstance(sr, SolrResponse)
+        self.assertIsInstance(sr, APIResponse)
+        self.assertEqual(sr.response, self.response)
 
         # Response with a non-200 return code should raise
         self.response.status_code = 500
         with self.assertRaises(SolrResponseError):
             SolrResponse.load_http_response(self.response)
+
 
 
 class TestArticle(unittest.TestCase):

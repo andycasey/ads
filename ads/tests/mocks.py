@@ -26,6 +26,26 @@ class HTTPrettyMock(object):
         HTTPretty.disable()
 
 
+class MockApiResponse(HTTPrettyMock):
+    """
+    context manager than mocks an static adsws-api response
+    """
+    def __init__(self, api_endpoint):
+        self.api_endpoint = api_endpoint
+
+        HTTPretty.register_uri(
+            HTTPretty.GET,
+            self.api_endpoint,
+            body='''{"status": "online", "app": "adsws.api"}''',
+            content_type="application/json",
+            adding_headers={
+                'X-RateLimit-Limit': 400,
+                'X-RateLimit-Remaining': 397,
+                'X-RateLimit-Reset': 1436313600
+            }
+        )
+
+
 class MockSolrResponse(HTTPrettyMock):
     """
     context manager that mocks a Solr response
@@ -46,6 +66,8 @@ class MockSolrResponse(HTTPrettyMock):
             """
 
             resp = json.loads(example_solr_response)
+
+            # Mimic the start, rows behaviour
             rows = int(
                 request.querystring.get(
                     'rows', [len(resp['response']['docs'])]
@@ -56,6 +78,13 @@ class MockSolrResponse(HTTPrettyMock):
                 resp['response']['docs'] = resp['response']['docs'][start:start+rows]
             except IndexError:
                 resp['response']['docs'] = resp['response']['docs'][start:]
+
+            # Mimic the filter "fl" behaviour
+            fl = request.querystring.get('fl', ['id'])
+            resp['response']['docs'] = [
+                {field: doc.get(field) for field in fl}
+                for doc in resp['response']['docs']
+            ]
 
             return 200, headers, json.dumps(resp)
 
