@@ -10,6 +10,8 @@ import requests
 import os
 import six
 import sys
+import functools
+import types
 
 from .exceptions import SolrResponseParseError, SolrResponseError
 from .config import SEARCH_URL, TOKEN_FILES, TOKEN_ENVIRON_VARS
@@ -86,6 +88,20 @@ class SolrResponse(APIResponse):
         return self._articles
 
 
+class lazy_property(object):
+    
+    def __init__(self, fget, func_name=None):
+        self.fget = fget
+        self.func_name = fget.__name__ if func_name is None else func_name
+
+    def __get__(self, obj, cls=None):
+        if obj is None:
+            return None
+        value = self.fget(obj)
+        setattr(obj, self.func_name, value)
+        return value
+
+
 class Article(object):
     """
     An object to represent a single record in NASA's Astrophysical
@@ -97,15 +113,16 @@ class Article(object):
     _references = None
     _citations = None
     _bibtex = None
-    first_author = None
-    author_norm = []
-    year = None
-    bibcode = None
 
     def __init__(self, **kwargs):
         """
         :param kwargs: Set object attributes from kwargs
         """
+        
+
+        if "id" not in kwargs:
+            warnings.warn("No article id found", RuntimeWarning)
+
         self._raw = kwargs
         for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
@@ -114,9 +131,10 @@ class Article(object):
         return self.__unicode__() if PY3 else self.__unicode__().encode("utf-8")
         
     def __unicode__(self):
-        author = self.first_author or "Unknown author"
-        if len(self.author_norm) > 1:
-            author = "{} et al.".format(author)
+        author = self.first_author_norm or "Unknown author"
+        if self.author and len(self.author) > 1:
+            author += " et al."
+
         return u"<{author} {year}, {bibcode}>".format(
             author=author,
             year=self.year,
@@ -130,6 +148,7 @@ class Article(object):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
 
     def keys(self):
         return self._raw.keys()
@@ -202,6 +221,42 @@ class Article(object):
 
         raise NotImplementedError
 
+
+    # Lazy-loading functionality.
+    def _lazy_load(self, field):
+        if not hasattr(self, "id"):
+            return None
+        response = SolrResponse.load_http_response(BaseQuery().session.get(
+            SEARCH_URL, params={"q": "id:{}".format(self.id), "fl": field}))
+        value = response.docs[0][field]
+        self._raw[field] = value
+        return value
+
+    abstract = lazy_property(lambda s: s._lazy_load("abstract"), "abstract")
+    aff = lazy_property(lambda s: s._lazy_load("aff"), "aff")
+    author = lazy_property(lambda s: s._lazy_load("author"), "author")
+    citation_count = lazy_property(lambda s: s._lazy_load("citation_count"),
+        "citation_count")
+    bibcode = lazy_property(lambda s: s._lazy_load("bibcode"), "bibcode")
+    bibstem = lazy_property(lambda s: s._lazy_load("bibstem"), "bibstem")
+    database = lazy_property(lambda s: s._lazy_load("database"), "database")
+    identifier = lazy_property(lambda s: s._lazy_load("identifier"),
+        "identifier")
+    first_author_norm = lazy_property(
+        lambda s: s._lazy_load("first_author_norm"), "first_author_norm")
+    issue = lazy_property(lambda s: s._lazy_load("issue"), "issue")
+    keyword = lazy_property(lambda s: s._lazy_load("keyword"), "keyword")
+    page = lazy_property(lambda s: s._lazy_load("page"), "page")
+    property = lazy_property(lambda s: s._lazy_load("property"), "property")    
+    pub = lazy_property(lambda s: s._lazy_load("pub"), "pub")
+    pubdate = lazy_property(lambda s: s._lazy_load("pubdate"), "pubdate")
+    read_count = lazy_property(lambda s: s._lazy_load("read_count"),
+        "read_count")
+    title = lazy_property(lambda s: s._lazy_load("title"), "title")
+    volume = lazy_property(lambda s: s._lazy_load("volume"), "volume")
+    year = lazy_property(lambda s: s._lazy_load("year"), "year")
+    
+    
 
 class BaseQuery(object):
     """
@@ -296,6 +351,10 @@ class SearchQuery(BaseQuery):
             query_dict.setdefault('start', 0)
             self._query = query_dict
         else:
+            if fl is not None:
+                fl_items = [v for v in fl.split(",") if len(v)] + ["id"]
+                fl = ",".join(set(fl_items))
+
             _ = {
                 "q": q or '',
                 "fq": fq,
