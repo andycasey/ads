@@ -233,7 +233,7 @@ class TestArticle(unittest.TestCase):
     def test_get_field(self):
         """
         The helper method _get_field() should return the value of a field
-        based on its `id`, or None if it has no `id`
+        based on its `id`
         """
         with self.assertRaisesRegexp(
                 SolrResponseError,
@@ -246,7 +246,7 @@ class TestArticle(unittest.TestCase):
         self.article.id = 9535116
         with MockSolrResponse(SEARCH_URL):
             self.assertEqual(self.article.pubdate, '1971-10-00')
-            self.assertEqual(self.article.read_count, '0.0')
+            self.assertEqual(self.article.read_count, 0.0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
