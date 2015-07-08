@@ -1,3 +1,5 @@
 six
 requests
 httpretty
+werkzeug
+mock

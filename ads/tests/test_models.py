@@ -8,7 +8,9 @@ import ads.core
 from ads.core import SolrResponse, Article, BaseQuery, APIResponse
 from ads.exceptions import SolrResponseParseError, SolrResponseError
 from .mocks import MockSolrResponse, MockApiResponse
+from ads.config import SEARCH_URL
 
+from mock import patch
 import requests
 import os
 import six
@@ -214,6 +216,37 @@ class TestArticle(unittest.TestCase):
         )
         self.assertEqual(self.article.__unicode__(), self.article.__str__())
 
+    @patch('ads.core.Article._get_field')
+    def test_cached_properties(self, patched):
+        """
+        The underlying computation responsible for filling in cached properties
+        should be called once and only once per attribute.
+        In addition, this computation should only be called if the instance
+        attribute wasn't set elsewhere.
+        """
+        patched.return_value = "patched response"
+        self.assertEqual(self.article.bibcode, '2013A&A...552A.143S')
+        self.assertEqual(self.article.aff, 'patched response')
+        self.assertEqual(self.article.aff, 'patched response')
+        patched.assert_called_once_with('aff')
+
+    def test_get_field(self):
+        """
+        The helper method _get_field() should return the value of a field
+        based on its `id`, or None if it has no `id`
+        """
+        with self.assertRaisesRegexp(
+                SolrResponseError,
+                "Cannot query an article without an id"):
+            self.article._get_field('read_count')
+
+        # Note that our mock solr server doesn't do anything with "q", and
+        # therefore will just return the first article in the hardcoded
+        # stubdata. We assume the live service will return the correct document.
+        self.article.id = 9535116
+        with MockSolrResponse(SEARCH_URL):
+            self.assertEqual(self.article.pubdate, '1971-10-00')
+            self.assertEqual(self.article.read_count, '0.0')
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

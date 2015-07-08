@@ -10,8 +10,7 @@ import requests
 import os
 import six
 import sys
-import functools
-import types
+from werkzeug.utils import cached_property
 
 from .exceptions import SolrResponseParseError, SolrResponseError
 from .config import SEARCH_URL, TOKEN_FILES, TOKEN_ENVIRON_VARS
@@ -88,20 +87,6 @@ class SolrResponse(APIResponse):
         return self._articles
 
 
-class lazy_property(object):
-    
-    def __init__(self, fget, func_name=None):
-        self.fget = fget
-        self.func_name = fget.__name__ if func_name is None else func_name
-
-    def __get__(self, obj, cls=None):
-        if obj is None:
-            return None
-        value = self.fget(obj)
-        setattr(obj, self.func_name, value)
-        return value
-
-
 class Article(object):
     """
     An object to represent a single record in NASA's Astrophysical
@@ -120,7 +105,10 @@ class Article(object):
         """
 
         if "id" not in kwargs:
-            warnings.warn("No article id found", RuntimeWarning)
+            warnings.warn(
+                "No article id found -- on-demand attribute lookup will fail",
+                RuntimeWarning
+            )
 
         self._raw = kwargs
         for key, value in six.iteritems(kwargs):
@@ -142,13 +130,13 @@ class Article(object):
         )
 
     def __eq__(self, other):
-        if self.bibcode is None or other.bibcode is None:
+        if not hasattr(self, 'bibcode') or not hasattr(other, 'bibcode') or \
+                self.bibcode is None or other.bibcode is None:
             raise TypeError("Cannot compare articles without bibcodes")
         return self.bibcode == other.bibcode
 
     def __ne__(self, other):
         return not self.__eq__(other)
-
 
     def keys(self):
         return self._raw.keys()
@@ -221,41 +209,96 @@ class Article(object):
 
         raise NotImplementedError
 
-
-    # Lazy-loading functionality.
-    def _lazy_load(self, field):
-        if not hasattr(self, "id"):
-            return None
+    def _get_field(self, field):
+        """
+        Queries the api for a single field for the record by `id`. Intentionally
+        does not update self.response. This method should only be called
+        indirectly by cached properties.
+        :param field: name of the record field to load
+        """
+        if not hasattr(self, "id") or self.id is None:
+            raise SolrResponseError("Cannot query an article without an id")
         response = SolrResponse.load_http_response(BaseQuery().session.get(
             SEARCH_URL, params={"q": "id:{}".format(self.id), "fl": field}))
         value = response.docs[0][field]
         self._raw[field] = value
         return value
 
-    abstract = lazy_property(lambda s: s._lazy_load("abstract"), "abstract")
-    aff = lazy_property(lambda s: s._lazy_load("aff"), "aff")
-    author = lazy_property(lambda s: s._lazy_load("author"), "author")
-    citation_count = lazy_property(lambda s: s._lazy_load("citation_count"),
-        "citation_count")
-    bibcode = lazy_property(lambda s: s._lazy_load("bibcode"), "bibcode")
-    bibstem = lazy_property(lambda s: s._lazy_load("bibstem"), "bibstem")
-    database = lazy_property(lambda s: s._lazy_load("database"), "database")
-    identifier = lazy_property(lambda s: s._lazy_load("identifier"),
-        "identifier")
-    first_author_norm = lazy_property(
-        lambda s: s._lazy_load("first_author_norm"), "first_author_norm")
-    issue = lazy_property(lambda s: s._lazy_load("issue"), "issue")
-    keyword = lazy_property(lambda s: s._lazy_load("keyword"), "keyword")
-    page = lazy_property(lambda s: s._lazy_load("page"), "page")
-    property = lazy_property(lambda s: s._lazy_load("property"), "property")    
-    pub = lazy_property(lambda s: s._lazy_load("pub"), "pub")
-    pubdate = lazy_property(lambda s: s._lazy_load("pubdate"), "pubdate")
-    read_count = lazy_property(lambda s: s._lazy_load("read_count"),
-        "read_count")
-    title = lazy_property(lambda s: s._lazy_load("title"), "title")
-    volume = lazy_property(lambda s: s._lazy_load("volume"), "volume")
-    year = lazy_property(lambda s: s._lazy_load("year"), "year")
-    
+    @cached_property
+    def abstract(self):
+        return self._get_field('abstract')
+
+    @cached_property
+    def aff(self):
+        return self._get_field('aff')
+
+    @cached_property
+    def author(self):
+        return self._get_field('author')
+
+    @cached_property
+    def citation_count(self):
+        return self._get_field('citation_count')
+
+    @cached_property
+    def bibcode(self):
+        return self._get_field('bibcode')
+
+    @cached_property
+    def bibstem(self):
+        return self._get_field('bibstem')
+
+    @cached_property
+    def database(self):
+        return self._get_field('database')
+
+    @cached_property
+    def identifier(self):
+        return self._get_field('identifier')
+
+    @cached_property
+    def first_author_norm(self):
+        return self._get_field('first_author_norm')
+
+    @cached_property
+    def issue(self):
+        return self._get_field('issue')
+
+    @cached_property
+    def keyword(self):
+        return self._get_field('keyword')
+
+    @cached_property
+    def page(self):
+        return self._get_field('page')
+
+    @cached_property
+    def property(self):
+        return self._get_field('property')
+
+    @cached_property
+    def pub(self):
+        return self._get_field('pub')
+
+    @cached_property
+    def pubdate(self):
+        return self._get_field('pubdate')
+
+    @cached_property
+    def read_count(self):
+        return self._get_field('read_count')
+
+    @cached_property
+    def title(self):
+        return self._get_field('title')
+
+    @cached_property
+    def volume(self):
+        return self._get_field('volume')
+
+    @cached_property
+    def year(self):
+        return self._get_field('year')
     
 
 class BaseQuery(object):
