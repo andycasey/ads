@@ -113,7 +113,6 @@ class Article(object):
         
     def __unicode__(self):
         author = self.first_author or "Unknown author"
-        print self.author
         if self.author and len(self.author) > 1:
             author += " et al."
 
