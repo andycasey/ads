@@ -204,16 +204,14 @@ class Article(object):
 
     def _get_field(self, field):
         """
-        Queries the api for a single field for the record by `id`. Intentionally
-        does not update self.response. This method should only be called
-        indirectly by cached properties.
+        Queries the api for a single field for the record by `id`.
+        This method should only be called indirectly by cached properties.
         :param field: name of the record field to load
         """
         if not hasattr(self, "id") or self.id is None:
             raise SolrResponseError("Cannot query an article without an id")
-        response = SolrResponse.load_http_response(BaseQuery().session.get(
-            SEARCH_URL, params={"q": "id:{}".format(self.id), "fl": field}))
-        value = response.docs[0][field]
+        sq = SearchQuery(q="id:{}".format(self.id), fl=field)
+        value = next(sq).__getattribute__(field)
         self._raw[field] = value
         return value
 
