@@ -192,12 +192,9 @@ class TestArticle(unittest.TestCase):
 
     def test_init(self):
         """
-        after init, the attributes _references and _citations should be None,
-        _raw should be a dict containing a subset of all class attributes
+        after init ._raw should be a dict containing a subset of all
+        class attributes
         """
-        self.assertIsNone(self.article._references)
-        self.assertIsNone(self.article._citations)
-        self.assertIsNone(self.article._bibtex)
         for key, value in six.iteritems(self.article._raw):
             self.assertEqual(
                 self.article.__getattribute__(key),

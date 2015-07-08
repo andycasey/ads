@@ -93,12 +93,6 @@ class Article(object):
     Data System.
     """
 
-    # define these class attributes; these are expected to exist
-    # by various instance methods
-    _references = None
-    _citations = None
-    _bibtex = None
-
     def __init__(self, **kwargs):
         """
         :param kwargs: Set object attributes from kwargs
