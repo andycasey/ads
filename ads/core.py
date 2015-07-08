@@ -123,8 +123,8 @@ class Article(object):
         )
 
     def __eq__(self, other):
-        if not hasattr(self, 'bibcode') or not hasattr(other, 'bibcode') or \
-                self.bibcode is None or other.bibcode is None:
+        if (not hasattr(self, 'bibcode') or not hasattr(other, 'bibcode') or
+                self.bibcode is None or other.bibcode is None):
             raise TypeError("Cannot compare articles without bibcodes")
         return self.bibcode == other.bibcode
 
@@ -232,10 +232,6 @@ class Article(object):
     @cached_property
     def citation_count(self):
         return self._get_field('citation_count')
-
-    @cached_property
-    def bibcode(self):
-        return self._get_field('bibcode')
 
     @cached_property
     def bibstem(self):
