@@ -118,7 +118,6 @@ class Article(object):
         """
         :param kwargs: Set object attributes from kwargs
         """
-        
 
         if "id" not in kwargs:
             warnings.warn("No article id found", RuntimeWarning)
@@ -131,7 +130,8 @@ class Article(object):
         return self.__unicode__() if PY3 else self.__unicode__().encode("utf-8")
         
     def __unicode__(self):
-        author = self.first_author_norm or "Unknown author"
+        author = self.first_author or "Unknown author"
+        print self.author
         if self.author and len(self.author) > 1:
             author += " et al."
 
@@ -351,10 +351,6 @@ class SearchQuery(BaseQuery):
             query_dict.setdefault('start', 0)
             self._query = query_dict
         else:
-            if fl is not None:
-                fl_items = [v for v in fl.split(",") if len(v)] + ["id"]
-                fl = ",".join(set(fl_items))
-
             _ = {
                 "q": q or '',
                 "fq": fq,

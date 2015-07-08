@@ -160,7 +160,7 @@ class TestArticle(unittest.TestCase):
             bibcode="2013A&A...552A.143S",
             year=2013,
             first_author="Sudilovsky, V.",
-            author_norm=[
+            author=[
                 "Sudilovsky, V",
                 "Greiner, J",
                 "Rau, A",
