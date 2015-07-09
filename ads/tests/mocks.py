@@ -4,8 +4,8 @@ Mock responses
 
 from httpretty import HTTPretty
 from .stubdata.solr import example_solr_response
+from .stubdata.metrics import example_metrics_response
 import json
-from collections import OrderedDict
 
 
 class HTTPrettyMock(object):
@@ -92,5 +92,24 @@ class MockSolrResponse(HTTPrettyMock):
             HTTPretty.GET,
             self.api_endpoint,
             body=request_callback,
+            content_type="application/json"
+        )
+
+
+class MockMetricsResponse(HTTPrettyMock):
+    """
+    context manager that mocks a metrics service response
+    """
+    def __init__(self, api_endpoint):
+        """
+        :param api_endpoint: name of the API end point
+        """
+
+        self.api_endpoint = api_endpoint
+
+        HTTPretty.register_uri(
+            HTTPretty.POST,
+            self.api_endpoint,
+            body=example_metrics_response,
             content_type="application/json"
         )

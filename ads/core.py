@@ -90,8 +90,16 @@ class MetricsResponse(APIResponse):
     """
     Data structure that represents a response from the ads metrics service
     """
+
     def __init__(self, raw):
         self._raw = raw
+        self.metrics = json.loads(raw)
+
+    def __str__(self):
+        return self.__unicode__() if PY3 else self.__unicode__().encode("utf-8")
+
+    def __unicode__(self):
+        return self.metrics
 
 
 class Article(object):
@@ -525,14 +533,20 @@ class MetricsQuery(BaseQuery):
         :param bibcodes: Bibcodes to send to in the metrics query
         :type bibcodes: list or string
         """
+        self.response = None  # current MetricsResponse object
         if isinstance(bibcodes, basestring):
             bibcodes = [bibcodes]
         self.bibcodes = bibcodes
         self.json_payload = json.dumps({"bibcodes": bibcodes})
 
     def execute(self):
-        pass
-
+        """
+        Execute the http request to the metrics service
+        """
+        self.response = MetricsResponse.load_http_response(
+            self.session.post(self.HTTP_ENDPOINT, data=self.json_payload)
+        )
+        return self.response
 
 
 class query(SearchQuery):
