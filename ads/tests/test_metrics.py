@@ -2,6 +2,7 @@
 Tests for MetricsQuery
 """
 import unittest
+import six
 
 from .mocks import MockMetricsResponse
 
@@ -41,8 +42,12 @@ class TestMetricsResponse(unittest.TestCase):
 
     def test_init(self):
         """
+        an initialized MetricsResponse should have an attribute metrics
+        that is a dictionary, and an attribute _raw that is a string
         """
-        pass
+        mr = MetricsResponse('{"valid":"json"}')
+        self.assertIsInstance(mr.metrics, dict)
+        self.assertIsInstance(mr._raw, six.string_types)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
