@@ -1,14 +1,11 @@
 """
 Tests for MetricsQuery
 """
-import sys
 import unittest
-import requests
 
 from .mocks import MockMetricsResponse
 
-from ads.core import MetricsQuery, MetricsResponse
-from ads.exceptions import APIResponseError, SolrResponseParseError
+from ads.metrics import MetricsQuery, MetricsResponse
 from ads.config import METRICS_URL
 
 

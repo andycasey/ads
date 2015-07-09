@@ -1,105 +1,16 @@
 """
-Core interface to the adsws-api, including data models and user facing
-interfaces
+Interface to the adsws search api.
 """
 
 import warnings
-import math
-import json
-import requests
-import os
 import six
-import sys
+import math
 from werkzeug.utils import cached_property
 import json
 
+from .config import SEARCH_URL
 from .exceptions import SolrResponseParseError, APIResponseError
-from .config import SEARCH_URL, METRICS_URL
-from .config import TOKEN_FILES, TOKEN_ENVIRON_VARS
-from . import __version__
-
-PY3 = sys.version_info > (3, )
-
-
-class APIResponse(object):
-    """
-    Base class that represents an adsws-api http response
-    """
-    response = None
-
-    def get_ratelimits(self):
-        """
-        Return the current, maximum, and reset rate limits from the response
-        header as a dictionary. The values will be strings.
-        """
-        return {
-            "limit": self.response.headers.get('X-RateLimit-Limit'),
-            "remaining": self.response.headers.get('X-RateLimit-Remaining'),
-            "reset": self.response.headers.get('X-RateLimit-Reset')
-        }
-
-    @classmethod
-    def load_http_response(cls, HTTPResponse):
-        """
-        This method should return an instansitated class and set its response
-        to the requests.Response object.
-        """
-        if not HTTPResponse.ok:
-            raise APIResponseError(HTTPResponse.text)
-        c = cls(HTTPResponse.text)
-        c.response = HTTPResponse
-        return c
-
-
-class SolrResponse(APIResponse):
-    """
-    Base class for storing a solr response
-    """
-
-    def __init__(self, raw):
-        """
-        De-serialize a json string representing a solr response
-        :param raw: complete json response from solr
-        :type raw: basestring
-        """
-        self._raw = raw
-        self.json = json.loads(raw)
-        self._articles = None
-        try:
-            self.responseHeader = self.json['responseHeader']
-            self.params = self.json['responseHeader']['params']
-            self.response = self.json['response']
-            self.numFound = self.response['numFound']
-            self.docs = self.response['docs']
-        except KeyError as e:
-            raise SolrResponseParseError("{}".format(e))
-
-    @property
-    def articles(self):
-        """
-        articles getter
-        """
-        if self._articles is None:
-            self._articles = []
-            for doc in self.docs:
-                self._articles.append(Article(**doc))
-        return self._articles
-
-
-class MetricsResponse(APIResponse):
-    """
-    Data structure that represents a response from the ads metrics service
-    """
-
-    def __init__(self, raw):
-        self._raw = raw
-        self.metrics = json.loads(raw)
-
-    def __str__(self):
-        return self.__unicode__() if PY3 else self.__unicode__().encode("utf-8")
-
-    def __unicode__(self):
-        return self.metrics
+from .base import BaseQuery, APIResponse
 
 
 class Article(object):
@@ -124,8 +35,10 @@ class Article(object):
             setattr(self, key, value)
 
     def __str__(self):
-        return self.__unicode__() if PY3 else self.__unicode__().encode("utf-8")
-        
+        if six.PY3:
+            return self.__unicode__()
+        return self.__unicode__().encode("utf-8")
+
     def __unicode__(self):
         author = self.first_author or "Unknown author"
         if self.author and len(self.author) > 1:
@@ -301,67 +214,41 @@ class Article(object):
     @cached_property
     def year(self):
         return self._get_field('year')
-    
 
-class BaseQuery(object):
+
+class SolrResponse(APIResponse):
     """
-    Represents an arbitrary query to the adsws-api
+    Base class for storing a solr response
     """
-    _session = None
-    _token = None
+
+    def __init__(self, raw):
+        """
+        De-serialize a json string representing a solr response
+        :param raw: complete json response from solr
+        :type raw: basestring
+        """
+        self._raw = raw
+        self.json = json.loads(raw)
+        self._articles = None
+        try:
+            self.responseHeader = self.json['responseHeader']
+            self.params = self.json['responseHeader']['params']
+            self.response = self.json['response']
+            self.numFound = self.response['numFound']
+            self.docs = self.response['docs']
+        except KeyError as e:
+            raise SolrResponseParseError("{}".format(e))
 
     @property
-    def token(self):
+    def articles(self):
         """
-        set the instance attribute `token` following the following logic,
-        stopping whenever a token is found. Raises NoTokenFound is no token
-        is found
-        2. environment variables TOKEN_ENVIRON_VARS
-        3. file containing plaintext as the contents in TOKEN_FILES
+        articles getter
         """
-        if self._token is None:
-            for v in map(os.environ.get, TOKEN_ENVIRON_VARS):
-                if v is not None:
-                    self._token = v
-                    return self._token
-            for f in TOKEN_FILES:
-                try:
-                    with open(f) as fp:
-                        self._token = fp.read().strip()
-                        return self._token
-                except IOError:
-                    pass
-            warnings.warn("No token found", RuntimeWarning)
-        return self._token
-
-    @token.setter
-    def token(self, value):
-        self._token = value
-
-    @property
-    def session(self):
-        """
-        http session interface, transparent proxy to requests.session
-        """
-        if self._session is None:
-            self._session = requests.session()
-            self._session.headers.update(
-                {
-                    "Authorization": "Bearer {}".format(self.token),
-                    "User-Agent": "ads-api-client/{}".format(__version__),
-                    "Content-Type": "application/json",
-                }
-            )
-        return self._session
-
-    def __call__(self):
-        return self.execute()
-
-    def execute(self):
-        """
-        Each subclass should define their own execute method
-        """
-        raise NotImplementedError
+        if self._articles is None:
+            self._articles = []
+            for doc in self.docs:
+                self._articles.append(Article(**doc))
+        return self._articles
 
 
 class SearchQuery(BaseQuery):
@@ -497,71 +384,16 @@ class SearchQuery(BaseQuery):
         self._query['start'] += self._query['rows']
 
 
-class ExportQuery(BaseQuery):
-    """
-    Represents a query to the adsws export service
-    """
-    def __init__(self):
-        raise NotImplementedError
-
-
-class BigQuery(BaseQuery):
-    """
-    Represents a query to the adsws bigquery service
-    """
-    def __init__(self):
-        raise NotImplementedError
-
-
-class VisQuery(BaseQuery):
-    """
-    Represents a query to the adsws visualizations service
-    """
-    def __init__(self):
-        raise NotImplementedError
-
-
-class MetricsQuery(BaseQuery):
-    """
-    Represents a query to the adsws metrics service
-    """
-
-    HTTP_ENDPOINT = METRICS_URL
-
-    def __init__(self, bibcodes):
-        """
-        :param bibcodes: Bibcodes to send to in the metrics query
-        :type bibcodes: list or string
-        """
-        self.response = None  # current MetricsResponse object
-        if isinstance(bibcodes, basestring):
-            bibcodes = [bibcodes]
-        self.bibcodes = bibcodes
-        self.json_payload = json.dumps({"bibcodes": bibcodes})
-
-    def execute(self):
-        """
-        Execute the http request to the metrics service
-        """
-        self.response = MetricsResponse.load_http_response(
-            self.session.post(self.HTTP_ENDPOINT, data=self.json_payload)
-        )
-        return self.response
-
-
 class query(SearchQuery):
     """
     Backwards compatible proxy to SearchQuery
     """
     def __init__(self, *args, **kwargs):
         """
-        Override parent's __init__ to show the deprecation warning and
-        re-construct the old query API into the newer SearchQuery api
+        Override parent's __init__ to show the deprecation warning
         """
         warnings.warn(
             "ads.query will be deprectated. Use ads.SearchQuery in the future",
             DeprecationWarning
         )
         super(self.__class__, self).__init__(*args, **kwargs)
-
-
