@@ -5,8 +5,8 @@ defined in core.py
 import unittest
 
 import ads.core
-from ads.core import SolrResponse, Article, BaseQuery, APIResponse
-from ads.exceptions import SolrResponseParseError, APIResponseError
+from ads.core import Article, BaseQuery, APIResponse
+from ads.exceptions import APIResponseError
 from .mocks import MockSolrResponse, MockApiResponse
 from ads.config import SEARCH_URL
 
@@ -94,67 +94,6 @@ class TestBaseQuery(unittest.TestCase):
         self.assertEqual(hdrs['Content-Type'], 'application/json')
         self.assertIn('ads-api-client', hdrs['User-Agent'])
         self.assertIn('Bearer', hdrs['Authorization'])
-
-
-class TestSolrResponse(unittest.TestCase):
-    """
-    Test the SolrResponse object
-    """
-    def setUp(self):
-        """
-        setup this test with a mocked solr response via http
-        """
-        with MockSolrResponse('http://solr-response.unittest'):
-            self.response = requests.get(
-                'http://solr-response.unittest',
-                params={'fl': ["id", "doi", "bibcode"]}
-            )
-
-    def test_init(self):
-        """
-        ensure that an init of SolrResponse has the expected keys,
-        and that if critical data are missing then raise SolrResponseParseError
-        """
-
-        sr = SolrResponse(self.response.text)
-        self.assertIn('responseHeader', sr.json)
-        self.assertIn('response', sr.json)
-        self.assertEqual(sr.numFound, 28)
-
-        malformed_text = self.response.text.replace(
-            'responseHeader',
-            'this_is_now_malformed_data',
-        )
-        with self.assertRaises(SolrResponseParseError):
-            SolrResponse(malformed_text)
-
-    def test_articles(self):
-        """
-        the article attribute should be read-only, and set the first time
-        it is called
-        """
-        sr = SolrResponse(self.response.text)
-        self.assertIsNone(sr._articles)
-        self.assertEqual(len(sr.articles), 28)
-        self.assertEqual(sr._articles, sr.articles)
-        self.assertEqual(sr.articles[0].doi, [u'10.1126/science.174.4005.142'])
-        with self.assertRaises(AttributeError):
-            sr.articles = 'this should be read-only'
-
-    def test_load_http_response(self):
-        """
-        the classmethod load_http_response() should return an instansiated
-        SolrResponse class
-        """
-        sr = SolrResponse.load_http_response(self.response)
-        self.assertIsInstance(sr, SolrResponse)
-        self.assertIsInstance(sr, APIResponse)
-        self.assertEqual(sr.response, self.response)
-
-        # Response with a non-200 return code should raise
-        self.response.status_code = 500
-        with self.assertRaises(APIResponseError):
-            SolrResponse.load_http_response(self.response)
 
 
 class TestArticle(unittest.TestCase):
