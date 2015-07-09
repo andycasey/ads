@@ -11,9 +11,11 @@ import os
 import six
 import sys
 from werkzeug.utils import cached_property
+import json
 
-from .exceptions import SolrResponseParseError, SolrResponseError
-from .config import SEARCH_URL, TOKEN_FILES, TOKEN_ENVIRON_VARS
+from .exceptions import SolrResponseParseError, APIResponseError
+from .config import SEARCH_URL, METRICS_URL
+from .config import TOKEN_FILES, TOKEN_ENVIRON_VARS
 from . import __version__
 
 PY3 = sys.version_info > (3, )
@@ -35,6 +37,18 @@ class APIResponse(object):
             "remaining": self.response.headers.get('X-RateLimit-Remaining'),
             "reset": self.response.headers.get('X-RateLimit-Reset')
         }
+
+    @classmethod
+    def load_http_response(cls, HTTPResponse):
+        """
+        This method should return an instansitated class and set its response
+        to the requests.Response object.
+        """
+        if not HTTPResponse.ok:
+            raise APIResponseError(HTTPResponse.text)
+        c = cls(HTTPResponse.text)
+        c.response = HTTPResponse
+        return c
 
 
 class SolrResponse(APIResponse):
@@ -60,21 +74,6 @@ class SolrResponse(APIResponse):
         except KeyError as e:
             raise SolrResponseParseError("{}".format(e))
 
-    @classmethod
-    def load_http_response(cls, HTTPResponse):
-        """
-        Returns an instansiated SolrResponse using data in a requests.response.
-        Sets class attribute `articles` to a list containing Article instances.
-        :param HTTPResponse: response object
-        :type HTTPResponse: requests.Response
-        :return SolrResponse instance
-        """
-        if not HTTPResponse.ok:
-            raise SolrResponseError(HTTPResponse.text)
-        c = cls(HTTPResponse.text)
-        c.response = HTTPResponse
-        return c
-
     @property
     def articles(self):
         """
@@ -85,6 +84,14 @@ class SolrResponse(APIResponse):
             for doc in self.docs:
                 self._articles.append(Article(**doc))
         return self._articles
+
+
+class MetricsResponse(APIResponse):
+    """
+    Data structure that represents a response from the ads metrics service
+    """
+    def __init__(self, raw):
+        self._raw = raw
 
 
 class Article(object):
@@ -209,7 +216,7 @@ class Article(object):
         :param field: name of the record field to load
         """
         if not hasattr(self, "id") or self.id is None:
-            raise SolrResponseError("Cannot query an article without an id")
+            raise APIResponseError("Cannot query an article without an id")
         sq = SearchQuery(q="id:{}".format(self.id), fl=field)
         value = next(sq).__getattribute__(field)
         self._raw[field] = value
@@ -510,8 +517,22 @@ class MetricsQuery(BaseQuery):
     """
     Represents a query to the adsws metrics service
     """
-    def __init__(self):
-        raise NotImplementedError
+
+    HTTP_ENDPOINT = METRICS_URL
+
+    def __init__(self, bibcodes):
+        """
+        :param bibcodes: Bibcodes to send to in the metrics query
+        :type bibcodes: list or string
+        """
+        if isinstance(bibcodes, basestring):
+            bibcodes = [bibcodes]
+        self.bibcodes = bibcodes
+        self.json_payload = json.dumps({"bibcodes": bibcodes})
+
+    def execute(self):
+        pass
+
 
 
 class query(SearchQuery):

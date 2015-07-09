@@ -6,7 +6,7 @@ import unittest
 
 import ads.core
 from ads.core import SolrResponse, Article, BaseQuery, APIResponse
-from ads.exceptions import SolrResponseParseError, SolrResponseError
+from ads.exceptions import SolrResponseParseError, APIResponseError
 from .mocks import MockSolrResponse, MockApiResponse
 from ads.config import SEARCH_URL
 
@@ -153,7 +153,7 @@ class TestSolrResponse(unittest.TestCase):
 
         # Response with a non-200 return code should raise
         self.response.status_code = 500
-        with self.assertRaises(SolrResponseError):
+        with self.assertRaises(APIResponseError):
             SolrResponse.load_http_response(self.response)
 
 
@@ -241,7 +241,7 @@ class TestArticle(unittest.TestCase):
         based on its `id`
         """
         with self.assertRaisesRegexp(
-                SolrResponseError,
+                APIResponseError,
                 "Cannot query an article without an id"):
             self.article._get_field('read_count')
 

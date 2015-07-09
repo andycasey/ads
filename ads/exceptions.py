@@ -3,9 +3,9 @@ Custom exceptions
 """
 
 
-class SolrResponseParseError(Exception):
+class APIResponseError(Exception):
     """
-    Raised when no signature info is found
+    Raised on a HTTP error from the API
     """
     def __init__(self, value=None):
         self.value = value
@@ -14,7 +14,7 @@ class SolrResponseParseError(Exception):
         return repr(self.value)
 
 
-class SolrResponseError(Exception):
+class SolrResponseParseError(Exception):
     """
     Raised when solr returns an error
     """
