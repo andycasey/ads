@@ -18,7 +18,10 @@ class Article(object):
     An object to represent a single record in NASA's Astrophysical
     Data System.
     """
-
+    # Due to the desire to have load-on-demand and to expose data such as
+    # Article.metrics, this class has dependencies on search.py and other core
+    # services; this is why it is currently impossible for it to live in
+    # base.py, which is the most logical place for it.
     def __init__(self, **kwargs):
         """
         :param kwargs: Set object attributes from kwargs
