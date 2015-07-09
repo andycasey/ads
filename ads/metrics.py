@@ -51,4 +51,4 @@ class MetricsQuery(BaseQuery):
         self.response = MetricsResponse.load_http_response(
             self.session.post(self.HTTP_ENDPOINT, data=self.json_payload)
         )
-        return self.response
+        return self.response.metrics
