@@ -333,7 +333,8 @@ class BaseQuery(object):
             self._session.headers.update(
                 {
                     "Authorization": "Bearer {}".format(self.token),
-                    "User-Agent": "ads-api-client/{}".format(__version__)
+                    "User-Agent": "ads-api-client/{}".format(__version__),
+                    "Content-Type": "application/json",
                 }
             )
         return self._session

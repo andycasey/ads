@@ -86,6 +86,15 @@ class TestBaseQuery(unittest.TestCase):
 
         self.assertEqual(bq.token, None)
 
+    def test_headers(self):
+        """
+        basequery's session object should have pre-defined headers
+        """
+        hdrs = BaseQuery().session.headers
+        self.assertEqual(hdrs['Content-Type'], 'application/json')
+        self.assertIn('ads-api-client', hdrs['User-Agent'])
+        self.assertIn('Bearer', hdrs['Authorization'])
+
 
 class TestSolrResponse(unittest.TestCase):
     """
@@ -146,7 +155,6 @@ class TestSolrResponse(unittest.TestCase):
         self.response.status_code = 500
         with self.assertRaises(SolrResponseError):
             SolrResponse.load_http_response(self.response)
-
 
 
 class TestArticle(unittest.TestCase):
