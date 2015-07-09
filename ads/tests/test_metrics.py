@@ -30,8 +30,8 @@ class TestMetricsQuery(unittest.TestCase):
         mq = MetricsQuery('bibcode')
         with MockMetricsResponse(METRICS_URL):
             retval = mq.execute()
-        self.assertIsInstance(retval, MetricsResponse)
-        self.assertEqual(retval, mq.response)
+        self.assertIsInstance(mq.response, MetricsResponse)
+        self.assertEqual(retval, mq.response.metrics)
 
 
 class TestMetricsResponse(unittest.TestCase):
