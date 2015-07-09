@@ -11,6 +11,7 @@ import json
 from .config import SEARCH_URL
 from .exceptions import SolrResponseParseError, APIResponseError
 from .base import BaseQuery, APIResponse
+from .metrics import MetricsQuery
 
 
 class Article(object):
@@ -74,21 +75,6 @@ class Article(object):
     @property
     def bibtex(self):
         """Return a BiBTeX entry for the current article."""
-        raise NotImplementedError
-
-    @property
-    def references(self):
-        """Retrieves reference list for the current article and stores them."""
-        raise NotImplementedError
-
-    @property
-    def citations(self):
-        """Retrieves citation list for the current article and stores them."""
-        raise NotImplementedError
-
-    @property
-    def metrics(self):
-        """Retrieves metrics for the current article and stores them."""
         raise NotImplementedError
 
     def build_reference_tree(self, depth=1, **kwargs):
@@ -207,6 +193,14 @@ class Article(object):
         return self._get_field('read_count')
 
     @cached_property
+    def reference(self):
+        return self._get_field('reference')
+
+    @cached_property
+    def citation(self):
+        return self._get_field('citation')
+
+    @cached_property
     def title(self):
         return self._get_field('title')
 
@@ -217,6 +211,10 @@ class Article(object):
     @cached_property
     def year(self):
         return self._get_field('year')
+
+    @cached_property
+    def metrics(self):
+        return MetricsQuery(bibcodes=self.bibcode).execute()
 
 
 class SolrResponse(APIResponse):
