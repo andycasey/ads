@@ -397,4 +397,7 @@ class query(SearchQuery):
             "ads.query will be deprectated. Use ads.SearchQuery in the future",
             DeprecationWarning
         )
+        if isinstance(args[0], six.string_types):
+            kwargs.update({'q': args[0]})
+            args = args[1:]
         super(self.__class__, self).__init__(*args, **kwargs)

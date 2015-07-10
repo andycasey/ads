@@ -9,7 +9,7 @@ import six
 
 from .mocks import MockSolrResponse
 
-from ads.search import SearchQuery, SolrResponse, APIResponse, Article
+from ads.search import SearchQuery, SolrResponse, APIResponse, Article, query
 from ads.exceptions import APIResponseError, SolrResponseParseError
 from ads.config import SEARCH_URL
 
@@ -230,6 +230,24 @@ class TestSolrResponse(unittest.TestCase):
         self.response.status_code = 500
         with self.assertRaises(APIResponseError):
             SolrResponse.load_http_response(self.response)
+
+
+class Testquery(unittest.TestCase):
+    """
+    Test the to-be-deprecated "query" class
+    """
+
+    def test_init(self):
+        """
+        passing a :type str as the first argument to query.__init__() should
+        create an instansiated SearchQuery whose "q" is that string
+        """
+        _ = query("star")
+        self.assertEqual(_._query['q'], "star")
+        _ = query({"q": "star"})
+        self.assertEqual(_._query['q'], "star")
+        self.assertIsInstance(_, SearchQuery)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
