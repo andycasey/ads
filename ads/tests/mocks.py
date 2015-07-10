@@ -5,6 +5,7 @@ Mock responses
 from httpretty import HTTPretty
 from .stubdata.solr import example_solr_response
 from .stubdata.metrics import example_metrics_response
+from .stubdata.export import example_export_response
 import json
 
 
@@ -111,5 +112,24 @@ class MockMetricsResponse(HTTPrettyMock):
             HTTPretty.POST,
             self.api_endpoint,
             body=example_metrics_response,
+            content_type="application/json"
+        )
+
+
+class MockExportResponse(HTTPrettyMock):
+    """
+    context manager that mocks an export service response
+    """
+    def __init__(self, api_endpoint):
+        """
+        :param api_endpoint: name of the API end point
+        """
+
+        self.api_endpoint = api_endpoint
+
+        HTTPretty.register_uri(
+            HTTPretty.POST,
+            self.api_endpoint,
+            body=example_export_response,
             content_type="application/json"
         )
