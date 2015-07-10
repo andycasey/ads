@@ -42,6 +42,8 @@ class ExportQuery(BaseQuery):
         """
         assert format in self.FORMATS, "Format must be one of {}".format(
             self.FORMATS)
+        
+        self.format = format
 
         self.response = None  # current ExportResponse object
         if isinstance(bibcodes, six.string_types):
@@ -54,7 +56,8 @@ class ExportQuery(BaseQuery):
         Execute the http request to the metrics service
         :return ads-classic formatted export string
         """
+        url = "{}/{}".format(self.HTTP_ENDPOINT, self.format)
         self.response = ExportResponse.load_http_response(
-            self.session.post(self.HTTP_ENDPOINT, data=self.json_payload)
+            self.session.post(url, data=self.json_payload)
         )
         return self.response.result
