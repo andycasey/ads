@@ -6,6 +6,6 @@
 __author__ = "Andy Casey <andy@astrowizici.st>"
 __version__ = "0.0.809"
 
-from metrics import MetricsQuery
-from export import ExportQuery
-from search import SearchQuery, query
+from .metrics import MetricsQuery
+from .export import ExportQuery
+from .search import SearchQuery, query
