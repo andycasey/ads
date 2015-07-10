@@ -4,6 +4,7 @@ interfaces to the adsws export service
 
 import json
 import six
+import os
 
 from .base import APIResponse, BaseQuery
 from .config import EXPORT_URL
@@ -42,7 +43,7 @@ class ExportQuery(BaseQuery):
         """
         assert format in self.FORMATS, "Format must be one of {}".format(
             self.FORMATS)
-        
+
         self.format = format
 
         self.response = None  # current ExportResponse object
@@ -56,7 +57,7 @@ class ExportQuery(BaseQuery):
         Execute the http request to the metrics service
         :return ads-classic formatted export string
         """
-        url = "{}/{}".format(self.HTTP_ENDPOINT, self.format)
+        url = os.path.join(self.HTTP_ENDPOINT, self.format)
         self.response = ExportResponse.load_http_response(
             self.session.post(url, data=self.json_payload)
         )
