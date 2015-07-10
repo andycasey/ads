@@ -9,6 +9,7 @@ import os
 from .exceptions import APIResponseError
 from .config import TOKEN_FILES, TOKEN_ENVIRON_VARS
 from . import __version__
+import ads.config  # For manually setting the token
 
 
 class APIResponse(object):
@@ -46,7 +47,7 @@ class BaseQuery(object):
     Represents an arbitrary query to the adsws-api
     """
     _session = None
-    _token = None
+    _token = ads.config.token
 
     @property
     def token(self):
@@ -54,8 +55,9 @@ class BaseQuery(object):
         set the instance attribute `token` following the following logic,
         stopping whenever a token is found. Raises NoTokenFound is no token
         is found
-        2. environment variables TOKEN_ENVIRON_VARS
-        3. file containing plaintext as the contents in TOKEN_FILES
+        - environment variables TOKEN_ENVIRON_VARS
+        - file containing plaintext as the contents in TOKEN_FILES
+        - ads.config.token
         """
         if self._token is None:
             for v in map(os.environ.get, TOKEN_ENVIRON_VARS):
@@ -69,6 +71,9 @@ class BaseQuery(object):
                         return self._token
                 except IOError:
                     pass
+            if ads.config.token is not None:
+                self._token = ads.config.token
+                return self._token
             warnings.warn("No token found", RuntimeWarning)
         return self._token
 

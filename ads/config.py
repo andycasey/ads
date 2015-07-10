@@ -18,3 +18,4 @@ TOKEN_FILES = map(os.path.expanduser,
     ]
 )
 TOKEN_ENVIRON_VARS = ["ADS_API_TOKEN", "ADS_DEV_KEY"]
+token = None  # for setting in-situ

@@ -8,6 +8,7 @@ import os
 from tempfile import NamedTemporaryFile
 
 import ads.base
+import ads.config
 from ads.base import BaseQuery, APIResponse
 from .mocks import MockApiResponse
 
@@ -39,8 +40,9 @@ class TestBaseQuery(unittest.TestCase):
     def test_token(self):
         """
         the token should be set in the following order:
-        (first in list) environmental variables defined in TOKEN_ENVIRON_VARS
-        (first in list) files on disk defined in TOKEN_FILES
+        - (first in list) environmental variables defined in TOKEN_ENVIRON_VARS
+        - (first in list) files on disk defined in TOKEN_FILES
+        - ads.config.token
         """
         def reset_token():
             bq.token = None
@@ -79,6 +81,11 @@ class TestBaseQuery(unittest.TestCase):
         tf2.close()
 
         self.assertEqual(bq.token, None)
+
+        ads.config.token = "tok5"
+        self.assertEqual(BaseQuery().token, "tok5")
+
+
 
     def test_headers(self):
         """
