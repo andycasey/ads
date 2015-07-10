@@ -29,12 +29,6 @@ class Article(object):
         :param kwargs: Set object attributes from kwargs
         """
 
-        if "id" not in kwargs:
-            warnings.warn(
-                "No article id found -- on-demand attribute lookup will fail",
-                RuntimeWarning
-            )
-
         self._raw = kwargs
         for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
@@ -217,6 +211,7 @@ class Article(object):
         """Return a BiBTeX entry for the current article."""
         return ExportQuery(bibcodes=self.bibcode, format="bibtex").execute()
 
+
 class SolrResponse(APIResponse):
     """
     Base class for storing a solr response
@@ -285,6 +280,8 @@ class SearchQuery(BaseQuery):
             query_dict.setdefault('start', 0)
             self._query = query_dict
         else:
+            if sort is not None:
+                sort = sort if " " in sort else "{} desc".format(sort)
             _ = {
                 "q": q or '',
                 "fq": fq,
