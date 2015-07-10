@@ -252,7 +252,8 @@ class SearchQuery(BaseQuery):
     Represents a query to apache solr
     """
     HTTP_ENDPOINT = SEARCH_URL
-    DEFAULT_FIELDS = ["author", "first_author", "bibcode", "id", "year"]
+    DEFAULT_FIELDS = ["author", "first_author", "bibcode", "id", "year",
+                      "title", "reference", "citation"]
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
                  sort=None, start=0, rows=50, max_pages=3, **kwargs):
