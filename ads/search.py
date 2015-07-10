@@ -12,6 +12,7 @@ from .config import SEARCH_URL
 from .exceptions import SolrResponseParseError, APIResponseError
 from .base import BaseQuery, APIResponse
 from .metrics import MetricsQuery
+from .export import ExportQuery
 
 
 class Article(object):
@@ -71,11 +72,6 @@ class Article(object):
 
     def iteritems(self):
         return six.iteritems(self._raw)
-
-    @property
-    def bibtex(self):
-        """Return a BiBTeX entry for the current article."""
-        raise NotImplementedError
 
     def build_reference_tree(self, depth=1, **kwargs):
         """
@@ -216,6 +212,10 @@ class Article(object):
     def metrics(self):
         return MetricsQuery(bibcodes=self.bibcode).execute()
 
+    @cached_property
+    def bibtex(self):
+        """Return a BiBTeX entry for the current article."""
+        return ExportQuery(bibcodes=self.bibcode, format="bibtex").execute()
 
 class SolrResponse(APIResponse):
     """
