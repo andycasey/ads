@@ -3,6 +3,7 @@ Tests for ExportQuery
 """
 import unittest
 import six
+import os
 
 from .mocks import MockExportResponse
 
@@ -29,7 +30,7 @@ class TestMetricsQuery(unittest.TestCase):
         that object should be set as the .response attribute
         """
         eq = ExportQuery('bibcode')
-        with MockExportResponse(EXPORT_URL+"/bibtex"):
+        with MockExportResponse(os.path.join(EXPORT_URL, "bibtex")):
             retval = eq.execute()
         self.assertIsInstance(eq.response, ExportResponse)
         self.assertEqual(retval, eq.response.result)
