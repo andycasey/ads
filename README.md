@@ -95,7 +95,7 @@ Which allows you to easily build complicated queries. Feel free to fork this rep
 
 **Contributors**
 
-Dan Foreman-Mackey, Miguel de Val-Borro, Vladimir Sudilovsky
+Vladimir Sudilovsky, Dan Foreman-Mackey, Miguel de Val-Borro
 
 **License**
 
