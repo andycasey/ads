@@ -1,18 +1,11 @@
-branches:
-  only:
-    - master
-    - develop
 language: python
 python:
   - 2.7
   - "2.7_with_system_site_packages"
   - 3.4
 install: 
-  - pip install -r requirements.txt --use-mirrors
+  - pip install -r requirements.txt
 script:
-  - '[ "${TRAVIS_SECURE_ENV_VARS}" = "true" ] && nosetests || 0'
+  - nosetests
 notifications:
-  email: andy.casey@gmail.com
-env:
-  global:
-    - secure: "ZtElK3u1qdX9xDcZcd1mU1jzFofzfc2HJqUM0kBluGSPBuDOkV+0rCa6Gz/nPvRnClEq95pVM2YKLzJ30JOYOwDrZmGnCLmoPIP4ePl+xlnuQb6SvMmjxc+0Kv35moXtUrhdBn39MPBBUg6gSdggNcD/DPLXYAURfRA4HIfJy9E="
+  email: false

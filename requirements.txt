@@ -1,3 +1,5 @@
 six
 requests
-requests_futures
+httpretty
+werkzeug
+mock

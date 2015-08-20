@@ -7,7 +7,7 @@ If you're in research, then you pretty much _need_ NASA's ADS. It's tried, true,
 
 **Getting Started**
 
-1. You'll need an API key from NASA ADS labs. Sign up for the newest version of ADS search [here](http://labs.adsabs.harvard.edu/adsabs/user/signup), then you can apply for API access by filling out [this form](https://docs.google.com/spreadsheet/viewform?formkey=dFJZbHp1WERWU3hQVVJnZFJjbE05SGc6MQ#gid=0).
+1. You'll need an API key from NASA ADS labs. Sign up for the newest version of ADS search at https://ui.adsabs.harvard.edu, visit account settings and generate a new API token. The official documentation is available at https://github.com/adsabs/adsabs-dev-api
 
 2. When you get your API key, save it to a file called ``~/.ads/dev_key`` or save it as an environment variable named ``ADS_DEV_KEY``
 
@@ -20,12 +20,15 @@ Happy Hacking!
 
 You can use this module to search for some popular supernova papers:
 ````
-In [1]: import ads
+>>> import ads
 
-In [2]: papers = ads.query("supernova", sort="citations", rows=5)
+# Opps, I forgot to follow step 2 in "Getting Started"
+>>> ads.config.token = 'my token'
 
-In [3]: for paper in papers:
-    print(paper.title)
+>>> papers = ads.SearchQuery(q="supernova", sort="citations")
+
+>>> for paper in papers:
+>>>    print(paper.title)
    ...:     
 [u'Maps of Dust Infrared Emission for Use in Estimation of Reddening and Cosmic Microwave Background Radiation Foregrounds']
 [u'Measurements of Omega and Lambda from 42 High-Redshift Supernovae']
@@ -36,83 +39,63 @@ In [3]: for paper in papers:
 
 Or search for papers first-authored by someone:
 ````
-In [4]: people = list(ads.query(authors="^Reiss, A"))
+>>> people = list(ads.SearchQuery(first_author="Reiss, A"))
 
-In [5]: people[0].author
-Out[5]: [u'Reiss, A. E.', u'Marchis, F.', u'Emery, J. P.']
+>>> people[0].author
+[u'Reiss, A. W.']
 ````
 
 Or papers where they are anywhere in the author list:
 ````
-In [6]: papers = list(ads.query(authors="Reiss, A"))
+>>> papers = list(ads.SearchQuery(author="Reiss, A"))
 
-In [7]: papers[0].author
-Out[7]: 
-[u'Freeman, William',
- u'Bishop, J.',
- u'Marchis, F.',
- u'Emery, J.',
- u'Reiss, A. E.',
- u'Hiroi, T.',
- u'Navascu\xe9s, D. Barrado y.',
- u'Shaddad, M. H.',
- u'Jenniskens, P.']
+>>> papers[0].author
+[u'Goodwin, F. E.', u'Henderson, D. M.', u'Reiss, A.', u'Wilkerson, John L.']
 ````
 
 Or search by affiliation:
 ````
-In [8]: papers = list(ads.query(affiliation="*stromlo*", rows=5))
+>>> papers = list(ads.SearchQuery(aff="*stromlo*"))
 
-In [8]: papers[0].aff
-Out[8]: 
-[u'Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge CB3 0HA, UK;',
- u'Astronomisches Rechen-Institut, Zentrum f\xfcr Astronomie der Universit\xe4t Heidelberg, D-69120 Heidelberg, Germany',
- u'JHU-APL, 11100 Johns Hopkins Road, Laurel, MD 20723, USA',
- u"UJF-Grenoble 1/CNRS-INSU, Institut de Plan\xe9tologie et d'Astrophysique (IPAG) UMR 5274, F-38041 Grenoble, France; Laboratorio Franco-Chileno de Astronomia (UMI 3386: CNRS - U de Chile/PUC/U Conception), Santiago, Chile",
- u'Department of Physics, University of Cincinnati, Cincinnati, OH 45221-0011, USA',
- u'Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge CB3 0HA, UK',
- u'Research School of Astronomy and Astrophysics, The Australian National University, Mount Stromlo Observatory, Cotter Road, Weston Creek, ACT 2611, Australia',
- u'Department of Earth, Atmospheric and Planetary Sciences, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139, USA',
- u'The Aerospace Corporation, Mail Stop: M2-266, P.O. Box 92957, Los Angeles, CA 90009-2957, USA',
- u'The Aerospace Corporation, Mail Stop: M2-266, P.O. Box 92957, Los Angeles, CA 90009-2957, USA',
- u'The Aerospace Corporation, Mail Stop: M2-266, P.O. Box 92957, Los Angeles, CA 90009-2957, USA',
- u'The Aerospace Corporation, Mail Stop: M2-266, P.O. Box 92957, Los Angeles, CA 90009-2957, USA',
- u'SRON Netherlands Institute for Space Research, NL-9747 AD Groningen, the Netherlands',
- u'The Boeing Company, 535 Lipoa Pkwy, Kihei, HI 96753, USA',
- u'Research School of Astronomy and Astrophysics, The Australian National University, Mount Stromlo Observatory, Cotter Road, Weston Creek, ACT 2611, Australia']
+>>> papers[0].aff
+[u'University of California, Berkeley',
+ u'University of Kansas',
+ u'Royal Greenwich Observatory',
+ u"Queen's University",
+ u'Mt. Stromlo Observatory',
+ u'University of Durham']
 ````
 
-In the above examples we ````list()```` the results from ````ads.query```` because ````ads.query```` is a generator, allowing us to return any number of articles. It will parallelise threads and continue to retrieve papers relevant to your query. Each object returned is an ````ads.Article```` object, which has a number of *very* handy attributes and functions:
+In the above examples we `list()` the results from `ads.SearchQuery` because `ads.SearchQuery` is a generator, allowing us to return any number of articles. 
+To prevent deep pagination of results, a default of `max_pages=3` is set. 
+Feel free to change this, but be aware that each new page fetched will count against your daily API limit. 
+Each object returned is an ````ads.Article```` object, which has a number of *very* handy attributes and functions:
 
 ````
-In [9]: first_paper = papers[0]
+>>> first_paper = papers[0]
 
-In [10]: first_paper
-Out[10]: <ads.Article object at 0x1036b3b90>
+>>> first_paper
+<ads.search.Article at 0x7ff1b913dd10>
 
 # Show some brief details about the paper
-In [11]: print first_paper
-<Kennedy et al. 2014, 2014MNRAS.438.3299K>
+>>> print first_paper
+<Zepf, S. et al. 1994, 1994AAS...185.7506Z>
 
 # You can access attributes of an object in IPython by using the 'tab' button:
-In [12]: first_paper.
-first_paper.abstract              first_paper.database              first_paper.property
-first_paper.aff                   first_paper.doi                   first_paper.pub
-first_paper.author                first_paper.id                    first_paper.pubdate
-first_paper.bibcode               first_paper.identifier            first_paper.reference_count
-first_paper.bibstem               first_paper.issue                 first_paper.references
-first_paper.bibtex                first_paper.keyword               first_paper.title
-first_paper.build_citation_tree   first_paper.keyword_norm          first_paper.url
-first_paper.build_reference_tree  first_paper.keyword_schema        first_paper.volume
-first_paper.citation_count        first_paper.metrics               first_paper.year
-first_paper.citations             first_paper.page         
+>>> first_paper.
+first_paper.abstract              first_paper.build_citation_tree   first_paper.first_author_norm     first_paper.keys                  first_paper.pubdate
+first_paper.aff                   first_paper.build_reference_tree  first_paper.id                    first_paper.keyword               first_paper.read_count
+first_paper.author                first_paper.citation              first_paper.identifier            first_paper.metrics               first_paper.reference
+first_paper.bibcode               first_paper.citation_count        first_paper.issue                 first_paper.page                  first_paper.title
+first_paper.bibstem               first_paper.database              first_paper.items                 first_paper.property              first_paper.volume
+first_paper.bibtex                first_paper.first_author          first_paper.iteritems             first_paper.pub                   first_paper.year
 ````
 
-Which allows you to easily build complicated queries. A short list of [more advanced examples](https://github.com/andycasey/ads/tree/master/examples) are included, and there are more to come. Feel free to fork this repository and add your own examples!
+Which allows you to easily build complicated queries. Feel free to fork this repository and add your own examples!
 
 **Contributors**
 
-Dan Foreman-Mackey, Miguel de Val-Borro
+Dan Foreman-Mackey, Miguel de Val-Borro, Vladimir Sudilovsky
 
 **License**
 
