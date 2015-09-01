@@ -117,8 +117,12 @@ class Article(object):
         """
         if not hasattr(self, "id") or self.id is None:
             raise APIResponseError("Cannot query an article without an id")
-        sq = SearchQuery(q="id:{}".format(self.id), fl=field)
-        value = next(sq).__getattribute__(field)
+        sq = next(SearchQuery(q="id:{}".format(self.id), fl=field))
+        # If the requested field is not present in the returning Solr doc,
+        # return None instead of hitting _get_field again.
+        if field not in sq._raw:
+            return None
+        value = sq.__getattribute__(field)
         self._raw[field] = value
         return value
 

@@ -109,6 +109,7 @@ class TestArticle(unittest.TestCase):
         with MockSolrResponse(SEARCH_URL):
             self.assertEqual(self.article.pubdate, '1971-10-00')
             self.assertEqual(self.article.read_count, 0.0)
+            self.assertIsNone(self.article.issue)
 
 
 class TestSearchQuery(unittest.TestCase):
