@@ -93,12 +93,12 @@ first_paper.bibtex                first_paper.first_author          first_paper.
 
 Which allows you to easily build complicated queries. Feel free to fork this repository and add your own examples!
 
-**Contributors**
+**Authors**
 
-Vladimir Sudilovsky, Dan Foreman-Mackey, Miguel de Val-Borro
+Vladimir Sudilovsky & Andy Casey, Geert Barentsen, Dan Foreman-Mackey, Miguel de Val-Borro
 
 **License**
 
-Copyright 2014 Andy Casey and contributors
+Copyright 2014 the authors 
 
 This is open source software available under the MIT License. For details see the LICENSE file.
