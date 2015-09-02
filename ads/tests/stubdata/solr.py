@@ -54,7 +54,6 @@ example_solr_response = r'''{
         "title":["Cyclic Adenosine 3',5'-Monophosphate during Glucose Repression in the Rat Liver"],
         "property":["REFEREED",
           "ARTICLE"],
-        "issue":"4005",
         "email":["-",
           "-",
           "-",
