@@ -1,7 +1,7 @@
 **A Python Module to Interact with NASA's ADS that Doesn't Suck™**
 ==================================================================
 
-[![Build Status](http://img.shields.io/travis/andycasey/ads.svg)](https://travis-ci.org/andycasey/ads) [![PyPi download count image](http://img.shields.io/pypi/dm/ads.svg)](https://pypi.python.org/pypi/ads/)
+[![Build Status](http://img.shields.io/travis/andycasey/ads.svg?branch-master)](https://travis-ci.org/andycasey/ads) [![PyPi download count image](http://img.shields.io/pypi/dm/ads.svg)](https://pypi.python.org/pypi/ads/)
 
 If you're in research, then you pretty much _need_ NASA's ADS. It's tried, true, and people go crazy on the rare occasions when it goes down.
 
