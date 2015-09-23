@@ -25,7 +25,7 @@ You can use this module to search for some popular supernova papers:
 # Opps, I forgot to follow step 2 in "Getting Started"
 >>> ads.config.token = 'my token'
 
->>> papers = ads.SearchQuery(q="supernova", sort="citations")
+>>> papers = ads.SearchQuery(q="supernova", sort="citation_count")
 
 >>> for paper in papers:
 >>>    print(paper.title)
