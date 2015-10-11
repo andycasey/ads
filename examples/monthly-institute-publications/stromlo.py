@@ -35,21 +35,20 @@ def get_pdf(article, debug=False):
 
     print('Retrieving {0}'.format(article))
 
-    params = {
-        'bibcode': article.bibcode,
-        'link_type': 'PREPRINT',
-        'db_key': 'PRE'
-    }
-    ads_uri = 'http://adsabs.harvard.edu/cgi-bin/nph-data_query'
-    q = requests.get(ads_uri, params=params)
-
-    if q.url.lower().startswith('http://arxiv.org'):
-        url = q.url.replace('/abs/', '/pdf/')
+    identifier = [_ for _ in article.identifier if 'arXiv' in _]
+    if identifier:
+        url = 'http://arXiv.org/pdf/{0}.{1}'.format(identifier[0][9:13],
+            ''.join(_ for _ in identifier[0][14:] if _.isdigit()))
     else:
-        # No arxiv version available. Try the journal version.
-        params.update({ 'link_type': 'ARTICLE', 'db_key': 'AST' })
-        url = requests.get(ads_uri, params=params).url
-        
+        # No arXiv version. Ask ADS to redirect us to the journal article.
+        params = {
+            'bibcode': article.bibcode,
+            'link_type': 'ARTICLE',
+            'db_key': 'AST'
+        }
+        url = requests.get('http://adsabs.harvard.edu/cgi-bin/nph-data_query', 
+            params=params).url
+
     q = requests.get(url)
     if not q.ok:
         print('Error retrieving {0}: {1} for {2}'.format(
