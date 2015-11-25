@@ -319,7 +319,7 @@ class SearchQuery(BaseQuery):
             self._query.setdefault("fl", ["id"])
             if isinstance(self._query["fl"], six.string_types):
                 _ = map(str.strip, self._query["fl"].split(","))
-                self._query["fl"] = ["id"] + _
+                self._query["fl"] = ["id"] + list(_)
             else:
                 self._query["fl"] = ["id"] + self._query["fl"]
 
