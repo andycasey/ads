@@ -205,7 +205,22 @@ class Article(object):
     @cached_property
     def year(self):
         return self._get_field('year')
-
+    
+    @cached_property
+    def orcid_pub(self):
+        """ORCiD identifiers assigned by publishers"""
+        return self._get_field('orcid_pub')
+    
+    @cached_property
+    def orcid_user(self):
+        """ORCiD claims by ADS verified users."""
+        return self._get_field('orcid_user')
+    
+    @cached_property
+    def orcid_other(self):
+        """ORCiD claims by everybody else."""
+        return self._get_field('orcid_other')
+    
     @cached_property
     def metrics(self):
         return MetricsQuery(bibcodes=self.bibcode).execute()
