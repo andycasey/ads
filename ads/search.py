@@ -315,6 +315,14 @@ class SearchQuery(BaseQuery):
                 (k, v) for k, v in six.iteritems(_) if v is not None
             )
 
+            # Include `id` as a field, always (could be None, string or list)
+            self._query.setdefault("fl", ["id"])
+            if isinstance(self._query["fl"], six.string_types):
+                _ = map(str.strip, self._query["fl"].split(","))
+                self._query["fl"] = ["id"] + list(_)
+            else:
+                self._query["fl"] = ["id"] + self._query["fl"]
+
             # Format and add kwarg (key, value) pairs to q
             if kwargs:
                 _ = ['{}:"{}"'.format(k, v) for k, v in six.iteritems(kwargs)]
