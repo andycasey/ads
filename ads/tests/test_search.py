@@ -143,6 +143,12 @@ class TestSearchQuery(unittest.TestCase):
                     "All records found"):
                 next(sq)
 
+        # not setting max_pages should return the exact number of rows requests
+        sq = SearchQuery(q="unittest", rows=3)
+        with MockSolrResponse(sq.HTTP_ENDPOINT):
+            self.assertEqual(len(list(sq)), 3)
+
+
     def test_init(self):
         """
         init should result in a properly formatted query attribute
