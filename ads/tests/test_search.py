@@ -131,13 +131,13 @@ class TestSearchQuery(unittest.TestCase):
             self.assertEqual(len(sq.articles), 1)
             self.assertEqual(sq._query['start'], 1)
             self.assertEqual(next(sq).bibcode, '2012GCN..13229...1S')
-            self.assertEqual(len(list(sq)), 19)  # 2 already returned
+            self.assertEqual(len(list(sq)), 18)  # 2 already returned
             with self.assertRaisesRegexp(
                     StopIteration,
                     "Maximum number of pages queried"):
                 next(sq)
             sq.max_pages = 500
-            self.assertEqual(len(list(sq)), 28-19-2)
+            self.assertEqual(len(list(sq)), 28-18-2)
             with self.assertRaisesRegexp(
                     StopIteration,
                     "All records found"):
