@@ -248,7 +248,7 @@ class SolrResponse(APIResponse):
         try:
             self.responseHeader = self.json['responseHeader']
             self.params = self.json['responseHeader']['params']
-            self.fl = self.params['fl']
+            self.fl = self.params.get('fl', [])
             if isinstance(self.fl, six.string_types):
                 self.fl = self.fl.split(',')
             self.response = self.json['response']

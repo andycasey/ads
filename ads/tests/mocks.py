@@ -86,6 +86,7 @@ class MockSolrResponse(HTTPrettyMock):
                 {field: doc.get(field) for field in fl}
                 for doc in resp['response']['docs']
             ]
+            resp['responseHeader']['params']['fl'] = fl
 
             return 200, headers, json.dumps(resp)
 

@@ -85,8 +85,6 @@ class TestBaseQuery(unittest.TestCase):
         ads.config.token = "tok5"
         self.assertEqual(BaseQuery().token, "tok5")
 
-
-
     def test_headers(self):
         """
         basequery's session object should have pre-defined headers
