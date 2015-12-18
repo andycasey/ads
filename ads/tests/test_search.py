@@ -87,10 +87,14 @@ class TestArticle(unittest.TestCase):
         attribute wasn't set elsewhere.
         """
         patched.return_value = "patched response"
-        self.assertEqual(self.article.bibcode, '2013A&A...552A.143S')
+        # explicitly set attributes shouldn't be managed by cached_property
+        self.article.year
+        self.assertEqual(patched.call_count, 0)
+
         self.assertEqual(self.article.aff, 'patched response')
         self.assertEqual(self.article.aff, 'patched response')
         patched.assert_called_once_with('aff')
+        self.assertEqual(patched.call_count, 1)
 
     def test_get_field(self):
         """
@@ -148,7 +152,6 @@ class TestSearchQuery(unittest.TestCase):
         with MockSolrResponse(sq.HTTP_ENDPOINT):
             self.assertEqual(len(list(sq)), 3)
 
-
     def test_init(self):
         """
         init should result in a properly formatted query attribute
@@ -202,6 +205,7 @@ class TestSolrResponse(unittest.TestCase):
         self.assertIn('responseHeader', sr.json)
         self.assertIn('response', sr.json)
         self.assertEqual(sr.numFound, 28)
+        self.assertEqual(sr.fl, ["id", "doi", "bibcode"])
 
         malformed_text = self.response.text.replace(
             'responseHeader',
@@ -237,6 +241,20 @@ class TestSolrResponse(unittest.TestCase):
         self.response.status_code = 500
         with self.assertRaises(APIResponseError):
             SolrResponse.load_http_response(self.response)
+
+    @patch('ads.search.Article._get_field')
+    def test_default_article_fields(self, patched):
+        """
+        articles should have their properties set to None for each key in fl,
+        if the response has no data.
+        """
+        sr = SolrResponse(self.response.text)
+        sr.docs = [{"id": 1}]
+        sr.fl = ['id', 'bibstem']
+        self.assertEqual(sr.articles[0].id, 1)
+        self.assertEqual(sr.articles[0].bibstem, None)
+        self.assertEqual(patched.call_count, 0)
+
 
 
 class Testquery(unittest.TestCase):

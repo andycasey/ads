@@ -248,6 +248,9 @@ class SolrResponse(APIResponse):
         try:
             self.responseHeader = self.json['responseHeader']
             self.params = self.json['responseHeader']['params']
+            self.fl = self.params.get('fl', [])
+            if isinstance(self.fl, six.string_types):
+                self.fl = self.fl.split(',')
             self.response = self.json['response']
             self.numFound = self.response['numFound']
             self.docs = self.response['docs']
@@ -262,6 +265,10 @@ class SolrResponse(APIResponse):
         if self._articles is None:
             self._articles = []
             for doc in self.docs:
+                # ensure all fields in the "fl" are in the doc to address
+                # issue #38
+                for k in set(self.fl).difference(doc.keys()):
+                    doc[k] = None
                 self._articles.append(Article(**doc))
         return self._articles
 
