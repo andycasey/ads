@@ -275,7 +275,7 @@ class SearchQuery(BaseQuery):
                       "title", "reference", "citation"]
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
-                 sort=None, start=0, rows=50, max_pages=3, **kwargs):
+                 sort=None, start=0, rows=50, max_pages=1, **kwargs):
         """
         constructor
         :param query_dict: raw query that will be sent unmodified. raw takes
@@ -288,7 +288,7 @@ class SearchQuery(BaseQuery):
         :param start: solr "start" param (start)
         :param rows: solr "rows" param (rows)
         :param max_pages: Maximum number of pages to return. This value may
-            be modified after instansiation to increase the number of results
+            be modified after instantiation to increase the number of results
         :param kwargs: kwargs to add to `q` as "key:value"
         """
         self._articles = []
@@ -385,7 +385,7 @@ class SearchQuery(BaseQuery):
 
             # if we have hit the max_pages limit, then iteration is done.
             page = math.ceil(len(self.articles)/self.query['rows'])
-            if page > self.max_pages:
+            if page >= self.max_pages:
                 raise StopIteration("Maximum number of pages queried")
 
             # We aren't on the max_page of results nor do we have all
