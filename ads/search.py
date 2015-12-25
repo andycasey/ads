@@ -282,7 +282,7 @@ class SearchQuery(BaseQuery):
                       "title", "reference", "citation"]
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
-                 sort=None, start=0, rows=50, max_pages=1, **kwargs):
+                 sort=None, start=0, rows=50, max_pages=1, token=None, **kwargs):
         """
         constructor
         :param query_dict: raw query that will be sent unmodified. raw takes
@@ -296,6 +296,7 @@ class SearchQuery(BaseQuery):
         :param rows: solr "rows" param (rows)
         :param max_pages: Maximum number of pages to return. This value may
             be modified after instantiation to increase the number of results
+        :param token: optional API token to use for this searchquery
         :param kwargs: kwargs to add to `q` as "key:value"
         """
         self._articles = []
@@ -337,6 +338,9 @@ class SearchQuery(BaseQuery):
 
         assert self._query.get('rows') > 0, "rows must be greater than 0"
         assert self._query.get('q'), "q must not be empty"
+
+        if token is not None:
+            self.token = token
 
     @property
     def articles(self):
