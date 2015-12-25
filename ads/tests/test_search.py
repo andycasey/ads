@@ -180,6 +180,10 @@ class TestSearchQuery(unittest.TestCase):
             'aff:"institute" star'.split(),
         )
 
+        sq = SearchQuery(q="q", token="test-token")
+        self.assertEqual(sq.token, "test-token")
+        self.assertEqual(sq._token, "test-token")
+
 
 class TestSolrResponse(unittest.TestCase):
     """
