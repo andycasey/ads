@@ -6,8 +6,9 @@ import unittest
 import requests
 from mock import patch
 import six
+import warnings
 
-from .mocks import MockSolrResponse
+from ads.tests.mocks import MockSolrResponse
 
 from ads.search import SearchQuery, SolrResponse, APIResponse, Article, query
 from ads.exceptions import APIResponseError, SolrResponseParseError
@@ -120,6 +121,26 @@ class TestSearchQuery(unittest.TestCase):
     """
     Tests for SearchQuery. Depends on SolrResponse.
     """
+
+    def test_rows_rewrite(self):
+        """
+        if the responseHeader "rows" is not the same as the query's "rows",
+        the query's "rows" should be re-written and a warning should be emitted
+        """
+        sq = SearchQuery(q="unittest", rows=10e6)
+        with MockSolrResponse(sq.HTTP_ENDPOINT):
+            self.assertEqual(sq.query['rows'], 10e6)
+            with warnings.catch_warnings(record=True) as w:
+                next(sq)
+                if six.PY3:
+                    msg = w[-1].message.args[0]
+                elif six.PY2:
+                    msg = w[-1].message.message
+                self.assertEqual(
+                    msg,
+                    "Response rows did not match input rows. Setting this query's rows to 300"
+                )
+            self.assertEqual(sq.query['rows'], 300)
 
     def test_iter(self):
         """

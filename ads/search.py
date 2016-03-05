@@ -316,7 +316,7 @@ class SearchQuery(BaseQuery):
                 "fl": fl,
                 "sort": sort,
                 "start": start,
-                "rows": rows,
+                "rows": int(rows),
             }
             # Filter out None values
             self._query = dict(
@@ -417,6 +417,17 @@ class SearchQuery(BaseQuery):
         self.response = SolrResponse.load_http_response(
             self.session.get(self.HTTP_ENDPOINT, params=self.query)
         )
+
+        # ADS will apply a ceiling to 'rows' and re-write the query
+        # This code checks if that happened by comparing the reponse
+        # "rows" with what we sent in our query
+        # references https://github.com/andycasey/ads/issues/45
+        recv_rows = int(self.response.responseHeader.get("params", {}).get("rows"))
+        if recv_rows != self.query.get("rows"):
+            self._query['rows'] = recv_rows
+            warnings.warn("Response rows did not match input rows. "
+                          "Setting this query's rows to {}".format(self.query['rows']))
+
         self._articles.extend(self.response.articles)
         self._query['start'] += self._query['rows']
 
