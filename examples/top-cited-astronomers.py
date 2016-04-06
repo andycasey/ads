@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """ Who are the most cited astronomers? """
 
 __author__ = "Andy Casey <acasey@mso.anu.edu.au>"
