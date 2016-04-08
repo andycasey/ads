@@ -8,6 +8,7 @@ import os
 
 from .base import APIResponse, BaseQuery
 from .config import EXPORT_URL
+from .tests.mocks import MockExportResponse
 
 
 class ExportResponse(APIResponse):
@@ -34,13 +35,18 @@ class ExportQuery(BaseQuery):
 
     HTTP_ENDPOINT = EXPORT_URL
     FORMATS = ['bibtex', 'endnote', 'aastex']
+    _response = None
+    MockResponse = MockExportResponse
+    _name = '/export'
 
-    def __init__(self, bibcodes, format="bibtex"):
+    def __init__(self, bibcodes, format="bibtex", test=False):
         """
         :param bibcodes: Bibcodes to send to in the metrics query
         :type bibcodes: list or string
         :param format: format to
         """
+        super(ExportQuery, self).__init__(test=test)
+
         assert format in self.FORMATS, "Format must be one of {}".format(
             self.FORMATS)
 
@@ -52,7 +58,7 @@ class ExportQuery(BaseQuery):
         self.bibcodes = bibcodes
         self.json_payload = json.dumps({"bibcode": bibcodes})
 
-    def execute(self):
+    def _execute(self):
         """
         Execute the http request to the metrics service
         :return ads-classic formatted export string
@@ -61,4 +67,5 @@ class ExportQuery(BaseQuery):
         self.response = ExportResponse.load_http_response(
             self.session.post(url, data=self.json_payload)
         )
+        ExportQuery._response = self.response
         return self.response.result

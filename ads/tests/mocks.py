@@ -51,6 +51,9 @@ class MockSolrResponse(HTTPrettyMock):
     """
     context manager that mocks a Solr response
     """
+    ratelimit = 400
+    current_ratelimit = 400
+
     def __init__(self, api_endpoint):
         """
         :param api_endpoint: name of the API end point
@@ -92,11 +95,18 @@ class MockSolrResponse(HTTPrettyMock):
 
             return 200, headers, json.dumps(resp)
 
+        MockSolrResponse.current_ratelimit -= 1
+
         HTTPretty.register_uri(
             HTTPretty.GET,
             self.api_endpoint,
             body=request_callback,
-            content_type="application/json"
+            content_type="application/json",
+            adding_headers={
+                'X-RateLimit-Limit': MockSolrResponse.ratelimit,
+                'X-RateLimit-Remaining': MockSolrResponse.current_ratelimit,
+                'X-RateLimit-Reset': 1436313600
+            }
         )
 
 
@@ -104,6 +114,9 @@ class MockMetricsResponse(HTTPrettyMock):
     """
     context manager that mocks a metrics service response
     """
+    ratelimit = 400
+    current_ratelimit = 400
+
     def __init__(self, api_endpoint):
         """
         :param api_endpoint: name of the API end point
@@ -111,11 +124,18 @@ class MockMetricsResponse(HTTPrettyMock):
 
         self.api_endpoint = api_endpoint
 
+        MockMetricsResponse.current_ratelimit -= 1
+
         HTTPretty.register_uri(
             HTTPretty.POST,
             self.api_endpoint,
             body=example_metrics_response,
-            content_type="application/json"
+            content_type="application/json",
+            adding_headers={
+                'X-RateLimit-Limit': MockMetricsResponse.ratelimit,
+                'X-RateLimit-Remaining': MockMetricsResponse.current_ratelimit,
+                'X-RateLimit-Reset': 1436313600
+            }
         )
 
 
@@ -123,6 +143,9 @@ class MockExportResponse(HTTPrettyMock):
     """
     context manager that mocks an export service response
     """
+    ratelimit = 400
+    current_ratelimit = 400
+
     def __init__(self, api_endpoint):
         """
         :param api_endpoint: name of the API end point
@@ -130,9 +153,16 @@ class MockExportResponse(HTTPrettyMock):
 
         self.api_endpoint = api_endpoint
 
+        MockExportResponse.current_ratelimit -= 1
+
         HTTPretty.register_uri(
             HTTPretty.POST,
             self.api_endpoint,
             body=example_export_response,
-            content_type="application/json"
+            content_type="application/json",
+            adding_headers={
+                'X-RateLimit-Limit': MockExportResponse.ratelimit,
+                'X-RateLimit-Remaining': MockExportResponse.current_ratelimit,
+                'X-RateLimit-Reset': 1436313600
+            }
         )

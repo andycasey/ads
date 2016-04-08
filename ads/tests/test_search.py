@@ -122,6 +122,9 @@ class TestSearchQuery(unittest.TestCase):
     Tests for SearchQuery. Depends on SolrResponse.
     """
 
+    def setUp(self):
+        MockSolrResponse.current_ratelimit = 400
+
     def test_rows_rewrite(self):
         """
         if the responseHeader "rows" is not the same as the query's "rows",
@@ -204,6 +207,60 @@ class TestSearchQuery(unittest.TestCase):
         sq = SearchQuery(q="q", token="test-token")
         self.assertEqual(sq.token, "test-token")
         self.assertEqual(sq._token, "test-token")
+
+    def test_ratelimit_on_cached_property_access(self):
+        """
+        When a cached property is accessed, the parent query object should
+        update the rate limit appropriately.
+        """
+        search_query = SearchQuery(q="unittest", rows=1, max_pages=20, fl='bibcode')
+        with MockSolrResponse(search_query.HTTP_ENDPOINT):
+            docs = list(search_query)
+
+        self.assertEqual(search_query.get_ratelimits(), {'reset': '1436313600', 'limit': '400', 'remaining': '399'})
+
+        with MockSolrResponse(search_query.HTTP_ENDPOINT):
+            citation_count = docs[0].citation_count
+
+        self.assertEqual(citation_count, 0)
+        self.assertEqual(search_query.get_ratelimits(), {'reset': '1436313600', 'limit': '400', 'remaining': '398'})
+
+    def test_request_counter_for_tests_and_normal(self):
+        """
+        Check that the test request feature works, and  the number of requests
+        counted is expected
+        """
+        search_query = SearchQuery(q="unittest", rows=1, max_pages=20, fl='bibcode')
+        with MockSolrResponse(search_query.HTTP_ENDPOINT):
+            search_query.execute()
+
+        r = search_query.get_request_stats()
+        self.assertEqual(r['/search']['test_requests'], 0)
+        self.assertEqual(r['/search']['requests'], 1)
+
+        with MockSolrResponse(search_query.HTTP_ENDPOINT):
+            search_query._articles[0].citation
+
+        r = search_query.get_request_stats()
+        self.assertEqual(r['/search']['test_requests'], 0)
+        self.assertEqual(r['/search']['requests'], 2)
+
+        search_query_test = SearchQuery(q="unittest", rows=1, max_pages=20, fl='bibcode', test=True)
+        search_query_test.execute()
+
+        r = search_query_test.get_request_stats()
+        self.assertEqual(r['/search']['test_requests'], 1)
+        self.assertEqual(r['/search']['requests'], 0)
+
+        search_query_test.articles[0].metrics
+        r = search_query_test.get_request_stats()
+        self.assertEqual(r['/metrics']['test_requests'], 1)
+        self.assertEqual(r['/metrics']['requests'], 0)
+
+        search_query_test.articles[0].bibtex
+        r = search_query_test.get_request_stats()
+        self.assertEqual(r['/export']['test_requests'], 1)
+        self.assertEqual(r['/export']['requests'], 0)
 
 
 class TestSolrResponse(unittest.TestCase):

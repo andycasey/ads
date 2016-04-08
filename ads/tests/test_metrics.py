@@ -14,6 +14,11 @@ class TestMetricsQuery(unittest.TestCase):
     """
     test the MetricsQuery object
     """
+    def setUp(self):
+        """
+        Clear rate limits
+        """
+        MockMetricsResponse.current_ratelimit = 400
 
     def test_init(self):
         """
@@ -33,6 +38,19 @@ class TestMetricsQuery(unittest.TestCase):
             retval = mq.execute()
         self.assertIsInstance(mq.response, MetricsResponse)
         self.assertEqual(retval, mq.response.metrics)
+
+    def test_ratelimit_on_cached_property_access(self):
+        """
+        When a cached property is accessed, the parent query object should
+        update the rate limit appropriately.
+        """
+        metrics_query = MetricsQuery('bibcode')
+        with MockMetricsResponse(METRICS_URL):
+            metrics_query.execute()
+
+        self.assertEqual(metrics_query.get_ratelimits(), {'reset': '1436313600', 'limit': '400', 'remaining': '399'})
+
+        self.assertEqual(MetricsQuery.get_ratelimits(), {'reset': '1436313600', 'limit': '400', 'remaining': '399'})
 
 
 class TestMetricsResponse(unittest.TestCase):

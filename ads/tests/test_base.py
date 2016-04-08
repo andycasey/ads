@@ -94,6 +94,22 @@ class TestBaseQuery(unittest.TestCase):
         self.assertIn('ads-api-client', hdrs['User-Agent'])
         self.assertIn('Bearer', hdrs['Authorization'])
 
+    def test_rate_limit(self):
+        """
+        Test rate limit property
+        """
+        base_query = BaseQuery()
+        api_response = APIResponse()
+        BaseQuery._response = api_response
+
+        with MockApiResponse('http://api.unittest'):
+            APIResponse.response = requests.get('http://api.unittest')
+
+        self.assertEqual(base_query.get_ratelimits(), {'reset': '1436313600', 'limit': '400', 'remaining': '397'})
+
+        base_query = BaseQuery()
+        self.assertEqual(base_query.get_ratelimits(), {'reset': '1436313600', 'limit': '400', 'remaining': '397'})
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

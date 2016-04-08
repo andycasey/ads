@@ -7,6 +7,7 @@ import six
 
 from .base import APIResponse, BaseQuery
 from .config import METRICS_URL
+from .tests.mocks import MockMetricsResponse
 
 
 class MetricsResponse(APIResponse):
@@ -32,23 +33,29 @@ class MetricsQuery(BaseQuery):
     """
 
     HTTP_ENDPOINT = METRICS_URL
+    MockResponse = MockMetricsResponse
+    _response = None
+    _name = '/metrics'
 
-    def __init__(self, bibcodes):
+    def __init__(self, bibcodes, test=False):
         """
         :param bibcodes: Bibcodes to send to in the metrics query
         :type bibcodes: list or string
         """
+        super(MetricsQuery, self).__init__(test=test)
+
         self.response = None  # current MetricsResponse object
         if isinstance(bibcodes, six.string_types):
             bibcodes = [bibcodes]
         self.bibcodes = bibcodes
         self.json_payload = json.dumps({"bibcodes": bibcodes})
 
-    def execute(self):
+    def _execute(self):
         """
         Execute the http request to the metrics service
         """
         self.response = MetricsResponse.load_http_response(
             self.session.post(self.HTTP_ENDPOINT, data=self.json_payload)
         )
+        MetricsQuery._response = self.response
         return self.response.metrics

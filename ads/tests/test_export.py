@@ -15,6 +15,11 @@ class TestMetricsQuery(unittest.TestCase):
     """
     test the ExportQuery object
     """
+    def setUp(self):
+        """
+        Clear rate limits
+        """
+        MockExportResponse.current_ratelimit = 400
 
     def test_init(self):
         """
@@ -34,6 +39,18 @@ class TestMetricsQuery(unittest.TestCase):
             retval = eq.execute()
         self.assertIsInstance(eq.response, ExportResponse)
         self.assertEqual(retval, eq.response.result)
+
+    def test_ratelimit_on_cached_property_access(self):
+        """
+        When a cached property is accessed, the parent query object should
+        update the rate limit appropriately.
+        """
+        export_query = ExportQuery('bibcode')
+        with MockExportResponse(os.path.join(EXPORT_URL, "bibtex")):
+            export_query.execute()
+
+        self.assertEqual(export_query.get_ratelimits(), {'reset': '1436313600', 'limit': '400', 'remaining': '399'})
+        self.assertEqual(ExportQuery.get_ratelimits(), {'reset': '1436313600', 'limit': '400', 'remaining': '399'})
 
 
 class TestExportResponse(unittest.TestCase):

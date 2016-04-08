@@ -7,7 +7,7 @@ __author__ = "Andy Casey <acasey@mso.anu.edu.au>"
 import ads
 
 # Let's grab a paper to build a citation tree from
-paper = ads.search("^Hubble, E", sort="citations", order="desc")[0]
+paper = list(ads.SearchQuery(first_author="Hubble, E", sort="citation desc"))[0]
 
 # Build our citation tree to a depth of 2
 paper.build_citation_tree(depth=2)
