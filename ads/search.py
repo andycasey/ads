@@ -13,6 +13,7 @@ from .exceptions import SolrResponseParseError, APIResponseError
 from .base import BaseQuery, APIResponse
 from .metrics import MetricsQuery
 from .export import ExportQuery
+from .tests.mocks import MockSolrResponse
 
 
 class Article(object):
@@ -24,11 +25,12 @@ class Article(object):
     # Article.metrics, this class has dependencies on search.py and other core
     # services; this is why it is currently impossible for it to live in
     # base.py, which is the most logical place for it.
-    def __init__(self, **kwargs):
+    def __init__(self, parent=None, **kwargs):
         """
         :param kwargs: Set object attributes from kwargs
         """
-
+        self._parent = parent
+        self._test = parent._test if parent else False
         self._raw = kwargs
         for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
@@ -39,7 +41,7 @@ class Article(object):
         return self.__unicode__().encode("utf-8")
 
     def __unicode__(self):
-        author = self.first_author or "Unknown author"
+        author = getattr(self, 'first_author', 'Unknown author')
         if self.author and len(self.author) > 1:
             author += " et al."
 
@@ -117,14 +119,30 @@ class Article(object):
         """
         if not hasattr(self, "id") or self.id is None:
             raise APIResponseError("Cannot query an article without an id")
-        sq = next(SearchQuery(q="id:{}".format(self.id), fl=field))
+
+        sq = SearchQuery(q="id:{}".format(self.id), fl=field, test=self._test)
+        article = next(sq)
+
+        # Update the header of the parent query object
+        self.parent_incremement(name='/search')
+        SearchQuery._response = sq.response
+
         # If the requested field is not present in the returning Solr doc,
         # return None instead of hitting _get_field again.
-        if field not in sq._raw:
+        if field not in article._raw:
             return None
-        value = sq.__getattribute__(field)
+        value = article.__getattribute__(field)
         self._raw[field] = value
+
         return value
+
+    def parent_incremement(self, name):
+        """
+        Wrapper for parent incremement
+        :param name: name of end point
+        """
+        if self._parent:
+            self._parent.increment_request(name)
 
     @cached_property
     def abstract(self):
@@ -188,11 +206,23 @@ class Article(object):
 
     @cached_property
     def reference(self):
-        return self._get_field('reference')
+        self.parent_incremement(name='/search')
+        q = SearchQuery(
+            q="references(id:{})".format(self.id),
+            fl=['id', 'bibcode'],
+            test=self._test
+        )
+        return [a.bibcode for a in q]
 
     @cached_property
     def citation(self):
-        return self._get_field('citation')
+        self.parent_incremement(name='/search')
+        q = SearchQuery(
+            q="citations(id:{})".format(self.id),
+            fl=['id', 'bibcode'],
+            test=self._test
+        )
+        return [a.bibcode for a in q]
 
     @cached_property
     def title(self):
@@ -223,12 +253,26 @@ class Article(object):
     
     @cached_property
     def metrics(self):
-        return MetricsQuery(bibcodes=self.bibcode).execute()
+        self._parent.increment_request(name='/metrics')
+        return MetricsQuery(bibcodes=self.bibcode, test=self._test).execute()
 
     @cached_property
     def bibtex(self):
         """Return a BiBTeX entry for the current article."""
-        return ExportQuery(bibcodes=self.bibcode, format="bibtex").execute()
+        self._parent.increment_request(name='/export')
+        return ExportQuery(bibcodes=self.bibcode, format="bibtex", test=self._test).execute()
+
+    @cached_property
+    def aastex(self):
+        """Return a BiBTeX entry for the current article."""
+        self._parent.increment_request(name='/export')
+        return ExportQuery(bibcodes=self.bibcode, format="aastex", test=self._test).execute()
+
+    @cached_property
+    def endnote(self):
+        """Return a BiBTeX entry for the current article."""
+        self._parent.increment_request(name='/export')
+        return ExportQuery(bibcodes=self.bibcode, format="endnote", test=self._test).execute()
 
 
 class SolrResponse(APIResponse):
@@ -236,12 +280,13 @@ class SolrResponse(APIResponse):
     Base class for storing a solr response
     """
 
-    def __init__(self, raw):
+    def __init__(self, raw, parent=None):
         """
         De-serialize a json string representing a solr response
         :param raw: complete json response from solr
         :type raw: basestring
         """
+        self._parent = parent
         self._raw = raw
         self.json = json.loads(raw)
         self._articles = None
@@ -269,7 +314,7 @@ class SolrResponse(APIResponse):
                 # issue #38
                 for k in set(self.fl).difference(doc.keys()):
                     doc[k] = None
-                self._articles.append(Article(**doc))
+                self._articles.append(Article(parent=self._parent, **doc))
         return self._articles
 
 
@@ -278,11 +323,15 @@ class SearchQuery(BaseQuery):
     Represents a query to apache solr
     """
     HTTP_ENDPOINT = SEARCH_URL
+    MockResponse = MockSolrResponse
     DEFAULT_FIELDS = ["author", "first_author", "bibcode", "id", "year",
-                      "title", "reference", "citation"]
+                      "title"]
+    _response = None
+    _name = '/search'
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
-                 sort=None, start=0, rows=50, max_pages=1, token=None, **kwargs):
+                 sort=None, start=0, rows=50, max_pages=1, token=None,
+                 test=False, **kwargs):
         """
         constructor
         :param query_dict: raw query that will be sent unmodified. raw takes
@@ -297,8 +346,11 @@ class SearchQuery(BaseQuery):
         :param max_pages: Maximum number of pages to return. This value may
             be modified after instantiation to increase the number of results
         :param token: optional API token to use for this searchquery
+        :param test: mock API responses without contacting the live service
         :param kwargs: kwargs to add to `q` as "key:value"
         """
+        super(SearchQuery, self).__init__(test=test)
+
         self._articles = []
         self.response = None  # current SolrResponse object
         self.max_pages = max_pages
@@ -408,15 +460,17 @@ class SearchQuery(BaseQuery):
         self.__iter_counter += 1
         return cur
 
-    def execute(self):
+    def _execute(self):
         """
         Sends the http request implied by the self.query
         In addition, set up the request such that we can call next()
         to provide the next page of results
         """
         self.response = SolrResponse.load_http_response(
-            self.session.get(self.HTTP_ENDPOINT, params=self.query)
-        )
+                self.session.get(self.HTTP_ENDPOINT, params=self.query),
+                parent=self
+            )
+        SearchQuery._response = self.response
 
         # ADS will apply a ceiling to 'rows' and re-write the query
         # This code checks if that happened by comparing the reponse
