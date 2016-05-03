@@ -2,6 +2,7 @@
 Test that classes for representing the adsws-api specific data structures
 defined in core.py
 """
+import json
 import unittest
 import requests
 import os
@@ -9,7 +10,7 @@ from tempfile import NamedTemporaryFile
 
 import ads.base
 import ads.config
-from ads.base import BaseQuery, APIResponse, RateLimits, Singleton
+from ads.base import BaseQuery, APIResponse, RateLimits, _Singleton
 from .mocks import MockApiResponse
 
 
@@ -107,7 +108,7 @@ class TestRateLimits(unittest.TestCase):
                 pass
 
         self.FakeResponse = FakeResponse
-        Singleton._instances = {}
+        _Singleton._instances = {}
 
         MockApiResponse.remaining = 398
 
@@ -178,9 +179,12 @@ class TestRateLimits(unittest.TestCase):
             self.FakeResponse.load_http_response(
                 requests.get('http://api.unittest')
             )
+
+        message = RateLimits.get_info()
+        self.assertIn('FakeQuery', message)
         self.assertEqual(
-            'FakeQuery: {"reset": "1436313600", "limit": "400", "remaining": "397"}',
-            RateLimits.get_info()
+            {"reset": "1436313600", "limit": "400", "remaining": "397"},
+            json.loads(message.split('FakeQuery: ')[1])
         )
 
 
