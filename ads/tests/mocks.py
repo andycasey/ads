@@ -31,6 +31,15 @@ class MockApiResponse(HTTPrettyMock):
     """
     context manager than mocks an static adsws-api response
     """
+    limit = 400
+    remaining = 398
+    reset = 1436313600
+
+    @property
+    def remains(self):
+        MockApiResponse.remaining -= 1
+        return MockApiResponse.remaining
+
     def __init__(self, api_endpoint):
         self.api_endpoint = api_endpoint
 
@@ -40,11 +49,13 @@ class MockApiResponse(HTTPrettyMock):
             body='''{"status": "online", "app": "adsws.api"}''',
             content_type="application/json",
             adding_headers={
-                'X-RateLimit-Limit': 400,
-                'X-RateLimit-Remaining': 397,
-                'X-RateLimit-Reset': 1436313600
+                'X-RateLimit-Limit': MockApiResponse.limit,
+                'X-RateLimit-Remaining': self.remains,
+                'X-RateLimit-Reset': MockApiResponse.reset
             }
         )
+
+
 
 
 class MockSolrResponse(HTTPrettyMock):

@@ -9,10 +9,11 @@ from tempfile import NamedTemporaryFile
 
 import ads.base
 import ads.config
-from ads.base import BaseQuery, APIResponse
+from ads.base import BaseQuery, APIResponse, RateLimits, Singleton
 from .mocks import MockApiResponse
 
 
+@unittest.skip('deprecated by RateLimits class')
 class TestApiResponse(unittest.TestCase):
     """
     test the base Api response class
@@ -93,6 +94,94 @@ class TestBaseQuery(unittest.TestCase):
         self.assertEqual(hdrs['Content-Type'], 'application/json')
         self.assertIn('ads-api-client', hdrs['User-Agent'])
         self.assertIn('Bearer', hdrs['Authorization'])
+
+
+class TestRateLimits(unittest.TestCase):
+    """
+    Test rate limits
+    """
+
+    def setUp(self):
+        class FakeResponse(APIResponse):
+            def __init__(self, raw):
+                pass
+
+        self.FakeResponse = FakeResponse
+        Singleton._instances = {}
+
+        MockApiResponse.remaining = 398
+
+    def test_get_ratelimits(self):
+        """
+        Test the two ways in which someone can access the rate limits via
+        the RateLimit singleton class. Via an instantiation of the relevant
+        query class, or the response object.
+        """
+
+        with MockApiResponse('http://api.unittest'):
+            r1 = self.FakeResponse.load_http_response(
+                requests.get('http://api.unittest')
+            )
+
+        # Via the singleton
+        limits = RateLimits('FakeResponse').to_dict()
+        self.assertEqual(limits['limit'], '400')
+        self.assertEqual(limits['remaining'], '397')
+        self.assertEqual(limits['reset'], '1436313600')
+
+        # Via the response object
+        limits = r1.get_ratelimits()
+        self.assertEqual(limits['limit'], '400')
+        self.assertEqual(limits['remaining'], '397')
+        self.assertEqual(limits['reset'], '1436313600')
+
+        with MockApiResponse('http://api.unittest'):
+            r2 = self.FakeResponse.load_http_response(
+                requests.get('http://api.unittest')
+            )
+
+        # Check all response objects get most up-to-date information
+        limits = r1.get_ratelimits()
+        self.assertEqual(limits['limit'], '400')
+        self.assertEqual(limits['remaining'], '396')
+        self.assertEqual(limits['reset'], '1436313600')
+
+        self.assertEqual(
+            r1.get_ratelimits(),
+            r2.get_ratelimits()
+        )
+
+        self.assertEqual(
+            r1.get_ratelimits(),
+            RateLimits('FakeResponse').to_dict()
+        )
+
+    def test_singleton(self):
+        """
+        Test singleton behaves as expected
+        """
+        sq1 = RateLimits('SolrResponse')
+        sq2 = RateLimits('SolrResponse')
+
+        self.assertEqual(id(sq1), id(sq2))
+
+        mq = RateLimits('MetricsResponse')
+        self.assertNotEqual(id(sq1), id(mq))
+
+    def test_pretty_print(self):
+        """
+        Test pretty print
+        """
+        RateLimits.response_to_query['FakeResponse'] = 'FakeQuery'
+
+        with MockApiResponse('http://api.unittest'):
+            self.FakeResponse.load_http_response(
+                requests.get('http://api.unittest')
+            )
+        self.assertEqual(
+            'FakeQuery: {"reset": "1436313600", "limit": "400", "remaining": "397"}',
+            RateLimits.get_info()
+        )
 
 
 if __name__ == '__main__':
