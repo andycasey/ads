@@ -9,4 +9,5 @@ __version__ = "0.11.3"
 from .metrics import MetricsQuery
 from .export import ExportQuery
 from .search import SearchQuery, query
+from .base import RateLimits
 #from .libraries import LibraryQuery, Library #soon
