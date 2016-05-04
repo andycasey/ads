@@ -3,8 +3,7 @@
 
 """ A Python tool for interacting with NASA's ADS """
 
-__author__ = "Andy Casey <andy@astrowizici.st>"
-__version__ = "0.11.3"
+__version__ = "0.12.0"
 
 from .metrics import MetricsQuery
 from .export import ExportQuery
