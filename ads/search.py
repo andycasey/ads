@@ -188,11 +188,19 @@ class Article(object):
 
     @cached_property
     def reference(self):
-        return self._get_field('reference')
+        q = SearchQuery(
+            q='references(id:{})'.format(self.id),
+            fl=['id', 'bibcode']
+        )
+        return [a.bibcode for a in q]
 
     @cached_property
     def citation(self):
-        return self._get_field('citation')
+        q = SearchQuery(
+            q='citations(id:{})'.format(self.id),
+            fl=['id', 'bibcode']
+        )
+        return [a.bibcode for a in q]
 
     @cached_property
     def title(self):
@@ -279,7 +287,7 @@ class SearchQuery(BaseQuery):
     """
     HTTP_ENDPOINT = SEARCH_URL
     DEFAULT_FIELDS = ["author", "first_author", "bibcode", "id", "year",
-                      "title", "reference", "citation"]
+                      "title"]
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
                  sort=None, start=0, rows=50, max_pages=1, token=None, **kwargs):
