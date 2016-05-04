@@ -6,6 +6,7 @@ __author__ = "Andy Casey <acasey@mso.anu.edu.au>"
 
 # Standard library
 import os
+import six
 import json
 import requests
 from collections import Counter
@@ -22,7 +23,7 @@ papers = ads.SearchQuery(first_author=author_query, fl=['id', 'bibcode', 'citati
 # How many citations did we have last time this ran?
 if not os.path.exists(records_filename):
     all_citations_last_time = {
-        "total": 2
+        "total": 0
     }
 
 else:
@@ -60,7 +61,7 @@ if (all_citations["total"] >= all_citations_last_time["total"]
     if "self-citation" in beers_owed:
         del beers_owed["self-citation"]
 
-    for author, num_of_beers_owed in beers_owed.iteritems():
+    for author, num_of_beers_owed in six.iteritems(beers_owed):
 
         formatted_author = " ".join([name.strip() for name in author.split(",")[::-1]])
         this_many_beers = "{0} beers".format(num_of_beers_owed) if num_of_beers_owed > 1 else "a beer"
@@ -86,7 +87,7 @@ if (all_citations["total"] >= all_citations_last_time["total"]
             params=params,
             headers=headers
         )
-        print r.json()
+        print(r.json())
             
 else:
     print("No new citations!")

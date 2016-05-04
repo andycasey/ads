@@ -73,7 +73,7 @@ if __name__ == "__main__":
             "total": 0
         }
 
-        for year in xrange(years[0], years[1] + 1):
+        for year in range(years[0], years[1] + 1):
             
             # Perform the query
             # We actually don't want all the results, we just want the metadata
