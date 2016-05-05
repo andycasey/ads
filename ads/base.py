@@ -146,6 +146,7 @@ class BaseQuery(object):
         """
         if self._session is None:
             self._session = requests.session()
+            self._session.hooks = dict(response=self.__session_hook_response)
             self._session.headers.update(
                 {
                     "Authorization": "Bearer {}".format(self.token),
@@ -154,6 +155,12 @@ class BaseQuery(object):
                 }
             )
         return self._session
+
+    def __session_hook_response(self, r, *args, **kwargs):
+        """
+        :type r: requests.Response
+        """
+        r.encoding = ads.config.default_response_encoding
 
     def __call__(self):
         return self.execute()
