@@ -73,16 +73,17 @@ if __name__ == "__main__":
             "total": 0
         }
 
-        for year in xrange(years[0], years[1] + 1):
+        for year in range(years[0], years[1] + 1):
             
             # Perform the query
             # We actually don't want all the results, we just want the metadata
             # which tells us how many publications there were
-            metadata = ads.metadata("pub:\"{journal}\"".format(journal=journal), dates=year)
+            q = ads.SearchQuery(q="pub:\"{journal}\" year:{year}".format(journal=journal, year=year), fl=['id'], rows=1)
+            q.execute()
 
-            num = metadata["hits"]
+            num = int(q.response.numFound)
             print("{journal} had {num} publications in {year}"
-                .format(journal=journal, num=num, year=year))
+                  .format(journal=journal, num=num, year=year))
 
             # Save this data
             journal_data["articles"].append([year, num])
