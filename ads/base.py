@@ -160,7 +160,8 @@ class BaseQuery(object):
         """
         :type r: requests.Response
         """
-        r.encoding = ads.config.default_response_encoding
+        if r.encoding is None:
+            r.encoding = ads.config.default_response_encoding
 
     def __call__(self):
         return self.execute()
