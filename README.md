@@ -19,7 +19,7 @@ Happy Hacking!
 **Examples**
 
 You can use this module to search for some popular supernova papers:
-````
+````python
 >>> import ads
 
 # Opps, I forgot to follow step 2 in "Getting Started"
@@ -29,7 +29,7 @@ You can use this module to search for some popular supernova papers:
 
 >>> for paper in papers:
 >>>    print(paper.title)
-   ...:     
+   ...:
 [u'Maps of Dust Infrared Emission for Use in Estimation of Reddening and Cosmic Microwave Background Radiation Foregrounds']
 [u'Measurements of Omega and Lambda from 42 High-Redshift Supernovae']
 [u'Observational Evidence from Supernovae for an Accelerating Universe and a Cosmological Constant']
@@ -38,7 +38,7 @@ You can use this module to search for some popular supernova papers:
 ````
 
 Or search for papers first-authored by someone:
-````
+````python
 >>> people = list(ads.SearchQuery(first_author="Reiss, A"))
 
 >>> people[0].author
@@ -46,7 +46,7 @@ Or search for papers first-authored by someone:
 ````
 
 Or papers where they are anywhere in the author list:
-````
+````python
 >>> papers = list(ads.SearchQuery(author="Reiss, A"))
 
 >>> papers[0].author
@@ -54,7 +54,7 @@ Or papers where they are anywhere in the author list:
 ````
 
 Or search by affiliation:
-````
+````python
 >>> papers = list(ads.SearchQuery(aff="*stromlo*"))
 
 >>> papers[0].aff
@@ -71,7 +71,7 @@ To prevent deep pagination of results, a default of `max_pages=3` is set.
 Feel free to change this, but be aware that each new page fetched will count against your daily API limit. 
 Each object returned is an ````ads.Article```` object, which has a number of *very* handy attributes and functions:
 
-````
+````python
 >>> first_paper = papers[0]
 
 >>> first_paper
@@ -93,12 +93,108 @@ first_paper.bibtex                first_paper.first_author          first_paper.
 
 Which allows you to easily build complicated queries. Feel free to fork this repository and add your own examples!
 
+**Rate limits and optimisations**
+
+*Sandbox*
+
+The ADS's API uses rate limits to ensure that people cannot abuse it, but this can be pretty annoying if you get locked out when trying to build an application. To avoid such scenarios, you can use the ADS sandbox environment when prototyping:
+
+```python
+>>> import ads.sandbox as ads
+>>> q = ads.SearchQuery(q='star')
+>>> for paper in q:
+>>>     print paper.title, paper.citation_count
+```
+
+This will not access the live API, but provide mocked responses. When you're ready to go live with your code, simply change the import line to:
+```python
+>>> import ads
+```
+
+and you're ready to go.
+
+*Rate limit usage*
+
+There are helpers that let you keep track of your rate limit, so you can also see how many requests your application is making to the API:
+
+```python
+>>> import ads
+>>> q = ads.SearchQuery(q='star')
+>>> for paper in q:
+>>>     print paper.title, paper.citation_count
+>>> ....
+>>>
+>>> q.response.get_ratelimits()
+>>> {'limit': '5000', 'remaining': '4899', 'reset': '1459987200'}
+```
+
+or
+
+```python
+>>> import ads
+>>> r = ads.RateLimits('SearchQuery')
+>>> q = ads.SearchQuery(q='star')
+>>> for paper in q:
+>>>     print paper.title, paper.citation_count
+>>> ....
+>>>
+>>> r.get_info()
+>>> {'SearchQuery': {'limit': '5000', 'remaining': '4899', 'reset': '1459987200'}}
+```
+
+If you prefer to use your own mocking package, or mock your responses manually, you can access both the stubdata and HTTPretty mocks from the package:
+```python
+>>> import ads
+>>> from ads.tests import mocks
+>>>
+>>> q = ads.SearchQuery(q='star')
+>>> with mocks.MockSolrResponse(ads.SEARCH_URL):
+>>>     q.execute()
+>>> print q.articles[0].title
+....
+```
+
+and
+```python
+>>> from ads.tests.stubdata import solr
+>>> print(solr.example_solr_response)
+....
+>>>         "title":["Dusty Mg II Absorbers: Implications for the Gamma-ray Burst/Quasar Incidence Discrepancy"],
+        "page":["56"],
+        "_version_":1505343681984462848,
+        "indexstamp":"2015-06-29T19:53:26.54Z"}]
+  }}
+>>>
+  ```
+
+*Lazy loading of attributes*
+One thing to be aware of when making queries is the use of lazy loading. This feature is great when prototyping some code, but can hurt you when in production. In the following example, `citation_count` is requested (for each paper) from the ADS API because it was not returned on the first request
+
+
+```python
+>>> import ads
+>>> q = ads.SearchQuery(q='star')
+>>> for paper in q:
+>>>     print paper.title, paper.citation_count
+>>> ....
+```
+
+This would result in `N=1+number_of_docs` requests rather than `N=1`. To ensure it is `N=1` you can request the field ahead of time:
+
+```python
+>>> import ads
+>>> q = ads.SearchQuery(q='star', fl=['id', 'bibcode', 'title', 'citation_count'])
+>>> for paper in q:
+>>>     print paper.title, paper.citation_count
+>>> ....
+```
+
 **Authors**
 
 Vladimir Sudilovsky & Andy Casey, Geert Barentsen, Dan Foreman-Mackey, Miguel de Val-Borro
 
 **License**
 
-Copyright 2014 the authors 
+Copyright 2014 the authors
 
 This is open source software available under the MIT License. For details see the LICENSE file.
