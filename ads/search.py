@@ -5,7 +5,6 @@ Interface to the adsws search api.
 import warnings
 import six
 import math
-from werkzeug.utils import cached_property
 import json
 
 from .config import SEARCH_URL
@@ -13,6 +12,7 @@ from .exceptions import SolrResponseParseError, APIResponseError
 from .base import BaseQuery, APIResponse
 from .metrics import MetricsQuery
 from .export import ExportQuery
+from .utils import cached_property
 
 
 class Article(object):
