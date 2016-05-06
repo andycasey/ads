@@ -147,8 +147,24 @@ class Article(object):
         return self._get_field('bibstem')
 
     @cached_property
+    def bibgroup(self):
+        return self._get_field('bibgroup')
+
+    @cached_property
+    def data(self):
+        return self._get_field('data')
+
+    @cached_property
     def database(self):
         return self._get_field('database')
+
+    @cached_property
+    def doctype(self):
+        return self._get_field('doctype')
+
+    @cached_property
+    def doi(self):
+        return self._get_field('doi')
 
     @cached_property
     def identifier(self):
