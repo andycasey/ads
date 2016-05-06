@@ -168,6 +168,7 @@ and
   ```
 
 *Lazy loading of attributes*
+
 One thing to be aware of when making queries is the use of lazy loading. This feature is great when prototyping some code, but can hurt you when in production. In the following example, `citation_count` is requested (for each paper) from the ADS API because it was not returned on the first request
 
 
@@ -195,6 +196,6 @@ Vladimir Sudilovsky & Andy Casey, Geert Barentsen, Dan Foreman-Mackey, Miguel de
 
 **License**
 
-Copyright 2014 the authors
+Copyright 2016 the authors
 
 This is open source software available under the MIT License. For details see the LICENSE file.
