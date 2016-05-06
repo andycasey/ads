@@ -191,7 +191,7 @@ This would result in `N=1+number_of_docs` requests rather than `N=1`. To ensure 
 
 **Authors**
 
-Vladimir Sudilovsky & Andy Casey, Geert Barentsen, Dan Foreman-Mackey, Miguel de Val-Borro
+Vladimir Sudilovsky & Andy Casey, Geert Barentsen, Dan Foreman-Mackey, Miguel de Val-Borro, and Jonny Elliott
 
 **License**
 
