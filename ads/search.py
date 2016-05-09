@@ -24,6 +24,12 @@ class Article(object):
     # Article.metrics, this class has dependencies on search.py and other core
     # services; this is why it is currently impossible for it to live in
     # base.py, which is the most logical place for it.
+
+    # Field processors to i.e. decode fields that contain JSON strings.
+    _processors = {
+        'links_data': lambda v: map(json.loads, v)
+    }
+
     def __init__(self, **kwargs):
         """
         :param kwargs: Set object attributes from kwargs
@@ -31,7 +37,10 @@ class Article(object):
 
         self._raw = kwargs
         for key, value in six.iteritems(kwargs):
-            setattr(self, key, value)
+            if value is not None and key in Article._processors:
+                setattr(self, key, Article._processors[key](value))
+            else:
+                setattr(self, key, value)
 
     def __str__(self):
         if six.PY3:
@@ -113,6 +122,7 @@ class Article(object):
         """
         Queries the api for a single field for the record by `id`.
         This method should only be called indirectly by cached properties.
+        Returned field values are automatically processed.
         :param field: name of the record field to load
         """
         if not hasattr(self, "id") or self.id is None:
@@ -122,6 +132,9 @@ class Article(object):
         # return None instead of hitting _get_field again.
         if field not in sq._raw:
             return None
+        # Fields are processed in the constructor. As the separately fetched field
+        # is provided via a temporarily created Article instance, the field has
+        # already been processed.
         value = sq.__getattribute__(field)
         self._raw[field] = value
         return value
@@ -135,12 +148,28 @@ class Article(object):
         return self._get_field('aff')
 
     @cached_property
+    def alternate_bibcode(self):
+        return self._get_field('alternate_bibcode')
+
+    @cached_property
+    def arxiv_class(self):
+        return self._get_field('arxiv_class')
+
+    @cached_property
     def author(self):
         return self._get_field('author')
 
     @cached_property
+    def author_norm(self):
+        return self._get_field('author_norm')
+
+    @cached_property
     def citation_count(self):
         return self._get_field('citation_count')
+
+    @cached_property
+    def bibcode(self):
+        return self._get_field('bibcode')
 
     @cached_property
     def bibstem(self):
@@ -151,12 +180,32 @@ class Article(object):
         return self._get_field('bibgroup')
 
     @cached_property
+    def body(self):
+        return self._get_field('body')
+
+    @cached_property
+    def cite_read_boost(self):
+        return self._get_field('cite_read_boost')
+
+    @cached_property
+    def classic_factor(self):
+        return self._get_field('classic_factor')
+
+    @cached_property
+    def copyright(self):
+        return self._get_field('copyright')
+
+    @cached_property
     def data(self):
         return self._get_field('data')
 
     @cached_property
     def database(self):
         return self._get_field('database')
+
+    @cached_property
+    def date(self):
+        return self._get_field('date')
 
     @cached_property
     def doctype(self):
@@ -167,8 +216,24 @@ class Article(object):
         return self._get_field('doi')
 
     @cached_property
+    def eid(self):
+        return self._get_field('eid')
+
+    @cached_property
+    def email(self):
+        return self._get_field('email')
+
+    @cached_property
     def identifier(self):
         return self._get_field('identifier')
+
+    @cached_property
+    def indexstamp(self):
+        return self._get_field('indexstamp')
+
+    @cached_property
+    def first_author(self):
+        return self._get_field('first_author')
 
     @cached_property
     def first_author_norm(self):
@@ -183,6 +248,22 @@ class Article(object):
         return self._get_field('keyword')
 
     @cached_property
+    def keyword_facet(self):
+        return self._get_field('keyword_facet')
+
+    @cached_property
+    def keyword_norm(self):
+        return self._get_field('keyword_norm')
+
+    @cached_property
+    def keyword_schema(self):
+        return self._get_field('keyword_schema')
+
+    @cached_property
+    def links_data(self):
+        return self._get_field('links_data')
+
+    @cached_property
     def page(self):
         return self._get_field('page')
 
@@ -195,12 +276,24 @@ class Article(object):
         return self._get_field('pub')
 
     @cached_property
+    def pub_raw(self):
+        return self._get_field('pub_raw')
+
+    @cached_property
     def pubdate(self):
         return self._get_field('pubdate')
 
     @cached_property
     def read_count(self):
         return self._get_field('read_count')
+
+    @cached_property
+    def reader(self):
+        return self._get_field('reader')
+
+    @cached_property
+    def recid(self):
+        return self._get_field('recid')
 
     @cached_property
     def reference(self):
@@ -217,6 +310,18 @@ class Article(object):
             fl=['id', 'bibcode']
         )
         return [a.bibcode for a in q]
+
+    @cached_property
+    def simbad_object_facet_hier(self):
+        return self._get_field('simbad_object_facet_hier')
+
+    @cached_property
+    def simbid(self):
+        return self._get_field('simbid')
+
+    @cached_property
+    def simbtype(self):
+        return self._get_field('simbtype')
 
     @cached_property
     def title(self):
