@@ -132,12 +132,20 @@ class Article(object):
         return self._get_field('abstract')
 
     @cached_property
+    def ack(self):
+        return self._get_field('ack')
+
+    @cached_property
     def aff(self):
         return self._get_field('aff')
 
     @cached_property
     def alternate_bibcode(self):
         return self._get_field('alternate_bibcode')
+
+    @cached_property
+    def alternate_title(self):
+        return self._get_field('alternate_title')
 
     @cached_property
     def arxiv_class(self):
@@ -204,6 +212,10 @@ class Article(object):
         return self._get_field('keyword')
 
     @cached_property
+    def lang(self):
+        return self._get_field('lang')
+
+    @cached_property
     def page(self):
         return self._get_field('page')
 
@@ -242,6 +254,10 @@ class Article(object):
     @cached_property
     def title(self):
         return self._get_field('title')
+
+    @cached_property
+    def vizier(self):
+        return self._get_field('vizier')
 
     @cached_property
     def volume(self):
