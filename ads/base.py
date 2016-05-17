@@ -85,15 +85,15 @@ class APIResponse(object):
         return RateLimits.getRateLimits(cls.__name__).to_dict()
 
     @classmethod
-    def load_http_response(cls, HTTPResponse):
+    def load_http_response(cls, http_response):
         """
-        This method should return an instansitated class and set its response
+        This method should return an instantiated class and set its response
         to the requests.Response object.
         """
-        if not HTTPResponse.ok:
-            raise APIResponseError(HTTPResponse.text)
-        c = cls(HTTPResponse.text)
-        c.response = HTTPResponse
+        if not http_response.ok:
+            raise APIResponseError(http_response.text)
+        c = cls(http_response)
+        c.response = http_response
 
         RateLimits.getRateLimits(cls.__name__).set(c.response.headers)
 
@@ -146,7 +146,6 @@ class BaseQuery(object):
         """
         if self._session is None:
             self._session = requests.session()
-            self._session.hooks = dict(response=self.__session_hook_response)
             self._session.headers.update(
                 {
                     "Authorization": "Bearer {}".format(self.token),
@@ -155,13 +154,6 @@ class BaseQuery(object):
                 }
             )
         return self._session
-
-    def __session_hook_response(self, r, *args, **kwargs):
-        """
-        :type r: requests.Response
-        """
-        if r.encoding is None:
-            r.encoding = ads.config.default_response_encoding
 
     def __call__(self):
         return self.execute()

@@ -19,4 +19,3 @@ TOKEN_FILES = list(map(os.path.expanduser,
 ))
 TOKEN_ENVIRON_VARS = ["ADS_API_TOKEN", "ADS_DEV_KEY"]
 token = None  # for setting in-situ
-default_response_encoding = 'utf-8'

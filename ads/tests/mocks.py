@@ -27,6 +27,17 @@ class HTTPrettyMock(object):
         HTTPretty.disable()
 
 
+class MockResponse(object):
+    """
+    mock for a simple response with a given body
+    """
+    def __init__(self, body):
+        self.text = body
+
+    def json(self):
+        return json.loads(self.text)
+
+
 class MockApiResponse(HTTPrettyMock):
     """
     context manager than mocks an static adsws-api response
