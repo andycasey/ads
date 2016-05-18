@@ -24,6 +24,7 @@ class Article(object):
     # Article.metrics, this class has dependencies on search.py and other core
     # services; this is why it is currently impossible for it to live in
     # base.py, which is the most logical place for it.
+
     def __init__(self, **kwargs):
         """
         :param kwargs: Set object attributes from kwargs
@@ -131,8 +132,24 @@ class Article(object):
         return self._get_field('abstract')
 
     @cached_property
+    def ack(self):
+        return self._get_field('ack')
+
+    @cached_property
     def aff(self):
         return self._get_field('aff')
+
+    @cached_property
+    def alternate_bibcode(self):
+        return self._get_field('alternate_bibcode')
+
+    @cached_property
+    def alternate_title(self):
+        return self._get_field('alternate_title')
+
+    @cached_property
+    def arxiv_class(self):
+        return self._get_field('arxiv_class')
 
     @cached_property
     def author(self):
@@ -143,16 +160,44 @@ class Article(object):
         return self._get_field('citation_count')
 
     @cached_property
+    def bibcode(self):
+        return self._get_field('bibcode')
+
+    @cached_property
     def bibstem(self):
         return self._get_field('bibstem')
+
+    @cached_property
+    def bibgroup(self):
+        return self._get_field('bibgroup')
+
+    @cached_property
+    def copyright(self):
+        return self._get_field('copyright')
+
+    @cached_property
+    def data(self):
+        return self._get_field('data')
 
     @cached_property
     def database(self):
         return self._get_field('database')
 
     @cached_property
+    def doctype(self):
+        return self._get_field('doctype')
+
+    @cached_property
+    def doi(self):
+        return self._get_field('doi')
+
+    @cached_property
     def identifier(self):
         return self._get_field('identifier')
+
+    @cached_property
+    def indexstamp(self):
+        return self._get_field('indexstamp')
 
     @cached_property
     def first_author_norm(self):
@@ -165,6 +210,10 @@ class Article(object):
     @cached_property
     def keyword(self):
         return self._get_field('keyword')
+
+    @cached_property
+    def lang(self):
+        return self._get_field('lang')
 
     @cached_property
     def page(self):
@@ -205,6 +254,10 @@ class Article(object):
     @cached_property
     def title(self):
         return self._get_field('title')
+
+    @cached_property
+    def vizier(self):
+        return self._get_field('vizier')
 
     @cached_property
     def volume(self):

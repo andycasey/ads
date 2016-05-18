@@ -54,7 +54,8 @@ class TestArticle(unittest.TestCase):
         self.assertNotEqual(Article(bibcode="Not the same"), self.article)
         self.assertEqual(Article(bibcode="2013A&A...552A.143S"), self.article)
         with self.assertRaises(TypeError):
-            Article() == self.article
+            # Explicitly set bibcode to None to avoid invoking the getter.
+            Article(bibcode=None) == self.article
 
     def test_init(self):
         """
