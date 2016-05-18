@@ -14,9 +14,9 @@ class ExportResponse(APIResponse):
     """
     Data structure that represents a response from the ads metrics service
     """
-    def __init__(self, raw):
-        self._raw = raw
-        self.result = json.loads(raw)['export']
+    def __init__(self, http_response):
+        self._raw = http_response.text
+        self.result = http_response.json()['export']
 
     def __str__(self):
         if six.PY3:

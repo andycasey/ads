@@ -8,7 +8,7 @@ from mock import patch
 import six
 import warnings
 
-from ads.tests.mocks import MockSolrResponse
+from ads.tests.mocks import MockResponse, MockSolrResponse
 
 from ads.search import SearchQuery, SolrResponse, APIResponse, Article, query
 from ads.exceptions import APIResponseError, SolrResponseParseError
@@ -227,7 +227,7 @@ class TestSolrResponse(unittest.TestCase):
         and that if critical data are missing then raise SolrResponseParseError
         """
 
-        sr = SolrResponse(self.response.text)
+        sr = SolrResponse(self.response)
         self.assertIn('responseHeader', sr.json)
         self.assertIn('response', sr.json)
         self.assertEqual(sr.numFound, 28)
@@ -238,14 +238,14 @@ class TestSolrResponse(unittest.TestCase):
             'this_is_now_malformed_data',
         )
         with self.assertRaises(SolrResponseParseError):
-            SolrResponse(malformed_text)
+            SolrResponse(MockResponse(malformed_text))
 
     def test_articles(self):
         """
         the article attribute should be read-only, and set the first time
         it is called
         """
-        sr = SolrResponse(self.response.text)
+        sr = SolrResponse(self.response)
         self.assertIsNone(sr._articles)
         self.assertEqual(len(sr.articles), 28)
         self.assertEqual(sr._articles, sr.articles)
@@ -274,7 +274,7 @@ class TestSolrResponse(unittest.TestCase):
         articles should have their properties set to None for each key in fl,
         if the response has no data.
         """
-        sr = SolrResponse(self.response.text)
+        sr = SolrResponse(self.response)
         sr.docs = [{"id": 1}]
         sr.fl = ['id', 'bibstem']
         self.assertEqual(sr.articles[0].id, 1)

@@ -104,7 +104,7 @@ class TestRateLimits(unittest.TestCase):
 
     def setUp(self):
         class FakeResponse(APIResponse):
-            def __init__(self, raw):
+            def __init__(self, http_response):
                 pass
 
         self.FakeResponse = FakeResponse

@@ -4,7 +4,7 @@ Tests for MetricsQuery
 import unittest
 import six
 
-from .mocks import MockMetricsResponse
+from .mocks import MockResponse, MockMetricsResponse
 
 from ads.metrics import MetricsQuery, MetricsResponse
 from ads.config import METRICS_URL
@@ -45,7 +45,7 @@ class TestMetricsResponse(unittest.TestCase):
         an initialized MetricsResponse should have an attribute metrics
         that is a dictionary, and an attribute _raw that is a string
         """
-        mr = MetricsResponse('{"valid":"json"}')
+        mr = MetricsResponse(MockResponse('{"valid":"json"}'))
         self.assertIsInstance(mr.metrics, dict)
         self.assertIsInstance(mr._raw, six.string_types)
 

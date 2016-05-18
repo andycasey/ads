@@ -297,14 +297,14 @@ class SolrResponse(APIResponse):
     Base class for storing a solr response
     """
 
-    def __init__(self, raw):
+    def __init__(self, http_response):
         """
         De-serialize a json string representing a solr response
-        :param raw: complete json response from solr
-        :type raw: basestring
+        :param http_response: complete json response from solr
+        :type http_response: request.response
         """
-        self._raw = raw
-        self.json = json.loads(raw)
+        self._raw = http_response.text
+        self.json = http_response.json()
         self._articles = None
         try:
             self.responseHeader = self.json['responseHeader']

@@ -13,9 +13,9 @@ class MetricsResponse(APIResponse):
     """
     Data structure that represents a response from the ads metrics service
     """
-    def __init__(self, raw):
-        self._raw = raw
-        self.metrics = json.loads(raw)
+    def __init__(self, http_response):
+        self._raw = http_response.text
+        self.metrics = http_response.json()
 
     def __str__(self):
         if six.PY3:

@@ -85,15 +85,15 @@ class APIResponse(object):
         return RateLimits.getRateLimits(cls.__name__).to_dict()
 
     @classmethod
-    def load_http_response(cls, HTTPResponse):
+    def load_http_response(cls, http_response):
         """
-        This method should return an instansitated class and set its response
+        This method should return an instantiated class and set its response
         to the requests.Response object.
         """
-        if not HTTPResponse.ok:
-            raise APIResponseError(HTTPResponse.text)
-        c = cls(HTTPResponse.text)
-        c.response = HTTPResponse
+        if not http_response.ok:
+            raise APIResponseError(http_response.text)
+        c = cls(http_response)
+        c.response = http_response
 
         RateLimits.getRateLimits(cls.__name__).set(c.response.headers)
 

@@ -5,7 +5,7 @@ import unittest
 import six
 import os
 
-from .mocks import MockExportResponse
+from .mocks import MockResponse, MockExportResponse
 
 from ads.export import ExportQuery, ExportResponse
 from ads.config import EXPORT_URL
@@ -46,7 +46,7 @@ class TestExportResponse(unittest.TestCase):
         an initialized ExportResponse should have an attribute result
         that is a string, and an attribute _raw that is a string
         """
-        er = ExportResponse('{"export": "[data]"}')
+        er = ExportResponse(MockResponse('{"export": "[data]"}'))
         self.assertEqual(er.result, "[data]")  # No parsing!
         self.assertIsInstance(er._raw, six.string_types)
 
