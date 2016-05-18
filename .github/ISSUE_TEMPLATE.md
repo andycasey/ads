@@ -26,6 +26,6 @@
 
 ## Your Environment
 <!--- Include as many relevant details about the environment you experienced the bug in -->
-* Version used (hint: `python -c "import ads; print ads.__version__"`)
+* Version used (hint: `python -c "import ads; print(ads.__version__)"`)
 * Python version (hint: `python -V`)
 
