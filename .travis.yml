@@ -5,7 +5,7 @@ python:
   - 3.4
 install: 
   - pip install -r requirements.txt
-  - pip install python-coveralls
+  - pip install coverage coveralls
 script:
   - nosetests --with-coverage --cover-package=ads
 after_success:
