@@ -164,10 +164,6 @@ class Article(object):
         return self._get_field('bibcode')
 
     @cached_property
-    def bibstem(self):
-        return self._get_field('bibstem')
-
-    @cached_property
     def bibgroup(self):
         return self._get_field('bibgroup')
 
@@ -210,10 +206,6 @@ class Article(object):
     @cached_property
     def keyword(self):
         return self._get_field('keyword')
-
-    @cached_property
-    def lang(self):
-        return self._get_field('lang')
 
     @cached_property
     def page(self):
