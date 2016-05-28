@@ -80,6 +80,10 @@ class TestArticle(unittest.TestCase):
             self.article.__str__()
         )
         self.assertEqual(self.article.__unicode__(), self.article.__str__())
+        self.assertEqual(
+            Article().__str__(),
+            "<Unknown author Unknown year, Unknown bibcode>"
+        )
 
     @patch('ads.search.Article._get_field')
     def test_cached_properties(self, patched):
