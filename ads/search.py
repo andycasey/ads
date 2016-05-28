@@ -195,8 +195,8 @@ class Article(object):
         return self._get_field('indexstamp')
 
     @cached_property
-    def first_author_norm(self):
-        return self._get_field('first_author_norm')
+    def first_author(self):
+        return self._get_field('first_author')
 
     @cached_property
     def issue(self):
