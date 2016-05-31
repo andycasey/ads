@@ -40,21 +40,20 @@ class Article(object):
         return self.__unicode__().encode("utf-8")
 
     def __unicode__(self):
-        author = self.first_author or "Unknown author"
-        if self.author and len(self.author) > 1:
+        author = self._raw.get("first_author", "Unknown author")
+        if len(self._raw.get("author", [])) > 1:
             author += " et al."
 
         return u"<{author} {year}, {bibcode}>".format(
             author=author,
-            year=self.year,
-            bibcode=self.bibcode,
+            year=self._raw.get("year", "Unknown year"),
+            bibcode=self._raw.get("bibcode", "Unknown bibcode")
         )
 
     def __eq__(self, other):
-        if (not hasattr(self, 'bibcode') or not hasattr(other, 'bibcode') or
-                self.bibcode is None or other.bibcode is None):
+        if self._raw.get("bibcode") is None or other._raw.get("bibcode") is None:
             raise TypeError("Cannot compare articles without bibcodes")
-        return self.bibcode == other.bibcode
+        return self._raw['bibcode'] == other._raw['bibcode']
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -196,8 +195,8 @@ class Article(object):
         return self._get_field('indexstamp')
 
     @cached_property
-    def first_author_norm(self):
-        return self._get_field('first_author_norm')
+    def first_author(self):
+        return self._get_field('first_author')
 
     @cached_property
     def issue(self):

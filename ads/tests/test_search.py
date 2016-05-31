@@ -49,12 +49,13 @@ class TestArticle(unittest.TestCase):
     def test_equals(self):
         """
         the __eq__ method should compare bibcodes, and raise if bibcode isn't
-        defined
+        defined or is None
         """
         self.assertNotEqual(Article(bibcode="Not the same"), self.article)
         self.assertEqual(Article(bibcode="2013A&A...552A.143S"), self.article)
-        with self.assertRaises(TypeError):
-            # Explicitly set bibcode to None to avoid invoking the getter.
+        with self.assertRaisesRegexp(TypeError, "Cannot compare articles without bibcodes"):
+            Article() == self.article
+        with self.assertRaisesRegexp(TypeError, "Cannot compare articles without bibcodes"):
             Article(bibcode=None) == self.article
 
     def test_init(self):
@@ -79,6 +80,10 @@ class TestArticle(unittest.TestCase):
             self.article.__str__()
         )
         self.assertEqual(self.article.__unicode__(), self.article.__str__())
+        self.assertEqual(
+            Article().__str__(),
+            "<Unknown author Unknown year, Unknown bibcode>"
+        )
 
     @patch('ads.search.Article._get_field')
     def test_cached_properties(self, patched):
