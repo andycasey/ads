@@ -282,6 +282,22 @@ class Article(object):
         """Return a BiBTeX entry for the current article."""
         return ExportQuery(bibcodes=self.bibcode, format="bibtex").execute()
 
+    def highlights(self, fields=['title', 'abstract']):
+        """
+        Return highlights for query
+        :param fields: highlight fields to return
+        :type fields: list
+        """
+        if self._highlights is None:
+            q = SearchQuery(
+                q='{} id:{}'.format(self.query, self.id),
+                fl=['id'],
+                hl=fields
+            )
+            self._highlights = q.response['higlights'].get(self.id)
+
+        return self._highlights
+
 
 class SolrResponse(APIResponse):
     """
