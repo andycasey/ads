@@ -10,6 +10,7 @@ from ads.utils import cached_property
 class DummyClass(object):
     @cached_property
     def lazy_attribute(self):
+        print('here')
         return 1
 
 
@@ -55,7 +56,7 @@ class TestUtils(unittest.TestCase):
     def test_cached_property_already_loaded(self, m_warn):
         """
         Test there is no warning message when someone accesses a lazy loading
-        attribute that has already been accessed.
+        attribute that has already been loaded on instantiation.
         """
 
         # Pretend we have this value in our object already
