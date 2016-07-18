@@ -50,7 +50,6 @@ class TestUtils(unittest.TestCase):
             len(m_warn.warn.mock_calls),
             1
         )
-        m_warn.warn.assert_called_once()
 
     @mock.patch('ads.utils.warnings')
     def test_cached_property_already_loaded(self, m_warn):
