@@ -19,16 +19,29 @@ class TestUtils(unittest.TestCase):
         class DummyClass(object):
             @cached_property
             def lazy_attribute(self):
-                return 1
+                return 42
 
         dc = DummyClass()
+
         with warnings.catch_warnings(record=True) as w:
             dc.lazy_attribute
-            self.assertEqual(len(w), 1)
+            self.assertEqual(
+                len(w),
+                1
+            )
 
             # Should only print once unless the filter is changed
             dc.lazy_attribute
-            self.assertEqual(len(w), 1)
+            self.assertEqual(
+                len(w),
+                1
+            )
+
+        # no warning if attr is explicitly set
+        with warnings.catch_warnings(record=True) as w:
+            dc.lazy_attribute = 'foo'
+            dc.lazy_attribute
+            self.assertEqual(len(w), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
