@@ -144,7 +144,8 @@ class TestSearchQuery(unittest.TestCase):
                     msg = w[-1].message.message
                 self.assertEqual(
                     msg,
-                    "Response rows did not match input rows. Setting this query's rows to 300"
+                    "Response rows did not match input rows. Setting this "
+                    "query's rows to 300"
                 )
             self.assertEqual(sq.query['rows'], 300)
 
@@ -179,6 +180,14 @@ class TestSearchQuery(unittest.TestCase):
         with MockSolrResponse(sq.HTTP_ENDPOINT):
             self.assertEqual(len(list(sq)), 3)
 
+        # setting a sort should use cursorMark for pagination
+        sq = SearchQuery(q="unittest", sort="date")
+        with MockSolrResponse(sq.HTTP_ENDPOINT):
+            self.assertEqual(next(sq).bibcode, '1971Sci...174..142S')
+            self.assertEqual(
+                sq.query['cursorMark'], sq.response.json['nextCursorMark']
+            )
+
     def test_init(self):
         """
         init should result in a properly formatted query attribute
@@ -191,11 +200,9 @@ class TestSearchQuery(unittest.TestCase):
         self.assertIn("star", sq.query['q'])
 
         sq = SearchQuery(title="t", author="ln, fn")
-
         # In Python 3, assertItemsEqual is named assertCountEqual
         assertItemsEqual = self.assertItemsEqual if sys.version_info[0] == 2 \
             else self.assertCountEqual
-        
         assertItemsEqual(
             sq.query['q'].split(),
             'title:"t" author:"ln, fn"'.split(),
@@ -207,9 +214,17 @@ class TestSearchQuery(unittest.TestCase):
             'aff:"institute" star'.split(),
         )
 
-        sq = SearchQuery(q="q", token="test-token")
+        sq = SearchQuery(q="star", token="test-token")
         self.assertEqual(sq.token, "test-token")
         self.assertEqual(sq._token, "test-token")
+
+        sq = SearchQuery(q="star", sort="date")
+        self.assertEqual(sq.query['cursorMark'], '*')
+        self.assertNotIn('start', sq.query)
+        self.assertEqual(sq.query['sort'], 'date desc,id desc')
+
+        with six.assertRaisesRegex(self, AssertionError, ".+mutually exclusive.+"):
+            SearchQuery(q="start", start=0, cursorMark="*")
 
 
 class TestSolrResponse(unittest.TestCase):
