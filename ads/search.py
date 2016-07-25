@@ -333,10 +333,12 @@ class SearchQuery(BaseQuery):
                       "title"]
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
-                 sort=None, cursorMark=None, start=0, rows=50, max_pages=1,
+                 sort=None, cursorMark=None, start=None, rows=50, max_pages=1,
                  token=None, **kwargs):
         """
-        constructor
+        The constructor is designed to set valid and useful
+        query params with potentially sparsely/selectively defined arguments
+
         :param query_dict: raw query that will be sent unmodified. raw takes
             precedence over individually defined query params
         :type query_dict: dict
@@ -345,7 +347,7 @@ class SearchQuery(BaseQuery):
         :param fl: solr "fl" param (filter limit)
         :param sort: solr "sort" param (sort)
         :param cursorMark: solr "cursorMark" param
-        :param start: solr "start" param (start)
+        :param start: solr "start" param (start) (discouraged; use cursorMark)
         :param rows: solr "rows" param (rows)
         :param max_pages: Maximum number of pages to return. This value may
             be modified after instantiation to increase the number of results
@@ -356,18 +358,24 @@ class SearchQuery(BaseQuery):
         self.response = None  # current SolrResponse object
         self.max_pages = max_pages
         self.__iter_counter = 0  # Counter for our custom iterator method
+
         if query_dict is not None:
             query_dict.setdefault('rows', 50)
-            query_dict.setdefault('start', 0)
+            query_dict.setdefault('cursorMark', '*')
+            query_dict.setdefault('sort', 'score desc,id desc')
             self._query = query_dict
         else:
-            if sort is not None:
+            if start is None and cursorMark is None:
+                cursorMark = "*"
+            if sort is None and start is None:
+                sort = "score desc,id desc"
+            elif sort is None and start is not None:
+                sort = "score desc"
+            else:
                 sort = sort.replace("+", " ")
                 sort = sort if " " in sort else "{} desc".format(sort)
-                # If sort is defined, use cursors for pagination
-                cursorMark = "*"
-                start = None
-                if "id" not in sort:  # cursors require unique field in the sort
+                # cursors require unique field in the sort
+                if "id" not in sort and start is None:
                     sort = "{},id desc".format(sort)
             _ = {
                 "q": q or '',
