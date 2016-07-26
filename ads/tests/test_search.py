@@ -225,6 +225,7 @@ class TestSearchQuery(unittest.TestCase):
 
         sq = SearchQuery(q="star", start=0)
         self.assertEqual(sq.query['start'], 0)
+        self.assertNotIn('cursorMark', sq.query)
         self.assertEqual(sq.query['sort'], "score desc")
 
         sq = SearchQuery(q="star", start=0, sort="date")
