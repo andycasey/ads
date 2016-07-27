@@ -401,8 +401,8 @@ class SearchQuery(BaseQuery):
 
             # Format and add kwarg (key, value) pairs to q
             if kwargs:
-                _ = ['{}:"{}"'.format(k, v) for k, v in six.iteritems(kwargs)]
-                self._query['q'] = '{} {}'.format(self._query['q'], ' '.join(_))
+                _ = [u'{}:"{}"'.format(k, v) for k, v in six.iteritems(kwargs)]
+                self._query['q'] = u'{} {}'.format(self._query['q'], ' '.join(_))
 
         assert self._query.get('rows') > 0, "rows must be greater than 0"
         assert self._query.get('q'), "q must not be empty"
