@@ -67,8 +67,6 @@ class MockApiResponse(HTTPrettyMock):
         )
 
 
-
-
 class MockSolrResponse(HTTPrettyMock):
     """
     context manager that mocks a Solr response
@@ -111,6 +109,10 @@ class MockSolrResponse(HTTPrettyMock):
                 for doc in resp['response']['docs']
             ]
             resp['responseHeader']['params']['fl'] = fl
+
+            # Mimic cursor behavior if specified
+            if request.querystring.get('cursorMark'):
+                resp['nextCursorMark'] = "AoIH///3RmWrhAAjMTY0"
 
             return 200, headers, json.dumps(resp)
 
