@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Tests for the search interface
 """
@@ -236,6 +237,10 @@ class TestSearchQuery(unittest.TestCase):
         self.assertEqual(sq.query['cursorMark'], "*")
         self.assertEqual(sq.query['sort'], "score desc,id desc")
         self.assertNotIn('start', sq.query)
+
+        # test unicode
+        sq = SearchQuery(author=u'é')
+        self.assertIn(u'é', sq.query['q'])
 
         with six.assertRaisesRegex(self, AssertionError, ".+mutually exclusive.+"):
             SearchQuery(q="start", start=0, cursorMark="*")
