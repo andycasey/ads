@@ -399,6 +399,12 @@ class SearchQuery(BaseQuery):
             else:
                 self._query["fl"] = ["id"] + self._query["fl"]
 
+            # remove bibtex and metrics as a safeguard against
+            # https://github.com/andycasey/ads/issues/73
+            for field in ["bibtex", "metrics"]:
+                if field in self._query["fl"]:
+                    self.query["fl"].remove(field)
+
             # Format and add kwarg (key, value) pairs to q
             if kwargs:
                 _ = [u'{}:"{}"'.format(k, v) for k, v in six.iteritems(kwargs)]

@@ -245,6 +245,10 @@ class TestSearchQuery(unittest.TestCase):
         with six.assertRaisesRegex(self, AssertionError, ".+mutually exclusive.+"):
             SearchQuery(q="start", start=0, cursorMark="*")
 
+        # test that bibtex/metrics is excluded from sq.query['fl']
+        sq = SearchQuery(q="star", fl=["f1", "bibtex", "f2", "metrics", "f3"])
+        self.assertEqual(sq.query['fl'], ["id", "f1", "f2", "f3"])
+
 
 class TestSolrResponse(unittest.TestCase):
     """
