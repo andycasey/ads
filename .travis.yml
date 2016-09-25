@@ -1,14 +1,21 @@
 language: python
 python:
-  - 2.7
-  - "2.7_with_system_site_packages"
-  - 3.4
-install: 
-  - pip install -r requirements.txt
-  - pip install coverage coveralls
+- 2.7
+- 2.7_with_system_site_packages
+- 3.4
+install:
+- pip install -r requirements.txt
+- pip install coverage coveralls
 script:
-  - nosetests --with-coverage --cover-package=ads
-after_success:
-  coveralls
+- nosetests --with-coverage --cover-package=ads
+after_success: coveralls
 notifications:
   email: false
+deploy:
+  provider: pypi
+  on:
+    tags: true
+    branch: master
+  user: andycasey
+  password:
+    secure: XumuMjhV4D6n4odoffJFBMd1//JAufC3rVMl4E+29W/kJqIq2jBay8OQTByfabmyZJIhYdxFh00nreLNK28VPVvq70b2QySYvhzdWMndrAmDiOwGIAWcOD0aQGVveIjHQqzJBMc2/78psjekU6JEHrrf/UeRKMxs9S4pjXl6fhk=
