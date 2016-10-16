@@ -198,6 +198,10 @@ class Article(object):
         return self._get_field('first_author')
 
     @cached_property
+    def grant(self):
+        return self._get_field('grant')
+
+    @cached_property
     def issue(self):
         return self._get_field('issue')
 
