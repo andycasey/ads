@@ -268,6 +268,28 @@ class TestSearchQuery(unittest.TestCase):
         sq = SearchQuery(q="star", fl=["f1", "bibtex", "f2", "metrics", "f3"])
         self.assertEqual(sq.query['fl'], ["id", "f1", "f2", "f3"])
 
+    def test_get_highlight(self):
+        """
+        Test can retrieve a highlight for a given bibcode for a given query
+        """
+        sq = SearchQuery(q='star', fl=['bibcode'], hl_fl=['abstract'])
+        with MockSolrResponse(SEARCH_URL):
+            p = list(sq)[0]
+
+        highlights = sq.highlights(p)
+        self.assertEqual(highlights, {'abstract': 'astronomy abstract'})
+
+    def test_no_highlights(self):
+        """
+        Test when there are no highlights
+        """
+        sq = SearchQuery(q='star', fl=['bibcode'], hl_fl=['abstract'])
+        with MockSolrResponse(SEARCH_URL):
+            p = list(sq)[1]
+
+        highlights = sq.highlights(p)
+        self.assertEqual(highlights, {})
+
 
 class TestSolrResponse(unittest.TestCase):
     """
