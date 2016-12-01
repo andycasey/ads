@@ -3,7 +3,7 @@
 
 [![Build Status](http://img.shields.io/travis/andycasey/ads.svg?branch-master)](https://travis-ci.org/andycasey/ads) [![Coverage Status](https://coveralls.io/repos/github/andycasey/ads/badge.svg?branch=master)](https://coveralls.io/github/andycasey/ads?branch=master) [![PyPi download count image](http://img.shields.io/pypi/dm/ads.svg)](https://pypi.python.org/pypi/ads/)
 
-If you're in research, then you pretty much _need_ NASA's ADS. It's tried, true, and people go crazy on the rare occasions when it goes down.
+If you're in astro research, then you pretty much _need_ NASA's ADS. It's tried, true, and people go crazy on the rare occasions when it goes down.
 
 **Getting Started**
 

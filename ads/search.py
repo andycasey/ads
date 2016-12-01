@@ -5,7 +5,6 @@ Interface to the adsws search api.
 import warnings
 import six
 import math
-import json
 
 from .config import SEARCH_URL
 from .exceptions import SolrResponseParseError, APIResponseError
@@ -199,6 +198,10 @@ class Article(object):
         return self._get_field('first_author')
 
     @cached_property
+    def grant(self):
+        return self._get_field('grant')
+
+    @cached_property
     def issue(self):
         return self._get_field('issue')
 
@@ -350,9 +353,12 @@ class SearchQuery(BaseQuery):
                       "title"]
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
-                 sort=None, start=0, rows=50, max_pages=1, token=None, **kwargs):
+                 sort=None, cursorMark=None, start=None, rows=50, max_pages=1,
+                 token=None, **kwargs):
         """
-        constructor
+        The constructor is designed to set valid and useful
+        query params with potentially sparsely/selectively defined arguments
+
         :param query_dict: raw query that will be sent unmodified. raw takes
             precedence over individually defined query params
         :type query_dict: dict
@@ -360,7 +366,8 @@ class SearchQuery(BaseQuery):
         :param fq: solr "fq" param (filter query)
         :param fl: solr "fl" param (filter limit)
         :param sort: solr "sort" param (sort)
-        :param start: solr "start" param (start)
+        :param cursorMark: solr "cursorMark" param
+        :param start: solr "start" param (start) (discouraged; use cursorMark)
         :param rows: solr "rows" param (rows)
         :param max_pages: Maximum number of pages to return. This value may
             be modified after instantiation to increase the number of results
@@ -371,19 +378,32 @@ class SearchQuery(BaseQuery):
         self.response = None  # current SolrResponse object
         self.max_pages = max_pages
         self.__iter_counter = 0  # Counter for our custom iterator method
+
         if query_dict is not None:
             query_dict.setdefault('rows', 50)
-            query_dict.setdefault('start', 0)
+            query_dict.setdefault('cursorMark', '*')
+            query_dict.setdefault('sort', 'score desc,id desc')
             self._query = query_dict
         else:
-            if sort is not None:
+            if start is None and cursorMark is None:
+                cursorMark = "*"
+            if sort is None and start is None:
+                sort = "score desc,id desc"
+            elif sort is None and start is not None:
+                sort = "score desc"
+            else:
+                sort = sort.replace("+", " ")
                 sort = sort if " " in sort else "{} desc".format(sort)
+                # cursors require unique field in the sort
+                if "id" not in sort and start is None:
+                    sort = "{},id desc".format(sort)
             _ = {
                 "q": q or '',
                 "fq": fq,
                 "fl": fl,
                 "sort": sort,
                 "start": start,
+                "cursorMark": cursorMark,
                 "rows": int(rows),
             }
             # Filter out None values
@@ -399,13 +419,22 @@ class SearchQuery(BaseQuery):
             else:
                 self._query["fl"] = ["id"] + self._query["fl"]
 
+            # remove bibtex and metrics as a safeguard against
+            # https://github.com/andycasey/ads/issues/73
+            for field in ["bibtex", "metrics"]:
+                if field in self._query["fl"]:
+                    self.query["fl"].remove(field)
+
             # Format and add kwarg (key, value) pairs to q
             if kwargs:
-                _ = ['{}:"{}"'.format(k, v) for k, v in six.iteritems(kwargs)]
-                self._query['q'] = '{} {}'.format(self._query['q'], ' '.join(_))
+                _ = [u'{}:"{}"'.format(k, v) for k, v in six.iteritems(kwargs)]
+                self._query['q'] = u'{} {}'.format(self._query['q'], ' '.join(_))
 
         assert self._query.get('rows') > 0, "rows must be greater than 0"
         assert self._query.get('q'), "q must not be empty"
+        assert self._query.get('cursorMark') is None or \
+            self._query.get('start') is None, \
+            "cursorMark and start are mutually exclusive parameters"
 
         if token is not None:
             self.token = token
@@ -497,7 +526,10 @@ class SearchQuery(BaseQuery):
                           "Setting this query's rows to {}".format(self.query['rows']))
 
         self._articles.extend(self.response.articles)
-        self._query['start'] += self._query['rows']
+        if self._query.get('start') is not None:
+            self._query['start'] += self._query['rows']
+        elif self._query.get('cursorMark') is not None:
+            self._query['cursorMark'] = self.response.json.get("nextCursorMark")
 
 
 class query(SearchQuery):

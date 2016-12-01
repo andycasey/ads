@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Tests for the search interface
 """
@@ -144,7 +145,8 @@ class TestSearchQuery(unittest.TestCase):
                     msg = w[-1].message.message
                 self.assertEqual(
                     msg,
-                    "Response rows did not match input rows. Setting this query's rows to 300"
+                    "Response rows did not match input rows. Setting this "
+                    "query's rows to 300"
                 )
             self.assertEqual(sq.query['rows'], 300)
 
@@ -155,7 +157,7 @@ class TestSearchQuery(unittest.TestCase):
         data row by row and ensure that the data return as expected
         """
 
-        sq = SearchQuery(q="unittest", rows=1, max_pages=20)
+        sq = SearchQuery(q="unittest", rows=1, max_pages=20, start=0)
         with MockSolrResponse(sq.HTTP_ENDPOINT):
             self.assertEqual(sq._query['start'], 0)
             self.assertEqual(next(sq).bibcode, '1971Sci...174..142S')
@@ -179,6 +181,14 @@ class TestSearchQuery(unittest.TestCase):
         with MockSolrResponse(sq.HTTP_ENDPOINT):
             self.assertEqual(len(list(sq)), 3)
 
+        # Default should use cursorMark
+        sq = SearchQuery(q="unittest", sort="date")
+        with MockSolrResponse(sq.HTTP_ENDPOINT):
+            self.assertEqual(next(sq).bibcode, '1971Sci...174..142S')
+            self.assertEqual(
+                sq.query['cursorMark'], sq.response.json['nextCursorMark']
+            )
+
     def test_init(self):
         """
         init should result in a properly formatted query attribute
@@ -191,11 +201,9 @@ class TestSearchQuery(unittest.TestCase):
         self.assertIn("star", sq.query['q'])
 
         sq = SearchQuery(title="t", author="ln, fn")
-
         # In Python 3, assertItemsEqual is named assertCountEqual
         assertItemsEqual = self.assertItemsEqual if sys.version_info[0] == 2 \
             else self.assertCountEqual
-        
         assertItemsEqual(
             sq.query['q'].split(),
             'title:"t" author:"ln, fn"'.split(),
@@ -207,9 +215,39 @@ class TestSearchQuery(unittest.TestCase):
             'aff:"institute" star'.split(),
         )
 
-        sq = SearchQuery(q="q", token="test-token")
+        sq = SearchQuery(q="star", token="test-token")
         self.assertEqual(sq.token, "test-token")
         self.assertEqual(sq._token, "test-token")
+
+        sq = SearchQuery(q="star", sort="date")
+        self.assertEqual(sq.query['cursorMark'], '*')
+        self.assertNotIn('start', sq.query)
+        self.assertEqual(sq.query['sort'], 'date desc,id desc')
+
+        sq = SearchQuery(q="star", start=0)
+        self.assertEqual(sq.query['start'], 0)
+        self.assertNotIn('cursorMark', sq.query)
+        self.assertEqual(sq.query['sort'], "score desc")
+
+        sq = SearchQuery(q="star", start=0, sort="date")
+        self.assertEqual(sq.query['start'], 0)
+        self.assertEqual(sq.query['sort'], "date desc")
+
+        sq = SearchQuery({"q": "star"})
+        self.assertEqual(sq.query['cursorMark'], "*")
+        self.assertEqual(sq.query['sort'], "score desc,id desc")
+        self.assertNotIn('start', sq.query)
+
+        # test unicode
+        sq = SearchQuery(author=u'é')
+        self.assertIn(u'é', sq.query['q'])
+
+        with six.assertRaisesRegex(self, AssertionError, ".+mutually exclusive.+"):
+            SearchQuery(q="start", start=0, cursorMark="*")
+
+        # test that bibtex/metrics is excluded from sq.query['fl']
+        sq = SearchQuery(q="star", fl=["f1", "bibtex", "f2", "metrics", "f3"])
+        self.assertEqual(sq.query['fl'], ["id", "f1", "f2", "f3"])
 
 
 class TestSolrResponse(unittest.TestCase):
@@ -285,7 +323,6 @@ class TestSolrResponse(unittest.TestCase):
         self.assertEqual(sr.articles[0].id, 1)
         self.assertEqual(sr.articles[0].bibstem, None)
         self.assertEqual(patched.call_count, 0)
-
 
 
 class Testquery(unittest.TestCase):
