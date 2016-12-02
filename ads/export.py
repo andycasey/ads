@@ -33,7 +33,8 @@ class ExportQuery(BaseQuery):
     """
 
     HTTP_ENDPOINT = EXPORT_URL
-    FORMATS = ['bibtex', 'endnote', 'aastex']
+    FORMATS = ['bibtex', 'endnote', 'aastex', 
+               'ris', 'icarus', 'mnras', 'soph']
 
     def __init__(self, bibcodes, format="bibtex"):
         """
