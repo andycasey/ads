@@ -338,7 +338,7 @@ class SearchQuery(BaseQuery):
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
                  sort=None, cursorMark=None, start=None, rows=50, max_pages=1,
-                 token=None, hl=None, hl_fl=None, **kwargs):
+                 token=None, hl=None, **kwargs):
         """
         The constructor is designed to set valid and useful
         query params with potentially sparsely/selectively defined arguments
@@ -384,13 +384,15 @@ class SearchQuery(BaseQuery):
                 # cursors require unique field in the sort
                 if "id" not in sort and start is None:
                     sort = "{},id desc".format(sort)
+            if hl:
+
             if hl is None and hl_fl:
                 hl = "true"
                 hl_fl = [i for i in hl_fl if i in ['abstract', 'title', 'body']]
             elif (hl and hl_fl is None) or (hl and hl_fl):
                 hl = "true"
                 hl_fl = [i for i in fl if i in ['abstract', 'title', 'body']]
-
+            print(hl, hl_fl)
             _ = {
                 "q": q or '',
                 "fq": fq,
