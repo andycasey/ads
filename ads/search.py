@@ -366,8 +366,8 @@ class SearchQuery(BaseQuery):
         :param max_pages: Maximum number of pages to return. This value may
             be modified after instantiation to increase the number of results
         :param token: optional API token to use for this searchquery
-        :param hl: return highlights
-        :param hl_fl: specify the type of highlights to return
+        :param hl: specify the type of highlights to return, 
+                   ['abstract', 'title', 'body']
         :param kwargs: kwargs to add to `q` as "key:value"
         """
         self._articles = []
@@ -394,15 +394,12 @@ class SearchQuery(BaseQuery):
                 # cursors require unique field in the sort
                 if "id" not in sort and start is None:
                     sort = "{},id desc".format(sort)
-            if hl:
+            if hl is not None:
+                hl_fl = [i for i in set(hl) if i in ['abstract', 'title', 'body']]
+                hl = "true"
+            else:
+                hl_fl = None
 
-            if hl is None and hl_fl:
-                hl = "true"
-                hl_fl = [i for i in hl_fl if i in ['abstract', 'title', 'body']]
-            elif (hl and hl_fl is None) or (hl and hl_fl):
-                hl = "true"
-                hl_fl = [i for i in fl if i in ['abstract', 'title', 'body']]
-            print(hl, hl_fl)
             _ = {
                 "q": q or '',
                 "fq": fq,
