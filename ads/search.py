@@ -120,7 +120,13 @@ class Article(object):
         # If the requested field is not present in the returning Solr doc,
         # return None instead of hitting _get_field again.
         if field not in sq._raw:
-            return None
+            # These fields will never be in the result solr document;
+            # pass through to __getattribute__ to allow the relevant
+            # secondary service queries
+            if field in ["reference", "citation", "metrics", "bibtex"]:
+                pass
+            else:
+                return None
         value = sq.__getattribute__(field)
         self._raw[field] = value
         return value
@@ -278,11 +284,15 @@ class Article(object):
     
     @cached_property
     def metrics(self):
+        warnings.warn("metrics should be queried with ads.MetricsQuery(); You will"
+                      "hit API ratelimits very quickly otherwise.", UserWarning)
         return MetricsQuery(bibcodes=self.bibcode).execute()
 
     @cached_property
     def bibtex(self):
         """Return a BiBTeX entry for the current article."""
+        warnings.warn("bibtex should be queried with ads.ExportQuery(); You will "
+                      "hit API ratelimits very quickly otherwise.", UserWarning)
         return ExportQuery(bibcodes=self.bibcode, format="bibtex").execute()
 
 

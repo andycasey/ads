@@ -9,11 +9,11 @@ from mock import patch
 import six
 import warnings
 
-from ads.tests.mocks import MockResponse, MockSolrResponse
+from ads.tests.mocks import MockResponse, MockSolrResponse, MockExportResponse
 
 from ads.search import SearchQuery, SolrResponse, APIResponse, Article, query
 from ads.exceptions import APIResponseError, SolrResponseParseError
-from ads.config import SEARCH_URL
+from ads.config import SEARCH_URL, EXPORT_URL
 
 
 class TestArticle(unittest.TestCase):
@@ -122,6 +122,25 @@ class TestArticle(unittest.TestCase):
             self.assertEqual(self.article.pubdate, '1971-10-00')
             self.assertEqual(self.article.read_count, 0.0)
             self.assertIsNone(self.article.issue)
+
+    def test_get_field_bibtex(self):
+        """
+        should emit a warning when calling _get_field with bibtex, but otherwise work
+        as expected both in the case of fl=bibtex and fl=None
+        """
+        for fl in [None, "bibtex"]:
+            sq = SearchQuery(q="*", fl=fl)
+            with warnings.catch_warnings(record=True) as w:
+                with MockSolrResponse(SEARCH_URL):
+                    with MockExportResponse("{base}bibtex".format(base=EXPORT_URL)):
+                        article = next(sq)
+                        article.bibtex
+                if six.PY3:
+                    msg = w[1].message.args[0]
+                elif six.PY2:
+                    msg = w[1].message.message
+                self.assertEqual(msg, "bibtex should be queried with ads.ExportQuery(); "
+                                      "You will hit API ratelimits very quickly otherwise.")
 
 
 class TestSearchQuery(unittest.TestCase):
