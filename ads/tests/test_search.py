@@ -125,7 +125,7 @@ class TestArticle(unittest.TestCase):
 
     def test_get_field_bibtex(self):
         """
-        should emit a warning when calling _get_field with bibtex, but otherwise work
+        should emit a warning when calling _get_field with bibtex but otherwise work
         as expected both in the case of fl=bibtex and fl=None
         """
         for fl in [None, "bibtex"]:
@@ -137,10 +137,10 @@ class TestArticle(unittest.TestCase):
                         article.bibtex
                 if six.PY3:
                     msg = w[1].message.args[0]
-                elif six.PY2:
-                    msg = w[1].message.message
-                self.assertEqual(msg, "bibtex should be queried with ads.ExportQuery(); "
-                                      "You will hit API ratelimits very quickly otherwise.")
+                    self.assertEqual(msg, "bibtex should be queried with ads.ExportQuery(); "
+                                          "You will hit API ratelimits very quickly otherwise.")
+                self.assertTrue(article.bibtex.startswith("@ARTICLE{2013A&A...552A.143S"))
+
 
 
 class TestSearchQuery(unittest.TestCase):
