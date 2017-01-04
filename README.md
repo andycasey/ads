@@ -18,6 +18,9 @@ Happy Hacking!
 
 **Examples**
 
+A list of available search fields is here: 
+https://github.com/adsabs/adsabs-dev-api/blob/master/search.md#fields
+
 You can use this module to search for some popular supernova papers:
 ````python
 >>> import ads
@@ -73,7 +76,7 @@ Feel free to change this, but be aware that each new page fetched will count aga
 To retrieve information for articles where you know the ADS bibcodes:
 ````python
 >>> bibcodes = ['1994AAS...185.7506Z', '2001A&A...366...62A']
->>> articles = [list(ads.SearchQuery(q='bibcode:{}'.format(bibcode)))[0] for bibcode in bibcodes]
+>>> articles = [list(ads.SearchQuery(bibcode=bibcode))[0] for bibcode in bibcodes]
 ```
 
 Each object returned is an ````ads.Article```` object, which has a number of *very* handy attributes and functions:
