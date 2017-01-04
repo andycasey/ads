@@ -69,6 +69,13 @@ Or search by affiliation:
 In the above examples we `list()` the results from `ads.SearchQuery` because `ads.SearchQuery` is a generator, allowing us to return any number of articles. 
 To prevent deep pagination of results, a default of `max_pages=3` is set. 
 Feel free to change this, but be aware that each new page fetched will count against your daily API limit. 
+
+To retrieve information for articles where you know the ADS bibcodes:
+````python
+>>> bibcodes = ['1994AAS...185.7506Z', '2001A&A...366...62A']
+>>> articles = [list(ads.SearchQuery(q='bibcode:{}'.format(bibcode)))[0] for bibcode in bibcodes]
+```
+
 Each object returned is an ````ads.Article```` object, which has a number of *very* handy attributes and functions:
 
 ````python
@@ -78,7 +85,7 @@ Each object returned is an ````ads.Article```` object, which has a number of *ve
 <ads.search.Article at 0x7ff1b913dd10>
 
 # Show some brief details about the paper
->>> print first_paper
+>>> print(first_paper)
 <Zepf, S. et al. 1994, 1994AAS...185.7506Z>
 
 # You can access attributes of an object in IPython by using the 'tab' button:
@@ -103,7 +110,7 @@ The ADS's API uses rate limits to ensure that people cannot abuse it, but this c
 >>> import ads.sandbox as ads
 >>> q = ads.SearchQuery(q='star')
 >>> for paper in q:
->>>     print paper.title, paper.citation_count
+>>>     print(paper.title, paper.citation_count)
 ```
 
 This will not access the live API, but provide mocked responses. When you're ready to go live with your code, simply change the import line to:
@@ -121,7 +128,7 @@ There are helpers that let you keep track of your rate limit, so you can also se
 >>> import ads
 >>> q = ads.SearchQuery(q='star')
 >>> for paper in q:
->>>     print paper.title, paper.citation_count
+>>>     print(paper.title, paper.citation_count)
 >>> ....
 >>>
 >>> q.response.get_ratelimits()
@@ -135,7 +142,7 @@ or
 >>> r = ads.RateLimits('SearchQuery')
 >>> q = ads.SearchQuery(q='star')
 >>> for paper in q:
->>>     print paper.title, paper.citation_count
+>>>     print(paper.title, paper.citation_count)
 >>> ....
 >>>
 >>> r.get_info()
@@ -150,7 +157,7 @@ If you prefer to use your own mocking package, or mock your responses manually, 
 >>> q = ads.SearchQuery(q='star')
 >>> with mocks.MockSolrResponse(ads.SEARCH_URL):
 >>>     q.execute()
->>> print q.articles[0].title
+>>> print(q.articles[0].title)
 ....
 ```
 
@@ -176,7 +183,7 @@ One thing to be aware of when making queries is the use of lazy loading. This fe
 >>> import ads
 >>> q = ads.SearchQuery(q='star')
 >>> for paper in q:
->>>     print paper.title, paper.citation_count
+>>>     print(paper.title, paper.citation_count)
 >>> ....
 ```
 
@@ -186,7 +193,7 @@ This would result in `N=1+number_of_docs` requests rather than `N=1`. To ensure 
 >>> import ads
 >>> q = ads.SearchQuery(q='star', fl=['id', 'bibcode', 'title', 'citation_count'])
 >>> for paper in q:
->>>     print paper.title, paper.citation_count
+>>>     print(paper.title, paper.citation_count)
 >>> ....
 ```
 
