@@ -272,7 +272,14 @@ class TestSearchQuery(unittest.TestCase):
         """
         Test can retrieve a highlight for a given bibcode for a given query
         """
-        sq = SearchQuery(q='star', fl=['bibcode'], hl_fl=['abstract'])
+        sq = SearchQuery(q='star')
+        self.assertNotIn('hl', sq.query)
+        self.assertNotIn('hl.fl', sq.query)
+
+        sq = SearchQuery(q='star', fl=['bibcode'], hl=['abstract'])
+
+        self.assertEqual(sq.query['hl'], 'true')
+        self.assertEqual(sq.query['hl.fl'], ['abstract'])
         with MockSolrResponse(SEARCH_URL):
             p = list(sq)[0]
 
@@ -283,13 +290,19 @@ class TestSearchQuery(unittest.TestCase):
         """
         Test when there are no highlights
         """
-        sq = SearchQuery(q='star', fl=['bibcode'], hl_fl=['abstract'])
+        sq = SearchQuery(q='star', fl=['bibcode'], hl=['abstract'])
         with MockSolrResponse(SEARCH_URL):
             p = list(sq)[1]
 
         highlights = sq.highlights(p)
         self.assertEqual(highlights, {})
 
+    def test_incorrect_highlight_fl(self):
+        """
+        Test when user passes incorrect fields
+        """
+        sq = SearchQuery(q='star', fl=['bibcode'], hl=['foo', 'bar', 'abstract', 'abstract'])
+        self.assertEqual(sq.query['hl.fl'], ['abstract'])
 
 class TestSolrResponse(unittest.TestCase):
     """
