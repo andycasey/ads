@@ -278,7 +278,7 @@ class TestSearchQuery(unittest.TestCase):
 
         sq = SearchQuery(q='star', fl=['bibcode'], hl=['abstract'])
 
-        self.assertEqual(sq.query['hl'], 'true')
+        self.assertEqual(sq.query['hl'], "true")
         self.assertEqual(sq.query['hl.fl'], ['abstract'])
         with MockSolrResponse(SEARCH_URL):
             p = list(sq)[0]
@@ -299,10 +299,11 @@ class TestSearchQuery(unittest.TestCase):
 
     def test_incorrect_highlight_fl(self):
         """
-        Test when user passes incorrect fields
+        Test when user passes incorrect fields it raises an exception
         """
-        sq = SearchQuery(q='star', fl=['bibcode'], hl=['foo', 'bar', 'abstract', 'abstract'])
-        self.assertEqual(sq.query['hl.fl'], ['abstract'])
+        with self.assertRaises(Exception):
+            sq = SearchQuery(q='star', fl=['bibcode'], hl=['foo', 'bar', 'abstract', 'abstract'])
+
 
 class TestSolrResponse(unittest.TestCase):
     """

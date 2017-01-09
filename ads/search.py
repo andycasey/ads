@@ -345,6 +345,7 @@ class SearchQuery(BaseQuery):
     HTTP_ENDPOINT = SEARCH_URL
     DEFAULT_FIELDS = ["author", "first_author", "bibcode", "id", "year",
                       "title"]
+    HIGHLIGHT_FIELDS = ["abstract", "title", "body"]
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
                  sort=None, cursorMark=None, start=None, rows=50, max_pages=1,
@@ -395,7 +396,11 @@ class SearchQuery(BaseQuery):
                 if "id" not in sort and start is None:
                     sort = "{},id desc".format(sort)
             if hl is not None:
-                hl_fl = [i for i in set(hl) if i in ['abstract', 'title', 'body']]
+                hl_fl = list(set(hl))
+                for i in hl_fl:
+                    if i not in self.HIGHLIGHT_FIELDS:
+                        raise Exception('Highlights can only be used for: {}'
+                                        .format(self.HIGHLIGHT_FIELDS))
                 hl = "true"
             else:
                 hl_fl = None
