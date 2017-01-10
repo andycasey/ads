@@ -345,10 +345,11 @@ class SearchQuery(BaseQuery):
     HTTP_ENDPOINT = SEARCH_URL
     DEFAULT_FIELDS = ["author", "first_author", "bibcode", "id", "year",
                       "title"]
+    HIGHLIGHT_FIELDS = ["abstract", "title", "body"]
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
                  sort=None, cursorMark=None, start=None, rows=50, max_pages=1,
-                 token=None, **kwargs):
+                 token=None, hl=None, **kwargs):
         """
         The constructor is designed to set valid and useful
         query params with potentially sparsely/selectively defined arguments
@@ -366,9 +367,12 @@ class SearchQuery(BaseQuery):
         :param max_pages: Maximum number of pages to return. This value may
             be modified after instantiation to increase the number of results
         :param token: optional API token to use for this searchquery
+        :param hl: specify the type of highlights to return, 
+                   ['abstract', 'title', 'body']
         :param kwargs: kwargs to add to `q` as "key:value"
         """
         self._articles = []
+        self._highlights = {}
         self.response = None  # current SolrResponse object
         self.max_pages = max_pages
         self.__iter_counter = 0  # Counter for our custom iterator method
@@ -391,10 +395,22 @@ class SearchQuery(BaseQuery):
                 # cursors require unique field in the sort
                 if "id" not in sort and start is None:
                     sort = "{},id desc".format(sort)
+            if hl is not None:
+                hl_fl = list(set(hl))
+                for i in hl_fl:
+                    if i not in self.HIGHLIGHT_FIELDS:
+                        raise Exception('Highlights can only be used for: {}'
+                                        .format(self.HIGHLIGHT_FIELDS))
+                hl = "true"
+            else:
+                hl_fl = None
+
             _ = {
                 "q": q or '',
                 "fq": fq,
                 "fl": fl,
+                "hl": hl,
+                "hl.fl": hl_fl,
                 "sort": sort,
                 "start": start,
                 "cursorMark": cursorMark,
@@ -461,6 +477,14 @@ class SearchQuery(BaseQuery):
         """
         return self._query
 
+    def highlights(self, article):
+        """
+        Return highlights for a given article
+        :param article: ads.Article
+        :return: list
+        """
+        return self._highlights.get(article.id, {})
+
     def __iter__(self):
         return self
 
@@ -524,6 +548,8 @@ class SearchQuery(BaseQuery):
             self._query['start'] += self._query['rows']
         elif self._query.get('cursorMark') is not None:
             self._query['cursorMark'] = self.response.json.get("nextCursorMark")
+
+        self._highlights.update(self.response.json.get("highlighting", {}))
 
 
 class query(SearchQuery):

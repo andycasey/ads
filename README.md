@@ -103,6 +103,21 @@ first_paper.bibtex                first_paper.first_author          first_paper.
 
 Which allows you to easily build complicated queries. Feel free to fork this repository and add your own examples!
 
+*Highlights*
+
+The ADS allows you to search content that was extracted from the abstract, body, and title, for which the search results are returned based on the relevant text it found. If you need to access the text that the search engine used to select what to return, called *highlights*, you can access them in the following way:
+
+```python
+>>> import ads
+>>> q = ads.SearchQuery(q='star', hl=['abstract', 'body', 'title'])
+>>> first_article = list(q)[0]
+>>> q.highlights(first_article)
+{'abstract': [' in the early universe or in the ultra-dense core of neutron <em>stars.</em> The thermal radiation from the quarks']}
+```
+
+The tags **<em></em>** *highlight* the relevant text. This feature is only available when searching the fields `title, abstract, body`.
+
+
 **Rate limits and optimisations**
 
 *Sandbox*

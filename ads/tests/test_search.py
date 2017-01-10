@@ -142,7 +142,6 @@ class TestArticle(unittest.TestCase):
                 self.assertTrue(article.bibtex.startswith("@ARTICLE{2013A&A...552A.143S"))
 
 
-
 class TestSearchQuery(unittest.TestCase):
     """
     Tests for SearchQuery. Depends on SolrResponse.
@@ -267,6 +266,45 @@ class TestSearchQuery(unittest.TestCase):
         # test that bibtex/metrics is excluded from sq.query['fl']
         sq = SearchQuery(q="star", fl=["f1", "bibtex", "f2", "metrics", "f3"])
         self.assertEqual(sq.query['fl'], ["id", "f1", "f2", "f3"])
+
+    def test_get_highlight(self):
+        """
+        Test can retrieve a highlight for a given bibcode for a given query
+        """
+        sq = SearchQuery(q='star')
+        self.assertNotIn('hl', sq.query)
+        self.assertNotIn('hl.fl', sq.query)
+
+        sq = SearchQuery(q='star', fl=['bibcode'], hl=['abstract'])
+        self.assertEqual(sq.query['hl'], 'true')
+        self.assertEqual(sq.query['hl.fl'], ['abstract'])
+        with MockSolrResponse(SEARCH_URL):
+            p = list(sq)[0]
+
+        highlights = sq.highlights(p)
+        self.assertEqual(highlights, {'abstract': 'astronomy abstract'})
+
+    def test_no_highlights(self):
+        """
+        Test when there are no highlights
+        """
+        sq = SearchQuery(q='star', fl=['bibcode'], hl=['abstract'])
+        with MockSolrResponse(SEARCH_URL):
+            p = list(sq)[1]
+
+        highlights = sq.highlights(p)
+        self.assertEqual(highlights, {})
+
+    def test_incorrect_highlight_fl(self):
+        """
+        Test when user passes incorrect fields it raises an exception
+        """
+        with self.assertRaises(Exception):
+            SearchQuery(
+                q='star',
+                fl=['bibcode'],
+                hl=['foo', 'bar', 'abstract', 'abstract']
+            )
 
 
 class TestSolrResponse(unittest.TestCase):
