@@ -142,7 +142,6 @@ class TestArticle(unittest.TestCase):
                 self.assertTrue(article.bibtex.startswith("@ARTICLE{2013A&A...552A.143S"))
 
 
-
 class TestSearchQuery(unittest.TestCase):
     """
     Tests for SearchQuery. Depends on SolrResponse.
@@ -277,8 +276,7 @@ class TestSearchQuery(unittest.TestCase):
         self.assertNotIn('hl.fl', sq.query)
 
         sq = SearchQuery(q='star', fl=['bibcode'], hl=['abstract'])
-
-        self.assertEqual(sq.query['hl'], "true")
+        self.assertEqual(sq.query['hl'], 'true')
         self.assertEqual(sq.query['hl.fl'], ['abstract'])
         with MockSolrResponse(SEARCH_URL):
             p = list(sq)[0]
@@ -302,7 +300,11 @@ class TestSearchQuery(unittest.TestCase):
         Test when user passes incorrect fields it raises an exception
         """
         with self.assertRaises(Exception):
-            sq = SearchQuery(q='star', fl=['bibcode'], hl=['foo', 'bar', 'abstract', 'abstract'])
+            SearchQuery(
+                q='star',
+                fl=['bibcode'],
+                hl=['foo', 'bar', 'abstract', 'abstract']
+            )
 
 
 class TestSolrResponse(unittest.TestCase):
