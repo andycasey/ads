@@ -115,7 +115,7 @@ The ADS allows you to search content that was extracted from the abstract, body,
 {'abstract': [' in the early universe or in the ultra-dense core of neutron <em>stars.</em> The thermal radiation from the quarks']}
 ```
 
-The tags **<em></em>** *highlight* the relevant text. This feature is only available when searching the fields `title, abstract, body`.
+The tags **<em></em>** *highlight* the relevant text. This feature is only available when searching the fields `title`, `abstract`, `body`, `ack`, `aff`, `author`.
 
 
 **Rate limits and optimisations**

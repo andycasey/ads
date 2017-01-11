@@ -345,7 +345,7 @@ class SearchQuery(BaseQuery):
     HTTP_ENDPOINT = SEARCH_URL
     DEFAULT_FIELDS = ["author", "first_author", "bibcode", "id", "year",
                       "title"]
-    HIGHLIGHT_FIELDS = ["abstract", "title", "body"]
+    HIGHLIGHT_FIELDS = ["abstract", "title", "body", "ack", "aff", "author"]
 
     def __init__(self, query_dict=None, q=None, fq=None, fl=DEFAULT_FIELDS,
                  sort=None, cursorMark=None, start=None, rows=50, max_pages=1,
