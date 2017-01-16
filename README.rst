@@ -8,4 +8,23 @@ It's tried, true, and people go crazy on the rare occasions when it goes down.
 * Repo: https://github.com/andycasey/ads
 * PyPI: https://pypi.python.org/pypi/ads
 
-[![Build Status](http://img.shields.io/travis/andycasey/ads.svg?branch-master)](https://travis-ci.org/andycasey/ads) [![Coverage Status](https://coveralls.io/repos/github/andycasey/ads/badge.svg?branch=master)](https://coveralls.io/github/andycasey/ads?branch=master) [![PyPi download count image](http://img.shields.io/pypi/dm/ads.svg)](https://pypi.python.org/pypi/ads/)
+.. image:: https://travis-ci.org/andycasey/ads.svg?branch=master
+    :target: https://travis-ci.org/andycasey/ads
+
+.. image:: https://coveralls.io/repos/github/andycasey/ads/badge.svg?branch=master
+    :target: https://coveralls.io/github/andycasey/ads?branch=master
+
+
+Quickstart
+==========
+
+   >>> import ads
+   >>> ads.config.token = 'secret token'
+   >>> papers = ads.SearchQuery(q="supernova", sort="citation_count")
+   >>> for paper in papers:
+   >>>    print(paper.title)
+   [u'Maps of Dust Infrared Emission for Use in Estimation of Reddening and Cosmic Microwave Background Radiation Foregrounds']
+   [u'Measurements of Omega and Lambda from 42 High-Redshift Supernovae']
+   [u'Observational Evidence from Supernovae for an Accelerating Universe and a Cosmological Constant']
+   [u'First-Year Wilkinson Microwave Anisotropy Probe (WMAP) Observations: Determination of Cosmological Parameters']
+   [u'Abundances of the elements: Meteoritic and solar']
