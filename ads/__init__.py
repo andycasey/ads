@@ -3,7 +3,7 @@
 
 """ A Python tool for interacting with NASA's ADS """
 
-__version__ = "0.12.2"
+__version__ = "0.12.3"
 
 from .metrics import MetricsQuery
 from .export import ExportQuery
