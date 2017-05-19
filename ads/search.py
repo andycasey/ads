@@ -28,7 +28,6 @@ class Article(object):
         """
         :param kwargs: Set object attributes from kwargs
         """
-
         self._raw = kwargs
         for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
@@ -39,14 +38,15 @@ class Article(object):
         return self.__unicode__().encode("utf-8")
 
     def __unicode__(self):
-        author = self._raw.get("first_author", "Unknown author")
-        if len(self._raw.get("author", [])) > 1:
+        author = self.first_author or "Unknown author"
+
+        if len(self.author or []) > 1:
             author += " et al."
 
         return u"<{author} {year}, {bibcode}>".format(
             author=author,
-            year=self._raw.get("year", "Unknown year"),
-            bibcode=self._raw.get("bibcode", "Unknown bibcode")
+            year=self.year or "Unknown year",
+            bibcode=self.bibcode or "Unknown bibcode"
         )
 
     def __eq__(self, other):
