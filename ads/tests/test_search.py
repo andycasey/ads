@@ -81,10 +81,25 @@ class TestArticle(unittest.TestCase):
             self.article.__str__()
         )
         self.assertEqual(self.article.__unicode__(), self.article.__str__())
+        self.article.first_author = None
+        self.article.author = None
+        self.article.bibcode = None
+        self.article.year = None
+
         self.assertEqual(
-            Article().__str__(),
+            self.article.__str__(),
             "<Unknown author Unknown year, Unknown bibcode>"
         )
+
+        # accessing print methods should use lazy loaded attributes: issue#98
+        sq = SearchQuery(q="unittest", rows=1, fl=["bibcode"])
+        with MockSolrResponse(sq.HTTP_ENDPOINT):
+            article = list(sq)[0]
+            self.assertEqual(article.__unicode__(), '<Sudilovsky, Oscar et al. 1971, 1971Sci...174..142S>')
+
+
+
+
 
     @patch('ads.search.Article._get_field')
     def test_cached_properties(self, patched):
