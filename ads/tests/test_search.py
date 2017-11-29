@@ -54,9 +54,9 @@ class TestArticle(unittest.TestCase):
         """
         self.assertNotEqual(Article(bibcode="Not the same"), self.article)
         self.assertEqual(Article(bibcode="2013A&A...552A.143S"), self.article)
-        with self.assertRaisesRegexp(TypeError, "Cannot compare articles without bibcodes"):
+        with six.assertRaisesRegex(self, TypeError, "Cannot compare articles without bibcodes"):
             Article() == self.article
-        with self.assertRaisesRegexp(TypeError, "Cannot compare articles without bibcodes"):
+        with six.assertRaisesRegex(self, TypeError, "Cannot compare articles without bibcodes"):
             Article(bibcode=None) == self.article
 
     def test_init(self):
@@ -124,7 +124,8 @@ class TestArticle(unittest.TestCase):
         The helper method _get_field() should return the value of a field
         based on its `id`
         """
-        with self.assertRaisesRegexp(
+        with six.assertRaisesRegex(
+                self,
                 APIResponseError,
                 "Cannot query an article without an id"):
             self.article._get_field('read_count')
@@ -198,13 +199,15 @@ class TestSearchQuery(unittest.TestCase):
             self.assertEqual(sq._query['start'], 1)
             self.assertEqual(next(sq).bibcode, '2012GCN..13229...1S')
             self.assertEqual(len(list(sq)), 18)  # 2 already returned
-            with self.assertRaisesRegexp(
+            with six.assertRaisesRegex(
+                    self,
                     StopIteration,
                     "Maximum number of pages queried"):
                 next(sq)
             sq.max_pages = 500
             self.assertEqual(len(list(sq)), 28-18-2)
-            with self.assertRaisesRegexp(
+            with six.assertRaisesRegex(
+                    self,
                     StopIteration,
                     "All records found"):
                 next(sq)
@@ -227,7 +230,7 @@ class TestSearchQuery(unittest.TestCase):
         init should result in a properly formatted query attribute
         """
 
-        with self.assertRaisesRegexp(AssertionError, "q must not be empty"):
+        with six.assertRaisesRegex(self, AssertionError, "q must not be empty"):
             SearchQuery()
 
         sq = SearchQuery(q="star")
