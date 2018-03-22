@@ -136,8 +136,8 @@ or::
    >>> q = ads.SearchQuery(q='star')
    >>> for paper in q:
    >>>     print(paper.title, paper.citation_count)
-   >>> r.get_info()
-   {'SearchQuery': {'limit': '5000', 'remaining': '4899', 'reset': '1459987200'}}
+   >>> r.limits
+   {'limit': '5000', 'remaining': '4899', 'reset': '1459987200'}
 
 If you prefer to use your own mocking package, or mock your responses manually,
 you can access both the stubdata and HTTPretty mocks from the package::
