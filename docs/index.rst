@@ -27,7 +27,7 @@ Examples
 ========
 
 A list of available search fields is here:
-https://github.com/adsabs/adsabs-dev-api/blob/master/search.md#fields
+https://adsabs.github.io/help/search/search-syntax
 
 You can use this module to search for some popular supernova papers::
 
