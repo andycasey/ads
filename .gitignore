@@ -3,5 +3,8 @@
 *idea*
 *pyo
 *__pycache__*
+*.egg-info
+.coverage
 
 docs/_build
+venv/

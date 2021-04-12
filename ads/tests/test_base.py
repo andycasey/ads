@@ -57,11 +57,10 @@ class TestBaseQuery(unittest.TestCase):
 
         # Write temporary file and override the config variable with the
         # tempfile paths
-        tf1, tf2 = NamedTemporaryFile(), NamedTemporaryFile()
+        tf1, tf2 = NamedTemporaryFile(delete=False), NamedTemporaryFile(delete=False)
         tf1.write('tok3\n'.encode("utf-8"))
         tf2.write(' tok4 '.encode("utf-8"))
-        [f.flush() for f in [tf1, tf2]]
-        [f.seek(0) for f in [tf1, tf2]]
+        [f.close() for f in [tf1, tf2]]
         ads.base.TOKEN_FILES = [tf1.name, tf2.name]
 
         bq = BaseQuery()
@@ -76,11 +75,11 @@ class TestBaseQuery(unittest.TestCase):
 
         self.assertEqual(bq.token, 'tok3')
         reset_token()
-        tf1.close()
+        os.remove(tf1.name)
 
         self.assertEqual(bq.token, 'tok4')
         reset_token()
-        tf2.close()
+        os.remove(tf2.name)
 
         self.assertEqual(bq.token, None)
 

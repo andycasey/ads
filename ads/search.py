@@ -3,6 +3,7 @@ Interface to the adsws search api.
 """
 
 import warnings
+import re
 import six
 import math
 
@@ -437,8 +438,11 @@ class SearchQuery(BaseQuery):
 
             # Format and add kwarg (key, value) pairs to q
             if kwargs:
-                _ = [u'{}:"{}"'.format(k, v) for k, v in six.iteritems(kwargs)]
-                self._query['q'] = u'{} {}'.format(self._query['q'], ' '.join(_))
+                for field, value in six.iteritems(kwargs):
+                    if not re.match('\s*\(.*\)\s*', value):
+                        # Wrap value in quotes if not already in parentheses
+                        value = u'"{}"'.format(value)
+                    self._query['q'] += u' {}:{}'.format(field, value)
 
         assert self._query.get('rows') > 0, "rows must be greater than 0"
         assert self._query.get('q'), "q must not be empty"

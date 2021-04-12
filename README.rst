@@ -28,3 +28,9 @@ Quickstart
    [u'Observational Evidence from Supernovae for an Accelerating Universe and a Cosmological Constant']
    [u'First-Year Wilkinson Microwave Anisotropy Probe (WMAP) Observations: Determination of Cosmological Parameters']
    [u'Abundances of the elements: Meteoritic and solar']
+
+Running Tests
+=============
+
+   > cd /path/to/ads
+   > python -m unittest discover
