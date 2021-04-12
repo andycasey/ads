@@ -250,6 +250,13 @@ class TestSearchQuery(unittest.TestCase):
             sq.query['q'].split(),
             'aff:"institute" star'.split(),
         )
+        
+        # Test parentheses don't get wrapped in quotes (#114)
+        sq = SearchQuery(title='("solar" OR "sun" OR "helio" OR "cme" OR "corona")')
+        self.assertEqual(
+            sq.query['q'],
+            ' title:("solar" OR "sun" OR "helio" OR "cme" OR "corona")'
+        )
 
         sq = SearchQuery(q="star", token="test-token")
         self.assertEqual(sq.token, "test-token")
