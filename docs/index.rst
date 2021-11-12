@@ -1,9 +1,21 @@
 .. include:: references.rst
 
-The ads Python package
-======================
+A client for NASA's Astrophysics Data System
+============================================
 
-A Python client for the NASA Astrophysics Data System.
+`ads` is a Python client for interacting with NASA's Astrophysics Data System. This client offers simple, flexible access to
+many of the APIs provided by NASA/ADS.
+
+
+What's new?
+----------
+
+- Asynchronous coroutines to speed up queries by an order of magnitude
+- A fast command line tool for retrieving documents
+- Create and update remote ADS libraries with ease
+- More sophisticated metrics queries
+- ...
+- Automatic request throttling to avoid overloading NASA/ADS services
 
 If you're in astro research, then you pretty much *need* NASA's ADS.
 It's tried, true, and people go crazy on the rare occasions when it goes down.
