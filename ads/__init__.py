@@ -1,12 +1,17 @@
+import logging
+logger = logging.getLogger(__name__)
 
-# coding: utf-8
+debug = True
 
-""" A Python tool for interacting with NASA's ADS """
+__version__ = "0.13.0"
 
-__version__ = "0.12.3"
+if debug:
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    logger.setLevel(logging.DEBUG)
+    
+else:
+    logger.addHandler(logging.NullHandler())
 
-from .metrics import MetricsQuery
-from .export import ExportQuery
-from .search import SearchQuery, query
-from .base import RateLimits
-#from .libraries import LibraryQuery, Library #soon
