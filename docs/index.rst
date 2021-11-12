@@ -3,7 +3,7 @@
 The ads Python package
 ======================
 
-A Python Module to Interact with NASA's ADS that Doesn't Suck™
+A Python client for the NASA Astrophysics Data System.
 
 If you're in astro research, then you pretty much *need* NASA's ADS.
 It's tried, true, and people go crazy on the rare occasions when it goes down.

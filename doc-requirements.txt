@@ -1,0 +1,6 @@
+sphinx-book-theme
+aiohttp
+requests
+httpretty>=0.8.10
+werkzeug
+mock
