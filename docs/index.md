@@ -90,10 +90,10 @@ asyncio.run(main())
 - Search by affiliation
 :::
 
-:::{note}
-You will need an [API key](user/api-key) from the SAO/NASA ADS website before you can execute these queries.
-:::
 
+# Command line tool
+
+**TODO**: make a gif 
 
 
 # Contents
@@ -134,3 +134,4 @@ SAO/NASA ADS API documentation <http://adsabs.github.io/help/api/api-docs.html>
 ```{toctree}
 GitHub Repository <https://github.com/andycasey/ads>
 ```
+
