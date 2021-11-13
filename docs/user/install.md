@@ -28,6 +28,7 @@ python setup.py install
 `ads` requires Python 3.6 or later.
 :::
 
+&nbsp;
 
 ## Testing
 
@@ -40,6 +41,7 @@ pytest
 
 All of the tests should pass. If they don't, and there is no obvious reason why they do not, you can [open an issue on GitHub](https://github.com/andycasey/ads/issues).
 
+&nbsp;
 
 ## Building documentation locally
 
