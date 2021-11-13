@@ -1,6 +1,7 @@
+sphinx_copybutton
+ablog
+myst-nb
+sphinx_thebe
+sphinx_inline_tabs 
+furo
 sphinx-book-theme
-aiohttp
-requests
-httpretty>=0.8.10
-werkzeug
-mock
