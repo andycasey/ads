@@ -23,23 +23,20 @@ A Python client for the SAO/NASA Astrophysics Data System
 :::
 
 ::::
-**[Flexible content layout](https://google.com)**
-: Inspired by beautiful online books, such as [the Edward Tufte CSS guide](https://edwardtufte.github.io/tufte-css/)
+**[Asynchronous coroutines for faster queries](https://google.com)**
+: Now you can make queries synchronously with improved pagination, or search ten times faster using asynchronous coroutines.
 
-**[Visual classes designed for Jupyter Notebooks](reference/notebooks)**
-: Cell inputs, outputs, and interactive functionality are all supported.
+**[A fast command line tool](reference/notebooks)**
+: Query for references or documents at lightening speed from a terminal.
 
-**[Launch buttons for online interactivity](launch)**
-: For pages that are built with computational material, connect your site to an online BinderHub for interactive content.
+**[Update remote ADS libraries with ease](launch)**
+: Use a Pythonic API to create, update, and delete remote libraries.
 
-**[Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/)**
-: To style visual elements and add functionality.
-
-**International**
-: All text integrated in the theme is translated to the specified [Sphinx language](https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-language).
+**[Make sophisticated metrics queries](https://getbootstrap.com/docs/4.0/getting-started/introduction/)**
+: New querying tools for building complex metrics queries and visualizations.
 
 :::{seealso}
-This is the default theme in [Jupyter Book](https://jupyterbook.org).
+``ads`` 1.0 is only compatible with Python 3.x. If you haven't already upgraded from Python 2, two years ago was the time.
 :::
 
 
@@ -52,6 +49,18 @@ This is the default theme in [Jupyter Book](https://jupyterbook.org).
 
 ``ads`` is a Python package for interacting with the Astrophysics Data System (ADS), a digital library portal for researchers in astronomy and physics, 
 operated by the [Smithsonian Astrophysical Observatory](https://www.cfa.harvard.edu/sao) (SAO) under a [NASA](https://nasa.gov) grant.
+
+
+What's new?
+----------
+
+- Asynchronous coroutines to speed up queries by an order of magnitude
+- A fast command line tool for retrieving documents
+- Create and update remote ADS libraries with ease
+- More sophisticated metrics queries
+- ...
+- Automatic request throttling to avoid overloading NASA/ADS services
+
 
 
 # Furo
