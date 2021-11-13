@@ -1,5 +1,5 @@
 ---
-hide-toc: true
+hide-toc: false
 ---
 
 ::::{grid}
@@ -23,27 +23,25 @@ A Python client for the SAO/NASA Astrophysics Data System
 :::
 
 ::::
-**[Asynchronous coroutines for faster queries](https://google.com)**
+**[Asynchronous coroutines for faster queries](#)**
 : Now you can make queries synchronously with improved pagination, or search ten times faster using asynchronous coroutines.
 
-**[A fast command line tool](reference/notebooks)**
+**[A fast command line tool](#)**
 : Query for references or documents at lightening speed from a terminal.
 
-**[Update remote ADS libraries with ease](launch)**
+**[Update remote ADS libraries with ease](#)**
 : Use a Pythonic API to create, update, and delete remote libraries.
 
-**[Make sophisticated metrics queries](https://getbootstrap.com/docs/4.0/getting-started/introduction/)**
+**[Make sophisticated metrics queries](#)**
 : New querying tools for building complex metrics queries and visualizations.
 
 **Lots more**
 : There are a lot of new changes in version 1.0 of the ``ads`` module. [See what's new](#).
 
 :::{important}
-Version 1.0 of ``ads`` is only compatible with Python 3. If you haven't already upgraded from Python 2, [two years ago](https://www.python.org/doc/sunset-python-2/) was the time.
+Version 1.0 of ``ads`` is only compatible with Python 3. If you haven't yet upgraded from Python 2, [two years ago](https://www.python.org/doc/sunset-python-2/) was the time to upgrade.
 :::
 
-
-&nbsp;
 
 &nbsp;
 
@@ -54,44 +52,85 @@ Version 1.0 of ``ads`` is only compatible with Python 3. If you haven't already 
 operated by the [Smithsonian Astrophysical Observatory](https://www.cfa.harvard.edu/sao) (SAO) under a [NASA](https://nasa.gov) grant.
 
 
-What's new?
-----------
-
-- Asynchronous coroutines to speed up queries by an order of magnitude
-- A fast command line tool for retrieving documents
-- Create and update remote ADS libraries with ease
-- More sophisticated metrics queries
-- ...
-- Automatic request throttling to avoid overloading NASA/ADS services
+&nbsp;
 
 
+# Basic examples
 
-# Furo
+You can search by keywords for documents on ADS.
 
-A clean customisable Sphinx documentation theme.
+``````{tab} Synchronous
+```python
+import ads
 
-```{include} ../README.md
-:start-after: <!-- start elevator-pitch -->
-:end-before: <!-- end elevator-pitch -->
+for document in ads.SearchQuery(q="stellar astrophysics"):
+   print(document.title)
 ```
+``````
+``````{tab} Asynchronous
+```python
+import ads
+
+def main():
+   async for document in ads.SearchQuery(q="stellar astrophysics"):
+      print(document.title)
+
+asyncio.run(main())
+```
+``````
+``````{tab} Example Output
+```
+['foo']
+```
+``````
+
+:::{ToDo}
+- Search by author
+- Search by year
+- Search by affiliation
+:::
+
+:::{note}
+You will need an [API key](user/api-key) from the SAO/NASA ADS website before you can execute these queries.
+:::
+
+
+
+# Contents
 
 ```{toctree}
-:hidden:
+:caption: User Guide
 
-quickstart
-customisation/index
-reference/index
-recommendations
-```
-
-```{toctree}
-:caption: Development
-:hidden:
-
-contributing/index
-kitchen-sink/index
-stability
+user/install
+user/api-key
+user/search-syntax
+user/async-vs-sync
+user/rate-limits
+api-docs
+developer-docs
 changelog
-license
-GitHub Repository <https://github.com/pradyunsg/furo>
+```
+
+&nbsp;
+
+```{toctree}
+:caption: Tutorials
+
+tutorials/basic
+tutorials/async
+```
+
+&nbsp;
+
+```{toctree}
+:caption: External links
+
+Search ADS <https://ui.adsabs.harvard.edu/>
+SAO/NASA ADS API documentation <http://adsabs.github.io/help/api/api-docs.html>
+```
+
+&nbsp; 
+
+```{toctree}
+GitHub Repository <https://github.com/andycasey/ads>
 ```

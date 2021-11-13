@@ -14,9 +14,9 @@ import sys
 # -- Project information -----------------------------------------------------
 #
 
-project = "furo"
-copyright = "2020, Pradyun Gedam"
-author = "Pradyun Gedam"
+project = "ads"
+copyright = "2016-2020"
+author = "Andy Casey and others"
 
 #
 # -- General configuration ---------------------------------------------------
@@ -31,7 +31,6 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     # Our custom extension, only meant for Furo's own documentation.
-    "furo.sphinxext",
     # External stuff
     "myst_parser",
     "sphinx_copybutton",
@@ -74,17 +73,15 @@ myst_heading_anchors = 3
 #
 
 html_theme = "furo"
-html_title = "Furo"
+html_title = "ads package"
 language = "en"
 
 html_static_path = ["_static"]
 html_css_files = ["pied-piper-admonition.css"]
-html_theme_options = {}
-"""    "announcement": (
-        "If you like this theme, you can "
-        '<a href="https://shoutouts.dev/projects/pradyunsg/furo">'
-        "express your gratitude"
-        "</a>!"
+html_theme_options = {
+    "announcement": (
+        "If things look broken, try disabling your ad-blocker. "
+        "It's because 'ads' seems a lot like <b>ad</b>(<i>vertisement</i>)<b>s</b>, "
+        "and there's not much I can do about that!"
     )
 }
-"""
