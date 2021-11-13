@@ -35,8 +35,11 @@ A Python client for the SAO/NASA Astrophysics Data System
 **[Make sophisticated metrics queries](https://getbootstrap.com/docs/4.0/getting-started/introduction/)**
 : New querying tools for building complex metrics queries and visualizations.
 
-:::{seealso}
-``ads`` 1.0 is only compatible with Python 3.x. If you haven't already upgraded from Python 2, two years ago was the time.
+**Lots more**
+: There are a lot of new changes in version 1.0 of the ``ads`` module. [See what's new](#).
+
+:::{important}
+Version 1.0 of ``ads`` is only compatible with Python 3. If you haven't already upgraded from Python 2, [two years ago](https://www.python.org/doc/sunset-python-2/) was the time.
 :::
 
 
