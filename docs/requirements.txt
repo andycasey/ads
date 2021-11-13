@@ -1,7 +1,7 @@
-sphinx_copybutton
 ablog
+furo
 myst-nb
+sphinx_copybutton
+sphinx_design
 sphinx_thebe
 sphinx_inline_tabs 
-furo
-sphinx-book-theme
