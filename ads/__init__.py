@@ -1,7 +1,8 @@
 import logging
 logger = logging.getLogger(__name__)
 
-debug = True
+
+debug = False
 
 __version__ = "0.13.0"
 
