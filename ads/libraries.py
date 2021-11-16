@@ -133,10 +133,25 @@ class Library(base.BaseQuery):
         """ The number of users of this library. """
         return self._num_users
 
-
     def _create(self, name=None, description=None, public=False, documents=None, **kwargs):
         """
         Execute an API request to create a library for the user.
+
+        :param name: [optional]
+            The name for this library. If `None` is given it will default to 'Unnamed Library <X>',
+            where `X` is the next available number.
+
+        :param description: [optional]
+            A short description for this library.
+        
+        :param public: [optional]
+            Whether or not this library is public (default: False).
+
+        :param documents: [optional]
+            Optionally supply documents (or a list of bibcodes) to add to this new library.
+
+        :param kwargs: [optional]
+            Keyword arguments will be supplied to `ads.base.BaseQuery.api_request`.        
         """
         payload = dict(public=bool(public))
         if name is not None:
@@ -157,6 +172,7 @@ class Library(base.BaseQuery):
 
     @cached_property
     def documents(self):
+        """ The documents in this library. """
         try:
             return self._documents
         except AttributeError:
@@ -266,10 +282,14 @@ class Library(base.BaseQuery):
             f"biblib/documents/{self.id}",
             method="delete"
         )
-        self.__del__()
+        self.close()
         return True
 
     def __del__(self):
+        return self.close()
+
+    def close(self):
+        """Close the session associated with this library."""
         try:
             self.session.close()
         finally:
