@@ -12,7 +12,7 @@ from .exceptions import APIResponseError
 __version__ = "0.2.0"
 
 
-class BaseQuery(object):
+class Session(object):
 
     _token = config.token
     _limit_per_host = 10
@@ -184,10 +184,8 @@ class RateLimits(object, metaclass=Singleton):
         """
         end_point = url[len(config.ADSWS_API_URL):].lstrip("/")
         collection = end_point.split("/")[0]
-        try:
-            return cls.services[collection]
-        except:
-            raise KeyError(f"Cannot infer service from end point {end_point} ({url})")
+        # TODO: Raise a warning if we can't identify the service?        
+        return cls.services.get(collection, collection)
 
     @classmethod
     def set_from_http_response(cls, http_response):
