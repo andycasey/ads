@@ -32,4 +32,5 @@ jobs:
       - name: Check test coverage
         run: |
           coveralls
-        
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }} 
