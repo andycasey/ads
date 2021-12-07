@@ -15,7 +15,7 @@ __version__ = "0.2.0"
 class Session(object):
 
     _token = config.token
-    _limit_per_host = 10
+    _async_limit_per_host = 10
         
     @property
     def token(self):
@@ -71,7 +71,7 @@ class Session(object):
                 # We are going to be good citizens and limit the number of simultaneous connections.
                 # (If we don't, ADS will do it anyways.)
                 self._async_session = aiohttp.ClientSession(
-                    connector=aiohttp.TCPConnector(limit_per_host=self._limit_per_host),
+                    connector=aiohttp.TCPConnector(limit_per_host=self._async_limit_per_host),
                     headers=self.request_headers
                 )
 
@@ -99,6 +99,38 @@ class Session(object):
         finally:
             return None
 
+    def _api_method_cleaned(self, method):
+        available_methods = ("get", "post", "put", "delete")
+        cleaned_method = method.lower().strip()
+        if cleaned_method not in available_methods:
+            raise ValueError(
+                f"Method '{method}' not available. "
+                f"Available methods: {', '.join(available_methods)}"
+            )
+        return cleaned_method
+
+    def _api_request(self, end_point, method, **kwargs):
+        """
+        Perform a synchronous API request.
+        
+        :param end_point:
+            The API end-point (e.g., '/search/query').
+                
+        :param method:
+            The HTTP method to use for the request (default: GET).
+
+        :param kwargs: [optional]
+            Keyword arguments to pass to the `requests.request` method.
+            Examples include `data`, `params`, etc.
+
+        :returns:
+            An `APIResponse` object.
+        """
+        method = self._api_method_cleaned(method)
+        return APIResponse.load_http_response(
+            getattr(self.session, method)(self._api_url(end_point), **kwargs)
+        )
+
     def api_request(self, end_point, method="GET", **kwargs):
         """
         Perform a synchronous API request.
@@ -116,37 +148,47 @@ class Session(object):
         :returns:
             An `APIResponse` object.
         """
-
-        url = self._api_url(end_point)
-        available_methods = ("get", "post", "put", "delete")
-        cleaned_method = method.lower().strip()
-        if cleaned_method not in available_methods:
-            raise ValueError(
-                f"Method '{method}' not available. "
-                f"Available methods: {', '.join(available_methods)}"
-            )
-        method_func = getattr(self.session, cleaned_method)
-        return APIResponse.load_http_response(method_func(url, **kwargs))
+        return self._api_request(end_point, method, **kwargs)
 
     def _api_url(self, end_point):
         return "/".join(map(lambda _: _.strip("/"), [config.ADSWS_API_URL, end_point]))
 
-    async def async_api_request(self, end_point, params, method="GET", **kwargs):
-        
-        raise NotImplementedError("todo")
-        url = self._api_url(end_point)
 
+    # Asynchronous context manager.
+    """
+    def __aenter__(self):
+        print("in __aenter__")
+        return self
+
+    def __await__(self):
+        return self.__anext__()
+
+    def __aexit__(self, exc_type, exc, tb):
+        print(f"in __aexit__")
         try:
-            logger.info(f"Querying {url} with {params}")
-            async with self.async_session.get(url, params=params) as response:
-                logger.info(f"\tawaiting response on {params}")
-                data = await response.json()
-                logger.info(f"Retrieved response from {url} with {params}")
-            return data
+            self.async_session.close()
+        finally:
+            return None
+    """
+
+    async def _async_api_request(self, async_session, end_point, params, method, **kwargs):
+        
+        url = self._api_url(end_point)
+        method = self._api_method_cleaned(method)
+        callable = getattr(async_session, method)
+        try:
+            logger.debug(f"Querying {url} with {params} with {method}")
+            async with callable(url, params=params) as request:
+                logger.debug(f"\tawaiting response on {params}")
+                logger.debug(f"Retrieved response from {url} with {params}")
+                return await APIResponse.async_load_http_response(request)
 
         except asyncio.CancelledError:
-            logger.info(f"Cancelled request to {url} with {params}")
+            logger.debug(f"Cancelled request to {url} with {params}")
             raise
+
+    async def async_api_request(self, async_session, end_point, params, method="GET", **kwargs):
+        return self._async_api_request(async_session, end_point, params, method, **kwargs)
 
 
 class Singleton(type):
@@ -182,7 +224,7 @@ class RateLimits(object, metaclass=Singleton):
         :param url:
             The requested URL.
         """
-        end_point = url[len(config.ADSWS_API_URL):].lstrip("/")
+        end_point = str(url)[len(config.ADSWS_API_URL):].lstrip("/")
         collection = end_point.split("/")[0]
         # TODO: Raise a warning if we can't identify the service?        
         return cls.services.get(collection, collection)
@@ -198,6 +240,7 @@ class RateLimits(object, metaclass=Singleton):
         :param http_response:
             The HTTP response.
         """
+
         service = cls.get_service(http_response.url)
         cls().set(
             service, 
@@ -266,6 +309,25 @@ class APIResponse(object):
 
         return c
 
-    def __init__(self, http_response):
+    @classmethod
+    async def async_load_http_response(cls, http_response):
+        json = await http_response.json()
+        if not http_response.ok:
+            try:
+                raise APIResponseError(json["error"])
+            except (KeyError, AttributeError, TypeError, ValueError):
+                raise APIResponseError(await http_response.text)
+
+        c = cls(http_response, _json=json)
+        c.response = http_response
+        
+        RateLimits.set_from_http_response(http_response)
+        return c
+        
+
+    def __init__(self, http_response, _json=None):
         self._raw = http_response
-        self.json = http_response.json()
+        if _json is None:
+            self.json = http_response.json()
+        else:
+            self.json = _json
