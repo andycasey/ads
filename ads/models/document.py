@@ -1,11 +1,20 @@
 """
 Document data model.
 """
-from peewee import Expression, TextField, Model, ForeignKeyField, fn, IntegerField, DateTimeField, DateField
+import json
+import warnings
+from collections import deque
+from peewee import (Model, ModelSelect, ForeignKeyField, VirtualField, fn, ForeignKeyAccessor)
 
-from ads.models.base import (ADSAPI, DocumentSelect)
-from ads.models.journal import Journal
-from ads.models.affiliation import Affiliation
+from ads.exceptions import APIResponseError
+from ads import logger
+from ads.client import Client
+from ads.models.base import (ADSAPI, ADSContext)
+from ads.models.journal import Journal, JournalField
+from ads.models.affiliation import (Affiliation, AffiliationField)
+from ads.models.lazy import (DateField, DateTimeField, IntegerField, TextField)
+
+
 
 class Document(Model):
 
@@ -14,8 +23,9 @@ class Document(Model):
 
     id = IntegerField(help_text="A unique identifier for the document, curated by ADS.")
     abstract = TextField(help_text="Search for a word or phrase in an abstract only.")
-    ack = TextField(help_text="Search for a word or phrase in the acknowledgements extracted from fulltexts.")
+    ack = TextField(help_text="Search for a word or phrase in the acknowledgements extracted from fulltexts.") # Is this viewable?
     aff = TextField(help_text="Search for a word or phrase in the raw, provided affiliation field.")
+    aff_id = TextField(help_text="Search for dcuments with a curated affiliation identifier.")
     alternate_bibcode = TextField(help_text="Search for documents with an alternate bibcode.")
     alternate_title = TextField(help_text="Search for a word of phrase in an alternate title, usually when the original title is not in English.")
     arxiv_class = TextField(help_text="Search by which arXiv class a document was submitted to.")
@@ -25,7 +35,7 @@ class Document(Model):
     bibcode = TextField(help_text="Search by bibcode.")
     bibgroup = TextField(help_text="Find records by bibliographic groups, curated by staff outside of ADS.")
     bibstem = TextField(help_text="Search by the abbreviated name of the journal or publication (e.g., ApJ).")
-    body = TextField(help_text="Search for a word or phrase in (only) the full text.")
+    body = TextField(help_text="Search for a word or phrase in (only) the full text.") # Is this viewable?
     citation_count = IntegerField(help_text="Find records matching the number of citations, or a range of citations.")
     cite_read_boost = IntegerField(help_text="Find records by normalized boost factors, or a range of normalized boost factors.")
     data = TextField(help_text="Search by records that have related data. For example: data:\"CDS\" will return records that have CDS data.")
@@ -76,22 +86,18 @@ class Document(Model):
     volume = IntegerField(help_text="The volume of the journal that the article exists in..")
     year = IntegerField(help_text="Year of publication.")
 
-    # Foreign key fields
+    # Foreign key fields to local databases.
 
-    aff_id = ForeignKeyField(
-        Affiliation.id,
-        help_text="Search for documents with a curated affiliation identifier."
-    )
-    affiliation = ForeignKeyField(Affiliation, column_name="aff_id") # Helper function    
-    journal = ForeignKeyField(Journal)
+    affiliation = AffiliationField(Affiliation, column_name="__affiliation", lazy_load=True)
+    journal = JournalField(Journal, column_name="__journal", lazy_load=True)
 
     # Virtual fields / operators
 
-    abs = TextField(help_text="Search for a word or phrase in abstract, title, and keywords.")
-    all = TextField(help_text="Search by `author_norm`, `alternate_title`, `bibcode`, `doi`, and `identifier`.",)
-    arxiv = TextField(help_text="Search by arXiv identifier.")
-    full = TextField(help_text="Search by `title`, `abstract, `body`, `keyword`, and `ack`.")
-    orcid = TextField(help_text="ORCID identifier, from all possible sources.")
+    abs = VirtualField(help_text="Search for a word or phrase in abstract, title, and keywords.")
+    all = VirtualField(help_text="Search by `author_norm`, `alternate_title`, `bibcode`, `doi`, and `identifier`.",)
+    arxiv = VirtualField(help_text="Search by arXiv identifier.")
+    full = VirtualField(help_text="Search by `title`, `abstract, `body`, `keyword`, and `ack`.")
+    orcid = VirtualField(help_text="ORCID identifier, from all possible sources.")
 
     # Functions
 
@@ -138,6 +144,226 @@ class Document(Model):
         if not fields:
             fields = cls._meta.sorted_fields
         return DocumentSelect(cls, fields, is_default=is_default)
+
+    def __str__(self):
+        return self.__repr__()
+
+    def __repr__(self):
+        preferred_key = ("bibcode", "id")
+        for key in preferred_key:
+            try:
+                value = self.__data__[key]
+            except IndexError:
+                continue
+            else:
+                break
+        else:
+            return f"<{self.__class__.__name__}: no identifier>"
+        
+        return f"<{self.__class__.__name__}: {key}={value}>"
+
+    def _unique_identifier(self):
+        keys = ("id", "bibcode")
+        for key in keys:
+            try:
+                value = self.__data__[key]
+            except IndexError:
+                continue
+            else:
+                return (getattr(self.__class__, key), value)
+        else:
+            raise ValueError(f"No identifier found among {keys}")
+
+
+class DocumentSelect(Client, ModelSelect):
+
+    _max_rows = 200
+    _row_warning_limit = 10_000
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.buffer = deque()
+        self._count = None
+        self._retrieved = 0
+
+    def save(self):
+        """
+        Save a query on the ADS servers for later execution.
+        
+        :returns:
+            A query identifier returnd by ADS, and the number of documents found.
+        """
+        response = self.api_request(
+            "/vault/query",
+            method="post",
+            data=json.dumps(self.initial_payload)
+        )
+        return (response.json["qid"], response.json["numFound"])
+
+    @classmethod
+    def load(cls, qid):
+        """
+        Load a saved query from ADS.
+        
+        :param qid:
+            The query identifier given by ADS when the query was saved
+        """
+        with cls() as client:
+            foo = client.api_request(
+                f"/vault/execute_query/{qid}",
+                method="get",
+                params=dict()
+            )
+            raise a
+        
+        
+
+    def count(self):
+        if self._count is None:
+            # This is expensive because we are going to have to make a query just to count the rows.
+            params = self.cursor_payload.copy()
+            params.update(start=0, rows=1, fl=["id"])
+            raise a
+
+        return self._count
+
+    def get(self):
+        self._create_payloads(rows=1)
+        return next(self)
+
+    def get_or_none(self):
+        try:
+            return self.get()
+        except StopIteration:
+            return None
+
+    def execute(self):
+        return self
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        while True:
+            try:
+                document_kwds = self.buffer.popleft()
+            except IndexError:
+                if self._count is None or self._retrieved < self._count:
+                    self.fetch_page()
+                else:
+                    try:
+                        # Close the session before we finish iterating.
+                        self.session.close()
+                    finally:
+                        raise StopIteration
+            else:
+                return Document(**document_kwds)
+
+    def _create_payloads(self, **kwargs):
+        fields = []
+        for field in self._returning:
+            if isinstance(field, str):
+                fields.append(field)
+            else:
+                fields.append(field.name)
+
+        for required_field in ("id", "bibcode"):
+            if required_field not in fields:
+                fields.append(required_field)
+
+        start = self._offset or 0
+        rows = self._limit or self._max_rows
+
+        if self._order_by is not None:
+            sort = ", ".join(
+                [f"{ordering.node.name} {ordering.direction}" for ordering in self._order_by]
+            )
+        else:
+            sort = None
+
+        payload = dict(
+            q=self.__str__(),
+            fl=fields,
+            fq=None,
+            sort=sort,
+            start=start,
+            rows=rows,
+        )
+        payload.update(kwargs)
+        self._initial_payload = payload
+        self._current_payload = payload.copy()
+
+
+    @property
+    def initial_payload(self):
+        try:
+            return self._initial_payload
+        except AttributeError:
+            self._create_payloads()
+            return self._initial_payload
+
+    @property
+    def current_payload(self):
+        try:
+            return self._current_payload
+        except AttributeError:
+            self._create_payloads()
+            return self._current_payload
+
+
+    def fetch_page(self):
+
+        logger.debug(f"Querying with {self.current_payload}")
+        
+        response = self.api_request("/search/query", method="get", params=self.current_payload)
+
+        num_found = response.json["response"]["numFound"]
+        documents = response.json["response"]["docs"]
+
+        # If this is the first page, we will store the number of records to expect from this query.
+        # TODO: Or should this logic go elsewhere, parsed from something like the `self.last_response`?
+        #       or through the API Response object.
+        if self._count is None:
+            start, rows = (self.current_payload["start"], self.current_payload["rows"])
+            self._count = min(num_found - start, rows)
+        
+        N = 0
+        for N, doc in enumerate(documents, start=1):
+            self.buffer.append(doc)
+
+        self._retrieved += N
+
+        logger.debug(f"So far have {self._retrieved} of {self._count}")
+        
+        # `initial_query` refers to the original query, `query` refers to a mutable query.
+        self._current_payload.update(
+            start=start + N,
+            rows=min(N, self._count - self._retrieved)
+        )
+        return None
+
+
+    def __sql__(self, ctx):
+        return ctx.sql(self._where)
+
+
+    def __str__(self):
+        db = getattr(self, "_database", None)
+        if db is not None:
+            ctx = db.get_sql_context()
+        else:
+            ctx = ADSContext()
+        
+        query, params = ctx.sql(self).query()
+        if not params:
+            return query
+        
+        param = ctx.state.param or "?"
+        if param == "?":
+            query = query.replace("?", "%s")
+
+        return (query % tuple(params))
+
 
 
 # TODO: Docs at https://ui.adsabs.harvard.edu/help/searcfh/comprehensive-solr-term-list

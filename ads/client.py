@@ -12,8 +12,8 @@ from .exceptions import APIResponseError
 __version__ = "0.2.0"
 
 
-class Session(object):
-
+class Client:
+    
     _token = config.token
     _async_limit_per_host = 10
         

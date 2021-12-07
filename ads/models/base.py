@@ -125,9 +125,7 @@ class ADSContext(Context):
             return self.parse_expression(new_expression)
 
         if is_expression_referencing_model_or_model_field(expression, Affiliation):
-            return self.parse_expression(parse_expression_referencing_affiliation(expression))
-            
-
+            return self.parse_expression(parse_expression_referencing_affiliation(expression))    
 
         if (expression.op == OP.NE): #^ expression.negated:
             self.literal("-")
@@ -161,9 +159,9 @@ class ADSContext(Context):
         elif expression.op == OP.GT:
             self.parse(expression.rhs + 1)
         elif expression.op == OP.IN:
-            self.literal("(")
-            self.parse(expression.rhs)
-            self.literal(")")
+            #self.literal("(")
+            self.parse(NodeList(expression.rhs, glue=" OR ", parens=True))
+            #self.literal(")")
         else:
         
             try:
@@ -268,27 +266,4 @@ class ADSAPI:
             else:
                 raise InterfaceError('Error, database connection not opened.')
         return self._state.conn.cursor()
-
-
-class DocumentSelect(ModelSelect):
-    
-    def __sql__(self, ctx):
-        return ctx.sql(self._where)
-
-    def __str__(self):
-        db = getattr(self, "_database", None)
-        if db is not None:
-            ctx = db.get_sql_context()
-        else:
-            ctx = ADSContext()
-        
-        query, params = ctx.sql(self).query()
-        if not params:
-            return query
-        
-        param = ctx.state.param or "?"
-        if param == "?":
-            query = query.replace("?", "%s")
-
-        return (query % tuple(params))
 
