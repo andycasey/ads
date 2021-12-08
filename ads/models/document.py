@@ -182,9 +182,11 @@ class DocumentSelect(Client, ModelSelect):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.buffer = deque()
+        self._buffer = []
         self._count = None
         self._retrieved = 0
+        self._iter = 0
+
 
     def save(self):
         """
@@ -228,8 +230,9 @@ class DocumentSelect(Client, ModelSelect):
         return self._count
 
     def get(self):
-        self._create_payloads(rows=1)
-        return next(self)
+        with self:
+            self._create_payloads(rows=1)
+            return next(self)
 
     def get_or_none(self):
         try:
@@ -241,12 +244,13 @@ class DocumentSelect(Client, ModelSelect):
         return self
 
     def __iter__(self):
+        self._iter = 0
         return self
 
     def __next__(self):
         while True:
             try:
-                document_kwds = self.buffer.popleft()
+                document = self._buffer[self._iter]
             except IndexError:
                 if self._count is None or self._retrieved < self._count:
                     self.fetch_page()
@@ -257,8 +261,10 @@ class DocumentSelect(Client, ModelSelect):
                     finally:
                         raise StopIteration
             else:
-                return Document(**document_kwds)
+                self._iter += 1
+                return document
 
+        
     def _create_payloads(self, **kwargs):
         fields = []
         for field in self._returning:
@@ -328,8 +334,8 @@ class DocumentSelect(Client, ModelSelect):
             self._count = min(num_found - start, rows)
         
         N = 0
-        for N, doc in enumerate(documents, start=1):
-            self.buffer.append(doc)
+        for N, document_kwds in enumerate(documents, start=1):
+            self._buffer.append(Document(**document_kwds))
 
         self._retrieved += N
 
