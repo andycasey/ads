@@ -135,40 +135,35 @@ def requires_bibcodes(func):
             return func(library, *args, **kwargs)
     return inner
 
-"""
-class LibraryModelBase(ModelBase):
-    def __new__(cls, name, bases, attrs):
-        new_cls = super(LibraryModelBase, cls).__new__(cls, name, bases, attrs)
-        # For the fields, change the accessor.
-        #if attrs:
-        #    raise a
-        print(name, bases, attrs)
-        return new_cls
+
+## TODO:
+# [ ] Saving instead of all these hybrid attributes
+# [ ] Creating
+# [X] Validate permissions
+# [ ] Getting DocumentSelect to recognise when it's time to use BigQuery!
 
 
-class LibraryModel(with_metaclass(LibraryModelBase, Node)):
-    pass
 
-class Library(LibraryModel):
-"""
-
-from peewee import FieldAccessor
-class MetadataAccessor(FieldAccessor):
-
-    def __set__(self, instance, value):
-        if self.name in instance.__data__:
-            raise a
-        instance.__data__[self.name] = value
-        instance._dirty.add(self.name)
-
-
-def valid_email_address(email):
-    return True
+def valid_email_address(email: str) -> bool:
+    """
+    Check whether an email address looks valid.
+    
+    :param email:
+        An email address.
+    """
+    return re.match(r"[^@]+@[^@]+\.[^@]+", email)
 
 def valid_permissions(value):
-    return (True, ["read", "write", "admin"])
+    value = flatten(value)
+
+    permissions = ("read", "write", "admin")
+    unknown = set(value).difference(permissions)
+    is_valid = ~bool(unknown)
+    return (is_valid, permissions)
+
 
 class Permissions(dict):
+    
     def __init__(self, library):
         self.library = library
         return None
@@ -323,31 +318,31 @@ class Library(Model):
     
     @owner.setter
     def owner(self, email):
-        with Client() as client:
-            # We need an email address to transfer ownership, but the `owner` string is the ADS
-            # username, which is different. So if we don't add ourselves with read permissions 
-            # first, we won't be able to access the library after this point.
+        if "_owner" in self.__data__:
+            with Client() as client:
+                # We need an email address to transfer ownership, but the `owner` string is the ADS
+                # username, which is different. So if we don't add ourselves with read permissions 
+                # first, we won't be able to access the library after this point.
 
-            # As it turns out, you can't change your own permissions.
-            # That means if you wanted to keep read permission after transferring the library
-            # you'd have to do something like this:
-            
-            # Original owner: A
-            # New owner: B
-            # Extra account managed by A: C
+                # As it turns out, you can't change your own permissions.
+                # That means if you wanted to keep read permission after transferring the library
+                # you'd have to do something like this:
+                
+                # Original owner: A
+                # New owner: B
+                # Extra account managed by A: C
 
-            # A sets C with admin permissions
-            # A transfers to B
-            # C gives admin (or read/write) permissions to A
-            # Can C then even delete themselves as an admin? I don't think so..
+                # A sets C with admin permissions
+                # A transfers to B
+                # C gives admin (or read/write) permissions to A
+                # Can C then even delete themselves as an admin? I don't think so..
 
-            client.api_request(
-                f"biblib/transfer/{self.id}",
-                data=json.dumps(dict(email=email)),
-                method="post"
-            )
+                client.api_request(
+                    f"biblib/transfer/{self.id}",
+                    data=json.dumps(dict(email=email)),
+                    method="post"
+                )
 
-        # Best we can do is set the new owner's email address.
         self.__data__["_owner"] = email
         return None
 
