@@ -153,39 +153,47 @@ def valid_email_address(email: str) -> bool:
     """
     return re.match(r"[^@]+@[^@]+\.[^@]+", email)
 
-def valid_permissions(value):
-    value = flatten(value)
-
+def valid_permissions(values):
     permissions = ("read", "write", "admin")
-    unknown = set(value).difference(permissions)
-    is_valid = ~bool(unknown)
+    unknown = set(values).difference(permissions)
+    is_valid = (len(unknown) == 0)
     return (is_valid, permissions)
 
 
 class Permissions(dict):
     
     def __init__(self, library):
-        self.library = library
+        self._library = library
+        self._dirty = set()
         return None
 
     def __setitem__(self, item, value):
+        value = list(set(flatten(value)))
         if not valid_email_address(item):
             raise ValueError(f"Invalid email address '{item}'")
-        
         is_valid, valid_values = valid_permissions(value)
         if not is_valid:
             raise ValueError(f"Invalid permissions among '{value}': must contain only {valid_values}")
-        
-        self.library._update_permissions(item, value)
-        if not value:
-            self.__delitem__(item)
-        else:
-            super().__setitem__(item, value)
+        self._set_dirty(item)
+        super().__setitem__(item, value)
+
+
+    def _set_dirty(self, item):
+        self._dirty.add(item)
+        self._library._dirty.add("permissions")
+
 
     def __delitem__(self, item):
-        if self[item]:
-            self.library._update_permissions(item, None)
+        self._set_dirty(item)
         super().__delitem__(item)
+
+
+    def refresh(self):
+        with Client() as client:
+            response = client.api_request(f"biblib/permissions/{self._library.id}")
+        self.update(dict(ChainMap(*response.json)))
+        return response
+
 
 
 class Library(Model):
@@ -193,59 +201,37 @@ class Library(Model):
     class Meta:
         database = ADSAPI()
 
-    # Immutable:
-    _id = TextField(help_text="Unique identifier for this library, which is assigned by ADS.", column_name="id", primary_key=True)
-
-    # Mutable by user:
-    _name = TextField(help_text="Given name to the library.")
-    _description = TextField(help_text="Description of the library.")
-    _public = BooleanField(help_text="Whether the library is public.")
-    _owner = TextField(help_text="Owner of the library.")
-    _permissions = TextField(help_text="Permission level of the library.")
-
-    # Mutable locally, but has no impact on server.
+    id = TextField(help_text="Unique identifier for this library, which is assigned by ADS.", primary_key=True)
     num_users = IntegerField(help_text="Number of users of the library.")
     num_documents = IntegerField(help_text="Number of documents in the library.")
     date_created = DateTimeField(help_text="Date the library was created.")
     date_last_modified = DateTimeField(help_text="Date the library was last modified.")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__data__["permissions"] = Permissions(self)
+    name = TextField(help_text="Given name to the library.")
+    description = TextField(help_text="Description of the library.")
+    public = BooleanField(help_text="Whether the library is public.")
+    owner = TextField(help_text="Owner of the library.")
 
-
-    def refresh(self):
-        with Client() as client:
-            # The pagination for documents in a library is a bit weird. Normally the /search/query
-            # end point would limit us to 20 results per page (if you believe the documentation,
-            # but for my token I have found that to be 200 results per page). But for this library
-            # end point, I have tested up to 500 results and seen no pagination.
-            # TODO: Ask the ADS team what pagination settings are in place for this end point.
-            #       Then make sure that our client will paginate them correctly.
-            response = client.api_request(
-                f"biblib/libraries/{self.id}", 
-                params=dict(rows=self.num_documents)
-            )
-
-            # Update the metadata.
-            self.__data__.update(response.json["metadata"])
-                    
-            # The list in `response.json["solr"]["response"]["docs"]` gives bibcodes and alternate
-            # bibcodes, but we only need the bibcode and we actually want many other fields.
-            # We will store `bibcodes` so we can do operations (e.g., add, remove, etc.) on the 
-            # library without ever having to retrieve details about all the documents.
-
-            # Update the bibcodes.
-            self.__data__["bibcodes"] = response.json["documents"]
-
-            return response
-
-    def refresh_permissions(self):
-        with Client() as client:
-            response = client.api_request(f"biblib/permissions/{self.id}")
-        self.__data__["permissions"].update(dict(ChainMap(*response.json)))
-        return response
-
+    @hybrid_property
+    def permissions(self):
+        try:
+            return self.__data__["permissions"]
+        except KeyError:
+            permissions = self.__data__["permissions"] = Permissions(self)
+            permissions.refresh()
+            return permissions
+        
+        
+    @permissions.setter
+    def permissions(self, permissions):
+        # Only apply differences.
+        missing_keys = set(self.permissions.keys()).difference(set(permissions.keys()))
+        for key, value in permissions.items():
+            if key not in self.permissions or self.permissions[key] != value:
+                self.permissions[key] = value
+        for key in missing_keys:
+            del self.permissions[key]    
+        return None
 
 
     @hybrid_property
@@ -277,49 +263,56 @@ class Library(Model):
         print(f"setting {new_documents}")
         raise a
 
-    @hybrid_property
-    def id(self):
-        return self._id
+    @documents.deleter
+    def documents(self):
+        """ Delete all documents from a library. """
+        return self.empty()
 
-    @id.setter
-    def id(self, new_id):
-        if "_id" in self.__data__:
-            raise a
-        self.__data__["_id"] = new_id
-        return None
+    def save(self, only=None):
+        if not self._dirty:
+            return False
 
-    @hybrid_property
-    def name(self):
-        return self._name
-    
-    @name.setter
-    def name(self, new_name):
-        return self._update_metadata("name", new_name)
-    
-    @hybrid_property
-    def description(self):
-        return self._description
-    
-    @description.setter
-    def description(self, new_description):
-        return self._update_metadata("description", new_description)
+        with Client() as client:
 
-    @hybrid_property
-    def public(self):
-        return self._public
-    
-    @public.setter
-    def public(self, new_public):
-        return self._update_metadata("public", bool(new_public))
-    
-    @hybrid_property
-    def owner(self):
-        return self._owner
-    
-    @owner.setter
-    def owner(self, email):
-        if "_owner" in self.__data__:
-            with Client() as client:
+            # Update documents.
+
+            # Update any metadata.
+            metadata_fields = {"name", "description", "public"}
+            if dirty_metadata_fields := self._dirty.intersection(metadata_fields):
+                client.api_request(
+                    f"biblib/documents/{self.id}",
+                    data=json.dumps(
+                        { key: getattr(self, key) for key in dirty_metadata_fields }
+                    ),
+                    method="put"
+                )
+                self._dirty -= dirty_metadata_fields
+
+            # Update permissions.
+            if "permissions" in self._dirty:
+                _, all_permission_kinds = valid_permissions([])
+                for email in self.permissions._dirty:
+                    print(f"Updating permission for {email}")
+                    data = dict(
+                        email=email, 
+                        permission={ kind: False for kind in all_permission_kinds}
+                    )
+                    if permission_kinds := self.permissions.get(email, []):
+                        data["permission"].update(
+                            dict(zip(permission_kinds, [True] * len(permission_kinds)))
+                        )
+
+                    client.api_request(
+                        f"biblib/permissions/{self.id}",
+                        data=json.dumps(data),
+                        method="post"
+                    )
+                self._dirty -= {"permissions"}
+
+            # Update owner.
+            if "owner" in self._dirty:
+                if not valid_email_address(self.owner):
+                    raise ValueError(f"Invalid email address for new owner: '{self.owner}'")
                 # We need an email address to transfer ownership, but the `owner` string is the ADS
                 # username, which is different. So if we don't add ourselves with read permissions 
                 # first, we won't be able to access the library after this point.
@@ -336,74 +329,18 @@ class Library(Model):
                 # A transfers to B
                 # C gives admin (or read/write) permissions to A
                 # Can C then even delete themselves as an admin? I don't think so..
-
                 client.api_request(
                     f"biblib/transfer/{self.id}",
-                    data=json.dumps(dict(email=email)),
+                    data=json.dumps(dict(email=self.owner)),
                     method="post"
                 )
+            
+        # Update the last modified without making a query to ADS.
+        # This is not what would be reflected on the ADS server, but it is accurate to within a few seconds.
+        self.date_last_modified = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')
+        self._dirty.clear()
+        return True
 
-        self.__data__["_owner"] = email
-        return None
-
-    @hybrid_property
-    def permissions(self):
-        try:
-            return self.__data__["permissions"]
-        except KeyError:
-            self.__data__["permissions"] = Permissions(self)
-            self.refresh_permissions()
-        finally:
-            return self.__data__["permissions"]
-        
-    @permissions.setter
-    def permissions(self, new_permissions):
-        # Only apply differences.
-        missing_keys = set(self.permissions.keys()).difference(set(new_permissions.keys()))
-        for key, value in new_permissions.items():
-            if key not in self.permissions or self.permissions[key] != value:
-                self.permissions[key] = value
-        for key in missing_keys:
-            del self.permissions[key]
-    
-        return None
-
-    def _update_permissions(self, email, new=None):
-        _, values = valid_permissions(None)
-        permission = { value: False for value in values }
-        if new:
-            permission.update(dict(zip(new, [True] * len(new))))
-
-        with Client() as client:
-            client.api_request(
-                f"biblib/permissions/{self.id}",
-                data=json.dumps(dict(email=email, permission=permission)),
-                method="post"
-            )
-        return None
-
-    def _update_metadata(self, name, value):
-        proxy_name = f"_{name}"
-        if proxy_name in self.__data__:
-            data = {name: value}
-
-            with Client() as client:
-                client.api_request(
-                    f"biblib/documents/{self.id}",
-                    data=json.dumps(data),
-                    method="put"
-                )
-                
-            self.date_last_modified = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')
-                        
-        else:
-            self.__data__[proxy_name] = value
-        return None    
-
-    @documents.deleter
-    def documents(self):
-        """ Delete all documents from a library. """
-        return self.empty()
 
     # Iterating and slicing.
 
@@ -672,7 +609,34 @@ class Library(Model):
     def __repr__(self):
         return f"<Library {self.id}: {self.name} ({self.num_documents} documents)>"
             
-    
+    def refresh(self):
+        with Client() as client:
+            # The pagination for documents in a library is a bit weird. Normally the /search/query
+            # end point would limit us to 20 results per page (if you believe the documentation,
+            # but for my token I have found that to be 200 results per page). But for this library
+            # end point, I have tested up to 500 results and seen no pagination.
+            # TODO: Ask the ADS team what pagination settings are in place for this end point.
+            #       Then make sure that our client will paginate them correctly.
+            response = client.api_request(
+                f"biblib/libraries/{self.id}", 
+                params=dict(rows=self.num_documents)
+            )
+
+            # Update the metadata.
+            metadata = response.json["metadata"]
+            self.__data__.update(metadata)
+            self._dirty -= set(metadata)
+
+            # The list in `response.json["solr"]["response"]["docs"]` gives bibcodes and alternate
+            # bibcodes, but we only need the bibcode and we actually want many other fields.
+            # We will store `bibcodes` so we can do operations (e.g., add, remove, etc.) on the 
+            # library without ever having to retrieve details about all the documents.
+
+            # Update the bibcodes.
+            self.__data__["bibcodes"] = response.json["documents"]
+            print(f"set bibcodes/documents as not _dirty")
+            return response
+
 
 
 class LibrarySelect(Client, ModelSelect):
@@ -687,6 +651,11 @@ class LibrarySelect(Client, ModelSelect):
     def execute(self, database=None):
         with self:
             response = self.api_request("biblib/libraries")
-        return [Library(**kwds) for kwds in response.json["libraries"]]
+        libraries = []
+        for kwds in response.json["libraries"]:
+            obj = Library(**kwds)
+            obj._dirty.clear()
+            libraries.append(obj)
+        return libraries
 
 
