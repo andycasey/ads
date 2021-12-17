@@ -22,7 +22,7 @@ library = ads.Library.get(name="SDSS-IV")
 library = ads.Library.get()
 ```
 
-The :func:`ads.Library.get` method is for retrieving a single library. If you want to retrieve all your libraries, or your libraries based on some query expression, then you can use the :class:`ads.Library.select` method:
+The :func:`ads.Library.get` method is for retrieving a single library. If you want to retrieve all your libraries, or your libraries based on some query expression, then you can use the {class}`ads.Library.select` method:
 
 ```python
 # Retrieve all my current libraries
@@ -38,7 +38,7 @@ libraries = ads.Library.select().where(
 )
 ```
 
-Both of these examples will return an :class:`ads.models.library.LibrarySelect` object. In most cases you probably want to iterate over it to retrieve your libraries:
+Both of these examples will return an {class}`ads.models.library.LibrarySelect` object. In most cases you probably want to iterate over it to retrieve your libraries:
 
 ```python
 # Iterate through all my libraries.
@@ -52,7 +52,7 @@ last_library = libraries[-1]
 small_libraries = [lib for lib in libraries if lib.num_documents < 5]
 ```
 
-But you can also apply further operations to the :class:`ads.models.library.LibrarySelect` object, like limit, sort, or filter:
+But you can also apply further operations to the {class}`ads.models.library.LibrarySelect` object, like limit, sort, or filter:
 
 ```python
 top_5_libraries = ads.Library.select()\
@@ -62,7 +62,7 @@ for library in ads.Library.select():
     print(f"{library.id}: {library.name} has {library.num_documents}")
 ``` 
 
-In these example, each `library` is an :class:`ads.Library` object that stores the metadata, documents, and permissions about that library. The :class:`ads.Library` object also has a number of method functions that can be used to manipulate the library.
+In these example, each `library` is an {class}`ads.Library` object that stores the metadata, documents, and permissions about that library. The {class}`ads.Library` object also has a number of method functions that can be used to manipulate the library.
 
 
 ## Creating a new library
@@ -106,7 +106,7 @@ You can also access documents by an index (e.g., `library[4]`) or slicing (e.g.,
 
 ## Add or remove documents from a library
 
-When it comes to adding or removing documents, the :class:`ads.Library` object behaves a bit like a :py:obj:`set` or :py:obj:`list`. You can `append`, `extend`, `remove`, or `pop` documents to a `ads.Library`, or use the addition or subtraction operators in Python:
+When it comes to adding or removing documents, the {class}`ads.Library` object behaves a bit like a :py:obj:`set` or :py:obj:`list`. You can `append`, `extend`, `remove`, or `pop` documents to a `ads.Library`, or use the addition or subtraction operators in Python:
 
 ```python
 library = ads.Library.get(name="Example")
@@ -132,7 +132,7 @@ for document in documents:
 library.save()
 ```
 
-If the document is already in the library then it won't be duplicated. In this way the :class:`ads.Library` object behaves like a :func:`set`, but here you can use addition and subtraction operators, which is unlike a :func:`set` and more like a :func:`list`.
+If the document is already in the library then it won't be duplicated. In this way the {class}`ads.Library` object behaves like a :func:`set`, but here you can use addition and subtraction operators, which is unlike a :func:`set` and more like a :func:`list`.
 
 To remove a document:
 ```python
@@ -166,7 +166,7 @@ These metadata fields can be edited by the owner or by an administrator of the l
 - `public`: A boolean indicating whether the library is publicly accessible.
 - `owner`: The ADS username that owns this library. (See [transfer ownership of a library](#transfer-ownership-of-a-library))
 
-You can access all of these fields as attributes of the :class:`ads.Library` class. For example:
+You can access all of these fields as attributes of the {class}`ads.Library` class. For example:
 
 ```python
 # Retrieve any single library.
@@ -183,7 +183,7 @@ The library description is: {library.description}
 )
 ```
 
-If you want to change the `name`, `description`, or `public` field of a library then you can directly edit the attribute of the :class:`ads.Library` object, and then save your changes. An exception will be raised if you try to edit any of the read-only metadata fields.
+If you want to change the `name`, `description`, or `public` field of a library then you can directly edit the attribute of the {class}`ads.Library` object, and then save your changes. An exception will be raised if you try to edit any of the read-only metadata fields.
 
 ```python
 # Update the library metadata.
@@ -338,7 +338,7 @@ That kind of query is so simple that you could do the same thing locally:
 documents = list(filter(lambda doc: doc.year == 2020, library.documents))
 ```
 
-But for a query with ADS fields or operators that are searchable but not viewable, you can use the :class:`ads.Document` and :class:`ads.Library` object relational mappers to execute them. Here are some examples:
+But for a query with ADS fields or operators that are searchable but not viewable, you can use the {class}`ads.Document` and {class}`ads.Library` object relational mappers to execute them. Here are some examples:
 
 ```python
 # Find documents in this library that are trending in exoplanets.
@@ -373,6 +373,6 @@ gaia_docs = ads.Document.select()\
 
 Most users don't need to know how this works. But if you're interested, read on. 
 
-The expressions given in the `.where()` clause are parsed by the :class:`ads.models.document.DocumentSelect` object into a search string that ADS can understand. Most search requests to the ADS API use the [`/search/query`](https://ui.adsabs.harvard.edu/help/api/api-docs.html#get-/search/query) endpoint. But there are limitations on this endpoint. For example, if we wanted to search for documents that match the "JWST" phrase and are also in some library, then we have to construct an ADS search string like ```all:JWST AND bibcode:(A OR B OR C OR ...)```, where `A`, `B`, `C`, etc are bibcodes of documents that are in the library. Making an ADS search with a term like `bibcode:(A OR B OR C OR ...)` is prohibitively expensive, and the standard `/search/query` endpoint will raise an exception if the search is going to be too expensive.
+The expressions given in the `.where()` clause are parsed by the {class}`ads.models.document.DocumentSelect` object into a search string that ADS can understand. Most search requests to the ADS API use the [`/search/query`](https://ui.adsabs.harvard.edu/help/api/api-docs.html#get-/search/query) endpoint. But there are limitations on this endpoint. For example, if we wanted to search for documents that match the "JWST" phrase and are also in some library, then we have to construct an ADS search string like ```all:JWST AND bibcode:(A OR B OR C OR ...)```, where `A`, `B`, `C`, etc are bibcodes of documents that are in the library. Making an ADS search with a term like `bibcode:(A OR B OR C OR ...)` is prohibitively expensive, and the standard `/search/query` endpoint will raise an exception if the search is going to be too expensive.
 
-Instead, if the expression in `.where()` includes a many-comparison restriction on `ads.Document.bibcode` then the :class:`ads.models.document.DocumentSelect` will use the [`/search/bigquery`](https://ui.adsabs.harvard.edu/help/api/api-docs.html#post-/search/bigquery) ADS API endpoint, which allows for efficient searching given a list of many bibcodes. This endpoint has different parameters, restrictions, and rate limits than the standard endpoint, but the `ads` package manages all of this for you. Hopefully, you should never even know which endpoint was used.
+Instead, if the expression in `.where()` includes a many-comparison restriction on `ads.Document.bibcode` then the {class}`ads.models.document.DocumentSelect` will use the [`/search/bigquery`](https://ui.adsabs.harvard.edu/help/api/api-docs.html#post-/search/bigquery) ADS API endpoint, which allows for efficient searching given a list of many bibcodes. This endpoint has different parameters, restrictions, and rate limits than the standard endpoint, but the `ads` package manages all of this for you. Hopefully, you should never even know which endpoint was used.
