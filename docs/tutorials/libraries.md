@@ -10,7 +10,7 @@ from datetime import datetime
 
 ## Retrieve existing libraries
 
-If you have existing libraries in your ADS account you can immediately select these using the `ads` package. If you want to retrieve a single library you can use :func:`ads.Library.get()`, and if you don't supply any keyword arguments to this function then you will get the first library that is returned by ADS.
+If you have existing libraries in your ADS account you can immediately select these using the `ads` package. If you want to retrieve a single library you can use {func}`ads.Library.get()`, and if you don't supply any keyword arguments to this function then you will get the first library that is returned by ADS.
 
 Below are a few examples showing how to retrieve libraries from ADS, with various degrees of complexity.
 
@@ -22,7 +22,7 @@ library = ads.Library.get(name="SDSS-IV")
 library = ads.Library.get()
 ```
 
-The :func:`ads.Library.get` method is for retrieving a single library. If you want to retrieve all your libraries, or your libraries based on some query expression, then you can use the {class}`ads.Library.select` method:
+The {func}`ads.Library.get` method is for retrieving a single library. If you want to retrieve all your libraries, or your libraries based on some query expression, then you can use the {class}`ads.Library.select` method:
 
 ```python
 # Retrieve all my current libraries
@@ -80,7 +80,7 @@ library.save()
 
 ## Saving your changes to ADS
 
-Any time you make changes to a library, these won't be automatically updated to ADS until you use the :func:`ads.Library.save` function. Examples of changes that you will need to save include:
+Any time you make changes to a library, these won't be automatically updated to ADS until you use the {func}`ads.Library.save` function. Examples of changes that you will need to save include:
 
 - Creating a library
 - Adding or removing documents, including emptying all documents from a library
@@ -90,7 +90,7 @@ Any time you make changes to a library, these won't be automatically updated to 
 It's okay to `save()` if you don't know whether you need to save or not. If there are no changes that need to be updated, then nothing will happen.
 
 :::{Warning}
-If your Python script finishes or crashes before you call :func:`ads.Library.save`, you will not receive any warnings.
+If your Python script finishes or crashes before you call {func}`ads.Library.save`, you will not receive any warnings.
 :::
 
 ## Accessing documents in a library
@@ -106,7 +106,7 @@ You can also access documents by an index (e.g., `library[4]`) or slicing (e.g.,
 
 ## Add or remove documents from a library
 
-When it comes to adding or removing documents, the {class}`ads.Library` object behaves a bit like a :py:obj:`set` or :py:obj:`list`. You can `append`, `extend`, `remove`, or `pop` documents to a `ads.Library`, or use the addition or subtraction operators in Python:
+When it comes to adding or removing documents, the {class}`ads.Library` object behaves a bit like a {class}`set` or {class}`list`. You can `append`, `extend`, `remove`, or `pop` documents to a `ads.Library`, or use the addition or subtraction operators in Python:
 
 ```python
 library = ads.Library.get(name="Example")
@@ -132,7 +132,7 @@ for document in documents:
 library.save()
 ```
 
-If the document is already in the library then it won't be duplicated. In this way the {class}`ads.Library` object behaves like a :func:`set`, but here you can use addition and subtraction operators, which is unlike a :func:`set` and more like a :func:`list`.
+If the document is already in the library then it won't be duplicated. In this way the {class}`ads.Library` object behaves like a {class}`set`, but here you can use addition and subtraction operators, which is unlike a {class}`set` and more like a {class}`list`.
 
 To remove a document:
 ```python
@@ -231,9 +231,9 @@ union = set(library_a).union(library_b)
 
 ## Transfer ownership of a library
 
-You can transfer the ownership of your library to another ADS user. The owner of the library is given by the :func:`ads.Library.owner` property. To transfer ownership you can simply change the value in :func:`ads.Library.owner`, and save the library. 
+You can transfer the ownership of your library to another ADS user. The owner of the library is given by the {func}`ads.Library.owner` property. To transfer ownership you can simply change the value in {func}`ads.Library.owner`, and save the library. 
 
-The func:`ads.Library.owner` property is a little counter-intuitive. For libraries that you have read (or higher) access, the :func:`ads.Library.owner` property returns the ADS **username** of the account that owns the library. However, if you want to transfer the ownership of a library to another user, you need to change `ads.Library.owner` to be the **email address** that the new owner uses for their ADS account. 
+The func:`ads.Library.owner` property is a little counter-intuitive. For libraries that you have read (or higher) access, the {func}`ads.Library.owner` property returns the ADS **username** of the account that owns the library. However, if you want to transfer the ownership of a library to another user, you need to change `ads.Library.owner` to be the **email address** that the new owner uses for their ADS account. 
 
 After the transfer has occurred, if the new owner were to retrieve the `Library` then they would see their ADS **username** in this field, even though you needed to provide their **email address** to make the transfer happen. If you supply an invalid email address, or an email address that is not associated with any ADS account, then an exception will be raised.
 
@@ -307,7 +307,7 @@ transferred_lib.save()
 
 ## Delete a library
 
-Using :func:`ads.Library.empty` will remove all documents from a library, but the library itself will still exist with zero documents. If you want to delete a library from ADS, you can use :func:`ads.Library.delete`:
+Using {func}`ads.Library.empty` will remove all documents from a library, but the library itself will still exist with zero documents. If you want to delete a library from ADS, you can use {func}`ads.Library.delete`:
 
 ```python
 # Create a temporary library.
