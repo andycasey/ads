@@ -102,11 +102,11 @@ for document in library:
     print(f"{document.bibcode} {document.journal} {document.title}")
 ```
 
-You can also access documents by an index (e.g., `library[4]`), but this is not recommended because no explicit sort can be given to ADS when we are retrieving the documents in a library.
+You can also access documents by an index (e.g., `library[4]`) or slicing (e.g., `library[4:10]`), but this is not recommended because no explicit sort can be given to ADS when we are retrieving the documents in a library.
 
 ## Add or remove documents from a library
 
-When it comes to adding or removing documents, the :class:`ads.Library` object behaves a bit like a :func:`set` or :func:`list`. You can `append`, `extend`, `remove`, or `pop` documents to a `ads.Library`, or use the addition or subtraction operators in Python:
+When it comes to adding or removing documents, the :class:`ads.Library` object behaves a bit like a :py:obj:`set` or :py:obj:`list`. You can `append`, `extend`, `remove`, or `pop` documents to a `ads.Library`, or use the addition or subtraction operators in Python:
 
 ```python
 library = ads.Library.get(name="Example")
