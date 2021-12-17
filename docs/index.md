@@ -23,11 +23,11 @@ A Python client for the SAO/NASA Astrophysics Data System
 :::
 
 ::::
-**[Asynchronous coroutines for faster queries](#)**
-: Now you can make queries synchronously with improved pagination, or search ten times faster using asynchronous coroutines.
-
 **[A fast command line tool](#)**
 : Query for references or documents at lightening speed from a terminal.
+
+**[Asynchronous coroutines for faster queries](#)**
+: Use asynchronous coroutines for blazingly fast queries, or make synchronous queries with improved pagination behaviour.
 
 **[Update remote ADS libraries with ease](#)**
 : Use a Pythonic API to create, update, and delete remote libraries.
@@ -35,8 +35,8 @@ A Python client for the SAO/NASA Astrophysics Data System
 **[Make sophisticated metrics queries](#)**
 : New querying tools for building complex metrics queries and visualizations.
 
-**Lots more**
-: There are a lot of new changes in version 1.0 of the ``ads`` module. [See what's new](#).
+**Lots more...**
+: There are a lot of new changes in version 1.0 of the ``ads`` module. [See what's new](changelog).
 
 :::{important}
 Version 1.0 of ``ads`` is only compatible with Python 3. If you haven't yet upgraded from Python 2, [two years ago](https://www.python.org/doc/sunset-python-2/) was the time to upgrade.
@@ -118,6 +118,7 @@ changelog
 
 tutorials/basic
 tutorials/async
+tutorials/libraries
 ```
 
 &nbsp;

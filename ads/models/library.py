@@ -242,11 +242,10 @@ class Library(Model):
             return self._documents
         except AttributeError:
             print(f"Creating a new DocumentSelect with {len(self.__data__['bibcodes'])} bibcodes")
-            self._documents = Document.select()\
-                                      .where(
-                                          Document.bibcode.in_(self.__data__["bibcodes"])
-                                      )\
-                                      .limit(self.num_documents)
+            self._documents = \
+                Document.select()\
+                        .where(Document.bibcode.in_(self.__data__["bibcodes"]))\
+                        .limit(self.num_documents)
         finally:
             return self._documents
 
@@ -395,8 +394,7 @@ class Library(Model):
         :returns:
             A new library that is the union of this library and the others.
         """
-        response = self._operation("union", libraries)
-        return self.__class__(**response.json)
+        return self._operation("union", libraries, return_new_library=True)
 
     def intersection(self, library):
         """
@@ -408,8 +406,7 @@ class Library(Model):
         :returns:
             A new library that is the intersection of this library and the other.
         """
-        response = self._operation("intersection", [library])
-        return self.__class__(**response.json)
+        return self._operation("intersection", [library], return_new_library=True)
     
     def difference(self, library):
         """
@@ -421,8 +418,7 @@ class Library(Model):
         :returns:
             A new library that is the difference of this library and the other.
         """
-        response = self._operation("difference", [library])
-        return self.__class__(**response.json)
+        return self._operation("difference", [library], return_new_library=True)
 
     def copy(self, library):
         """
@@ -436,13 +432,14 @@ class Library(Model):
         :returns:
             A boolean.
         """
-        self._operation("copy", [library])
-        return None
+        # Should do this locally.
+        raise a
+        #return self._operation("copy", [library])
 
     def empty(self):
         """ Empty a library of all its documents. """
-        self._operation("empty")
         self.__data__["bibcodes"] = []
+        self._dirty.add("bibcodes")
         try:
             del self._documents
         except AttributeError:
@@ -550,7 +547,7 @@ class Library(Model):
         self.date_last_modified = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')
         return response.json
 
-    def _operation(self, action, libraries=None):
+    def _operation(self, action, libraries=None, return_new_library=False):
         """
         Perform set operations on one or more libraries.
 
@@ -578,11 +575,18 @@ class Library(Model):
             payload["libraries"] = [library.id for library in libraries]
 
         with Client() as client:
-            return client.api_request(
+            response = client.api_request(
                 f"biblib/libraries/operations/{self.id}",
                 data=json.dumps(payload),
                 method="post",
             )
+
+        if return_new_library:
+            new = self.__class__(**response.json)
+            new._dirty.clear()
+            return new
+        return None
+
 
 
     @classmethod
@@ -634,7 +638,7 @@ class Library(Model):
 
             # Update the bibcodes.
             self.__data__["bibcodes"] = response.json["documents"]
-            print(f"set bibcodes/documents as not _dirty")
+            print(f"set bibcodes/documents as not _dirty, and update self._documents if needed")
             return response
 
 
