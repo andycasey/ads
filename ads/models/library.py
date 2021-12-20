@@ -303,7 +303,9 @@ class Library(Model):
 
             # Update any metadata.
             metadata_fields = {"name", "description", "public"}
-            if dirty_metadata_fields := self._dirty.intersection(metadata_fields):
+            #if dirty_metadata_fields := self._dirty.intersection(metadata_fields):
+            dirty_metadata_fields = self._dirty.intersection(metadata_fields)
+            if dirty_metadata_fields:
                 client.api_request(
                     f"biblib/documents/{self.id}",
                     data=json.dumps(
@@ -322,7 +324,9 @@ class Library(Model):
                         email=email, 
                         permission={ kind: False for kind in all_permission_kinds}
                     )
-                    if permission_kinds := self.permissions.get(email, []):
+                    #if permission_kinds := self.permissions.get(email, []):
+                    permission_kinds = self.permissions.get(email, [])
+                    if permission_kinds:
                         data["permission"].update(
                             dict(zip(permission_kinds, [True] * len(permission_kinds)))
                         )
