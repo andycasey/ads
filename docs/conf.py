@@ -27,6 +27,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
+    "sphinx.ext.autosummary",
     "sphinx.ext.mathjax",
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
@@ -37,6 +38,13 @@ extensions = [
     "sphinx_design",
     "sphinx_inline_tabs",
 ]
+autodoc_default_flags = ["members"]
+autosummary_generate = True
+autodoc_default_options = {
+    "members": True,
+    "member-order": "bysource",
+    "special-members": "__init__"
+}
 templates_path = ["_templates"]
 
 #

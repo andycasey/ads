@@ -24,6 +24,7 @@ class hybrid_property(ModelDescriptor):
         self.fset = fset
         self.fdel = fdel
         self.expr = expr or fget
+        self.__doc__ = fget.__doc__
 
     def __get__(self, instance, instance_type):
         if instance is None:

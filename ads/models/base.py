@@ -130,8 +130,10 @@ class ADSContext(Context):
         if (expression.op == OP.NE): #^ expression.negated:
             self.literal("-")
         
+        # Let's avoid exact matching right now, because in reality we should only do it for certain things.
         if expression.op in (OP.EQ, OP.NE):
-            self.literal("=")
+            print(f"ignoring exact matching")
+        #    self.literal("=")
         
         self.parse(expression.lhs)
 

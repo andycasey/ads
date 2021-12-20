@@ -7,7 +7,7 @@ from datetime import datetime
 from collections import ChainMap
 import json
 import re
-from peewee import (ModelDelete, ModelSelect, Expression, Model, BooleanField, TextField, IntegerField, DateTimeField)
+from peewee import (ModelDelete, ModelSelect, Expression, Model, BooleanField, TextField as TextField, IntegerField, DateTimeField)
 from ads.models.base import ADSAPI
 from ads.models.document import Document
 from ads.models.hybrid import hybrid_property
@@ -195,32 +195,52 @@ class Permissions(dict):
         return response
 
 
-
 class Library(Model):
+
+    """
+    An object relational mapper for a curated ADS library. 
+    """
 
     class Meta:
         database = ADSAPI()
 
-    id = TextField(help_text="Unique identifier for this library, which is assigned by ADS.", primary_key=True)
+    #: Unique identifier for this library, which is assigned by ADS.
+    id = TextField(help_text="Unique identifier for this library, which is assigned by ADS.", primary_key=True) 
+    #: Number of users of the library.
     num_users = IntegerField(help_text="Number of users of the library.")
+    #: Number of documents in the library.
     num_documents = IntegerField(help_text="Number of documents in the library.")
-    date_created = DateTimeField(help_text="Date the library was created.")
-    date_last_modified = DateTimeField(help_text="Date the library was last modified.")
+    #: Date (UTC) the library was created.
+    date_created = DateTimeField(help_text="Date (UTC) the library was created.")
+    #: Date (UTC) the library was last modified.
+    date_last_modified = DateTimeField(help_text="Date (UTC) the library was last modified.")
 
+    #: Given name to the library.
     name = TextField(help_text="Given name to the library.")
+    #: Description of the library.
     description = TextField(help_text="Description of the library.")
+    #: Whether the library is public.
     public = BooleanField(help_text="Whether the library is public.")
-    owner = TextField(help_text="Owner of the library.")
+    #: The ADS username of the owner of the library.
+    owner = TextField(help_text="The ADS username of the owner of the library.")
+
 
     @hybrid_property
-    def permissions(self):
+    def permissions(self) -> Permissions:
+        """
+        Permissions set for this library.
+
+        Returns an :class:`ads.models.library.Permissions` object, which inherits from :class:`dict`.
+        The keys are the email addresses of the users, and the values are a list of their permissions.
+        """
         try:
             return self.__data__["permissions"]
         except KeyError:
             permissions = self.__data__["permissions"] = Permissions(self)
             permissions.refresh()
             return permissions
-        
+        except TypeError:
+            return None
         
     @permissions.setter
     def permissions(self, permissions):
@@ -260,14 +280,20 @@ class Library(Model):
             or an expression that is compatible with :class:`ads.models.document.DocumentSelect`.
         """
         print(f"setting {new_documents}")
-        raise a
+        if "bibcodes" in self.__data__:
+            raise a
+        
+        bibcodes = [(doc.bibcode if isinstance(doc, Document) else doc) for doc in new_documents]
+        self.__data__["bibcodes"] = bibcodes
+        return None
 
     @documents.deleter
     def documents(self):
         """ Delete all documents from a library. """
         return self.empty()
 
-    def save(self, only=None):
+    def save(self) -> bool:
+        """Save local changes made on this library to ADS."""
         if not self._dirty:
             return False
 
@@ -438,13 +464,7 @@ class Library(Model):
 
     def empty(self):
         """ Empty a library of all its documents. """
-        self.__data__["bibcodes"] = []
-        self._dirty.add("bibcodes")
-        try:
-            del self._documents
-        except AttributeError:
-            pass
-        return None
+        return self._operation("empty")
 
     
     @requires_bibcodes
@@ -651,15 +671,55 @@ class LibrarySelect(Client, ModelSelect):
     def __str__(self):
         raise a
 
-    
     def execute(self, database=None):
-        with self:
-            response = self.api_request("biblib/libraries")
-        libraries = []
-        for kwds in response.json["libraries"]:
-            obj = Library(**kwds)
-            obj._dirty.clear()
-            libraries.append(obj)
-        return libraries
+        if self._where is None:
+            with self:
+                response = self.api_request("biblib/libraries")
+            libraries = []
+            for kwds in response.json["libraries"]:
+                obj = Library(**kwds)
+                obj._dirty.clear()
+                libraries.append(obj)
+            return libraries
 
+        else:
+            # Handle any expression.
 
+            # If we are selecting by ID, then we could be requesting by a public library
+            # which would not be returned by the biblib/libraries end point.
+            # We will need to make a request to the biblib/libraries/{id} end point.
+
+            # TODO: We actually need to handle this recursively, probably.
+            if self._where.op == "=":
+                for side in (self._where.lhs, self._where.rhs):
+                    if isinstance(side, TextField) and side.model.__name__ == "Library" and side.name == "id":
+                        break
+                else:
+                    raise NotImplementedError("only simple expressions supported so far")
+                
+                library_id = self._where.rhs if self._where.lhs is side else self._where.lhs
+
+                # The standard query to biblib/libraries/<id> will give us the first 20 bibcodes, 
+                # unless we specify how many we want. We don't know how many documents are in the
+                # library, so let's pick a large number and if it's more than that we can refresh
+                max_peek_limit = 1_000
+                params = dict(rows=max_peek_limit)
+
+                with self:
+                    response = self.api_request(
+                        f"biblib/libraries/{library_id}", 
+                        params=params
+                    )
+                    
+                metadata = response.json["metadata"]
+                if metadata["num_documents"] > max_peek_limit:
+                    # If there are more documents than we expected, then we should retrieve the rest
+                    # in the background, preferably #TODO
+                    raise a
+
+                obj = Library(**metadata)
+                obj.__data__["bibcodes"] = response.json["documents"]
+                obj._dirty.clear()
+                return (obj, )
+
+            raise NotImplementedError("only simple expressions so far.")

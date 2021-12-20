@@ -4,7 +4,7 @@ Document data model.
 import json
 import warnings
 from collections import deque
-from peewee import (Model, ModelSelect, ForeignKeyField, VirtualField, fn, ForeignKeyAccessor)
+from peewee import (Model, ModelSelect, Expression, ForeignKeyField, VirtualField, fn, ForeignKeyAccessor)
 
 from ads.exceptions import APIResponseError
 from ads import logger
@@ -13,7 +13,7 @@ from ads.models.base import (ADSAPI, ADSContext)
 from ads.models.journal import Journal, JournalField
 from ads.models.affiliation import (Affiliation, AffiliationField)
 from ads.models.lazy import (DateField, DateTimeField, IntegerField, TextField)
-
+from ads.models.utils import expression_contains
 
 
 class Document(Model):
@@ -21,88 +21,152 @@ class Document(Model):
     class Meta:
         database = ADSAPI()
 
+    #: A unique identifier for the document, curated by ADS.
     id = IntegerField(help_text="A unique identifier for the document, curated by ADS.")
-    abstract = TextField(help_text="Search for a word or phrase in an abstract only.")
-    ack = TextField(help_text="Search for a word or phrase in the acknowledgements extracted from fulltexts.") # Is this viewable?
-    aff = TextField(help_text="Search for a word or phrase in the raw, provided affiliation field.")
-    aff_id = TextField(help_text="Search for dcuments with a curated affiliation identifier.")
-    alternate_bibcode = TextField(help_text="Search for documents with an alternate bibcode.")
-    alternate_title = TextField(help_text="Search for a word of phrase in an alternate title, usually when the original title is not in English.")
-    arxiv_class = TextField(help_text="Search by which arXiv class a document was submitted to.")
-    author = TextField(help_text="Search by author name. May include lastname and initial, or stricter author search.")
-    author_count = IntegerField(help_text="Find records with a specific number of authors, or a range of author counts.")
-    author_norm = TextField(help_text="Search by author name in the form 'Lastname, F'.")
-    bibcode = TextField(help_text="Search by bibcode.")
-    bibgroup = TextField(help_text="Find records by bibliographic groups, curated by staff outside of ADS.")
-    bibstem = TextField(help_text="Search by the abbreviated name of the journal or publication (e.g., ApJ).")
-    body = TextField(help_text="Search for a word or phrase in (only) the full text.") # Is this viewable?
-    citation_count = IntegerField(help_text="Find records matching the number of citations, or a range of citations.")
-    cite_read_boost = IntegerField(help_text="Find records by normalized boost factors, or a range of normalized boost factors.")
-    data = TextField(help_text="Search by records that have related data. For example: data:\"CDS\" will return records that have CDS data.")
-    database = TextField(help_text="Find documents by the database the paper resides in (e.g., astronomy or physics).")
+    #: The document abstract.
+    abstract = TextField(help_text="The document abstract.")
+    #: Search for a word or phrase in the acknowledgements extracted from fulltexts.
+    ack = TextField(help_text="Search for a word or phrase in the acknowledgements extracted from fulltexts.") 
+    #: The raw, provided affiliation field.
+    aff = TextField(help_text="The raw, provided affiliation field.")
+    #: Curated affiliation identifier, parsed from the given affiliation string. See https://ui.adsabs.harvard.edu/blog/affils-update for more details.
+    aff_id = TextField(help_text="Curated affiliation identifiers, parsed from the given affiliation string.")
+    #: An alternate bibcode.
+    alternate_bibcode = TextField(help_text="An alternate bibcode.")
+    #: Alternate title, usually present when the original title is not in English.
+    alternate_title = TextField(help_text="Alternate title, usually present when the original title is not in English.")
+    #: The arXiv class a document was submitted to.
+    arxiv_class = TextField(help_text="The arXiv class a document was submitted to.")
+    #: Author name.
+    author = TextField(help_text="Author name.")
+    #: The number of authors.
+    author_count = IntegerField(help_text="The number of authors.")
+    #: Author name in the form 'Lastname, F'.
+    author_norm = TextField(help_text="Author name in the form 'Lastname, F'.")
+    #: Document bibliographic code. See https://ui.adsabs.harvard.edu/help/actions/bibcode for more information.
+    bibcode = TextField(help_text="Document bibliographic code.")
+    #: Records by bibliographic groups, curated by staff outside of ADS.
+    bibgroup = TextField(help_text="Records by bibliographic groups, curated by staff outside of ADS.")
+    #: Abbreviated name of the journal or publication (e.g., ApJ).
+    bibstem = TextField(help_text="Abbreviated name of the journal or publication (e.g., ApJ).")
+    #: Search for a word or phrase in (only) the full text.
+    body = TextField(help_text="Search for a word or phrase in (only) the full text.") 
+    #: The number of citations to this document.
+    citation_count = IntegerField(help_text="The number of citations to this document.")
+    #: The normalized boost factor.
+    cite_read_boost = IntegerField(help_text="The normalized boost factor.")
+    #: Related data sources.
+    data = TextField(help_text="Related data sources. For example: data:\"CDS\" will return records that have CDS data.")
+    #: The database the document resides in (e.g., astronomy or physics).
+    database = TextField(help_text="The database the document resides in (e.g., astronomy or physics).")
+    #: Publication date, represented by a time format and used for indexing. 
     date = DateTimeField(help_text="Publication date, represented by a time format and used for indexing. For example: date:\"2015-07-01T00:00:00Z\"")
+    #: Document type (e.g., article, thesis, etc.
     doctype = TextField(help_text="Search documents by their type: article, thesis, et cetera.")
+    #: Digital object identifier
     doi = TextField(help_text="Digital object identifier.")
+    #: Electronic identifier of the paper, which is the equivalent of a page number.
     eid = TextField(help_text="Electronic identifier of the paper (equivalent of page number).")
+    #: Email addresses of the authors.
     email = TextField(help_text="Search by email addresses for the authors that included them in the article.")
+    #: Creation date of the ADS record.
     entry_date = DateTimeField(help_text="Creation date of the ADS record. Note that this can be used like `-entry_date:[NOW-7DAYS TO *]`")
+    #: Types of electronic sources available for a record (e.g., ```PUB_HTML```, ```EPRINT_PDF```).
     esources = TextField(help_text="Types of electronic sources available for a record (e.g., pub_html, eprint_pdf).")
+    #: Facilities declared in a record, based on a controlled list by AAS journals.
     facility = TextField(help_text="Facilities declared in a record, based on a controlled list by AAS journals.")
+    #: Search by grant identifiers and grant agencies (:obj:`ads.Document.grant_id` and :obj:`ads.Document.grant_agencies`).
     grant = TextField(help_text="Search by grant identifiers and grant agencies.")
+    #: A field with just the grant agencies name (e.g., NASA).
     grant_agencies = TextField(help_text="A field with just the grant agencies name (e.g., NASA).")
+    #: Search by grant identifier.
     grant_id = TextField(help_text="Search by grant identifier.")
+    #: Search by an array of alternative identifiers for a record. May contain alternative bibcodes, DOIs, and/or arXiv identifiers.
     identifier = TextField(help_text=(
         "Search by an array of alternative identifiers for a record. May contain alternative bibcodes, "
         "DOIs, and/or arXiv identifiers."
     ))
+    #: Datetime when the document was last index by the ADS Solr service.
     indexstamp = DateTimeField(help_text="Datetime when the document was last indexed by the ADS Solr service.")
-    inst = TextField(help_text="Find records that contain a curated (ADS-identified) affiliation or institution. See also: `:class:Document.affiliation`.")
+    #: Find records that contain a curated (ADS-identified) affiliation or institution. See also: :obj:`ads.Document.affiliation`.
+    inst = TextField(help_text="Find records that contain a curated (ADS-identified) affiliation or institution. See also: `:obj:Document.affiliation`.")
+    #: International Standard Book Number
     isbn = TextField(help_text="International Standard Book Number.")
+    #: International Standard Serial NUmber
     issn = TextField(help_text="International Standard Serial Number.")
+    #: Issue number of the journal that includes the article.
     issue = TextField(help_text="Issue number of the journal that includes the article.")
+    #: An array of normalized and non-normalized keyword values associated with the record.
     keyword = TextField(help_text="An array of normalized and non-normalized keyword values associated with the record.")
+    #: The language of the main title.
     lang = TextField(help_text="The language of the main title.")
+    #: Information on what linked documents are available.
     links_data = TextField(help_text="Information on what linked documents are available.")
+    #: List of NED IDs for a record.
     nedid = TextField(help_text="List of NED IDs for a record.")
+    #: Keywords used to describe the NED type (e.g., galaxy, star).
     nedtype = TextField(help_text="Keywords used to describe the NED type (e.g., galaxy, star).")
+    #: ORCID claims from users who used the ADS claiming interface.
     orcid_other = TextField(help_text="ORCID claims from users who used the ADS claiming interface.")
+    #: ORCIDs supplied by publishers.
     orcid_pub = TextField(help_text="ORCIDs supplied by publishers.")
+    #: ORCID claims from users who gave ADS consent to expose their public profile.
     orcid_user = TextField(help_text="ORCID claims from users who gave ADS consent to expose their public profile.")
+    #: Page number of a record.
     page = TextField(help_text="Page number of a record.")
-    page_count = IntegerField(help_text="If `Document.page_range` is present, it gives the difference between the first and last page numbers in the range.")
+    #: The difference between the first and last page numbers in :obj:`ads.Document.page_range`.
+    page_count = IntegerField(help_text="If :class:`ads.Document.page_range` is present, it gives the difference between the first and last page numbers in the range.")
+    #: An array of miscellaneous flags associated with a record. Examples include: refereed, notrefereed, article, nonarticle, ads_openaccess, eprint_openaccess, pub_openaccess, openaccess, ocrabstract.
     property = TextField(help_text=(
         "An array of miscellaneous flags associated with a record. Examples include: "
         "refereed, notrefereed, article, nonarticle, ads_openaccess, eprint_openaccess, "
         "pub_openaccess, openaccess, ocrabstract"
     ))
+    #: The canonical name of the publication that the record appeared in.
     pub = TextField(help_text="The canonical name of the publication that the record appeared in.")
+    #: Name of the publisher, but also includes the volume, page, and issue if exists.
     pub_raw = TextField(help_text="Name of the publisher, but also includes the volume, page, and issue if exists.")
+    #: Publication date in the form YYYY-MM-DD, where DD will always be '00'.
     pubdate = DateField(help_text="Publication date in the form YYYY-MM-DD, where DD will always be '00'.")
+    #: The number of times the record has been viewed within a 90 day window.
     read_count = IntegerField(help_text="The number of times the record has been viewed within a 90 day window.")
+    #: List of SIMBAD IDs within a document. This field has privacy restrictions.
     simbid = TextField(help_text="List of SIMBAD IDs within a document. This field has privacy restrictions.")
+    #: Keywords used to describe the SIMBAD type.
     simbtype = TextField(help_text="Keywords used to describe the SIMBAD type.")
+    #: The title of the record.
     title = TextField(help_text="The title of the record.")
+    #: Keywords, 'subject' tags from Vizier.
     vizier = TextField(help_text="Keywords, 'subject' tags from Vizier.")
-    volume = IntegerField(help_text="The volume of the journal that the article exists in..")
+    #: The journal volume.
+    volume = IntegerField(help_text="The journal volume.")
+    #: Year of publication.
     year = IntegerField(help_text="Year of publication.")
 
     # Foreign key fields to local databases.
 
+    #: Any :class:`ads.Affiliation` objects associated with the record, parsed from the :obj:`ads.Document.aff_id` field.
     affiliation = AffiliationField(Affiliation, column_name="__affiliation", lazy_load=True)
+    #: The :class:`ads.Journal` associated with the record, parsed from the :obj:`ads.Document.bibcode` field.
     journal = JournalField(Journal, column_name="__journal", lazy_load=True)
 
     # Virtual fields / operators
-
+    #: Search for a word or phrase in abstract, title, and keywords.
     abs = VirtualField(help_text="Search for a word or phrase in abstract, title, and keywords.")
-    all = VirtualField(help_text="Search by `author_norm`, `alternate_title`, `bibcode`, `doi`, and `identifier`.",)
+    #: Search by :obj:`author_norm`, :obj:`alternate_title`, :obj:`bibcode`, :obj:`doi`, and :obj:`identifier`.
+    all = VirtualField(help_text="Search by author_norm, alternate_title, bibcode, doi, and identifier.")
+    #: Search by arXiv identifier.
     arxiv = VirtualField(help_text="Search by arXiv identifier.")
-    full = VirtualField(help_text="Search by `title`, `abstract, `body`, `keyword`, and `ack`.")
+    #: Search by :obj:`ads.Document.title`, :obj:`ads.Document.abstract`, :obj:`ads.Document.body`, :obj:`ads.Document.keyword`, and :obj:`ads.Document.ack`.
+    full = VirtualField(help_text="Search by title, abstract, body, keyword, and ack.")
+    #: Search by ORCID identifier, from all possible sources.
     orcid = VirtualField(help_text="ORCID identifier, from all possible sources.")
 
     # Functions
 
     @classmethod
     def citations(cls, expression):
+        """ Query for documents that cite the documents matching the given query."""
         return fn.citations(expression)
 
     @classmethod
@@ -111,6 +175,7 @@ class Document(Model):
 
     @classmethod
     def pos(cls, expression, position, end_position=None):
+        
         end_position = end_position or position
         return fn.pos(expression, position, end_position)
 
@@ -128,10 +193,26 @@ class Document(Model):
 
     @classmethod
     def top_n(cls, n, expression):
+        """
+        Return the top `n` documents matching the given expression.
+        
+        :param n:
+            The number of documents to return.
+        
+        :param expression:
+            The expression to query documents.
+        """
         return fn.topn(n, expression)
     
     @classmethod
     def trending(cls, expression):
+        """
+        Query documents that are most read by users who read recent papers on the topic being researched.
+        These are papers currently being read by people interested in this field. 
+    
+        :param expression:
+            The expression to search for trending documents.
+        """
         return fn.trending(expression)
     
     @classmethod
@@ -175,6 +256,10 @@ class Document(Model):
             raise ValueError(f"No identifier found among {keys}")
 
 
+
+
+
+    
 class DocumentSelect(Client, ModelSelect):
 
     _max_rows = 200

@@ -9,12 +9,17 @@ class Affiliation(LocalModel):
 
     """A data model representing a recognized affiliation parsed by ADS."""
 
-    id = TextField() # This is the same as `child_id` in the current ADS data model.
-    parent = ForeignKeyField("self", backref="children", null=True)
+    #: The unique (child) identifier for the affiliation.
+    id = TextField(help_text="The unique (child) identifier for the affiliation.")
+    #: A foreign key field to any parent identifiers for this affiliation.
+    parent = ForeignKeyField("self", backref="children", null=True, help_text="A foreign key field to any parent identifiers for this affiliation.")
 
-    abbreviation = TextField()
-    canonical_name = TextField()
-    country = TextField(null=True)
+    #: The abbreviated affiliation name.
+    abbreviation = TextField(help_text="The abbreviated affiliation name.")
+    #: The full affiliation name.
+    canonical_name = TextField(help_text="The full affiliation name.")
+    #: The name of the country that the affiliation is located in.
+    country = TextField(help_text="The name of the country that the affiliation is located in.", null=True)
 
     # See https://github.com/coleifer/peewee/issues/270
     #class Meta:

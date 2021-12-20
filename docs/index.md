@@ -106,6 +106,9 @@ user/api-key
 user/search-syntax
 user/async-vs-sync
 user/rate-limits
+user/journal
+user/affiliations
+user/libraries
 api-docs
 developer-docs
 changelog
@@ -118,7 +121,6 @@ changelog
 
 tutorials/basic
 tutorials/async
-tutorials/libraries
 ```
 
 &nbsp;

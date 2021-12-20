@@ -90,7 +90,7 @@ Any time you make changes to a library, these won't be automatically updated to 
 It's okay to `save()` if you don't know whether you need to save or not. If there are no changes that need to be updated, then nothing will happen.
 
 :::{Warning}
-If your Python script finishes or crashes before you call {func}`ads.Library.save`, you will not receive any warnings.
+You will not receive any warning if your Python script finishes or crashes before you call {func}`ads.Library.save`.
 :::
 
 ## Managing documents
@@ -108,7 +108,7 @@ You can also access documents by an index (e.g., `library[4]`) or slicing (e.g.,
 
 ### Adding documents
 
-When it comes to adding or removing documents, the {class}`ads.Library` object behaves a bit like a {class}`set` or {class}`list`. You can use `append` or `extend` to add documents, or use the addition operator in Python:
+When it comes to adding or removing documents, the {class}`ads.Library` object behaves a bit like a {class}`set` or {class}`list`. You can use {func}`ads.Library.append` or {func}`ads.Library.extend` to add documents, or use the addition operator `+=` in Python:
 ```python
 library = ads.Library.get(name="Example")
 
@@ -133,7 +133,7 @@ for document in documents:
 library.save()
 ```
 
-If the document is already in the library then it won't be duplicated. In this way the {class}`ads.Library` object behaves like a {class}`set`, but here you can use addition and subtraction operators, which is unlike a {class}`set` and more like a {class}`list`.
+If the document is already in the library then it won't be duplicated. In this way the {class}`ads.Library` object behaves like a {class}`set`, but here you can use addition and subtraction operators (`+=` and `-=`), which is unlike a {class}`set` and more like a {class}`list`.
 
 ### Removing documents
 
@@ -154,20 +154,22 @@ library.save()
 
 ## Metadata
 
-Each library has associated metadata. Some of these are read-only:
+Each library has associated metadata. 
 
-- `id`: A unique identifier string for this library, provided by ADS.
-- `num_users`: The number of users with access to this library.
-- `num_documents`: The number of documents in the library.
-- `date_created`: The UTC date when the library was created.
-- `date_last_modified`: The UTC date when the library was last modified.
+These fields are **read-only**:
+
+- {obj}`ads.Library.id`: A unique identifier string for this library, provided by ADS.
+- {obj}`ads.Library.num_users`: The number of users with access to this library.
+- {obj}`ads.Library.num_documents`: The number of documents in the library.
+- {obj}`ads.Library.date_created`: The UTC date when the library was created.
+- {obj}`ads.Library.date_last_modified`: The UTC date when the library was last modified.
 
 These metadata fields can be edited by the owner or by an administrator of the library:
 
-- `name`: The name given to the library.
-- `description`: A short description of the library.
-- `public`: A boolean indicating whether the library is publicly accessible.
-- `owner`: The ADS username that owns this library. (See [transfer ownership of a library](#transfer-ownership-of-a-library))
+- {obj}`ads.Library.name`: The name given to the library.
+- {obj}`ads.Library.description`: A short description of the library.
+- {obj}`ads.Library.public`: A boolean indicating whether the library is publicly accessible.
+- {obj}`ads.Library.owner`: The ADS username that owns this library. (See [transfer ownership of a library](#transfer-ownership-of-a-library))
 
 You can access all of these fields as attributes of the {class}`ads.Library` class. For example:
 
@@ -180,7 +182,7 @@ f"""
 {library.id} {library.name} has:
  - {library.num_users} users 
  - {library.num_documents} documents
-The library is owned by {library.owner} is {'public' if library.public else 'private'}.
+The library is owned by {library.owner} and is {'public' if library.public else 'private'}.
 The library description is: {library.description}
 """
 )
@@ -198,13 +200,15 @@ library.public = not library.public
 library.save()
 ```
 
-Changing the `library.owner` property will transfer the ownership of the library to another user the next time the []. See [transfer ownership of a library](#transfer-ownership-of-a-library).
+Changing the `library.owner` property will transfer the ownership of the library to another user the next time the library is saved. See [transfer ownership of a library](#transfer-ownership-of-a-library).
 
 ## Permissions
 
-You can give specific permissions for other ADS users to be able to read, write, or administer your library. You can view the permissions for a library with the `permissions` attribute, which is essentially a Python dictionary with email addresses as keys, and a list of permissions as values. For example:
+You can give specific permissions for other ADS users to be able to read, write, or administer your library. You can view the permissions for a library with the {obj}`ads.Library.permissions` attribute, which is a {class}`ads.models.library.Permissions` object, but you can treat it like a Python {class}`dict` with with email addresses as keys, and a list of permissions as values. For example:
 
 ```python
+import json
+print(json.dumps(library.permissions, indent=2))
 {
   "andrew.casey@monash.edu": [
     "owner"
@@ -215,7 +219,7 @@ You can give specific permissions for other ADS users to be able to read, write,
 }
 ```
 
-If you want to modify the permissions of a library then you can directly edit the `library.permissions` attribute, and save the library. For example:
+If you want to modify the permissions of a library then you can directly edit the {obj}`ads.Library.permissions` attribute, and save the library. For example:
 
 ```python
 # An exception will be raised if bob@gmail.com does not have an ADS account.
@@ -223,32 +227,159 @@ library.permissions["bob@gmail.com"] = ["read"]
 library.save()
 ```
 
-The valid permission keys you can assign to a user are `read`, `write`, and `admin`. You can see that `owner` is also a permission key, but you cannot change the owner by editing the `library.permissions` dictionary. To do that you need to [transfer ownership of a library](#transfer-ownership-of-a-library).
+The valid permission keys you can assign to a user are `read`, `write`, and `admin`. You can see that `owner` is also a permission key, but you **cannot** change the owner by editing {obj}`ads.Library.permissions`. To do that you need to [transfer ownership of a library](#transfer-ownership-of-a-library).
 
 
 ## Set operations
 
+The ADS API allows for set operations that you can perform with two or more libraries. These include union, intersection,  difference, copy, and empty. 
+
+You could perform these operations locally, only using the ADS API to save your final library, and in the 'Local' tabs of the code examples below you will see how this is done. However, using the remote ADS endpoints for some of these operations means that ADS will return a new library for you, which can be convenient.
+
 ### Union
+
+The union of a collection of sets is the set of all elements in the collection.
+
+``````{tab} Remote
+```python
+library_a = ads.Library.get(id="<public library id A>")
+library_b = ads.Library.get(id="<public library id B>")
+library_c = ads.Library.get(id="<public library id C>")
+
+# Create a new library that is the union of these libraries.
+library_union_abc = library_a.union(library_b, library_c)
+```
+``````
+``````{tab} Local
+```python
+library_a = ads.Library.get(id="<public library id A>")
+library_b = ads.Library.get(id="<public library id B>")
+library_c = ads.Library.get(id="<public library id C>")
+
+# Create a set of documents that are contained in any of these libraries.
+documents_union_abc = set().union(library_a, library_b, library_c)
+
+# Create a new library.
+library_union_abc = Library(documents=documents_union_abc)
+library_union_abc.save()
+```
+``````
 
 ### Intersection
 
+The intersection of two sets A and B is the set containing all elements of A that also belong to B.
+
+``````{tab} Remote
+```python
+library_a = ads.Library.get(id="<public library id A>")
+library_b = ads.Library.get(id="<public library id B>")
+
+# Create a new library that is the intersection of A and B.
+library_ab = library_a.intersection(library_b)
+```
+``````
+``````{tab} Local
+```python
+library_a = ads.Library.get(id="<public library id A>")
+library_b = ads.Library.get(id="<public library id B>")
+
+# Create a new library that is the intersection of A and B.
+documents = set(library_a).intersection(library_b)
+library_ab = ads.Library(documents=documents)
+library_ab.save()
+```
+``````
+
 ### Difference
+
+The difference of A and B is the set of elements in A but not in B. This is not always a symmetric operation: the difference of B and A is the set of elements in B but not in A.
+
+``````{tab} Remote
+```python
+library_a = ads.Library.get(id="<public library id A>")
+library_b = ads.Library.get(id="<public library id B>")
+
+# Create a new library that is the difference of A and B.
+library_ab = library_a.difference(library_b)
+
+# Create a new library that is the difference of B and A.
+library_ba = library_b.difference(library_a)
+```
+``````
+``````{tab} Local
+```python
+library_a = ads.Library.get(id="<public library id A>")
+library_b = ads.Library.get(id="<public library id B>")
+
+# Create a new library that is the difference of A and B.
+documents_ab = set(library_a).difference(library_b)
+library_ab = ads.Library(documents=documents_ab)
+library_ab.save()
+
+# Create a new library that is the difference of B and A.
+documents_ba = set(library_b).difference(library_a)
+library_ba = ads.Library(documents=documents_ba)
+library_ba.save()
+```
+``````
 
 ### Copy
 
+This operation will copy all the documents from library A to library B.
+
+``````{tab} Remote
+```python
+library_a = ads.Library.get(id="<public library id A>")
+library_b = ads.Library.get(id="<public library id B>")
+
+# Copy the documents from library A to library B.
+library_a.copy(library_b)
+```
+``````
+``````{tab} Local
+```python
+library_a = ads.Library.get(id="<public library id A>")
+library_b = ads.Library.get(id="<public library id B>")
+
+# Copy the documents from library A to library B
+library_b += library_a
+library_b.save()
+```
+``````
+
 ### Empty
 
-union = set(library_a).union(library_b)
+This will empty a library of all its documents. The library itself will still exist, but it will contain no documents. If you want to delete the library (and all its documents), use the {func}`ads.Library.delete()` function.
 
+``````{tab} Remote
+```python
+library = ads.Library.get(id="<public library id A>")
 
+# Empty the library of all its documents using the .empty() function.
+library.empty()
+```
+``````
+``````{tab} Local
+```python
+library = ads.Library.get(id="<public library id A>")
+
+# Empty the library by setting the .documents attribute to be an empty list.
+library.documents = []
+
+# Unlike the .empty() method, we need to save our changes.
+library.save()
+```
+``````
 
 ## Transfer ownership of a library
 
-You can transfer the ownership of your library to another ADS user. The owner of the library is given by the {attr}`ads.Library.owner` property. To transfer ownership you can simply change the value in {attr}`ads.Library.owner`, and save the library. 
+You can transfer the ownership of your library to another ADS user. The owner of the library is given by the {attr}`ads.Library.owner` property. To transfer ownership you can simply change the value of this attribute, and save the library. 
 
+:::{Note}
 The {attr}`ads.Library.owner` attribute is a little inconsistent. For libraries that you have read (or higher) access, the {attr}`ads.Library.owner` property returns the ADS **username** of the account that owns the library. However, if you want to transfer the ownership of a library to another user, you need to set the `.owner` attribute to be the **email address** that the new owner uses for their ADS account. 
 
 After the transfer has occurred, if the new owner were to retrieve the `Library` then they would see their ADS **username** in this field, even though you needed to provide their **email address** to make the transfer happen. If you supply an invalid email address, or an email address that is not associated with any ADS account, then an exception will be raised.
+:::
 
 Let's create a new library and transfer the ownership to another user:
 
