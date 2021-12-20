@@ -57,7 +57,7 @@ class TestBaseSession(unittest.TestCase):
             self.assertTrue(str(w[0].message).startswith("No SAO/NASA ADS API token found."))
 
         ads.config.token = "tok5"
-        with ads.base.Session() as client:
+        with ads.client.Client() as client:
             self.assertEqual(client.token, "tok5")
         
         # If an environment variable is set, that takes precedence over ads.config.token
@@ -86,7 +86,7 @@ class TestRateLimits(unittest.TestCase):
     start_remaining = 398
 
     def setUp(self):
-        class FakeApiResponse(ads.base.APIResponse):
+        class FakeApiResponse(ads.client.APIResponse):
             def __init__(self, http_response):
                 pass
 
@@ -98,11 +98,11 @@ class TestRateLimits(unittest.TestCase):
     def test_rate_limits(self):
         for i in (1, 2):
             with MockApiResponse("http://api.unittest"):
-                ads.base.RateLimits().set_from_http_response(
+                ads.client.RateLimits().set_from_http_response(
                     requests.get("http://api.unittest")
                 )
 
-            limits = ads.base.RateLimits().to_dict()
+            limits = ads.client.RateLimits().to_dict()
             self.assertEqual(limits[""]["limit"], "400")
             self.assertEqual(limits[""]["remaining"], f"{self.start_remaining - i:.0f}")
             self.assertEqual(limits[""]["reset"], "1436313600")

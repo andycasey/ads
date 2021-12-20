@@ -283,7 +283,7 @@ def has_multiple_pages(response):
     return False
 
 
-class APIResponse(object):
+class APIResponse:
 
     """ A response from an ADS API end point. """
 

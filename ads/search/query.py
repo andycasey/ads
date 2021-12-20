@@ -4,13 +4,12 @@ import json
 import warnings
 from math import ceil
 
-from ads import base, config, logger
-from ads.document import Document
+from ads import config, logger
+from ads.client import Client
+from ads.models import Document
 
-    
 
-
-class SearchQuery(base.Session):
+class SearchQuery(Client):
 
     _row_warning_level = 100_000
     _max_rows = 200
@@ -157,7 +156,9 @@ class SearchQuery(base.Session):
                     finally:
                         raise StopIteration
             else:
-                return Document(**document_kwds)
+                obj = Document(**document_kwds)
+                obj._dirty.clear()
+                return obj
 
     
     def fetch_page(self):

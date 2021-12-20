@@ -130,10 +130,16 @@ class ADSContext(Context):
         if (expression.op == OP.NE): #^ expression.negated:
             self.literal("-")
         
-        # Let's avoid exact matching right now, because in reality we should only do it for certain things.
+        # If the operator is equals or not equals, and the field is a particular kind, then we
+        # should tell ADS that we want to do exact matching.
+        document_field_names_with_exact_matching = ("title", "author")
         if expression.op in (OP.EQ, OP.NE):
-            print(f"ignoring exact matching")
-        #    self.literal("=")
+            for side in (expression.lhs, expression.rhs):
+                if isinstance(side, Field) \
+                and side.model.__name__ == "Document" \
+                and side.name in document_field_names_with_exact_matching:
+                    self.literal("=")
+                    break
         
         self.parse(expression.lhs)
 
@@ -169,6 +175,8 @@ class ADSContext(Context):
             try:
                 self.literal(expression.lhs.parentheses[0])
             except AttributeError:
+                # Not sure if things will ever work in the above Try block... TODO
+                #self.literal("(")
                 None
             
             self.parse(expression.rhs)
@@ -176,6 +184,7 @@ class ADSContext(Context):
             try:
                 self.literal(expression.lhs.parentheses[1])
             except AttributeError:
+                #self.literal(")")
                 None
         
         if expression.op in (OP.GT, OP.GTE):
