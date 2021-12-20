@@ -167,7 +167,7 @@ class Context:
         elif op is None:
             None
         else:
-            raise a
+            raise NotImplementedError()
 
         if op in (OP.LT, OP.LTE):
             self.literal("-")

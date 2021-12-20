@@ -310,7 +310,7 @@ class DocumentSelect(Client, ModelSelect):
             # This is expensive because we are going to have to make a query just to count the rows.
             params = self.cursor_payload.copy()
             params.update(start=0, rows=1, fl=["id"])
-            raise a
+            raise NotImplementedError()
 
         return self._count
 
