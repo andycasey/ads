@@ -109,8 +109,16 @@ getting-started/index
 &nbsp;
 
 ```{toctree}
+:caption: Search
+:maxdepth: 3
+
+search/index
+```
+
+
+```{toctree}
 :caption: User Guide
-user/search-syntax
+:maxdepth: 2
 user/journal
 user/affiliations
 user/libraries

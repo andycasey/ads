@@ -144,7 +144,7 @@ class ADSContext(Context):
         elif expression.op is None:
             None
         else:
-            raise a
+            raise NotImplementedError("Not implemented")
 
         if expression.op in (OP.LT, OP.LTE):
             self.literal("-")

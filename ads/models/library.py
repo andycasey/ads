@@ -281,7 +281,7 @@ class Library(Model):
         """
         print(f"setting {new_documents}")
         if "bibcodes" in self.__data__:
-            raise a
+            raise NotImplementedError()
         
         bibcodes = [(doc.bibcode if isinstance(doc, Document) else doc) for doc in new_documents]
         self.__data__["bibcodes"] = bibcodes
@@ -459,7 +459,7 @@ class Library(Model):
             A boolean.
         """
         # Should do this locally.
-        raise a
+        raise NotImplementedError()
         #return self._operation("copy", [library])
 
     def empty(self):
@@ -616,7 +616,7 @@ class Library(Model):
             description=description,
             public=public,
         )
-        raise a
+        raise NotImplementedError()
         #inst.save(force_insert=True)
         return inst
 
@@ -669,7 +669,7 @@ class LibrarySelect(Client, ModelSelect):
         return ctx.sql(self._where)
 
     def __str__(self):
-        raise a
+        raise NotImplementedError()
 
     def execute(self, database=None):
         if self._where is None:
@@ -715,7 +715,7 @@ class LibrarySelect(Client, ModelSelect):
                 if metadata["num_documents"] > max_peek_limit:
                     # If there are more documents than we expected, then we should retrieve the rest
                     # in the background, preferably #TODO
-                    raise a
+                    raise NotImplementedError()
 
                 obj = Library(**metadata)
                 obj.__data__["bibcodes"] = response.json["documents"]

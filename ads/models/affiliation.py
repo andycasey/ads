@@ -25,6 +25,27 @@ class Affiliation(LocalModel):
     #class Meta:
     #    primary_key = CompositeKey("id", "parent")
 
+    '''
+    @property
+    def siblings(self):
+        """ Return all possible siblings of this affiliation. """
+        Parent = self.alias()
+        return self.select()\
+                   .join(Parent, on=(Affiliation.parent == Parent.id))\
+                   .where(Affiliation.parent == self.parent)
+    '''
+    
+    @property
+    def parents(self):
+        """ Return all possible parents of this affiliation. """
+        Parent = self.alias()
+        return Parent.select()\
+                   .join(Affiliation, on=(Affiliation.parent == Parent.id))\
+                   .where(Affiliation.id == self.id)
+
+    def __repr__(self):
+        return f"<Affiliation {self.id}: {self.canonical_name}>"
+        
 
 def _safe_get_affiliation(aff_id):
     if aff_id.strip() == "-":

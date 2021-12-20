@@ -301,7 +301,7 @@ class DocumentSelect(Client, ModelSelect):
                 method="get",
                 params=dict()
             )
-            raise a
+            raise NotImplementedError()
         
         
 

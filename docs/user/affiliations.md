@@ -77,16 +77,11 @@ print(f"# Parent: {parent.id}: {parent.abbreviation} - {parent.canonical_name}")
 # Parent: A00172: Curtin U - Curtin University, Australia
 ```
 
-In many cases there is only a single parent reference. But in this case we know that there are multiple records for CAASTRO, because it is a child reference of multiple parent (universities). If we wanted to find all the parent organisations of CAASTRO, we can do a self-join on the {class}`ads.Affiliation` table.
+In many cases there is only a single parent reference. But in this case we know that there are multiple records for CAASTRO, because it is a child reference of multiple parent (universities). We can use the {obj}`ads.Affiliation.parents` property to run a self-join on the {class}`ads.Affiliation` table and find all possible parents of this affiliation.
 
 ```python
-ParentAffiliation = Affiliation.alias()
-
-s = Affiliation.select()\
-               .join(ParentAffiliation, on=(Affiliation.parent == ParentAffiliation.id))\
-               .where(Affiliation.abbreviation == "CAASTRO")
-for node in s:
-    print(f"# {node.parent.id}: {node.parent.canonical_name}")
+for parent in caastro.parents:
+    print(f"# {parent.id}: {parent.canonical_name}")
 # A00172: Curtin University, Australia
 # A00254: University of Queensland, Australia
 # A00339: Australian National University, Canberra
@@ -94,7 +89,7 @@ for node in s:
 # A00446: University of Western Australia
 # A00650: Swinburne University of Technology, Australia
 # A00732: University of Sydney, Australia
-# A04927: Australian Research Council    
+# A04927: Australian Research Council
 ```
 
 If we wanted to find all the children referenced by a parent, we can use the {obj}`ads.Affiliation.children` back-reference accessor:
