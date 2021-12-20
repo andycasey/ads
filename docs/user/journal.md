@@ -6,10 +6,10 @@ Every document in ADS that appears in a peer-reviewed journal will have a biblio
 - `JJJJJ`: A standard abbreviation for the journal (e.g. ApJ, AJ, MNRAS, Sci, PASP, etc.). [A list of abbreviations is available](https://adsabs.harvard.edu/abs_doc/journals1.html#).
 - `VVVV`: The volume number (for a serial) or an abbreviation that specifies what type of publication it is (e.g. conf for conference proceedings, meet for Meeting proceedings, book for a book, coll for colloquium proceedings, proc for any other type of proceedings).
 - `M`: Qualifier for publication:
-- `E`: Electronic Abstract (usually a counter, not a page number)
-- `L`: Letter
-- `P`: Pink page
-- `Q-Z`: Unduplicating character for identical codes
+    - `E`: Electronic Abstract (usually a counter, not a page number)
+    - `L`: Letter
+    - `P`: Pink page
+    - `Q-Z`: Unduplicating character for identical codes
 - `PPPP`: Page number. Note that for page numbers greater than 9999, the page number is continued in the m column.
 - `A`: The first letter of the last name of the first author.
 

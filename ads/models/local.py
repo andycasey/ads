@@ -1,6 +1,8 @@
+import os
 from peewee import SqliteDatabase, Model
 
-database = SqliteDatabase("models.db")
+database_path = os.path.expanduser("~/.ads/database.db")
+database = SqliteDatabase(database_path)
 
 class LocalModel(Model):
     class Meta:

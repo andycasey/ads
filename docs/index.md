@@ -98,20 +98,25 @@ asyncio.run(main())
 
 # Contents
 
+
+```{toctree}
+:caption: Getting started
+:hidden:
+
+getting-started/index
+```
+
+&nbsp;
+
 ```{toctree}
 :caption: User Guide
-
-user/install
-user/api-key
 user/search-syntax
-user/async-vs-sync
-user/rate-limits
 user/journal
 user/affiliations
 user/libraries
+user/async-vs-sync
+user/rate-limits
 api-docs
-developer-docs
-changelog
 ```
 
 &nbsp;
@@ -121,6 +126,14 @@ changelog
 
 tutorials/basic
 tutorials/async
+```
+
+&nbsp; 
+
+```{toctree}
+:caption: Development
+developer-docs
+changelog
 ```
 
 &nbsp;

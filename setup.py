@@ -30,16 +30,25 @@ contents = readfile(os.path.join(
 
 version = version_regex.findall(contents)[0]
 
-setup(name="ads",
-      version=version,
-      author="Andrew R. Casey",
-      author_email="andy@astrowizici.st",
-      packages=["ads", "ads.models", "ads.tests", "ads.tests.stubdata"],
-      url="http://www.github.com/andycasey/ads/",
-      license="MIT",
-      description="A Python module for NASA's ADS that doesn't suck.",
-      long_description=\
-          readfile(os.path.join(os.path.dirname(__file__), "README.rst")),
-      install_requires=\
-          readfile(os.path.join(os.path.dirname(__file__), "requirements.txt"))
-     )
+setup(
+    name="ads",
+    version=version,
+    author="Andrew R. Casey",
+    author_email="andy@astrowizici.st",
+    packages=["ads", "ads.models", "ads.tests", "ads.tests.stubdata"],
+    include_package_data=True,
+    data_files=[
+        ("data/", ["data/journals.json", "data/affiliations.tsv", "data/affiliations_country.tsv"]),
+    ],
+    zip_safe=False,
+    url="http://www.github.com/andycasey/ads/",
+    license="MIT",
+    description="A Python module for NASA's ADS that doesn't suck.",
+    long_description=\
+        readfile(os.path.join(os.path.dirname(__file__), "README.rst")),
+    install_requires=\
+        readfile(os.path.join(os.path.dirname(__file__), "requirements.txt")),
+    entry_points={
+        "console_scripts": ["ads-setup=ads.utils:setup_database"]
+    }
+)
