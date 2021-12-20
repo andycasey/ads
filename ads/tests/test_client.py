@@ -6,8 +6,8 @@ import warnings
 from tempfile import NamedTemporaryFile
 
 from ads.tests.mocks import MockApiResponse
-import ads.base 
 
+import ads
 
 class TestBaseSession(unittest.TestCase):
 
@@ -32,52 +32,52 @@ class TestBaseSession(unittest.TestCase):
         [f.close() for f in [tf1, tf2]]
         ads.config.TOKEN_FILES = [tf1.name, tf2.name]
 
-        session = ads.base.Session()
+        client = ads.client.Client()
 
-        self.assertEqual(session.token, "tok1")
-        session.token = None
+        self.assertEqual(client.token, "tok1")
+        client.token = None
         del os.environ["TOKEN_1"]
 
-        self.assertEqual(session.token, "tok2")
-        session.token = None
+        self.assertEqual(client.token, "tok2")
+        client.token = None
         del os.environ["TOKEN_2"]
 
-        self.assertEqual(session.token, "tok3")
-        session.token = None
+        self.assertEqual(client.token, "tok3")
+        client.token = None
         os.remove(tf1.name)
 
-        self.assertEqual(session.token, "tok4")
-        session.token = None
+        self.assertEqual(client.token, "tok4")
+        client.token = None
         os.remove(tf2.name)
 
         # Check that a warning is emitted about the token being None.
         with warnings.catch_warnings(record=True) as w:
-            self.assertEqual(session.token, None)
+            self.assertEqual(client.token, None)
             self.assertEqual(len(w), 1)
             self.assertTrue(str(w[0].message).startswith("No SAO/NASA ADS API token found."))
 
         ads.config.token = "tok5"
-        with ads.base.Session() as session:
-            self.assertEqual(session.token, "tok5")
+        with ads.base.Session() as client:
+            self.assertEqual(client.token, "tok5")
         
         # If an environment variable is set, that takes precedence over ads.config.token
         os.environ["TOKEN_1"] = "tok1"
-        with ads.base.Session() as session:
+        with ads.client.Client() as client:
             self.assertEqual(ads.config.token, "tok5")
-            self.assertEqual(session.token, "tok1")
+            self.assertEqual(client.token, "tok1")
 
 
     def test_headers(self):
         """ Check the request headers. """
-        with ads.base.Session() as session:
-            self.assertIn("ads-api-client", session.request_headers["User-Agent"])
-            self.assertIn("Bearer", session.request_headers["Authorization"])
-            self.assertEqual("application/json", session.request_headers["Content-Type"])
+        with ads.client.Client() as client:
+            self.assertIn("ads-api-client", client.request_headers["User-Agent"])
+            self.assertIn("Bearer", client.request_headers["Authorization"])
+            self.assertEqual("application/json", client.request_headers["Content-Type"])
     
 
     def test_context_manager(self):
-        with ads.base.Session() as session:
-            self.assertTrue(session.session is not None)
+        with ads.client.Client() as client:
+            self.assertTrue(client.session is not None)
 
 
 
