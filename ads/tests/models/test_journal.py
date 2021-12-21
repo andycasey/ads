@@ -9,7 +9,6 @@ from ads.utils import setup_database, _get_data_path
 def expression_as_string(expression):
     return Document.select().where(expression).__str__()
 
-
 class TestJournal(unittest.TestCase):
 
     #def setUp(self):

@@ -75,10 +75,16 @@ def parse_expression_referencing_affiliation(expression):
         if isinstance(side, ForeignKeyField) and side.rel_model == Affiliation:
             # We have a ForeignKeyField referencing an Affiliation.
 
-            if not isinstance(other_side, Affiliation):
-                raise TypeError(f"'{other_side}' should be an {Affiliation} object (not {type(other_side)})")
+            if isinstance(other_side, str):
+                # We are assuming they are referencing by the abbreviation.
+                # TODO: Should we check to see if we should match by title?
+                value = Affiliation.get(abbreviation=other_side).id
+            elif isinstance(other_side, Affiliation):
+                value = other_side.id
+            else:
+                raise TypeError(f"'{other_side}' should be a {Affiliation} object (not {type(other_side)})")
 
-            return Expression(Document.aff_id, expression.op, other_side.id)
+            return Expression(Document.aff_id, expression.op, value)
 
         if getattr(side, "model", None) == Affiliation:
             # We are accessing an attribute of Journal. Find the correct Journal(s).
