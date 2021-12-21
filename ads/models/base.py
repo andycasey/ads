@@ -42,10 +42,16 @@ def parse_expression_referencing_journal(expression):
         if isinstance(side, ForeignKeyField) and side.rel_model == Journal:
             # We have a ForeignKeyField referencing a Journal.
             # The right hand side should be a Journal object.
-            if not isinstance(other_side, Journal):
+            if isinstance(other_side, str):
+                # We are assuming they are referencing by the abbreviation.
+                # TODO: Should we check to see if its more than 5 characters, and then match by title?
+                value = other_side
+            elif isinstance(other_side, Journal):
+                value = other_side.abbreviation
+            else:
                 raise TypeError(f"'{other_side}' should be a {Journal} object (not {type(other_side)})")
-            
-            return Expression(Document.bibstem, expression.op, other_side.abbreviation)
+        
+            return Expression(Document.bibstem, expression.op, value)
         
         if getattr(side, "model", None) == Journal:
             # We are accessing an attribute of Journal. Find the correct Journal(s).

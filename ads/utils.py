@@ -74,16 +74,18 @@ def to_bibcode(iterable):
             raise TypeError("Expected a bibcode string, an ads.Document, or an iterable of these.")
 
 
+def _get_data_path(basename=""):
+    from ads import __path__
+    return os.path.realpath(os.path.join(__path__[0], "../data", basename))
 
 def setup_database():
 
-    import ads
     from ads.models.local import (database, database_path)
     from ads.models.affiliation import Affiliation
     from ads.models.journal import Journal
 
     ads_dir = os.path.dirname(database_path)
-    data_dir = os.path.realpath(os.path.join(ads.__path__[0], "../data"))
+    data_dir = _get_data_path()
 
     print(f"Using ADS directory {ads_dir}")
     print(f"Looking for data files in {data_dir}")
@@ -104,9 +106,9 @@ def setup_database():
     database.create_tables([Affiliation, Journal])
     database.close()
 
-    _journals_path = os.path.join(data_dir, "journals.json")
-    _affiliation_path = os.path.join(data_dir, "affiliations.tsv")
-    _affiliation_country_path = os.path.join(data_dir, "affiliations_country.tsv")
+    _journals_path = _get_data_path("journals.json")
+    _affiliation_path = _get_data_path("affiliations.tsv")
+    _affiliation_country_path = _get_data_path("affiliations_country.tsv")
 
     print(f"Load countries from {_affiliation_country_path}..")
     
