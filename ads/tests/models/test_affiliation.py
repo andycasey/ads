@@ -122,20 +122,22 @@ class TestAffiliation(unittest.TestCase):
             '<Affiliation A05812: Flatiron Institute, New York>'
         )
 
-    def test_parent_children(self, affiliation):
-        self.assertIsNotNone(affiliation.parent)
-        self.assertIsNotNone(affiliation.parents)
-        for parent in affiliation.parents:
-            children = list(parent.children)
-            self.assertGreater(len(children), 0)
-            self.assertIn(affiliation, children)
+    def test_parent_children(self, affiliation=None):
+        if affiliation is not None:
+            self.assertIsNotNone(affiliation.parent)
+            self.assertIsNotNone(affiliation.parents)
+            for parent in affiliation.parents:
+                children = list(parent.children)
+                self.assertGreater(len(children), 0)
+                self.assertIn(affiliation, children)
     
-    def test_siblings(self, affiliation):
-        for sibling in affiliation.siblings:
-            self.assertEqual(sibling.parent, affiliation.parent)
-        parents = list(affiliation.parents)
-        for sibling in affiliation.extended_siblings:
-            self.assertIn(sibling.parent, parents)
+    def test_siblings(self, affiliation=None):
+        if affiliation is not None:
+            for sibling in affiliation.siblings:
+                self.assertEqual(sibling.parent, affiliation.parent)
+            parents = list(affiliation.parents)
+            for sibling in affiliation.extended_siblings:
+                self.assertIn(sibling.parent, parents)
 
     def test_family_caastro(self):
         caastro = Affiliation.get(abbreviation="CAASTRO")
