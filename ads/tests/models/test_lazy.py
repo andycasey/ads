@@ -20,6 +20,7 @@ class TestExpressions(unittest.TestCase):
         self.assertIn("bibcode", doc.__data__)
 
         # Now let's try execute a lazy load.
-        self.assertEqual(doc.year, year)
+        self.assertEqual(int(doc.year), year)
         self.assertIn("year", doc.__data__)
+        self.assertEqual(int(doc.__data__["year"]), year)
         
