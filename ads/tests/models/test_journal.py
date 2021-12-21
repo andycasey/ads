@@ -121,9 +121,10 @@ class TestJournal(unittest.TestCase):
 
         self.assertEqual(s1, "bibstem:PASA")
         
-    '''
-    def test_document_select_by_journal(self):
+
+    def test_document_select(self):
         abbreviation = "PASA"
         pasa = Journal.get(abbreviation=abbreviation)
         d1 = Document.get(journal=pasa)
-    '''
+        self.assertEqual(d1.journal, pasa)
+        
