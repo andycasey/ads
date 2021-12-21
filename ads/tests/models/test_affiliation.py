@@ -113,3 +113,24 @@ class TestAffiliation(unittest.TestCase):
 
         doc = Document.get(Document.pos(Document.affiliation == flatiron, 1, 1))
         self.assertIn(flatiron, doc.affiliation[0])
+
+
+    def test_repr_affiliation(self):
+        flatiron = Affiliation.get(abbreviation="Flatiron Inst")
+        self.assertEqual(
+            flatiron.__repr__(),
+            '<Affiliation A05812: Flatiron Institute, New York>'
+        )
+
+
+    def test_parent_children(self):
+        caastro = Affiliation.get(abbreviation="CAASTRO")
+
+        self.assertIsNotNone(caastro.parent)
+        self.assertIsNotNone(caastro.parents)
+
+        for parent in caastro.parents:
+            children = list(parent.children)
+            self.assertGreater(len(children), 0)
+            self.assertIn(caastro, children)
+            
