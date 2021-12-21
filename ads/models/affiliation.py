@@ -25,16 +25,6 @@ class Affiliation(LocalModel):
     #class Meta:
     #    primary_key = CompositeKey("id", "parent")
 
-    '''
-    @property
-    def siblings(self):
-        """ Return all possible siblings of this affiliation. """
-        Parent = self.alias()
-        return self.select()\
-                   .join(Parent, on=(Affiliation.parent == Parent.id))\
-                   .where(Affiliation.parent == self.parent)
-    '''
-    
     @property
     def parents(self):
         """ Return all possible parents of this affiliation. """
@@ -42,6 +32,16 @@ class Affiliation(LocalModel):
         return Parent.select()\
                    .join(Affiliation, on=(Affiliation.parent == Parent.id))\
                    .where(Affiliation.id == self.id)
+
+    @property
+    def siblings(self):
+        """ Return affiliations that share the same parent as this record. """
+        return Affiliation.select().where(Affiliation.parent == self.parent)
+    
+    @property
+    def extended_siblings(self):
+        """ Return affiliations that share any parent that is shared by this record. """
+        return Affiliation.select().where(Affiliation.parent.in_(list(self.parents)))
 
     def __repr__(self):
         return f"<Affiliation {self.id}: {self.canonical_name}>"
