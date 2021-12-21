@@ -8,3 +8,7 @@
 
 docs/_build
 venv/
+
+.DS_Store
+build/
+dist/
