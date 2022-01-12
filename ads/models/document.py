@@ -248,7 +248,7 @@ class Document(Model):
         for key in keys:
             try:
                 value = self.__data__[key]
-            except IndexError:
+            except KeyError:
                 continue
             else:
                 return (getattr(self.__class__, key), value)
