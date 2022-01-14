@@ -7,7 +7,11 @@ from datetime import datetime
 from collections import ChainMap
 import json
 import re
-from peewee import (ModelDelete, ModelSelect, Expression, Model, BooleanField, TextField as TextField, IntegerField, DateTimeField)
+from peewee import (
+    ModelDelete, ModelSelect, Expression, Model, BooleanField, TextField as TextField, IntegerField, DateTimeField,
+    SqliteDatabase, Proxy
+)
+from ads.models.driver import LibraryDatabase
 from ads.models.base import ADSAPI
 from ads.models.document import Document
 from ads.models.hybrid import hybrid_property
@@ -15,114 +19,6 @@ from ads.client import Client
 from ads.utils import (flatten, to_bibcode)
 
 from peewee import ModelBase, Node, with_metaclass, DoesNotExist, Value, _BoundModelsContext
-
-class SubModel(with_metaclass(ModelBase, Node)):
-    def __init__(self, *args, **kwargs):
-        if kwargs.pop('__no_default__', None):
-            self.__data__ = {}
-        else:
-            self.__data__ = self._meta.get_default_dict()
-        self._dirty = set(self.__data__)
-        self.__rel__ = {}
-
-        for k in kwargs:
-            setattr(self, k, kwargs[k])
-
-    @classmethod
-    def validate_model(cls):
-        pass
-
-    @classmethod
-    def get(cls, *query, **filters):
-        sq = cls.select()
-        if query:
-            # Handle simple lookup using just the primary key.
-            if len(query) == 1 and isinstance(query[0], int):
-                sq = sq.where(cls._meta.primary_key == query[0])
-            else:
-                sq = sq.where(*query)
-        if filters:
-            sq = sq.filter(**filters)
-        return sq.get()
-
-    @classmethod
-    def get_or_none(cls, *query, **filters):
-        try:
-            return cls.get(*query, **filters)
-        except DoesNotExist:
-            pass
-
-    @classmethod
-    def filter(cls, *dq_nodes, **filters):
-        return cls.select().filter(*dq_nodes, **filters)
-
-    def get_id(self):
-        # Using getattr(self, pk-name) could accidentally trigger a query if
-        # the primary-key is a foreign-key. So we use the safe_name attribute,
-        # which defaults to the field-name, but will be the object_id_name for
-        # foreign-key fields.
-        if self._meta.primary_key is not False:
-            return getattr(self, self._meta.primary_key.safe_name)
-
-    _pk = property(get_id)
-
-    @_pk.setter
-    def _pk(self, value):
-        setattr(self, self._meta.primary_key.name, value)
-
-    def _pk_expr(self):
-        return self._meta.primary_key == self._pk
-
-    def __hash__(self):
-        return hash((self.__class__, self._pk))
-
-    def __eq__(self, other):
-        return (
-            other.__class__ == self.__class__ and
-            self._pk is not None and
-            self._pk == other._pk)
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __sql__(self, ctx):
-        # NOTE: when comparing a foreign-key field whose related-field is not a
-        # primary-key, then doing an equality test for the foreign-key with a
-        # model instance will return the wrong value; since we would return
-        # the primary key for a given model instance.
-        #
-        # This checks to see if we have a converter in the scope, and that we
-        # are converting a foreign-key expression. If so, we hand the model
-        # instance to the converter rather than blindly grabbing the primary-
-        # key. In the event the provided converter fails to handle the model
-        # instance, then we will return the primary-key.
-        if ctx.state.converter is not None and ctx.state.is_fk_expr:
-            try:
-                return ctx.sql(Value(self, converter=ctx.state.converter))
-            except (TypeError, ValueError):
-                pass
-
-        return ctx.sql(Value(getattr(self, self._meta.primary_key.name),
-                             converter=self._meta.primary_key.db_value))
-
-    @classmethod
-    def bind(cls, database, bind_refs=True, bind_backrefs=True, _exclude=None):
-        is_different = cls._meta.database is not database
-        cls._meta.set_database(database)
-        if bind_refs or bind_backrefs:
-            if _exclude is None:
-                _exclude = set()
-            G = cls._meta.model_graph(refs=bind_refs, backrefs=bind_backrefs)
-            for _, model, is_backref in G:
-                if model not in _exclude:
-                    model._meta.set_database(database)
-                    _exclude.add(model)
-        return is_different
-
-    @classmethod
-    def bind_ctx(cls, database, bind_refs=True, bind_backrefs=True):
-        return _BoundModelsContext((cls,), database, bind_refs, bind_backrefs)
-
 
 
 def requires_bibcodes(func):
@@ -134,14 +30,6 @@ def requires_bibcodes(func):
         finally:
             return func(library, *args, **kwargs)
     return inner
-
-
-## TODO:
-# [ ] Saving instead of all these hybrid attributes
-# [ ] Creating
-# [X] Validate permissions
-# [ ] Getting DocumentSelect to recognise when it's time to use BigQuery!
-
 
 
 def valid_email_address(email: str) -> bool:
@@ -158,6 +46,7 @@ def valid_permissions(values):
     unknown = set(values).difference(permissions)
     is_valid = (len(unknown) == 0)
     return (is_valid, permissions)
+
 
 
 class Permissions(dict):
@@ -195,14 +84,12 @@ class Permissions(dict):
         return response
 
 
+
 class Library(Model):
 
     """
     An object relational mapper for a curated ADS library. 
     """
-
-    class Meta:
-        database = ADSAPI()
 
     #: Unique identifier for this library, which is assigned by ADS.
     id = TextField(help_text="Unique identifier for this library, which is assigned by ADS.", primary_key=True) 
@@ -224,6 +111,9 @@ class Library(Model):
     #: The ADS username of the owner of the library.
     owner = TextField(help_text="The ADS username of the owner of the library.")
 
+    class Meta:
+        database = LibraryDatabase(Client())
+        only_save_dirty = True
 
     @hybrid_property
     def permissions(self) -> Permissions:
@@ -292,85 +182,6 @@ class Library(Model):
         """ Delete all documents from a library. """
         return self.empty()
 
-    def save(self) -> bool:
-        """Save local changes made on this library to ADS."""
-        if not self._dirty:
-            return False
-
-        with Client() as client:
-
-            # Update documents.
-
-            # Update any metadata.
-            metadata_fields = {"name", "description", "public"}
-            #if dirty_metadata_fields := self._dirty.intersection(metadata_fields):
-            dirty_metadata_fields = self._dirty.intersection(metadata_fields)
-            if dirty_metadata_fields:
-                client.api_request(
-                    f"biblib/documents/{self.id}",
-                    data=json.dumps(
-                        { key: getattr(self, key) for key in dirty_metadata_fields }
-                    ),
-                    method="put"
-                )
-                self._dirty -= dirty_metadata_fields
-
-            # Update permissions.
-            if "permissions" in self._dirty:
-                _, all_permission_kinds = valid_permissions([])
-                for email in self.permissions._dirty:
-                    print(f"Updating permission for {email}")
-                    data = dict(
-                        email=email, 
-                        permission={ kind: False for kind in all_permission_kinds}
-                    )
-                    #if permission_kinds := self.permissions.get(email, []):
-                    permission_kinds = self.permissions.get(email, [])
-                    if permission_kinds:
-                        data["permission"].update(
-                            dict(zip(permission_kinds, [True] * len(permission_kinds)))
-                        )
-
-                    client.api_request(
-                        f"biblib/permissions/{self.id}",
-                        data=json.dumps(data),
-                        method="post"
-                    )
-                self._dirty -= {"permissions"}
-
-            # Update owner.
-            if "owner" in self._dirty:
-                if not valid_email_address(self.owner):
-                    raise ValueError(f"Invalid email address for new owner: '{self.owner}'")
-                # We need an email address to transfer ownership, but the `owner` string is the ADS
-                # username, which is different. So if we don't add ourselves with read permissions 
-                # first, we won't be able to access the library after this point.
-
-                # As it turns out, you can't change your own permissions.
-                # That means if you wanted to keep read permission after transferring the library
-                # you'd have to do something like this:
-                
-                # Original owner: A
-                # New owner: B
-                # Extra account managed by A: C
-
-                # A sets C with admin permissions
-                # A transfers to B
-                # C gives admin (or read/write) permissions to A
-                # Can C then even delete themselves as an admin? I don't think so..
-                client.api_request(
-                    f"biblib/transfer/{self.id}",
-                    data=json.dumps(dict(email=self.owner)),
-                    method="post"
-                )
-            
-        # Update the last modified without making a query to ADS.
-        # This is not what would be reflected on the ADS server, but it is accurate to within a few seconds.
-        self.date_last_modified = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')
-        self._dirty.clear()
-        return True
-
-
     # Iterating and slicing.
 
     def __iter__(self):
@@ -398,21 +209,8 @@ class Library(Model):
         return None
 
     def delete(self):
-        """ 
-        Delete this library.
-        
-        The :class:`ads.Library` object will continue to persist locally, but it will
-        be deleted on the ADS servers.
-        """
-        with Client() as client:
-            # I assumed that this endpoint would be biblib/libraries/{id},
-            # but it is actually biblib/documents/{id}. I don't know why.
-            # The documentation correctly says biblib/documents/{id}, but
-            # the naming convention is not what I expected.
-            # TODO: Email ADS team about this.
-            #f"biblib/libraries/{self.id}",
-            self.api_request(f"biblib/documents/{self.id}", method="delete")
-        return True
+        """ Delete this library from ADS. """
+        return super().delete().where(Library.id == self.id).execute()
 
     def union(self, *libraries):
         """
@@ -612,25 +410,6 @@ class Library(Model):
         return None
 
 
-
-    @classmethod
-    def create(cls, name=None, description=None, public=False, documents=None, **kwargs):
-        inst = cls(
-            name=name,
-            description=description,
-            public=public,
-        )
-        raise NotImplementedError()
-        #inst.save(force_insert=True)
-        return inst
-
-    @classmethod
-    def select(cls, *fields):
-        is_default = not fields
-        if not fields:
-            fields = cls._meta.sorted_fields
-        return LibrarySelect(cls, fields, is_default=is_default)
-
     def __str__(self):
         return self.__repr__()
 
@@ -666,64 +445,3 @@ class Library(Model):
             return response
 
 
-
-class LibrarySelect(Client, ModelSelect):
-
-    def __sql__(self, ctx):
-        return ctx.sql(self._where)
-
-    def __str__(self):
-        raise NotImplementedError()
-
-    def execute(self, database=None):
-        if self._where is None:
-            with self:
-                response = self.api_request("biblib/libraries")
-            libraries = []
-            for kwds in response.json["libraries"]:
-                obj = Library(**kwds)
-                obj._dirty.clear()
-                libraries.append(obj)
-            return libraries
-
-        else:
-            # Handle any expression.
-
-            # If we are selecting by ID, then we could be requesting by a public library
-            # which would not be returned by the biblib/libraries end point.
-            # We will need to make a request to the biblib/libraries/{id} end point.
-
-            # TODO: We actually need to handle this recursively, probably.
-            if self._where.op == "=":
-                for side in (self._where.lhs, self._where.rhs):
-                    if isinstance(side, TextField) and side.model.__name__ == "Library" and side.name == "id":
-                        break
-                else:
-                    raise NotImplementedError("only simple expressions supported so far")
-                
-                library_id = self._where.rhs if self._where.lhs is side else self._where.lhs
-
-                # The standard query to biblib/libraries/<id> will give us the first 20 bibcodes, 
-                # unless we specify how many we want. We don't know how many documents are in the
-                # library, so let's pick a large number and if it's more than that we can refresh
-                max_peek_limit = 1_000
-                params = dict(rows=max_peek_limit)
-
-                with self:
-                    response = self.api_request(
-                        f"biblib/libraries/{library_id}", 
-                        params=params
-                    )
-                    
-                metadata = response.json["metadata"]
-                if metadata["num_documents"] > max_peek_limit:
-                    # If there are more documents than we expected, then we should retrieve the rest
-                    # in the background, preferably #TODO
-                    raise NotImplementedError()
-
-                obj = Library(**metadata)
-                obj.__data__["bibcodes"] = response.json["documents"]
-                obj._dirty.clear()
-                return (obj, )
-
-            raise NotImplementedError("only simple expressions so far.")

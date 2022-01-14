@@ -30,8 +30,8 @@ class Affiliation(LocalModel):
         """ Return all possible parents of this affiliation. """
         Parent = self.alias()
         return Parent.select()\
-                   .join(Affiliation, on=(Affiliation.parent == Parent.id))\
-                   .where(Affiliation.id == self.id)
+                     .join(Affiliation, on=(Affiliation.parent == Parent.id))\
+                     .where(Affiliation.id == self.id)
 
     @property
     def siblings(self):

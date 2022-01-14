@@ -213,6 +213,7 @@ class ADSContext(Context):
 
 class ADSAPI:
 
+    sequences = False
     context_class = ADSContext
     field_types = {}
     operations = {}
@@ -223,6 +224,10 @@ class ADSAPI:
         pass
         #print(f"ADSAPI.init({database}, **{kwargs})")
 
+    def bind(self, models, bind_refs=True, bind_backrefs=True):
+        for model in models:
+            model.bind(self, bind_refs=bind_refs, bind_backrefs=bind_backrefs)
+        
     def __enter__(self):
         if self.is_closed():
             self.connect()
