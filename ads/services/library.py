@@ -1,59 +1,25 @@
 import json
 import re
-from collections import namedtuple
-from peewee import (Database, NotSupportedError, SqliteDatabase, Select, Insert, Update, Delete)
+from collections import ChainMap, namedtuple
+from peewee import (Database, SqliteDatabase, Select, Insert, Update, Delete)
 
+from ads.client import Client
+from ads.utils import flatten
 
 Cursor = namedtuple("Cursor", ["lastrowid", "rowcount"], defaults=[1])
 
 
-def valid_email_address(email: str) -> bool:
-    """
-    Check whether an email address looks valid.
-    
-    :param email:
-        An email address.
-    """
-    return re.match(r"[^@]+@[^@]+\.[^@]+", email)
+class LibraryInterface(Database):
 
-def valid_permissions(values):
-    permissions = ("read", "write", "admin")
-    unknown = set(values).difference(permissions)
-    is_valid = (len(unknown) == 0)
-    return (is_valid, permissions)
-
-
-class SearchDatabase(Database):
-    def init(self, database, *args):
-        self.database = database
-
-    def execute(self, query, **kwargs):
-        if not isinstance(query, Select):
-            raise NotSupportedError("Only SELECT queries are supported.")
-        
-        # Parse the expression to a Solr search query.
-        raise a
-
-
-
-
-class LibraryDatabase(Database):
-
-    def init(self, database, *args):
-        self.database = database
+    def init(self, database=None, *args):
+        self.database = database or Client()
 
     def execute(self, query, **kwargs):
         print(f"executing {query}")
 
         if isinstance(query, Select):
-            # If there is an expression given that has a specific ID, then we should retrieve that
+            # TODO If there is an expression given that has a specific ID, then we should retrieve that
             # because it may be a public library that is not owned by the user.
-
-            # The standard query to biblib/libraries/<id> will give us the first 20 bibcodes, 
-            # unless we specify how many we want. We don't know how many documents are in the
-            # library, so let's pick a large number and if it's more than that we can refresh
-            #max_peek_limit = 1_000
-            #params = dict(rows=max_peek_limit)            
 
             with self.database as client:
                 response = client.api_request("biblib/libraries")
@@ -160,3 +126,65 @@ class LibraryDatabase(Database):
                     #f"biblib/libraries/{self.id}",                    
                     client.api_request(f"biblib/documents/{library_id}", method="delete")
                 return Cursor(library_id)
+
+
+def valid_email_address(email: str) -> bool:
+    """
+    Check whether an email address looks valid.
+    
+    :param email:
+        An email address.
+    """
+    return re.match(r"[^@]+@[^@]+\.[^@]+", email)
+
+def valid_permissions(values):
+    permissions = ("read", "write", "admin")
+    unknown = set(values).difference(permissions)
+    is_valid = (len(unknown) == 0)
+    return (is_valid, permissions)
+
+
+def requires_bibcodes(func):
+    def inner(library, *args, **kwargs):
+        try:
+            library.__data__["bibcodes"]
+        except KeyError:
+            library.refresh()
+        finally:
+            return func(library, *args, **kwargs)
+    return inner
+
+
+class Permissions(dict):
+    
+    def __init__(self, library):
+        self._library = library
+        self._dirty = set()
+        return None
+
+    def __setitem__(self, item, value):
+        value = list(set(flatten(value)))
+        if not valid_email_address(item):
+            raise ValueError(f"Invalid email address '{item}'")
+        is_valid, valid_values = valid_permissions(value)
+        if not is_valid:
+            raise ValueError(f"Invalid permissions among '{value}': must contain only {valid_values}")
+        self._set_dirty(item)
+        super().__setitem__(item, value)
+
+
+    def _set_dirty(self, item):
+        self._dirty.add(item)
+        self._library._dirty.add("permissions")
+
+
+    def __delitem__(self, item):
+        self._set_dirty(item)
+        super().__delitem__(item)
+
+
+    def refresh(self):
+        with Client() as client:
+            response = client.api_request(f"biblib/permissions/{self._library.id}")
+        self.update(dict(ChainMap(*response.json)))
+        return response

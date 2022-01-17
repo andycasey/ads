@@ -1,0 +1,294 @@
+
+""" Interface for the Apache Solr search interface provided by NASA/ADS. """
+
+from ads.client import Client
+from peewee import (Database, Expression, OP, Node, NodeList, Function, Negated, Field, ForeignKeyField, NotSupportedError, Select)
+
+
+class SearchInterface(Database):
+
+    def init(self, database=None, *args):
+        self.database = database or Client()
+
+    def execute(self, query, **kwargs):
+        if not isinstance(query, Select):
+            raise NotSupportedError("Only SELECT queries are supported.")
+        
+        # Parse the expression to a Solr search query.
+        end_point, kwds = as_solr(query)
+        
+        with self.database as client:
+            response = client.api_request(end_point, **kwds)
+
+        # Return a mock cursor that will iterate over the results.
+        return MockCursor(query, response.json["response"]["docs"])
+
+        
+class SolrQuery:
+
+    parentheses = "()"
+
+    def __init__(self, expression, remove_top_level_parentheses=True):
+        self._solr = []
+        self.remove_top_level_parentheses = remove_top_level_parentheses
+        self.parse(expression)
+        return None
+
+
+    def parse(self, obj):
+
+        from ads.models import Journal, Affiliation, Document
+
+        if obj is None:
+            return self
+            
+        elif isinstance(obj, Function):
+            with self:
+                self.literal(obj.name)
+                self.literal("(")
+                for arg in obj.arguments:
+                    self.parse(arg)
+                self.literal(")")
+            return self
+
+        elif isinstance(obj, Expression):
+            # Resolve any Journal or Affiliation foreign fields.
+            sides = (obj.lhs, obj.rhs)
+            for side, other_side in zip(sides, sides[::-1]):
+                if isinstance(side, ForeignKeyField) and side.rel_model == Journal:
+                    if isinstance(other_side, str):
+                        rhs = other_side
+                    elif isinstance(other_side, Journal):
+                        rhs = other_side.abbreviation
+                    else:
+                        raise TypeError(f"'{other_side}' should be a {Journal} object (not {type(other_side)})")
+                    return self.parse(Expression(Document.bibstem, obj.op, rhs))
+                    
+                elif isinstance(side, ForeignKeyField) and side.rel_model == Affiliation:
+                    if isinstance(other_side, str):
+                        # Assume they are referencing by the abbreviation.
+                        # TODO: is thjis right?
+                        rhs = Affiliation.get(abbreviation=other_side).id
+                    elif isinstance(other_side, Affiliation):
+                        rhs = other_side.id
+                    else:
+                        raise TypeError(f"'{other_side}' should be a {Affiliation} object (not {type(other_side)})")
+                    return self.parse(Expression(Document.aff_id, obj.op, rhs))
+                
+                elif getattr(side, "model", None) == Journal:
+                    # We are accessing an attribute of Journal. Find the correct Journal(s).
+                    js = Journal.select().where(Expression(side, obj.op, other_side))
+                    rhs = [j.abbreviation for j in js]
+                    if obj.op not in (OP.IN, OP.NOT_IN):
+                        rhs, = rhs
+                    else:
+                        rhs = NodeList(rhs, glue=" OR ")
+                    return self.parse(Expression(Document.aff_id, obj.op, rhs))
+                    
+                elif getattr(side, "model", None) == Affiliation:
+                    # We are accessing an attribute of Journal. Find the correct Affiliation(s).
+                    affiliations = Affiliation.select().where(Expression(side, obj.op, other_side))
+                    rhs = [affiliation.id for affiliation in affiliations]
+                    rhs = NodeList(rhs, glue=" OR ", parens=True)
+                    return self.parse(Expression(Document.aff_id, obj.op, rhs))
+
+            # If we get here, we have resolved all Journal and Affiliation fields.
+            
+            if obj.op == OP.NE:
+                return self.literal("-")
+
+            with self:
+                # If the operator is EQ / NE and the field is a particular kind,
+                # then we want exact matching.
+                if obj.op in (OP.EQ, OP.NE) and isinstance(obj.lhs, Field) and obj.lhs.name in ("title", "author"):
+                    self.literal("=")
+
+                self.parse(obj.lhs)
+                
+                if obj.op in (OP.EQ, OP.NE, OP.LIKE, OP.LT, OP.LTE, OP.GT, OP.GTE, OP.BETWEEN, OP.IN):
+                    self.literal(":")
+                elif obj.op in (OP.OR, OP.AND):
+                    self.literal(f" {obj.op} ")
+                else:
+                    raise a
+                
+                if obj.op in (OP.LT, OP.LTE):
+                    self.literal("-")
+
+                # Some operators require () brackets, and some require [], and some require "".
+
+                if obj.op == OP.BETWEEN:
+                    self.literal("[")
+                    self.parse(obj.rhs.nodes[0])
+                    self.literal(" TO ")
+                    self.parse(obj.rhs.nodes[-1])
+                    self.literal("]")
+                elif obj.op == OP.LT:
+                    self.parse(obj.rhs - 1)
+                elif obj.op == OP.GT:
+                    self.parse(obj.rhs + 1)
+                elif obj.op == OP.IN:
+                    self.parse(NodeList(obj.rhs, glue=" OR ", parens=True))
+                else:
+                    try:
+                        if obj.lhs.name in ("title", "author"):
+                            self.literal('"')
+                            self.parse(obj.rhs)
+                            self.literal('"')
+                        else:
+                            self.parse(obj.rhs)
+                    except:
+                        self.parse(obj.rhs)
+
+                if obj.op in (OP.GT, OP.GTE):
+                    self.literal("-")
+
+            return self
+        
+        elif isinstance(obj, Negated):
+            return self.literal("-").parse(obj.node)
+
+        elif isinstance(obj, Node):
+            return self.literal(obj.name)
+        else:
+            return self.literal(str(obj))
+
+
+    def __enter__(self):
+        if self.parentheses:
+            self.literal(self.parentheses[0])
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self.parentheses:
+            self.literal(self.parentheses[-1])
+        return None
+
+    def __str__(self):
+        parts = self._solr
+        if self.remove_top_level_parentheses and parts[::len(parts) - 1] == self.parentheses[::1]:
+            parts = parts[1:-1]
+        return "".join(parts)
+        
+    def __repr__(self):
+        return self.__str__()
+
+    def literal(self, value):
+        self._solr.append(value)
+        return self
+
+
+
+def as_solr(query, bibcode_limit=10):
+    """
+    Translate a ORM query expression for the ADS Apache Solr search service.
+    """
+    
+    # Steps:
+    # - Figure out if we need BigQuery.
+    # - TODO: Do we have more than one 'bibcode IN'? If so, be inclusive.
+    
+    # Do we need BigQuery?
+    use_bigquery = counter(query._where, count_bibcodes) > bibcode_limit
+
+    if use_bigquery:
+        # Remove the bibcodes from the expression so they are don't appear in the search query.
+        raise NotImplementedError("BigQuery not implemented yet.")
+    else:
+        expression = query._where
+        if expression is None:
+            from ads.models import Document
+            # No expression given. If we supply no search expression to ADS then it will complain.
+            # Let's give a dummy expression to retrieve all.
+            expression = Document.year.between(0, None)
+        
+        q = SolrQuery(expression)
+        end_point = "/search/query"
+        method = "get"
+
+    start, rows = (query._offset or 0, query._limit)
+    sort = ", ".join(
+        [f"{order.node.name} {order.direction}" for order in (query._order_by or ())]
+    ) or None
+
+    fields = []
+    for field in query._returning:
+        try:
+            fields.append(field.name)
+        except AttributeError:
+            fields.append(field)
+
+    required_fields = {"id", "bibcode"}
+    fields = list(required_fields.union(fields))
+    
+    payload = dict(
+        q=f"{q}",
+        fl=fields,
+        fq=None,
+        sort=sort,
+        start=start,
+        rows=rows,
+    )
+
+    kwds = dict(method=method)
+    if method == "get":
+        kwds.update(params=payload)
+    else:
+        raise
+
+    print(end_point, kwds)
+    return (end_point, kwds)
+    
+
+
+
+def counter(expression, callable, total=0):
+    if expression is None:
+        return 0
+
+    if isinstance(expression.lhs, Expression) or isinstance(expression.rhs, Expression):
+        return counter(expression.lhs, callable, total=total) \
+             + counter(expression.rhs, callable)
+    else:
+        return callable(expression, total=total)
+
+    
+
+
+def count_bibcodes(expression, total=0):
+    for side in (expression.lhs, expression.rhs):
+        other_side = expression.rhs if expression.lhs == side else expression.lhs
+        try:
+            if side.name == "bibcode":
+                if expression.op == "=":
+                    return total + 1
+                elif expression.op == "IN":
+                    return total + len(other_side)
+        except:
+            continue
+    return total
+
+
+
+class MockCursor:
+    
+    # TODO: Where should this go?
+
+    def __init__(self, query, results, **kwargs):
+        self._query = query
+        self._results = results
+        self._index = 0
+        self.description = [tuple([field.name] + [None] * 6) for field in self._query._returning]
+
+    def fetchone(self):
+        try:
+            result = self._results[self._index]
+        except IndexError:
+            return None
+        else:
+            self._index += 1
+            names = [field.name for field in self._query._returning]
+            return tuple([result.get(name, None) for name in names])
+
+    def close(self):
+        pass

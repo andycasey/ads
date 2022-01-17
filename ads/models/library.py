@@ -11,77 +11,11 @@ from peewee import (
     ModelDelete, ModelSelect, Expression, Model, BooleanField, TextField as TextField, IntegerField, DateTimeField,
     SqliteDatabase, Proxy
 )
-from ads.models.driver import LibraryDatabase
-from ads.models.base import ADSAPI
 from ads.models.document import Document
-from ads.models.hybrid import hybrid_property
+from ads.models.utils import hybrid_property
+from ads.services.library import (LibraryInterface, Permissions, requires_bibcodes)
 from ads.client import Client
 from ads.utils import (flatten, to_bibcode)
-
-from peewee import ModelBase, Node, with_metaclass, DoesNotExist, Value, _BoundModelsContext
-
-
-def requires_bibcodes(func):
-    def inner(library, *args, **kwargs):
-        try:
-            library.__data__["bibcodes"]
-        except KeyError:
-            library.refresh()
-        finally:
-            return func(library, *args, **kwargs)
-    return inner
-
-
-def valid_email_address(email: str) -> bool:
-    """
-    Check whether an email address looks valid.
-    
-    :param email:
-        An email address.
-    """
-    return re.match(r"[^@]+@[^@]+\.[^@]+", email)
-
-def valid_permissions(values):
-    permissions = ("read", "write", "admin")
-    unknown = set(values).difference(permissions)
-    is_valid = (len(unknown) == 0)
-    return (is_valid, permissions)
-
-
-
-class Permissions(dict):
-    
-    def __init__(self, library):
-        self._library = library
-        self._dirty = set()
-        return None
-
-    def __setitem__(self, item, value):
-        value = list(set(flatten(value)))
-        if not valid_email_address(item):
-            raise ValueError(f"Invalid email address '{item}'")
-        is_valid, valid_values = valid_permissions(value)
-        if not is_valid:
-            raise ValueError(f"Invalid permissions among '{value}': must contain only {valid_values}")
-        self._set_dirty(item)
-        super().__setitem__(item, value)
-
-
-    def _set_dirty(self, item):
-        self._dirty.add(item)
-        self._library._dirty.add("permissions")
-
-
-    def __delitem__(self, item):
-        self._set_dirty(item)
-        super().__delitem__(item)
-
-
-    def refresh(self):
-        with Client() as client:
-            response = client.api_request(f"biblib/permissions/{self._library.id}")
-        self.update(dict(ChainMap(*response.json)))
-        return response
 
 
 
@@ -112,7 +46,7 @@ class Library(Model):
     owner = TextField(help_text="The ADS username of the owner of the library.")
 
     class Meta:
-        database = LibraryDatabase(Client())
+        database = LibraryInterface(None)
         only_save_dirty = True
 
     @hybrid_property
