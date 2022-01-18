@@ -12,7 +12,7 @@ from ads.models.array_field import ArrayField
 
 class Document(Model):
 
-    """ A document record in the SAO/NASA Astrophysics Data System."""
+    """ A document in the SAO/NASA Astrophysics Data System."""
 
     class Meta:
         database = SearchInterface(None)

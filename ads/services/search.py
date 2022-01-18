@@ -4,6 +4,7 @@
 from ads.client import Client
 from peewee import (Database, Expression, OP, Node, NodeList, Function, Negated, Field, ForeignKeyField, NotSupportedError, Select)
 
+from ads.models.array_field import ArrayValue, ObjectSlice
 
 class SearchInterface(Database):
 
@@ -46,10 +47,17 @@ class SolrQuery:
             with self:
                 self.literal(obj.name)
                 self.literal("(")
-                for arg in obj.arguments:
+                N = len(obj.arguments)
+                for i, arg in enumerate(obj.arguments):
                     self.parse(arg)
+                    if i < N - 1:
+                        self.literal(", ")
                 self.literal(")")
             return self
+
+        elif isinstance(obj, ArrayValue):
+            # TODO: this may not be fully thought out yet.
+            return self.literal(obj.value)
 
         elif isinstance(obj, Expression):
             # Resolve any Journal or Affiliation foreign fields.
@@ -91,6 +99,17 @@ class SolrQuery:
                     rhs = [affiliation.id for affiliation in affiliations]
                     rhs = NodeList(rhs, glue=" OR ", parens=True)
                     return self.parse(Expression(Document.aff_id, obj.op, rhs))
+
+                elif isinstance(side, ObjectSlice):
+                    # Deal with any ObjectSlices by wrapping them in a pos() position search
+                    if min(side.parts) < 0:
+                        raise ValueError(f"ADS Solr (search) service does not support negative indexing for position searches.")
+                    return self.parse(
+                        Document.pos(
+                            Expression(side.node, obj.op, other_side), 
+                            *(part + 1 for part in side.parts))
+                            # Apache Solr does 1-index not 0-indexing.
+                        )
 
             # If we get here, we have resolved all Journal and Affiliation fields.
             
