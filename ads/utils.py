@@ -33,7 +33,7 @@ def parse_bibcode(bibcode: str) -> dict:
 
 
 
-def flatten(struct):
+def flatten(struct: Iterable) -> list:
     """
     Create a flat list of all items in the structure.    
     """
@@ -82,6 +82,7 @@ def _get_data_path(basename=""):
     return os.path.realpath(os.path.join(__path__[0], "../data", basename))
 
 def setup_database():
+    """ Set up the local database for Journals and Affiliations. """
 
     from ads.models.local import (database, database_path)
     from ads.models.affiliation import Affiliation

@@ -9,41 +9,31 @@ def export(*iterable, format="bibtex") -> str:
     Return citation string formats for the given documents.
 
     :param iterable:
-        An iterable of :class:`ads.Document` objects or bibcode strings.
-
+        An iterable that contains: :class:`ads.Document` objects, 
+        :class:`ads.Library` objects, or strings of bibcodes.
+            
     :param format:
         The format of the output. The options include:
 
-        **Tagged formats**
-
-        ads:        ADS (generic tagged) format 
-        bibtexabs:  BibTeX + abstract
-        bibtex:     BibTeX format [default]
-        endnote:    EndNote format
-        MEDLARS:    MEDLARS format
-        ProCite:    ProCite format
-        RefWorks:   RefWorks format
-        RIS:        RIS (Refman) format
-
-        **LaTeX formats**
-
-        aastex:     AASTeX format
-        Icarus:     Icarus format
-        MNRAS:      Monthly Notices of the Royal Astronomical Society format
-        SoPH:       Solar Physics (SoPh) format
-
-        **XML formats**
-
-        dcxml:      Dublin Core (DC) XML format
-        refxml:     REF-XML format
-        refabsxml:  REFABS-XML format
-        votable:    VOTables format
-
-        **Other formats**
-
-        csl: given bibcodes in the style and format? # TODO
-        custom: given custom format? # TODO
-        ieee:       IEEE export (Unicode-encoded)
+        - ``ads``:        ADS (generic tagged) format 
+        - ``bibtexabs``:  BibTeX + abstract
+        - ``bibtex``:     BibTeX format [default]
+        - ``endnote``:    EndNote format
+        - ``MEDLARS``:    MEDLARS format
+        - ``ProCite``:    ProCite format
+        - ``RefWorks``:   RefWorks format
+        - ``RIS``:        RIS (Refman) format
+        - ``aastex``:     AASTeX format
+        - ``Icarus``:     Icarus format
+        - ``MNRAS``:      Monthly Notices of the Royal Astronomical Society format
+        - ``SoPH``:       Solar Physics (SoPh) format
+        - ``dcxml``:      Dublin Core (DC) XML format
+        - ``refxml``:     REF-XML format
+        - ``refabsxml``:  REFABS-XML format
+        - ``votable``:    VOTables format
+        - ``csl``:        Custom style and format
+        - ``custom``:     Custom format
+        - ``ieee``:       IEEE export (Unicode-encoded)
     """
 
     api_end_points = (

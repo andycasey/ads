@@ -11,6 +11,8 @@ from ads.services.search import SearchInterface
 
 class Document(Model):
 
+    """ A document record in the SAO/NASA Astrophysics Data System."""
+
     class Meta:
         database = SearchInterface(None)
     

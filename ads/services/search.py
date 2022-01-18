@@ -183,34 +183,12 @@ def as_solr(query, bibcode_limit=10):
     """
     Translate a ORM query expression for the ADS Apache Solr search service.
     """
-    
-    # Steps:
-    # - Figure out if we need BigQuery.
-    # - TODO: Do we have more than one 'bibcode IN'? If so, be inclusive.
-    
-    # Do we need BigQuery?
-    use_bigquery = counter(query._where, count_bibcodes) > bibcode_limit
-
-    if use_bigquery:
-        # Remove the bibcodes from the expression so they are don't appear in the search query.
-        raise NotImplementedError("BigQuery not implemented yet.")
-    else:
-        expression = query._where
-        if expression is None:
-            from ads.models import Document
-            # No expression given. If we supply no search expression to ADS then it will complain.
-            # Let's give a dummy expression to retrieve all.
-            expression = Document.year.between(0, None)
         
-        q = SolrQuery(expression)
-        end_point = "/search/query"
-        method = "get"
-
     start, rows = (query._offset or 0, query._limit)
     sort = ", ".join(
         [f"{order.node.name} {order.direction}" for order in (query._order_by or ())]
     ) or None
-
+    
     fields = []
     for field in query._returning:
         try:
@@ -220,21 +198,59 @@ def as_solr(query, bibcode_limit=10):
 
     required_fields = {"id", "bibcode"}
     fields = list(required_fields.union(fields))
-    
-    payload = dict(
-        q=f"{q}",
-        fl=fields,
-        fq=None,
-        sort=sort,
-        start=start,
-        rows=rows,
-    )
 
-    kwds = dict(method=method)
-    if method == "get":
-        kwds.update(params=payload)
+    # Steps:
+    # - Figure out if we need BigQuery.
+    # - TODO: Do we have more than one 'bibcode IN'? If so, be inclusive.
+
+    # Do we need BigQuery?
+    use_bigquery = counter(query._where, count_bibcodes) > bibcode_limit
+    if use_bigquery:
+        # Remove the bibcodes from the expression so they are don't appear in the search query.
+        print("WARNING: you're living dangeriously")
+        end_point = "/search/bigquery"
+        
+        params = dict(
+            q="*:*",
+            wt="json", # TODO: Do we need this?
+            fq="{!bitset}",
+            fl=fields,
+            sort=sort,
+            start=start,
+            rows=rows
+        )
+        kwds = dict(
+            method="post", 
+            params=params, 
+            #data=json.dumps(dict(bibcode=query._where.rhs)),#"\n".join(data),
+            # By default we supply the content-type as application/json, because most service
+            # end points need that. But if we supply that content-type to bigquery, then it
+            # expects a JSON object, but giving `json.dumps(dict(bibcode=query._where.rhs))` returns
+            # nothing. So instead we will give 'bibcode\n...' and over-write the content-type headers
+            # Email the ADS team about this.
+            data="\n".join(["bibcode"] + query._where.rhs),
+            headers={"Content-Type": "big-query/csv"}
+        )
     else:
-        raise
+        expression = query._where
+        if expression is None:
+            # No expression given. If we supply no search expression to ADS then it will complain.
+            # Let's give a dummy expression to retrieve all.
+            q = "*:*"
+        else:
+            q = SolrQuery(expression)
+        end_point = "/search/query"
+
+        params = dict(
+            q=f"{q}",
+            fl=fields,
+            fq=None,
+            sort=sort,
+            start=start,
+            rows=rows,
+        )
+
+        kwds = dict(method="get", params=params)
 
     print(end_point, kwds)
     return (end_point, kwds)

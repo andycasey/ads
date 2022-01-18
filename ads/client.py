@@ -14,6 +14,8 @@ __version__ = "0.2.0"
 
 class Client:
     
+    """ A client to interact with the ADS API. """
+
     _token = config.token
     _async_limit_per_host = 10
         
@@ -293,9 +295,13 @@ class APIResponse:
     def load_http_response(cls, http_response):
         if not http_response.ok:
             # Try to give an informed error message.
-            try:
-                raise APIResponseError(http_response.json()["error"])
-            except (KeyError, AttributeError, TypeError, ValueError):
+            # TODO: Email the ADS team about this. Sometimes it's `error`, sometimes `message.
+            for key in ("error", "message"):
+                try:
+                    raise APIResponseError(http_response.json()["error"])
+                except (KeyError, AttributeError, TypeError, ValueError):
+                    continue
+            else:
                 raise APIResponseError(http_response.text)
 
         c = cls(http_response)

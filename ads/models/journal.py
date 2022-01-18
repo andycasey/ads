@@ -8,7 +8,7 @@ from ads.utils import parse_bibcode
 
 class Journal(LocalModel):
 
-    """ A journal produced by a publisher. """
+    """ A published journal. """
 
     #: A unique abbreviation string for the journal, which can be up to five characters long.
     abbreviation = TextField(primary_key=True, help_text="A unique abbreviation string for the journal, which can be up to five characters long.") 
