@@ -8,6 +8,7 @@ from ads.models.affiliation import (Affiliation, AffiliationField)
 from ads.models.lazy import (DateField, DateTimeField, IntegerField, TextField)
 from ads.services.search import SearchInterface
 
+from ads.models.array_field import ArrayField
 
 class Document(Model):
 
@@ -24,27 +25,28 @@ class Document(Model):
     ack = VirtualField(help_text="Search for a word or phrase in the acknowledgements extracted from fulltexts.") 
     # TODO-> I think ack is a VirtualField (searchable only), but docs don't say that.
     #: The raw, provided affiliation field.
-    aff = TextField(help_text="The raw, provided affiliation field.", null=True)
+    aff = ArrayField(TextField, help_text="The raw, provided affiliation field.", null=True)
     #: Curated affiliation identifier, parsed from the given affiliation string. See https://ui.adsabs.harvard.edu/blog/affils-update for more details.
-    aff_id = TextField(help_text="Curated affiliation identifiers, parsed from the given affiliation string.", null=True)
+    aff_id = ArrayField(TextField, help_text="Curated affiliation identifiers, parsed from the given affiliation string.", null=True)
     #: An alternate bibcode.
-    alternate_bibcode = TextField(help_text="An alternate bibcode.", null=True)
+    alternate_bibcode = ArrayField(TextField, help_text="An alternate bibcode.", null=True)
     #: Alternate title, usually present when the original title is not in English.
     alternate_title = TextField(help_text="Alternate title, usually present when the original title is not in English.", null=True, default=None)
     #: The arXiv class a document was submitted to.
     arxiv_class = TextField(help_text="The arXiv class a document was submitted to.", null=True)
     #: Author name.
-    author = TextField(help_text="Author name.", null=True)
+    author = ArrayField(TextField, help_text="Author name.", null=True)
+    #author = TextField(help_text="Author name.", null=True)
     #: The number of authors.
     author_count = IntegerField(help_text="The number of authors.", null=True)
     #: Author name in the form 'Lastname, F'.
-    author_norm = TextField(help_text="Author name in the form 'Lastname, F'.", null=True)
+    author_norm = ArrayField(TextField, help_text="Author name in the form 'Lastname, F'.", null=True)
     #: Document bibliographic code. See https://ui.adsabs.harvard.edu/help/actions/bibcode for more information.
     bibcode = TextField(help_text="Document bibliographic code.")
     #: Records by bibliographic groups, curated by staff outside of ADS.
     bibgroup = TextField(help_text="Records by bibliographic groups, curated by staff outside of ADS.", null=True)
     #: Abbreviated name of the journal or publication (e.g., ApJ).
-    bibstem = TextField(help_text="Abbreviated name of the journal or publication (e.g., ApJ).", null=True)
+    bibstem = ArrayField(TextField, help_text="Abbreviated name(s) of the journal or publication (e.g., ApJ).", null=True)
     #: Search for a word or phrase in (only) the full text.
     body = VirtualField(help_text="Search for a word or phrase in (only) the full text.", null=True) 
     #: The number of citations to this document.
@@ -54,31 +56,34 @@ class Document(Model):
     #: Related data sources.
     data = TextField(help_text="Related data sources. For example: data:\"CDS\" will return records that have CDS data.", null=True)
     #: The database the document resides in (e.g., astronomy or physics).
-    database = TextField(help_text="The database the document resides in (e.g., astronomy or physics).", null=True)
+    database = ArrayField(TextField, help_text="The database the document resides in (e.g., astronomy or physics).", null=True)
     #: Publication date, represented by a time format and used for indexing. 
     date = DateTimeField(help_text="Publication date, represented by a time format and used for indexing. For example: date:\"2015-07-01T00:00:00Z\"", null=True)
     #: Document type (e.g., article, thesis, etc.
     doctype = TextField(help_text="Search documents by their type: article, thesis, et cetera.", null=True)
     #: Digital object identifier
-    doi = TextField(help_text="Digital object identifier.", null=True)
+    doi = ArrayField(TextField, help_text="Digital object identifier(s).", null=True)
+    # TODO: Why is DOI a list? And ISSN, shouldn't these be things where there is only one?
+    # Email the ADS team about this.
     #: Electronic identifier of the paper, which is the equivalent of a page number.
     eid = TextField(help_text="Electronic identifier of the paper (equivalent of page number).", null=True)
     #: Email addresses of the authors.
-    email = TextField(help_text="Search by email addresses for the authors that included them in the article.", null=True)
+    email = ArrayField(TextField, help_text="Search by email addresses for the authors that included them in the article.", null=True)
     #: Creation date of the ADS record.
     entry_date = DateTimeField(help_text="Creation date of the ADS record. Note that this can be used like `-entry_date:[NOW-7DAYS TO *]`", null=True)
     #: Types of electronic sources available for a record (e.g., ```PUB_HTML```, ```EPRINT_PDF```).
-    esources = TextField(help_text="Types of electronic sources available for a record (e.g., pub_html, eprint_pdf).", null=True)
+    esources = ArrayField(TextField, help_text="Types of electronic sources available for a record (e.g., pub_html, eprint_pdf).", null=True)
     #: Facilities declared in a record, based on a controlled list by AAS journals.
-    facility = TextField(help_text="Facilities declared in a record, based on a controlled list by AAS journals.", null=True)
+    facility = ArrayField(TextField, help_text="Facilities declared in a record, based on a controlled list by AAS journals.", null=True)
     #: Search by grant identifiers and grant agencies (:obj:`ads.Document.grant_id` and :obj:`ads.Document.grant_agencies`).
     grant = TextField(help_text="Search by grant identifiers and grant agencies.", null=True)
+    # TODO: Is grant and grant_* all virtual fields? I can't find a document that has them. Email the ADS team about this.
     #: A field with just the grant agencies name (e.g., NASA).
     grant_agencies = TextField(help_text="A field with just the grant agencies name (e.g., NASA).", null=True)
     #: Search by grant identifier.
     grant_id = TextField(help_text="Search by grant identifier.", null=True)
     #: Search by an array of alternative identifiers for a record. May contain alternative bibcodes, DOIs, and/or arXiv identifiers.
-    identifier = TextField(help_text=(
+    identifier = ArrayField(TextField, help_text=(
         "Search by an array of alternative identifiers for a record. May contain alternative bibcodes, "
         "DOIs, and/or arXiv identifiers."
     ))
@@ -89,7 +94,7 @@ class Document(Model):
     #: International Standard Book Number
     isbn = TextField(help_text="International Standard Book Number.", null=True)
     #: International Standard Serial NUmber
-    issn = TextField(help_text="International Standard Serial Number.", null=True)
+    issn = ArrayField(TextField, help_text="International Standard Serial Number.", null=True)
     #: Issue number of the journal that includes the article.
     issue = TextField(help_text="Issue number of the journal that includes the article.", null=True)
     #: An array of normalized and non-normalized keyword values associated with the record.
@@ -98,22 +103,23 @@ class Document(Model):
     lang = TextField(help_text="The language of the main title.", null=True)
     #: Information on what linked documents are available.
     links_data = TextField(help_text="Information on what linked documents are available.", null=True)
+    # TODO: links_data is a list of blobs... I think it's viewable but not searchable.
     #: List of NED IDs for a record.
-    nedid = TextField(help_text="List of NED IDs for a record.", null=True)
+    nedid = ArrayField(TextField, help_text="List of NED IDs for a record.", null=True)
     #: Keywords used to describe the NED type (e.g., galaxy, star).
-    nedtype = TextField(help_text="Keywords used to describe the NED type (e.g., galaxy, star).", null=True)
+    nedtype = ArrayField(TextField, help_text="Keywords used to describe the NED type (e.g., galaxy, star).", null=True)
     #: ORCID claims from users who used the ADS claiming interface.
-    orcid_other = TextField(help_text="ORCID claims from users who used the ADS claiming interface.", null=True)
+    orcid_other = ArrayField(TextField, help_text="ORCID claims from users who used the ADS claiming interface.", null=True)
     #: ORCIDs supplied by publishers.
-    orcid_pub = TextField(help_text="ORCIDs supplied by publishers.", null=True)
+    orcid_pub = ArrayField(TextField, help_text="ORCIDs supplied by publishers.", null=True)
     #: ORCID claims from users who gave ADS consent to expose their public profile.
-    orcid_user = TextField(help_text="ORCID claims from users who gave ADS consent to expose their public profile.", null=True)
+    orcid_user = ArrayField(TextField, help_text="ORCID claims from users who gave ADS consent to expose their public profile.", null=True)
     #: Page number of a record.
-    page = TextField(help_text="Page number of a record.", null=True)
+    page = ArrayField(TextField, help_text="Page number of a record.", null=True)
     #: The difference between the first and last page numbers in :obj:`ads.Document.page_range`.
     page_count = IntegerField(help_text="If :class:`ads.Document.page_range` is present, it gives the difference between the first and last page numbers in the range.", null=True)
     #: An array of miscellaneous flags associated with a record. Examples include: refereed, notrefereed, article, nonarticle, ads_openaccess, eprint_openaccess, pub_openaccess, openaccess, ocrabstract.
-    property = TextField(help_text=(
+    property = ArrayField(TextField, help_text=(
         "An array of miscellaneous flags associated with a record. Examples include: "
         "refereed, notrefereed, article, nonarticle, ads_openaccess, eprint_openaccess, "
         "pub_openaccess, openaccess, ocrabstract"
@@ -127,11 +133,11 @@ class Document(Model):
     #: The number of times the record has been viewed within a 90 day window.
     read_count = IntegerField(help_text="The number of times the record has been viewed within a 90 day window.", null=True)
     #: List of SIMBAD IDs within a document. This field has privacy restrictions.
-    simbid = TextField(help_text="List of SIMBAD IDs within a document. This field has privacy restrictions.", null=True)
+    simbid = ArrayField(TextField, help_text="List of SIMBAD IDs within a document. This field has privacy restrictions.", null=True)
     #: Keywords used to describe the SIMBAD type.
-    simbtype = TextField(help_text="Keywords used to describe the SIMBAD type.", null=True)
+    simbtype = ArrayField(TextField, help_text="Keywords used to describe the SIMBAD type.", null=True)
     #: The title of the record.
-    title = TextField(help_text="The title of the record.", null=True)
+    title = ArrayField(TextField, help_text="The title of the record.", null=True)
     #: Keywords, 'subject' tags from Vizier.
     vizier = TextField(help_text="Keywords, 'subject' tags from Vizier.", null=True)
     #: The journal volume.
