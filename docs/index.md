@@ -108,13 +108,6 @@ getting-started/index
 
 &nbsp;
 
-```{toctree}
-:caption: Search
-:maxdepth: 3
-
-search/index
-```
-
 
 ```{toctree}
 :caption: User Guide
@@ -124,6 +117,7 @@ user/affiliations
 user/libraries
 user/async-vs-sync
 user/rate-limits
+user/export
 api-docs
 ```
 

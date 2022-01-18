@@ -35,7 +35,7 @@ setup(
     version=version,
     author="Andrew R. Casey",
     author_email="andy@astrowizici.st",
-    packages=["ads", "ads.models", "ads.tests", "ads.tests.stubdata"],
+    packages=["ads", "ads.models", "ads.services", "ads.tests", "ads.tests.stubdata"],
     include_package_data=True,
     data_files=[
         ("data/", ["data/journals.json", "data/affiliations.tsv", "data/affiliations_country.tsv"]),

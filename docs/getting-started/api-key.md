@@ -12,10 +12,11 @@ Follow these steps to create and store your API token:
 
 &nbsp;
 
-Your API token should remain a secret. That means you should never store it in source code that is going to be accessible to anyone else. 
+:::{warning}
+Your API token should **always** remain a secret. That means you should **never** store it in source code that is going to be accessible to anyone else. 
 If you ever make your API token public by mistake, you should go back to the [API token](https://ui.adsabs.harvard.edu/user/settings/token) page
 in ADS and generate a new token. This will invalidate the old (public) token.
-
+:::
 &nbsp;
 
 Now that you have installed ``ads`` and you have a valid API token, you are ready to [start searching](search-syntax).
