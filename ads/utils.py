@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 from collections.abc import Iterable
 
-_bibcode_regex_pattern = "(?P<year>[0-9]{4})(?P<journal_abbreviation>[A-Za-z0-9\&\.]{5})(?P<volume>[0-9\.]{4})(?P<qualifier>[ELPQ-Z0-9\.])(?P<page_number>[0-9\.]{4})(?P<first_letter_of_last_name>[A-Z])"
+_bibcode_regex_pattern = "(?P<year>[0-9]{4})(?P<journal_abbreviation>[A-Za-z0-9\&\.]{5})(?P<volume>[0-9\.]{4})(?P<qualifier>[A-Z0-9\.])(?P<page_number>[0-9\.]{4})(?P<first_letter_of_last_name>[A-Z])"
 
 
 def parse_bibcode(bibcode: str) -> dict:
@@ -66,7 +66,8 @@ def to_bibcode(iterable):
     """
     
     if isinstance(iterable, str):
-        assert len(iterable) == 19, "All bibcodes are 19 characters long."
+        if not re.match(_bibcode_regex_pattern, iterable):
+            raise ValueError(f"Invalid bibcode '{iterable}'")
         return iterable
     elif isinstance(iterable, Iterable):
         return list(map(to_bibcode, iterable))
