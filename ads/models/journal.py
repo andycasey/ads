@@ -24,7 +24,7 @@ class JournalKeyAccessor(ForeignKeyAccessor):
         #       is ApJL or not we would have to use `ads.utils.parse_bibcode` and check if
         #       the `qualifier` key is 'L'.
         #       We should ask the ADS team about this if there are other kind of gotchas like this.
-        return Journal.get(abbreviation=parse_bibcode(instance.bibcode)["bibcode"])
+        return Journal.get(abbreviation=parse_bibcode(instance.bibcode)["journal_abbreviation"])
 
 
 class JournalField(ForeignKeyField):

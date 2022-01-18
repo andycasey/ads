@@ -1,33 +1,36 @@
 import os
 import json
+import re
 from collections import OrderedDict
 
 from collections.abc import Iterable
 
-def parse_bibcode(bibcode):
+_bibcode_regex_pattern = "(?P<year>[0-9]{4})(?P<journal_abbreviation>[A-Za-z0-9\&\.]{5})(?P<volume>[0-9\.]{4})(?P<qualifier>[ELPQ-Z0-9\.])(?P<page_number>[0-9\.]{4})(?P<first_letter_of_last_name>[A-Z])"
+
+
+def parse_bibcode(bibcode: str) -> dict:
     """
     Parse a bibcode and return a dictionary with the parsed data.
 
     See https://ui.adsabs.harvard.edu/help/actions/bibcode
 
-    :param bibcode:
-    :return:
     """
+    match = re.match(_bibcode_regex_pattern, bibcode)
+    if not match:
+        raise ValueError(f"Invalid bibcode '{bibcode}'")
 
-    #YYYYJJJJJVVVVMPPPPA
-    items = [
-        ("year", 4),
-        ("bibcode", 5),
-        ("volume", 4),
-        ("qualifier", 1),
-        ("page", 4),
-        ("first_letter_of_last_name", 1)
-    ]
-    s, parsed = (0, dict())
-    for key, length in items:
-        parsed[key] = bibcode[s:s+length].strip(".")
-        s += length
-    return parsed
+    items = {}
+    for key, value in match.groupdict().items():
+        items[key] = value.strip(".")
+    
+    # If the qualifier is an integer, then it's the page number.
+    if items["qualifier"].isdigit():
+        items["page_number"] = items["qualifier"] + items["page_number"]
+        items["qualifier"] = ""
+
+    # Parse information like qualifiers?
+    return items
+
 
 
 def flatten(struct):
