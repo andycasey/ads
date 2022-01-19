@@ -5,6 +5,7 @@ import os
 import json
 import requests
 import warnings
+from datetime import datetime
 
 from ads import logger, config
 from .exceptions import APIResponseError
@@ -242,14 +243,14 @@ class RateLimits(object, metaclass=Singleton):
         :param http_response:
             The HTTP response.
         """
-
+        safe_int = lambda _: _ if _ is None else int(_)
         service = cls.get_service(http_response.url)
         cls().set(
             service, 
             **{
-                'limit': http_response.headers.get('x-ratelimit-limit', None),
-                'remaining': http_response.headers.get('x-ratelimit-remaining', None),
-                'reset': http_response.headers.get('x-ratelimit-reset', None),
+                'limit': safe_int(http_response.headers.get('x-ratelimit-limit', None)),
+                'remaining': safe_int(http_response.headers.get('x-ratelimit-remaining', None)),
+                'reset': safe_int(http_response.headers.get('x-ratelimit-reset', None)),
             }
         )
         # TODO: Does this apply to ExportQuery and MetricsQuery?
@@ -272,7 +273,7 @@ class RateLimits(object, metaclass=Singleton):
         return self.limits
 
     def __str__(self):
-        return json.dumps(self.limits)
+        return json.dumps(self.limits, indent=2, default=str)
 
 
 def has_multiple_pages(response):
