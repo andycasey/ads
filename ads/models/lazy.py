@@ -1,5 +1,5 @@
 """
-Lazily load fields for Documents.
+Lazily load fields for `ads.Document` objects.
 """
 import warnings
 

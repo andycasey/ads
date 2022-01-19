@@ -1,14 +1,13 @@
-"""
-Document data model.
-"""
+""" Document data model. """
+
 from peewee import (Model, VirtualField, fn)
 
 from ads.models.journal import Journal, JournalField
 from ads.models.affiliation import (Affiliation, AffiliationField)
 from ads.models.lazy import (DateField, DateTimeField, IntegerField, TextField)
+from ads.models.utils import ArrayField
 from ads.services.search import SearchInterface
 
-from ads.models.array_field import ArrayField
 
 class Document(Model):
 
