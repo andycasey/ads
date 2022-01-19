@@ -16,17 +16,20 @@
 
 ```{eval-rst}
 .. autosummary:: 
-    :toctree: services
+    :toctree: stubs
     
     ads.services.export
+    ads.services.misc
     ads.services.search
     ads.services.library
+    ads.services.resolver
+    ads.services.vis
 ```
 
 ## Client
 ```{eval-rst}
 .. autosummary::
-    :toctree: client
+    :toctree: stubs
 
     ads.client
 ```
@@ -36,7 +39,7 @@
 
 ```{eval-rst}
 .. autosummary::
-    :toctree: utils
+    :toctree: stubs
     
     ads.utils
 ```

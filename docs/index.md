@@ -115,9 +115,9 @@ getting-started/index
 user/journal
 user/affiliations
 user/libraries
-user/async-vs-sync
 user/rate-limits
 user/export
+user/vis
 api-docs
 ```
 
