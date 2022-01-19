@@ -98,16 +98,19 @@ getting-started/index
 &nbsp;
 
 
-```{toctree}
-:caption: User Guide
-:maxdepth: 2
-user/journal
-user/affiliations
-user/libraries
-user/rate-limits
-user/export
-user/vis
-api-docs
+```{eval-rst}
+.. toctree::
+    :titlesonly:
+    :caption: User Guide
+
+    user/document
+    user/journal
+    user/affiliations
+    user/libraries
+    user/rate-limits
+    user/export
+    user/vis
+    api-docs
 ```
 
 &nbsp;
