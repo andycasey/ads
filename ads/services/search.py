@@ -4,7 +4,7 @@
 from ads.client import Client
 from peewee import (Database, Expression, OP, Node, NodeList, Function, Negated, Field, ForeignKeyField, NotSupportedError, Select)
 
-from ads.models.array_field import ArrayValue, ObjectSlice
+from ads.models.utils import ArrayValue, ObjectSlice
 
 class SearchInterface(Database):
 
