@@ -23,17 +23,14 @@ A Python client for the SAO/NASA Astrophysics Data System
 :::
 
 ::::
-**[A fast command line tool](#)**
-: Query for references or documents at lightening speed from a terminal.
+**[Make sophisticated metrics queries](#)**
+: New querying tools for building complex metrics queries and visualizations.
 
 **[Asynchronous coroutines for faster queries](#)**
 : Use asynchronous coroutines for blazingly fast queries, or make synchronous queries with improved pagination behaviour.
 
-**[Update remote ADS libraries with ease](#)**
-: Use a Pythonic API to create, update, and delete remote libraries.
-
-**[Make sophisticated metrics queries](#)**
-: New querying tools for building complex metrics queries and visualizations.
+**[Update remote services with ease](#)**
+: Use a Pythonic API to create, update, and delete remote libraries or myADS notifications.
 
 **Lots more...**
 : There are a lot of new changes in version 1.0 of the ``ads`` module. [See what's new](changelog).
@@ -45,11 +42,8 @@ Version 1.0 of ``ads`` is only compatible with Python 3. If you haven't yet upgr
 
 &nbsp;
 
-&nbsp;
 
-
-``ads`` is a Python package for interacting with the Astrophysics Data System (ADS), a digital library portal for researchers in astronomy and physics, 
-operated by the [Smithsonian Astrophysical Observatory](https://www.cfa.harvard.edu/sao) (SAO) under a [NASA](https://nasa.gov) grant.
+``ads`` is a community-built Python package for interacting with the Astrophysics Data System (ADS). ADS is a digital library portal for researchers in astronomy and physics, which is operated by the [Smithsonian Astrophysical Observatory](https://www.cfa.harvard.edu/sao) (SAO) under a [NASA](https://nasa.gov) grant.
 
 
 &nbsp;
@@ -91,13 +85,8 @@ asyncio.run(main())
 :::
 
 
-# Command line tool
-
-**TODO**: make a gif 
-
 
 # Contents
-
 
 ```{toctree}
 :caption: Getting started

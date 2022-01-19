@@ -1,3 +1,6 @@
+
+"""A library service offered by ADS."""
+
 import json
 import re
 from collections import ChainMap, namedtuple
