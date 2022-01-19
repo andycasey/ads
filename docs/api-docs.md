@@ -17,12 +17,12 @@
 ```{eval-rst}
 .. autosummary:: 
     :toctree: stubs
-    
+
     ads.services.export
-    ads.services.misc
-    ads.services.search
     ads.services.library
+    ads.services.misc
     ads.services.resolver
+    ads.services.search
     ads.services.vis
 ```
 
