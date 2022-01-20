@@ -22,16 +22,21 @@ You will need the following imports in order to execute all code blocks on this 
 from ads import Document, Journal
 ```
 
-## The `Journal` data model
+## The {class}`ads.Journal` object
 
-The {class}`ads.Journal` data model contains only two fields:
+The {class}`ads.Journal` data model has only two fields:
 
-- {obj}`ads.Journal.abbreviation`: the five character standard abbreviation for the journal (e.g., ApJ)
-- {obj}`ads.Journal.title`: the full title of the journal (e.g., _The Astrophysical Journal_)
+```{eval-rst}
+.. autosummary::
+    :nosignatures:
+    
+    ads.Journal.abbreviation
+    ads.Journal.title
+```
 
 ## Selecting journals
 
-You can select a single `Journal` object with the {func}`ads.Journal.get` method, or select multiple records using the {func}`ads.Journal.select` method. Here are a few examples:
+You can select a single {obj}`ads.Journal` object with the {func}`ads.Journal.get` method, or select multiple records using the {func}`ads.Journal.select` method. Here are a few examples:
 
 ```python
 # Retrieve a single journal based on an exact expression.
@@ -47,40 +52,80 @@ astro_journals = Journal.select()\
                         .order_by(Journal.abbreviation.desc())
 ```
 
-## Using journals in search
+## The {obj}`ads.Document.journal` field
+
+If a document is published (or posted to a pre-print server) then the {obj}`ads.Document` object for that
+document will have a journal field ({obj}`ads.Document.journal`) that represents the document publisher.
+For example:
+
+```python
+from ads import Document
+
+# Retrieve a specific document.
+doc = Document.get(id=12312494)
+
+# See where it was published.
+print(f"# {doc.journal} ({type(doc.journal)})")
+# ApJ (<Model: Journal>)
+
+# We can see that the type() of doc.journal is a ads.Journal object
+# so we can access properties of that object:
+print(f"# {doc} published in {doc.journal.abbreviation} - {doc.journal.title}")
+# <Document: bibcode=2015ApJ...808...16N> published in ApJ - The Astrophysical Journal
+```
+
+The {obj}`ads.Document.journal` field does not exist on the ADS server. You can't search for it,
+and it's not an attribute that is returned by the ADS server. It is a special foreign key field 
+of the {obj}`ads.Document` data model.
+
+The `ads` package request the {obj}`ads.Document.bibcode` from ADS with every search (even if you didn't ask for it, 
+because it is needed for uniquely identifying documents, among other things), parses 
+the journal's bibliographic abbreviation from the bibcode, and returns an {class}`ads.Journal` object. 
+When searching for documents, any expression referencing {class}`ads.Journal` is resolved into a search filter on {obj}`ads.Document.bibstem`. That allows us to access the {obj}`ads.Document.journal` attribute, and to create expressions using that attribute. 
+
+That's why you won't find the `journal` field on the [NASA ADS API documentation](http://adsabs.github.io/help/api/api-docs.html),
+or on the [comphrensive list of operators](https://ui.adsabs.harvard.edu/help/search/comprehensive-solr-term-list).
+
+## Search with {obj}`ads.Journal`
 
 The primary use for the {class}`ads.Journal` object is to allow for more complex document searches. 
 
-When you use a {class}`ads.Journal` object as an expression in `ads.Document.select().where()`, the
-{class}`ads.Journal` object will be resolved to search for the `bibstem` of the journal abbreviation.
-This happens automatically, without the need for explicit joins between the {class}`ads.Document` and
-{class}`ads.Journal` data models, even if your query on {class}`ads.Journal` is complex.
+When you use a {class}`ads.Journal` object as an expression in {obj}`ads.Document.select().where`, the
+{class}`ads.Journal` object will be resolved to search for the {obj}`ads.Document.bibstem` of the journal abbreviation.
+This is done automatically by the interface to the search service, without the need for explicit joins between the
+{class}`ads.Document` and {class}`ads.Journal` data models, even if your query on {class}`ads.Journal` is complex.
 
 For example, let's say we wanted to search for documents published in any journal with a title that 
 contains the word 'gravitation'. First let's see which journals match this phrase:
 
 ```python
 for journal in Journal.select().where(Journal.title.contains("gravitation")):
-    print(f"> {journal.abbreviation}: {journal.title}")
+    print(f"# {journal.abbreviation}: {journal.title}")
 
-> GReGr: General Relativity and Gravitation
-> GrCo: Gravitation and Cosmology
-> JGrPh: Journal of Gravitational Physics
-> StHCG: Studies in High Energy Physics Cosmology and Gravitation
+# GReGr: General Relativity and Gravitation
+# GrCo: Gravitation and Cosmology
+# JGrPh: Journal of Gravitational Physics
+# StHCG: Studies in High Energy Physics Cosmology and Gravitation
 ```
 
 If we wanted to search ADS for documents in these journals we would normally have to construct a
-search phrase like:
+specific search phrase. But we don't have to do that, because the {class}`ads.Journal` and {class}`ads.Document` data
+models know about each other, and know how to resolve relationships between each other in any
+expression. For example, let's see how this expression is translated:
 
 ```python
-q = "bibstem:GReGr OR bibstem:GrCo OR bibstem:JGrPh OR bibstem:StHCG"
-# or
-q = "bibstem:(GReGr OR GrCo OR JGrPh OR StHCG)
+from ads import Journal
+from ads.services.search import SolrQuery
+
+expression = Journal.title.contains("gravitation")
+
+# Translate this expression into a search query for Solr.
+print(f"# The Solr query for this expression is:\n# {SolrQuery(expression)}")
+# The Solr query for this expression is:
+# bibstem:(GReGr OR GrCo OR JGrPh OR StHCG)
 ```
 
-But we don't have to do that, because the {class}`ads.Journal` and {class}`ads.Document` data
-models know about each other, and know how to resolve relationships between each other in any
-expression. Instead we can simply search by the {obj}`ads.Document.journal` attribute:
+Instead we can simply search by any of the {obj}`ads.Document.journal` attributes:
 
 ```python
 # Search ADS for documents in gravitation journals
@@ -108,20 +153,6 @@ docs = Document.select()\
                    | ((Document.journal == apj) & (Document.year == 2018))
                )
 ```
-
-
-## The `Document.journal` attribute
-
-The {obj}`ads.Document.journal` field does not exist on the ADS server. You can't search for it,
-and it's not an attribute that is returned by the ADS server. It is a special foreign key field 
-of the {obj}`ads.Document` data model.
-
-The `ads` package request the {obj}`ads.Document.bibcode` from ADS with every search, parses 
-the journal's bibliographic abbreviation from the bibcode, and returns an {class}`ads.Journal` object. 
-When searching for documents, any expression referencing {class}`ads.Journal` is resolved into a search filter on {obj}`ads.Document.bibstem`. That allows us to access the {obj}`ads.Document.journal` attribute, and to create expressions using that attribute. 
-
-That's why you won't find the `journal` field on the [NASA ADS API documentation](http://adsabs.github.io/help/api/api-docs.html),
-or on the [comphrensive list of operators](https://ui.adsabs.harvard.edu/help/search/comprehensive-solr-term-list).
 
 
 ```{admonition} Contributions

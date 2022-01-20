@@ -21,7 +21,7 @@ class APIResponse:
     response = None
 
     @classmethod
-    def load_http_response(cls, http_response):
+    def load_http_response(cls, http_response: requests.Response):
         if not http_response.ok:
             # Try to give an informed error message.
             # TODO: Email the ADS team about this. Sometimes it's `error`, sometimes `message.
@@ -45,7 +45,7 @@ class APIResponse:
         return c
 
     @classmethod
-    async def async_load_http_response(cls, http_response):
+    async def async_load_http_response(cls, http_response: requests.Response):
         json = await http_response.json()
         if not http_response.ok:
             try:
@@ -242,10 +242,10 @@ class Client:
         callable = getattr(async_session, method)
         try:
             logger.debug(f"Querying {url} with {params} with {method}")
-            async with callable(url, params=params) as request:
+            async with callable(url, params=params) as response:
                 logger.debug(f"\tawaiting response on {params}")
                 logger.debug(f"Retrieved response from {url} with {params}")
-                return await APIResponse.async_load_http_response(request)
+                return await APIResponse.async_load_http_response(response)
 
         except asyncio.CancelledError:
             logger.debug(f"Cancelled request to {url} with {params}")
@@ -255,16 +255,21 @@ class Client:
         return self._async_api_request(async_session, end_point, params, method, **kwargs)
 
 
-class Singleton(type):
+class _Singleton(type):
+
+    """ A metaclass for singletons. """
+
     _instances = {}
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+            cls._instances[cls] = super(_Singleton, cls).__call__(*args, **kwargs)
         return cls._instances[cls]
 
 
 
-class RateLimits(object, metaclass=Singleton):
+class RateLimits(object, metaclass=_Singleton):
+
+    """ A singleton to store ADS service rate limits. """
 
     # May need to get explicit information from ADS team on how end points
     # and service limits relate.
@@ -277,11 +282,11 @@ class RateLimits(object, metaclass=Singleton):
     limits = {}
         
     @classmethod
-    def get_rate_limits(cls, service):
+    def get_rate_limits(cls, service: str) -> dict:
         return cls().limits[service]
         
     @classmethod
-    def get_service(cls, url):
+    def get_service(cls, url: str) -> str:
         """
         Return the ADS service given a URL.
 
@@ -294,7 +299,7 @@ class RateLimits(object, metaclass=Singleton):
         return cls.services.get(collection, collection)
 
     @classmethod
-    def set_from_http_response(cls, http_response):
+    def set_from_http_response(cls, http_response: requests.Response) -> None:
         """
         Set the current rate limits from the given HTTP response.
         
@@ -318,7 +323,7 @@ class RateLimits(object, metaclass=Singleton):
         #if "max_rows" not in self.limits and has_multiple_pages(response):
         #    self.limits["max_rows"] = response.json()["responseHeader"]["para"]
         
-    def set(self, service, **kwargs):
+    def set(self, service: str, **kwargs) -> None:
         """
         Set the limits for an ADS service.
         
@@ -330,10 +335,10 @@ class RateLimits(object, metaclass=Singleton):
         """
         self.limits.setdefault(service, {}).update(kwargs)
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return self.limits
 
-    def __str__(self):
+    def __str__(self) -> str:
         return json.dumps(self.limits, indent=2, default=str)
 
 

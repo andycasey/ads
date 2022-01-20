@@ -2,11 +2,12 @@
 
 ## Data models
 
-These are the top-level data models that most users will need. Their source code actually lives in {obj}`ads.models`, but they are imported to the `ads` namespace for convenience (e.g., {obj}`ads.Document` is imported from {obj}`ads.models.document.Document`).
+These are the top-level data models that most users will need. They are actually defined within {obj}`ads.models`, but are imported to the `ads` namespace for convenience (e.g., {obj}`ads.Document` is imported from {obj}`ads.models.document.Document`).
 
 ```{eval-rst}
 .. autosummary::
     :toctree: api
+    :nosignatures:
 
     ads.Document
     ads.Library
@@ -28,9 +29,9 @@ All other classes and functions associated with data models live in {obj}`ads.mo
 
 ## Services
 
-ADS offers a [large number of services](https://ui.adsabs.harvard.edu/help/api/api-docs.html#overview). This package exposes the most relevant ones to ADS users. 
+ADS offers a [large number of services](https://ui.adsabs.harvard.edu/help/api/api-docs.html#overview). This package exposes the most relevant ones.
 
-Some services have simple API end-points that don't need much more than a HTTP request using {obj}`ads.client.Client`. But for services that have a data model (e.g., the search service ({obj}`ads.services.search`) uses the {obj}`ads.Document` data model), these pages document how queries are translated to the appropriate service and API end-point.  
+Some services have single API end-points that only need a HTTP request using {obj}`ads.client.Client`. But for services that have a data model (e.g., the search service ({obj}`ads.services.search` uses the {obj}`ads.Document` data model), these pages document how methods on data model classes are translated to the appropriate ADS service and API end-point. 
 
 ```{eval-rst}
 .. autosummary::
@@ -49,11 +50,13 @@ Some services have simple API end-points that don't need much more than a HTTP r
     ads.client
 ```
 
-## Exceptions
+## Exceptions and warnings
 
 ```{eval-rst}
 .. autosummary::
+    :nosignatures:
 
+    ads.exceptions.APIResponseError
     ads.models.lazy.LazyAttributesWarning
 ```
 

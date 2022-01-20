@@ -7,7 +7,7 @@ from ads.models.local import LocalModel
 
 class Affiliation(LocalModel):
 
-    """A data model representing a recognized affiliation parsed by ADS."""
+    """An author affiliation recognised by ADS."""
 
     #: The unique (child) identifier for the affiliation.
     id = TextField(help_text="The unique (child) identifier for the affiliation.")

@@ -8,6 +8,36 @@ import ads
 from datetime import datetime
 ```
 
+## The {obj}`ads.Library` object
+
+The {obj}`ads.Library` data model represents a library managed by ADS. If you have the right access for a given library, then these fields are editable:
+
+```{eval-rst}
+.. autosummary::
+    :nosignatures:
+    
+    ads.Library.name
+    ads.Library.description
+    ads.Library.public
+    ads.Library.owner
+```
+
+The following fields are **read-only**, regardless of your access:
+
+
+```{eval-rst}
+.. autosummary::
+    :nosignatures:
+    
+    ads.Library.id
+    ads.Library.num_users
+    ads.Library.num_documents
+    ads.Library.date_created
+    ads.Library.date_last_modified
+```
+
+These fields are discussed in more detail below.
+
 ## Retrieve existing libraries
 
 If you have existing libraries in your ADS account you can immediately select these using the `ads` package. If you want to retrieve a single library you can use {func}`ads.Library.get`, and if you don't supply any keyword arguments to this function then you will get the first library that is returned by ADS.
@@ -38,7 +68,7 @@ libraries = ads.Library.select().where(
 )
 ```
 
-Both of these examples will return an {class}`ads.models.library.LibrarySelect` object. In most cases you probably want to iterate over it to retrieve your libraries:
+In most cases you probably want to iterate over it to retrieve your libraries:
 
 ```python
 # Iterate through all my libraries.
@@ -52,7 +82,7 @@ last_library = libraries[-1]
 small_libraries = [lib for lib in libraries if lib.num_documents < 5]
 ```
 
-But you can also apply further operations to the {class}`ads.models.library.LibrarySelect` object, like limit, sort, or filter:
+But you can also apply further operations to your query object, like limit, sort, or filter:
 
 ```python
 top_5_libraries = ads.Library.select()\

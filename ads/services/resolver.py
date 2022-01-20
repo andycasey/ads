@@ -133,13 +133,13 @@ def external_resource(document: Document, link_type: str) -> dict:
             f"All available formats: {', '.join(available_link_types)}. "
         )    
 
-    end_point = f"/resolver/{document.bibcode}"
+    end_point = f"/resolver/{document.bibcode}/{link_type}"
     # See http://adsabs.github.io/help/api/api-docs.html#get-/resolver/-bibcode-/-link_type-
     if link_type == "arxiv":
         parts = parse_bibcode(document.bibcode)
-        end_point += f"/{link_type}:{parts['volume']}.{parts['page_number']}"
+        end_point += f":{parts['volume']}.{parts['page_number']}"
     elif link_type == "doi":
-        end_point += f"/{link_type}:{document.doi[0]}"
+        end_point += f":{document.doi[0]}"
 
     with Client() as client:
         response = client.api_request(end_point)

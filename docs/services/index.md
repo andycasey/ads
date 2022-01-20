@@ -1,14 +1,12 @@
+---
+hide-toc: true
+---
+
 # Services
 
-Some text
-
 ```{toctree}
-:hidden:
-
 export
+misc
+resolver
 vis
 ```
-
-## Things
-
-Some things

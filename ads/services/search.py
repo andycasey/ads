@@ -87,11 +87,11 @@ class SolrQuery:
                     # We are accessing an attribute of Journal. Find the correct Journal(s).
                     js = Journal.select().where(Expression(side, obj.op, other_side))
                     rhs = [j.abbreviation for j in js]
-                    if obj.op not in (OP.IN, OP.NOT_IN):
+                    if obj.op not in (OP.IN, OP.NOT_IN, OP.ILIKE):
                         rhs, = rhs
                     else:
                         rhs = NodeList(rhs, glue=" OR ")
-                    return self.parse(Expression(Document.aff_id, obj.op, rhs))
+                    return self.parse(Expression(Document.bibstem, obj.op, rhs))
                     
                 elif getattr(side, "model", None) == Affiliation:
                     # We are accessing an attribute of Journal. Find the correct Affiliation(s).
@@ -124,7 +124,7 @@ class SolrQuery:
 
                 self.parse(obj.lhs)
                 
-                if obj.op in (OP.EQ, OP.NE, OP.LIKE, OP.LT, OP.LTE, OP.GT, OP.GTE, OP.BETWEEN, OP.IN):
+                if obj.op in (OP.EQ, OP.NE, OP.LIKE, OP.LT, OP.LTE, OP.GT, OP.GTE, OP.BETWEEN, OP.IN, OP.ILIKE):
                     self.literal(":")
                 elif obj.op in (OP.OR, OP.AND):
                     self.literal(f" {obj.op} ")
@@ -166,6 +166,10 @@ class SolrQuery:
         
         elif isinstance(obj, Negated):
             return self.literal("-").parse(obj.node)
+
+        elif isinstance(obj, NodeList):
+            with self:
+                return self.literal(obj.glue.join(obj.nodes))
 
         elif isinstance(obj, Node):
             return self.literal(obj.name)

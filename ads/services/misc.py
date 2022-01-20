@@ -30,6 +30,6 @@ def citation_helper(*iterable, as_documents=True):
     if as_documents:
         # TODO: Should we just return Documents with bibcodes and let lazy-loading deal with it?
         missing_bibcodes = [each["bibcode"] for each in response.json]
-        return list(Document.select().where(Document.bibcode.in_(missing_bibcodes)))
+        return Document.select().where(Document.bibcode.in_(missing_bibcodes))
     else:
         return response.json["data"]

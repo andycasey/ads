@@ -4,7 +4,7 @@ On [15 January 2020](https://ui.adsabs.harvard.edu/blog/affiliations-feature) th
 
 There is good motivation for this feature. The affiliation strings of documents in ADS frequently include typographical errors (as provided by users), or users will refer to the same institution with a very different affiliation string. A single institution might have dozens of variations of affiliation strings that appear regularly.
 
-The `ads` Python package uses the affiliation identifiers (`aff_id`) introduced in the two blog posts linked above, and includes a data model {class}`ads.Affiliation`. When a document is returned by ADS, any affiliation identifiers are represented in the {obj}`ads.Document.affiliation` attribute as {class}`ads.Affiliation` objects. This allows for complex search queries using affiliations, countries, and relationships between affiliations.
+The `ads` Python package uses the affiliation identifiers ({obj}`ads.Document.aff_id`) introduced in the two blog posts linked above, and includes a data model {class}`ads.Affiliation`. When a document is returned by ADS, any affiliation identifiers are represented in the {obj}`ads.Document.affiliation` attribute as {class}`ads.Affiliation` objects. This allows for complex search queries using affiliations, countries, and relationships between affiliations.
 
 You will need the following imports in order to execute all code blocks on this page:
 ```python
@@ -12,15 +12,21 @@ from ads import Affiliation, Document
 from ads.utils import flatten
 ```
 
-## The `Affiliation` data model
+## The {class}`ads.Affiliation` object
 
 The {class}`ads.Affiliation` data model contains the following fields:
 
-- {obj}`ads.Affiliation.id`: the unique (child) identifier for the affiliation
-- {obj}`ads.Affiliation.parent`: a foreign key field to any parent identifiers for this affiliation
-- {obj}`ads.Affiliation.abbreviation`: the abbreviated affiliation name (e.g., 'MIT')
-- {obj}`ads.Affiliation.canonical_name`: the full affiliation name
-- {obj}`ads.Affiliation.country`: the name of the country that the affiliation is located in
+```{eval-rst}
+.. autosummary::
+    :nosignatures:
+    
+    ads.Affiliation.id
+    ads.Affiliation.parent
+    ads.Affiliation.abbreviation
+    ads.Affiliation.canonical_name
+    ads.Affiliation.country
+```
+
 
 ## Selecting affiliations
 
