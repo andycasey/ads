@@ -1,5 +1,5 @@
 
-""" A service for visualising data from NASA/ADS. """
+""" The ADS visualisation service. """
 
 import json
 from ads.client import Client

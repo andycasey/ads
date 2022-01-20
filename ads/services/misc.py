@@ -1,5 +1,5 @@
 
-""" Miscellaneous services offered by ADS. """
+""" Miscellaneous ADS services that only have a single API end-point. """
 
 import json
 from ads import Document

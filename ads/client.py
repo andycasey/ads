@@ -1,3 +1,5 @@
+""" Client for handling API requests to ADS. """ 
+
 import collections
 import aiohttp
 import asyncio
@@ -12,23 +14,82 @@ from .exceptions import APIResponseError
 
 __version__ = "0.2.0"
 
+class APIResponse:
+
+    """ A response from an ADS API end point. """
+
+    response = None
+
+    @classmethod
+    def load_http_response(cls, http_response):
+        if not http_response.ok:
+            # Try to give an informed error message.
+            # TODO: Email the ADS team about this. Sometimes it's `error`, sometimes `message.
+            for key in ("error", "message"):
+                try:
+                    raise APIResponseError(http_response.json()["error"])
+                except (KeyError, AttributeError, TypeError, ValueError):
+                    continue
+            else:
+                raise APIResponseError(http_response.text)
+
+        c = cls(http_response)
+        c.response = http_response
+
+        # We used to get rate limits from the class name, and have inherited classes
+        # for all different service requests and response. 
+        # But that meant response objects that had inconsistent attributes, and some
+        # services only have one end point.
+        RateLimits.set_from_http_response(http_response)
+
+        return c
+
+    @classmethod
+    async def async_load_http_response(cls, http_response):
+        json = await http_response.json()
+        if not http_response.ok:
+            try:
+                raise APIResponseError(json["error"])
+            except (KeyError, AttributeError, TypeError, ValueError):
+                raise APIResponseError(await http_response.text)
+
+        c = cls(http_response, _json=json)
+        c.response = http_response
+        
+        RateLimits.set_from_http_response(http_response)
+        return c
+        
+
+    def __init__(self, http_response, _json=None):
+        self._raw = http_response
+        if _json is None:
+            self.json = http_response.json()
+        else:
+            self.json = _json
+
 
 class Client:
     
-    """ A client to interact with the ADS API. """
+    """ A class for handling API requests to ADS. """
 
     _token = config.token
     _async_limit_per_host = 10
         
     @property
-    def token(self):
+    def token(self) -> str:
         """
-        Return the instance attribute `token` following the following logic,
-        stopping whenever a token is found:
+        Return the ADS API token by following the logic below, and stopping
+        whenever a token is found:
 
-        - The environment variables in `TOKEN_ENVIRON_VARS`
-        - File containing plaintext as the contents in `TOKEN_FILES`
-        - `ads.config.token`
+        - The environment variables in ``ads.config.TOKEN_ENVIRON_VARS``:
+
+          - ``ADS_API_TOKEN``
+          - ``ADS_DEV_KEY``
+        - File containing plaintext as the contents in ``ads.config.TOKEN_FILES``:
+
+          - ``~/.ads/token``
+          - ``~/.ads/dev_key``
+        - The value in ``ads.config.token``.
         """
         if self._token is None:
             for v in map(os.environ.get, config.TOKEN_ENVIRON_VARS):
@@ -57,7 +118,7 @@ class Client:
         self._token = value
 
     @property
-    def request_headers(self):
+    def request_headers(self) -> dict:
         return {
             "Authorization": f"Bearer {self.token}",
             "User-Agent": f"ads-api-client/{__version__}",
@@ -102,7 +163,7 @@ class Client:
         finally:
             return None
 
-    def _api_method_cleaned(self, method):
+    def _api_method_cleaned(self, method: str) -> str:
         available_methods = ("get", "post", "put", "delete")
         cleaned_method = method.lower().strip()
         if cleaned_method not in available_methods:
@@ -112,7 +173,7 @@ class Client:
             )
         return cleaned_method
 
-    def _api_request(self, end_point, method, **kwargs):
+    def _api_request(self, end_point: str, method: str, **kwargs) -> APIResponse:
         """
         Perform a synchronous API request.
         
@@ -120,21 +181,21 @@ class Client:
             The API end-point (e.g., '/search/query').
                 
         :param method:
-            The HTTP method to use for the request (default: GET).
+            The HTTP method to use for the request (default: get).
 
         :param kwargs: [optional]
             Keyword arguments to pass to the `requests.request` method.
             Examples include `data`, `params`, etc.
 
         :returns:
-            An `APIResponse` object.
+            A :class:`ads.client.APIResponse` object.
         """
         method = self._api_method_cleaned(method)
         return APIResponse.load_http_response(
             getattr(self.session, method)(self._api_url(end_point), **kwargs)
         )
 
-    def api_request(self, end_point, method="GET", **kwargs):
+    def api_request(self, end_point: str, method: str = "get", **kwargs) -> APIResponse:
         """
         Perform a synchronous API request.
         
@@ -142,14 +203,14 @@ class Client:
             The API end-point (e.g., '/search/query').
                 
         :param method: [optional]
-            The HTTP method to use for the request (default: GET).
+            The HTTP method to use for the request (default: get).
 
         :param kwargs: [optional]
             Keyword arguments to pass to the `requests.request` method.
             Examples include `data`, `params`, etc.
 
         :returns:
-            An `APIResponse` object.
+            A :class:`ads.client.APIResponse` object.
         """
         return self._api_request(end_point, method, **kwargs)
 
@@ -276,6 +337,7 @@ class RateLimits(object, metaclass=Singleton):
         return json.dumps(self.limits, indent=2, default=str)
 
 
+"""
 def has_multiple_pages(response):
     data = response.json()
     num_found = data["response"]["numFound"]
@@ -284,57 +346,4 @@ def has_multiple_pages(response):
     if (num_found - start) > rows:
         return True
     return False
-
-
-class APIResponse:
-
-    """ A response from an ADS API end point. """
-
-    response = None
-
-    @classmethod
-    def load_http_response(cls, http_response):
-        if not http_response.ok:
-            # Try to give an informed error message.
-            # TODO: Email the ADS team about this. Sometimes it's `error`, sometimes `message.
-            for key in ("error", "message"):
-                try:
-                    raise APIResponseError(http_response.json()["error"])
-                except (KeyError, AttributeError, TypeError, ValueError):
-                    continue
-            else:
-                raise APIResponseError(http_response.text)
-
-        c = cls(http_response)
-        c.response = http_response
-
-        # We used to get rate limits from the class name, and have inherited classes
-        # for all different service requests and response. 
-        # But that meant response objects that had inconsistent attributes, and some
-        # services only have one end point.
-        RateLimits.set_from_http_response(http_response)
-
-        return c
-
-    @classmethod
-    async def async_load_http_response(cls, http_response):
-        json = await http_response.json()
-        if not http_response.ok:
-            try:
-                raise APIResponseError(json["error"])
-            except (KeyError, AttributeError, TypeError, ValueError):
-                raise APIResponseError(await http_response.text)
-
-        c = cls(http_response, _json=json)
-        c.response = http_response
-        
-        RateLimits.set_from_http_response(http_response)
-        return c
-        
-
-    def __init__(self, http_response, _json=None):
-        self._raw = http_response
-        if _json is None:
-            self.json = http_response.json()
-        else:
-            self.json = _json
+"""

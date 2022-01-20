@@ -1,5 +1,5 @@
 
-""" Interface for the Apache Solr search interface provided by NASA/ADS. """
+""" Interface with the ADS search service. """
 
 from ads.client import Client
 from peewee import (Database, Expression, OP, Node, NodeList, Function, Negated, Field, ForeignKeyField, NotSupportedError, Select)

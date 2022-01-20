@@ -1,5 +1,5 @@
 
-"""A library service offered by ADS."""
+""" Interact with the ADS library service. """
 
 import json
 import re

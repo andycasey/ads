@@ -1,5 +1,5 @@
 
-""" Resolve external resources for documents. """
+""" The ADS resolver service. """
 
 from ads import Document
 from ads.client import Client
