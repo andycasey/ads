@@ -85,6 +85,7 @@ html_title = "ads package"
 language = "en"
 
 html_static_path = ["_static"]
+html_favicon = "_static/ads.ico"
 html_logo = "_static/ads-logo-square.png"
 #html_theme_options = {
 #    "light_logo": "ads-logo-light-square.png",
