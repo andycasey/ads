@@ -1,4 +1,4 @@
-""" Local database for `ads.Affiliation` and `ads.Journal` objects. """
+""" Local database for ``ads.Affiliation`` and ``ads.Journal`` objects. """
 
 import os
 from peewee import SqliteDatabase, Model

@@ -1,45 +1,15 @@
 # Export
 
-The ADS export service returns BibTeX and other formats for a set of records. The formats that are currently supported are:
-
-**Tagged formats** 
-
-- ADS (generic tagged) format 
-- BibTeX + abstract format
-- BibTeX format
-- EndNote format
-- MEDLARS format
-- ProCite format
-- RefWorks format
-- RIS (Refman) format
-
-**LaTeX formats**
-
-- AASTeX format
-- Icarus format
-- Monthly Notices of the Royal Astronomical Society format
-- Solar Physics (SoPh) format
-
-**XML formats**
-
-- Dublin Core (DC) XML format
-- REF-XML format
-- REFABS-XML format
-- VOTables format
-
-**Other formats**
-
-- Custom formats
-- IEEE (Unicode-encoded) format
+The ADS export service returns BibTeX and other formats for a set of records. 
 
 ## Overview
 
-You can use the {func}`ads.services.export` function to export records into any format. This function always returns a string, and it takes in any combination of:
+The export service in ADS ({obj}`ads.services.export`) has one function that does everything you want: {func}`ads.services.export.export`. You can use this function to export records into any format. This function always returns a string, and it takes in any combination of:
  - {obj}`ads.Document` objects,
  - {obj}`ads.Library` objects, or 
  - strings of bibcodes.
 
-You can use these formats together in the one export command. In other words, when calling {obj}`ads.services.export` you can give bibcode strings, some {obj}`ads.Library` objects, and some {obj}`ads.Document` objects all in the one function call.
+You can use these formats together in the one export command. In other words, when calling {obj}`ads.services.export.export` you can give bibcode strings, some {obj}`ads.Library` objects, and some {obj}`ads.Document` objects all in the one function call.
 
 ## Export a single record
 
@@ -48,7 +18,7 @@ In the example below you can see the Python code and the example output in diffe
 ``````{tab} Python
 ```python
 from ads import Document
-from ads.services import export
+from ads.services.export import export
 
 # Retrieve any document.
 doc = Document.get()
@@ -82,7 +52,7 @@ Exporting data for multiple records is very similar to a single record request. 
 ``````{tab} Python
 ```python
 from ads import Document
-from ads.services import export
+from ads.services.export import export
 
 # Retrieve 3 documents
 docs = Document.select().limit(3)
@@ -178,12 +148,12 @@ archivePrefix = {arXiv},
 
 ## Export records from an {obj}`ads.Library`
 
-You can supply {obj}`ads.Document`, a bibcode string, or a {obj}`ads.Library` to the {func}`ads.services.export` function. If a {obj}`ads.Library` is given, then all {obj}`ads.Document`s in that library will be exported.
+You can supply {obj}`ads.Document`, a bibcode string, or a {obj}`ads.Library` to the {func}`ads.services.export.export` function. If a {obj}`ads.Library` is given, then all {obj}`ads.Document`s in that library will be exported.
 
 ``````{tab} Python
 ```python
 from ads import Library
-from ads.services import export
+from ads.services.export import export
 
 # Retrieve a public library with ~50 papers.
 lib = Library.get(id="7vKRL51sSFKXUfFVMZHC6g")
@@ -250,3 +220,37 @@ with open("bibliography.bbl", "w") as fp:
 \bibitem[Gaia Collaboration et al.(2016)]{2016A&A...595A...2G} Gaia Collaboration, Brown, A.~G.~A., Vallenari, A., et al.\ 2016, \aap, 595, A2. doi:10.1051/0004-6361/201629512
 ```
 ``````
+
+## Supported formats
+
+The formats that are currently supported are:
+
+**Tagged formats** 
+
+- ADS (generic tagged) format 
+- BibTeX + abstract format
+- BibTeX format
+- EndNote format
+- MEDLARS format
+- ProCite format
+- RefWorks format
+- RIS (Refman) format
+
+**LaTeX formats**
+
+- AASTeX format
+- Icarus format
+- Monthly Notices of the Royal Astronomical Society format
+- Solar Physics (SoPh) format
+
+**XML formats**
+
+- Dublin Core (DC) XML format
+- REF-XML format
+- REFABS-XML format
+- VOTables format
+
+**Other formats**
+
+- Custom formats
+- IEEE (Unicode-encoded) format

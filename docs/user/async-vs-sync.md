@@ -1,4 +1,0 @@
-# Asynchronous vs. synchronous 
-
-
-

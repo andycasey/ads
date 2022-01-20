@@ -1,6 +1,5 @@
-"""
-Lazily load fields for `ads.Document` objects.
-"""
+""" Lazily load fields for ``ads.Document`` objects. """
+
 import warnings
 
 from ads.exceptions import APIResponseError

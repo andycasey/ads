@@ -42,5 +42,5 @@ data = vis.paper_network(docs, lib)
 
 
 :::{Note}
-Currently these functions just return the network data provided by ADS. You can use these data with a visualisation library (e.g., [D3](https://d3js.org/)) to generate figures. In future the `ads` package will produce these kinds of figures for you, but it is low priority. If you'd like to contribute to these efforts, please fork us on [GitHub](https://github.com/andycasey/ads)
+Currently these functions just return the network data provided by ADS. You can use these data with a visualisation library (e.g., [D3](https://d3js.org/)) to generate figures. In future the `ads` package will produce these kinds of figures for you, but it is low priority. If you'd like to contribute to these efforts, please submit a pull request through [GitHub](https://github.com/andycasey/ads).
 :::
