@@ -81,7 +81,7 @@ myst_heading_anchors = 3
 #
 
 html_theme = "furo"
-html_title = "&nbsp;"
+html_title = "ads package"
 language = "en"
 
 html_static_path = ["_static"]

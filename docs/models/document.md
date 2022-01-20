@@ -1,26 +1,9 @@
 # Documents
 
-## Overview  
-ADS uses [Apache Solr](https://solr.apache.org/) to retrieve documents. This is a flexible search engine that allows for fast document searches. However, ADS has many other *awesome* services, including [libraries](https://ui.adsabs.harvard.edu/help/libraries/), curating [journals](https://adsabs.harvard.edu/abs_doc/journals.html) and [affiliations](https://ui.adsabs.harvard.edu/blog/affils-update), providing [custom notifications](http://adsabs.github.io/help/userpreferences/myads), or [visualisations](http://adsabs.github.io/help/actions/visualize), and more. When updating this `ads` Python package I wanted to provide a consistent interface to access all these services. For this reason, Version 1.0 of the `ads` package uses data models and [object relational mapping](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping) (ORM) to interface with the ADS API. 
 
-This approach has a number of benefits:
-- Allows for complex queries that are not possible with a single search in ADS
-- Access all field names using tab completion (e.g., *"was it 'aff:' or 'inst:' I needed?"*)
-- Provides a consistent interface to retrieve {obj}`ads.Document`, {obj}`ads.Library`, {obj}`ads.Journal`, or {obj}`ads.Affiliation` objects
-- These data models know how to relate to each other, giving rich search functionality
-- Use Python logic to construct queries without needing to know the Apache Solr syntax (e.g., *"was it 'year:()' or 'year:[]' I needed?"*)
+## The {obj}`ads.Document` object
 
-If you haven't used an ORM before then you might get the feeling that it seems a little *magical* to search for documents by attributes (e.g., `Document.year == 2020`) and then retrieve a {obj}`ads.Document` with a {obj}`ads.Document.year` attribute, but don't worry: this documentation should provide lots of examples of how to do what you need.
-
-:::{Note}
-If you already have hand-crafted Solr queries that you want to supply directly to ADS, you can still do that using the {obj}`ads.SearchQuery` interface.
-See [this tutorial on providing explicit Solr queries](#).
-:::
-
-
-## The {obj}`ads.Document` data model
-
-The {obj}`ads.Document` data model is used to represent a record in ADS. We use this data model and an [object-relational mapper](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping) (ORM) to search and filter for documents on ADS in a programmatic way. In other words, you can write expressions like `(Document.year < 2020) & Document.title.like("JWST")` and have them translated into a Solr search query.
+The {obj}`ads.Document` object is used to represent a record in ADS. We use this data model and an [object-relational mapper](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping) (ORM) to search and filter for documents on ADS in a programmatic way. In other words, you can write expressions like `(Document.year < 2020) & Document.title.like("JWST")` and have them translated into a Solr search query.
 
 Let's get started with a quick example where we just select one document. If you only want one document, then use the {func}`ads.Document.get()` function. If you want possibly more than one document, use the {func}`ads.Document.select()` method. In the first tab of the example below you can see the executable Python code, and in the second tab you can see the output.
 
