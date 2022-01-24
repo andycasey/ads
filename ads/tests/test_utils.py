@@ -7,6 +7,10 @@ from tempfile import NamedTemporaryFile
 
 from ads.utils import parse_bibcode
 
+class TestSetup(unittest.TestCase):
+    def test_setup(self):
+        exit_status = os.system("ads-setup")
+        self.assertEqual(0, exit_status)
 
 class TestUtilities(unittest.TestCase):
         
