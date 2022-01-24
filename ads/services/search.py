@@ -12,9 +12,19 @@ class SearchInterface(Database):
         self.database = database or Client()
 
     def execute(self, query, **kwargs):
+        from ads import Document
         if not isinstance(query, Select):
             raise NotSupportedError("Only SELECT queries are supported.")
-        
+
+        # Query needs to have `bibcode` and `id`.
+        for required_field in (Document.bibcode, Document.id):
+            for field in query._returning:
+                if (isinstance(field, str) and field == required_field.name) \
+                or (isinstance(field, Node) and (field.name == required_field.name)):
+                    break
+            else:
+                query._returning.append(required_field)
+                        
         # Parse the expression to a Solr search query.
         end_point, kwds = as_solr(query)
         
@@ -218,9 +228,6 @@ def as_solr(query, bibcode_limit=10):
             fields.append(field.name)
         except AttributeError:
             fields.append(field)
-
-    required_fields = {"id", "bibcode"}
-    fields = list(required_fields.union(fields))
 
     # Steps:
     # - Figure out if we need BigQuery.

@@ -26,6 +26,7 @@ class TestExpressions(unittest.TestCase):
         self.assertEqual(len(doc.__data__), 4)
 
         # Now let's try execute a lazy load.
+        self.assertNotIn("year", doc.__data__)
         with self.assertWarns(LazyAttributesWarning):
             lazy_year = doc.year
         self.assertIn("year", doc.__data__)

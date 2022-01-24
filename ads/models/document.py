@@ -228,7 +228,7 @@ class Document(Model):
         for key in preferred_key:
             try:
                 value = self.__data__[key]
-            except IndexError:
+            except KeyError:
                 continue
             else:
                 break

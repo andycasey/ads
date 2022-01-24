@@ -50,8 +50,10 @@ class LazyDocumentFieldAccessor:
             #       =bibcode:(2005ApJ...622..759G) -> 0 match
 
             from ads.models.document import Document
-            with Document.select(self.name).where(key == value) as query:
-                document = next(query)
+            query = Document.select(getattr(Document, self.name))\
+                            .where(key == value)\
+                            .limit(1)
+            document, = query
 
             # If ADS did not send us back the field, then we are going to populate the __data__
             # dictionary with None to avoid infinite loops.
