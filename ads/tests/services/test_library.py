@@ -1,5 +1,7 @@
 
 import unittest
+import random
+import string
 from ads import Library
 from ads.client import APIResponseError
 
@@ -7,9 +9,10 @@ from ads.client import APIResponseError
 class TestLibraryService(unittest.TestCase):
 
 
-    def test_create_library_from_init(self):
+    def test_create_library_from_init(self, length=64):
+        name = "test_" + ''.join(random.choice(string.ascii_lowercase) for i in range(length))
+        description = "cow"
 
-        name, description = ("test_moo", "cow")
         lib = Library(name=name, description=description)
         self.assertNotIn("id", lib.__data__)
         lib.save()
@@ -27,8 +30,10 @@ class TestLibraryService(unittest.TestCase):
         lib2.delete()
         
 
-    def test_create_library(self):
-        name, public = ("test_moo2", True)
+    def test_create_library(self, length=64):
+        name = "test_" + ''.join(random.choice(string.ascii_lowercase) for i in range(length))
+        public = True
+
         lib = Library.create(name=name, public=public)
         self.assertEqual(lib.name, name)
         self.assertIn("id", lib.__data__)
