@@ -7,7 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: [3.7, 3.8, 3.9]
+        # 3.6 only needs defaults for namedtuples
+        # TODO: We could make a workaround
 
     steps:
       - uses: actions/checkout@v2

@@ -132,7 +132,7 @@ class Library(Model):
             new = getattr(self, "_permissions", {})
             # Should we do this in services/library.py?
 
-            raise a
+            raise NotImplementedError()
         
     
     def save(self, force_insert=False, only=None):
