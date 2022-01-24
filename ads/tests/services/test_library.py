@@ -9,7 +9,7 @@ from ads.client import APIResponseError
 class TestLibraryService(unittest.TestCase):
 
 
-    def test_create_library_from_init(self, length=64):
+    def test_create_library_from_init(self, length=40):
         name = "test_" + ''.join(random.choice(string.ascii_lowercase) for i in range(length))
         description = "cow"
 
@@ -30,7 +30,7 @@ class TestLibraryService(unittest.TestCase):
         lib2.delete()
         
 
-    def test_create_library(self, length=64):
+    def test_create_library(self, length=40):
         name = "test_" + ''.join(random.choice(string.ascii_lowercase) for i in range(length))
         public = True
 
