@@ -18,9 +18,9 @@ class Library(Model):
     #: Number of documents in the library.
     num_documents = IntegerField(help_text="Number of documents in the library.")
     #: Date (UTC) the library was created.
-    date_created = DateTimeField(help_text="Date (UTC) the library was created.")
+    date_created = DateTimeField(help_text="Date (UTC) the library was created.",)# formats=["%Y-%m-%dT%H:%M:%S.%f"])
     #: Date (UTC) the library was last modified.
-    date_last_modified = DateTimeField(help_text="Date (UTC) the library was last modified.")
+    date_last_modified = DateTimeField(help_text="Date (UTC) the library was last modified.",)# formats=["%Y-%m-%dT%H:%M:%S.%f"])
 
     # Mutable fields
 
@@ -138,6 +138,9 @@ class Library(Model):
     def save(self, force_insert=False, only=None):
         self._dirty.update({"documents", "permissions"})
         result = super().save(force_insert=force_insert, only=only)
+        if getattr(self, "_documents", None) is not None:
+            self.__data__["num_documents"] = len(self._documents)
+
         # If `documents` were given when the library was created, they may have been
         # a list of bibcodes or a list of `ads.Document` objects. 
         if getattr(self, "_documents", None) is not None:
@@ -151,4 +154,3 @@ class Library(Model):
                 raise ValueError("eek")
 
         return result
-

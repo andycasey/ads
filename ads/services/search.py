@@ -1,8 +1,9 @@
 
 """ Interface with the ADS search service. """
 
+from datetime import datetime
 from ads.client import Client
-from peewee import (Database, Expression, OP, Node, NodeList, Function, Negated, Field, ForeignKeyField, NotSupportedError, Select)
+from peewee import (Database, Expression, OP, Node, TextField, VirtualField, NodeList, Function, Negated, Field, ForeignKeyField, NotSupportedError, Select)
 
 from ads.models.utils import ArrayValue, ObjectSlice
 
@@ -52,7 +53,10 @@ class SolrQuery:
 
         if obj is None:
             return self
-            
+        
+        elif isinstance(obj, datetime):
+            repr = obj.strftime("%Y-%m-%dT%H:%M:%SZ")
+            self.literal(f'"{repr}"')
         elif isinstance(obj, Function):
             with self:
                 self.literal(obj.name)
@@ -129,48 +133,75 @@ class SolrQuery:
             with self:
                 # If the operator is EQ / NE and the field is a particular kind,
                 # then we want exact matching.
-                if obj.op in (OP.EQ, OP.NE) and isinstance(obj.lhs, Field) and obj.lhs.name in ("title", "author"):
+                #if obj.op in (OP.EQ, OP.NE) and isinstance(obj.lhs, Field) and obj.lhs.name in ("title", "author"):
+                #    self.literal("=")
+                if obj.op == OP.EX:
                     self.literal("=")
 
                 self.parse(obj.lhs)
                 
-                if obj.op in (OP.EQ, OP.NE, OP.LIKE, OP.LT, OP.LTE, OP.GT, OP.GTE, OP.BETWEEN, OP.IN, OP.ILIKE):
+                if obj.op in (OP.EQ, OP.EX, OP.NE, OP.LIKE, OP.LT, OP.LTE, OP.GT, OP.GTE, OP.BETWEEN, OP.IN, OP.ILIKE):
                     self.literal(":")
                 elif obj.op in (OP.OR, OP.AND):
                     self.literal(f" {obj.op} ")
                 else:
                     raise NotImplementedError()
                 
-                if obj.op in (OP.LT, OP.LTE):
-                    self.literal("-")
-
+            
                 # Some operators require () brackets, and some require [], and some require "".
 
-                if obj.op == OP.BETWEEN:
+                if obj.op in (OP.BETWEEN, OP.LT, OP.GT, OP.LTE, OP.GTE):
                     self.literal("[")
-                    self.parse(obj.rhs.nodes[0])
+                    if obj.op == OP.BETWEEN:
+                        self.parse(obj.rhs.nodes[0])
+                        
+                    elif obj.op == OP.GT:
+                        self.parse(obj.rhs + 1)
+                    elif obj.op == OP.GTE:
+                        self.parse(obj.rhs)
+                    elif obj.op in (OP.LT, OP.LTE):
+                        self.literal("0")
                     self.literal(" TO ")
-                    self.parse(obj.rhs.nodes[-1])
+                    if obj.op == OP.BETWEEN:
+                        self.parse(obj.rhs.nodes[-1])
+                    elif obj.op == OP.LT:
+                        self.parse(obj.rhs - 1)
+                    elif obj.op == OP.LTE:
+                        self.parse(obj.rhs)
+                    elif obj.op in (OP.GT, OP.GTE):
+                        # Through trial and error, these fields need a '*'.
+                        # It's not just integer fields though: if you give '*' to `id` then it will fall over.
+                        if obj.lhs.name in ("author_count", ):
+                            self.literal("*")
                     self.literal("]")
-                elif obj.op == OP.LT:
-                    self.parse(obj.rhs - 1)
-                elif obj.op == OP.GT:
-                    self.parse(obj.rhs + 1)
                 elif obj.op == OP.IN:
                     self.parse(NodeList(obj.rhs, glue=" OR ", parens=True))
                 else:
+                    rhs = obj.rhs
+
+                    if obj.op == OP.ILIKE and isinstance(rhs, str):
+                        rhs = rhs.replace("%", "*")
+
                     try:
-                        if obj.lhs.name in ("title", "author"):
+                        if obj.lhs.field_type == "TEXT" or isinstance(obj.lhs, VirtualField):
                             self.literal('"')
-                            self.parse(obj.rhs)
+                            self.parse(rhs)
+                            if obj.op == OP.LIKE:
+                                self.literal("*")
                             self.literal('"')
                         else:
-                            self.parse(obj.rhs)
+                            self.parse(rhs)
                     except:
-                        self.parse(obj.rhs)
+                        self.parse(rhs)
+                        if obj.op == OP.LIKE:
+                            self.literal("*")
+                    
+                    else:
+                        if obj.lhs.field_type != "TEXT" and obj.op == OP.LIKE:
+                            self.literal("*")
 
-                if obj.op in (OP.GT, OP.GTE):
-                    self.literal("-")
+                #if obj.op in (OP.GT, OP.GTE):
+                #    self.literal("-")
 
             return self
         

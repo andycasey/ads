@@ -1,6 +1,7 @@
 import unittest
 from ads.tests import strict
 from ads.models import (Affiliation, Document)
+from ads.models.affiliation import _safe_get_affiliation
 from ads.services.search import SolrQuery
 
 
@@ -105,6 +106,10 @@ class TestAffiliation(unittest.TestCase):
         self.assertEqual(s1, s2)
         self.assertEqual(s1, "(aff_id:A00409)")
         
+
+    def test_no_affiliation(self):
+        for each in ("-", " - ", " -", "- "):
+            self.assertIsNone(_safe_get_affiliation(each))
 
     def test_document_select(self):
         abbreviation = "Flatiron Inst"

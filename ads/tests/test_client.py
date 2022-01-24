@@ -87,6 +87,16 @@ class TestBaseSession(unittest.TestCase):
             self.assertEqual("application/json", client.request_headers["Content-Type"])
     
 
+    def test_methods(self):
+        with self.assertRaises(ValueError):
+            ads.client.Client()._api_method_cleaned("moo")
+
+        with ads.client.Client() as client:
+            self.assertEqual(client._api_method_cleaned("POST"), "post")
+            self.assertEqual(client._api_method_cleaned("PUT"), "put")
+            self.assertEqual(client._api_method_cleaned("GeT"), "get")
+            self.assertEqual(client._api_method_cleaned("DElEte"), "delete")
+
     def test_context_manager(self):
         with ads.client.Client() as client:
             self.assertTrue(client.session is not None)
@@ -119,4 +129,7 @@ class TestRateLimits(unittest.TestCase):
             self.assertEqual(limits[""]["remaining"], self.start_remaining - i)
             self.assertEqual(limits[""]["reset"], 1436313600)
             
+            str(ads.client.RateLimits())
+
+            self.assertEqual(ads.client.RateLimits.get_rate_limits(""), limits[""])
 

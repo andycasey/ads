@@ -54,6 +54,10 @@ class ObjectSlice(_LookupNode):
     def __getitem__(self, value):
         return ObjectSlice.create(self, value)
 
+    def exact(self, item):
+        return Expression(self, OP.EX, item)#ArrayValue(self, [item]))
+
+
 class IndexedFieldMixin(object):
     default_index_type = 'GIN'
 
@@ -131,6 +135,8 @@ class ArrayField(IndexedFieldMixin, Field):
     def contained_by(self, *items):
         return Expression(self, ACONTAINED_BY, ArrayValue(self, items))
 
+    def exact(self, item):
+        return Expression(self, OP.EX, item)#ArrayValue(self, [item]))
 
 class ArrayValue(Node):
     def __init__(self, field, value):

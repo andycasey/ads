@@ -96,6 +96,7 @@ class LibraryInterface(Database):
                 return local_query.execute().cursor
 
         elif isinstance(query, Insert):
+            
             field_names = {"name", "description", "public", "bibcode"}
             data = { k.name: v for k, v in query._insert.items() if k.name in field_names }
 
@@ -106,8 +107,9 @@ class LibraryInterface(Database):
                     method="post",
                     data=json.dumps(data)
                 )
-
-            return Cursor(response.json["id"])
+            # A hack to return the ID without specifying `_returning`:
+            # we put the ID in the `rowcount` attribute
+            return Cursor(response.json["id"], response.json["id"])
 
 
         elif isinstance(query, (Update, Delete)):
@@ -129,9 +131,9 @@ class LibraryInterface(Database):
                             data=json.dumps(update_metadata),
                             method="put"
                         )
-                    print(f"Updated metadata {update_metadata}")
                 
                 # Update permissions.
+                '''
                 if "permissions" in data:
                     _, all_permission_kinds = valid_permissions([])
                     for email in data["permissions"]:
@@ -154,6 +156,7 @@ class LibraryInterface(Database):
                             )
 
                         print(f"Update permissions for  {update_permissions}")
+                '''
 
                 # Update documents.
                 if data.get("documents", None) is not None:
@@ -166,7 +169,6 @@ class LibraryInterface(Database):
                                 data=json.dumps(dict(action=action, bibcode=bibcode)),
                                 method="post"
                             )
-                            print(action, bibcode, response.json)
                     
 
                 # Update owner.

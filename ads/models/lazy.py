@@ -5,11 +5,15 @@ import warnings
 from ads.exceptions import APIResponseError
 
 from peewee import (
+    Expression,
+    OP,
     TextField as _TextField, 
     IntegerField as _IntegerField, 
     DateTimeField as _DateTimeField,
     DateField as _DateField
 )
+
+OP.EX = "==" # exact
 
 class LazyAttributesWarning(UserWarning):
     pass
@@ -71,7 +75,9 @@ class LazyDocumentField:
     accessor_class = LazyDocumentFieldAccessor
 
 class TextField(LazyDocumentField, _TextField):
-    pass
+
+    def exact(self, value):
+        return Expression(self, OP.EX, value)
 
 class IntegerField(LazyDocumentField, _IntegerField):
     pass

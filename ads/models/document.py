@@ -35,7 +35,6 @@ class Document(Model):
     arxiv_class = TextField(help_text="The arXiv class a document was submitted to.", null=True)
     #: Author name.
     author = ArrayField(TextField, help_text="Author name.", null=True)
-    #author = TextField(help_text="Author name.", null=True)
     #: The number of authors.
     author_count = IntegerField(help_text="The number of authors.", null=True)
     #: Author name in the form 'Lastname, F'.
@@ -57,7 +56,7 @@ class Document(Model):
     #: The database the document resides in (e.g., astronomy or physics).
     database = ArrayField(TextField, help_text="The database the document resides in (e.g., astronomy or physics).", null=True)
     #: Publication date, represented by a time format and used for indexing. 
-    date = DateTimeField(help_text="Publication date, represented by a time format and used for indexing. For example: date:\"2015-07-01T00:00:00Z\"", null=True)
+    date = DateTimeField(help_text="Publication date, represented by a time format and used for indexing. For example: date:\"2015-07-01T00:00:00Z\"", null=True, formats=["%Y-%m-%dT%H:%M:%SZ"])
     #: Document type (e.g., article, thesis, etc.
     doctype = TextField(help_text="Search documents by their type: article, thesis, et cetera.", null=True)
     #: Digital object identifier
@@ -69,7 +68,7 @@ class Document(Model):
     #: Email addresses of the authors.
     email = ArrayField(TextField, help_text="Search by email addresses for the authors that included them in the article.", null=True)
     #: Creation date of the ADS record.
-    entry_date = DateTimeField(help_text="Creation date of the ADS record. Note that this can be used like `-entry_date:[NOW-7DAYS TO *]`", null=True)
+    entry_date = DateTimeField(help_text="Creation date of the ADS record. Note that this can be used like `-entry_date:[NOW-7DAYS TO *]`", null=True, formats=["%Y-%m-%dT%H:%M:%SZ"])
     #: Types of electronic sources available for a record (e.g., ```PUB_HTML```, ```EPRINT_PDF```).
     esources = ArrayField(TextField, help_text="Types of electronic sources available for a record (e.g., pub_html, eprint_pdf).", null=True)
     #: Facilities declared in a record, based on a controlled list by AAS journals.
@@ -87,7 +86,7 @@ class Document(Model):
         "DOIs, and/or arXiv identifiers."
     ))
     #: Datetime when the document was last index by the ADS Solr service.
-    indexstamp = DateTimeField(help_text="Datetime when the document was last indexed by the ADS Solr service.")
+    indexstamp = DateTimeField(help_text="Datetime when the document was last indexed by the ADS Solr service.", formats=["%Y-%m-%dT%H:%M:%S.%fZ"])
     #: Find records that contain a curated (ADS-identified) affiliation or institution. See also: :obj:`ads.Document.affiliation`.
     inst = VirtualField(help_text="Find records that contain a curated (ADS-identified) affiliation or institution. See also: `:obj:Document.affiliation`.")
     #: International Standard Book Number
@@ -128,7 +127,7 @@ class Document(Model):
     #: Name of the publisher, but also includes the volume, page, and issue if exists.
     pub_raw = TextField(help_text="Name of the publisher, but also includes the volume, page, and issue if exists.", null=True)
     #: Publication date in the form YYYY-MM-DD, where DD will always be '00'.
-    pubdate = DateField(help_text="Publication date in the form YYYY-MM-DD, where DD will always be '00'.", null=True)
+    pubdate = DateField(help_text="Publication date in the form YYYY-MM-DD, where DD will always be '00'.", null=True, formats=["%Y-%m-00"])
     #: The number of times the record has been viewed within a 90 day window.
     read_count = IntegerField(help_text="The number of times the record has been viewed within a 90 day window.", null=True)
     #: List of SIMBAD IDs within a document. This field has privacy restrictions.
@@ -191,7 +190,7 @@ class Document(Model):
         return fn.similar(expression)
 
     @classmethod
-    def top_n(cls, n, expression):
+    def top_n(cls, n, expression, order_by=None):
         """
         Return the top `n` documents matching the given expression.
         
@@ -201,8 +200,11 @@ class Document(Model):
         :param expression:
             The expression to query documents.
         """
-        return fn.topn(n, expression)
-    
+        args = [n, expression]
+        if order_by is not None:
+            args.append(order_by)
+        return fn.topn(*args)
+        
     @classmethod
     def trending(cls, expression):
         """
@@ -224,21 +226,17 @@ class Document(Model):
         return self.__repr__()
 
     def __repr__(self):
-        preferred_key = ("bibcode", "id")
-        for key in preferred_key:
-            try:
-                value = self.__data__[key]
-            except KeyError:
-                continue
-            else:
-                break
-        else:
-            return f"<{self.__class__.__name__}: no identifier>"
-        
-        return f"<{self.__class__.__name__}: {key}={value}>"
+        try:
+            field, value = self._unique_identifier(reversed=True)
+        except ValueError:
+            return f"<{self.__class__.__name__}: no unique identifier>"
+        else:    
+            return f"<{self.__class__.__name__}: {field.name}={value}>"
 
-    def _unique_identifier(self):
+    def _unique_identifier(self, reversed=False):
         keys = ("id", "bibcode")
+        if reversed:
+            keys = keys[::-1]
         for key in keys:
             try:
                 value = self.__data__[key]
