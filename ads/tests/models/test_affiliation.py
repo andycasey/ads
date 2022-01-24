@@ -1,9 +1,8 @@
 import unittest
 from ads.tests import strict
 from ads.models import (Affiliation, Document)
+from ads.services.search import SolrQuery
 
-def expression_as_string(expression):
-    return Document.select().where(expression).__str__()
 
 
 class TestAffiliation(unittest.TestCase):
@@ -77,34 +76,34 @@ class TestAffiliation(unittest.TestCase):
     def test_affiliation_expression_resolution(self):
 
         self.assertEqual(
-            expression_as_string(Document.affiliation == Affiliation.get(abbreviation="MIT")),
-            "aff_id:A00331"
+            str(SolrQuery(Document.affiliation == Affiliation.get(abbreviation="MIT"))),
+            "(aff_id:A00331)"
         )
 
         self.assertEqual(
-            expression_as_string(Document.affiliation.abbreviation == "Monash U"),
-            "aff_id:(A00409)" # TODO: 
+            str(SolrQuery(Document.affiliation.abbreviation == "Monash U")),
+            "(aff_id:(A00409))"
         )
 
         self.assertEqual(
-            expression_as_string(Document.affiliation.canonical_name == "Monash University, Australia"),
-            "aff_id:(A00409)" # TODO: 
+            str(SolrQuery(Document.affiliation.canonical_name == "Monash University, Australia")),
+            "(aff_id:(A00409))" 
         )
 
         if strict:
             affs = Affiliation.select().where(Affiliation.canonical_name.contains("physics"))
             self.assertEqual(
-                expression_as_string(Document.affiliation.canonical_name.contains("physics")),
-                f"aff_id:({' OR '.join(aff.id for aff in affs)})"
+                str(SolrQuery(Document.affiliation.canonical_name.contains("physics"))),
+                f"(aff_id:({' OR '.join(aff.id for aff in affs)}))"
             )
 
         abbreviation = "Monash U"
         monash = Affiliation.get(abbreviation=abbreviation)
         # Supply abbreviation directly to Affiliation.
-        s1 = expression_as_string(Document.affiliation == monash)
-        s2 = expression_as_string(Document.affiliation == abbreviation)
+        s1 = str(SolrQuery(Document.affiliation == monash))
+        s2 = str(SolrQuery(Document.affiliation == abbreviation))
         self.assertEqual(s1, s2)
-        self.assertEqual(s1, "aff_id:A00409")
+        self.assertEqual(s1, "(aff_id:A00409)")
         
 
     def test_document_select(self):

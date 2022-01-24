@@ -11,6 +11,20 @@ import ads
 
 class TestBaseSession(unittest.TestCase):
 
+    def setUp(self):
+        self._token = ads.config.token
+        self._token_environ_vars = [] + ads.config.TOKEN_ENVIRON_VARS
+        self._token_files = [] + ads.config.TOKEN_FILES
+
+    def tearDown(self):
+        """ Remove any temporary tokens set. """
+        ads.config.token = self._token
+        ads.config.TOKEN_FILES = [] + self._token_files
+        ads.config.TOKEN_ENVIRON_VARS = [] + self._token_environ_vars
+        for key in ("TOKEN_1", "TOKEN_2"):
+            if key in os.environ:
+                del os.environ[key]
+
 
     def test_token(self):
         """
@@ -19,7 +33,6 @@ class TestBaseSession(unittest.TestCase):
         - (first in list) files on disk defined in TOKEN_FILES
         - ads.config.token
         """
-
         ads.config.TOKEN_ENVIRON_VARS = ['TOKEN_1', 'TOKEN_2']
         os.environ["TOKEN_1"] = "tok1"
         os.environ["TOKEN_2"] = "tok2"
@@ -64,8 +77,7 @@ class TestBaseSession(unittest.TestCase):
         os.environ["TOKEN_1"] = "tok1"
         with ads.client.Client() as client:
             self.assertEqual(ads.config.token, "tok5")
-            self.assertEqual(client.token, "tok1")
-
+            self.assertEqual(client.token, "tok1")        
 
     def test_headers(self):
         """ Check the request headers. """
@@ -103,8 +115,8 @@ class TestRateLimits(unittest.TestCase):
                 )
 
             limits = ads.client.RateLimits().to_dict()
-            self.assertEqual(limits[""]["limit"], "400")
-            self.assertEqual(limits[""]["remaining"], f"{self.start_remaining - i:.0f}")
-            self.assertEqual(limits[""]["reset"], "1436313600")
+            self.assertEqual(limits[""]["limit"], 400)
+            self.assertEqual(limits[""]["remaining"], self.start_remaining - i)
+            self.assertEqual(limits[""]["reset"], 1436313600)
             
 

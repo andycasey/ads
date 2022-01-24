@@ -25,9 +25,10 @@ class APIResponse:
         if not http_response.ok:
             # Try to give an informed error message.
             # TODO: Email the ADS team about this. Sometimes it's `error`, sometimes `message.
+            print(http_response.request.headers)
             for key in ("error", "message"):
                 try:
-                    raise APIResponseError(http_response.json()["error"])
+                    raise APIResponseError(http_response.json()[key])
                 except (KeyError, AttributeError, TypeError, ValueError):
                     continue
             else:

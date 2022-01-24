@@ -108,75 +108,77 @@ def setup_database():
 
     # Create the databases.
     print(f"Create database")
-    database.connect()
-    print(f"Create tables..")
-    database.create_tables([Affiliation, Journal])
-    database.close()
+    with database.atomic():
 
-    _journals_path = _get_data_path("journals.json")
-    _affiliation_path = _get_data_path("affiliations.tsv")
-    _affiliation_country_path = _get_data_path("affiliations_country.tsv")
+        database.connect(reuse_if_open=True)
+        print(f"Create tables..")
+        database.create_tables([Affiliation, Journal])
 
-    print(f"Load countries from {_affiliation_country_path}..")
-    
-    countries_dict = OrderedDict()
-    with open(_affiliation_country_path, "r") as fp:
-        for line in fp.readlines()[1:]:
-            country, parent_id, child_id, abbrev, canonical_affiliation = line.split("\t")
-            country = country or None
+    with database.atomic():
+        _journals_path = _get_data_path("journals.json")
+        _affiliation_path = _get_data_path("affiliations.tsv")
+        _affiliation_country_path = _get_data_path("affiliations_country.tsv")
 
-            # affiliations.tsv uses "0" to indicate no ID, but affiliations_country.tsv uses ""
-            parent_id, child_id = (parent_id or "0", child_id or "0")
+        print(f"Load countries from {_affiliation_country_path}..")
+        
+        countries_dict = OrderedDict()
+        with open(_affiliation_country_path, "r") as fp:
+            for line in fp.readlines()[1:]:
+                country, parent_id, child_id, abbrev, canonical_affiliation = line.split("\t")
+                country = country or None
 
-            key = f"{parent_id}|{child_id}"
-            countries_dict[key] = [country, parent_id, child_id, abbrev, canonical_affiliation]
+                # affiliations.tsv uses "0" to indicate no ID, but affiliations_country.tsv uses ""
+                parent_id, child_id = (parent_id or "0", child_id or "0")
 
-    print(f"Loaded countries for {len(countries_dict)} affiliations.")
-    print(f"Ingest affiliations from {_affiliation_path}..")
+                key = f"{parent_id}|{child_id}"
+                countries_dict[key] = [country, parent_id, child_id, abbrev, canonical_affiliation]
 
-    with open(_affiliation_path, "r") as fp:
-        for i, line in enumerate(fp.readlines()[1:]):
-            parent_id, child_id, abbreviation, canonical_name = line.strip().split("\t")
-            
-            # Resolve the country with this method order
-            # 1. Match by parent_id and child_id.
-            # 2. Match by child_id.
-            # 3. Match by parent_id.
-            keys = (f"{parent_id}|{child_id}", f"|{child_id}", f"{parent_id}|")
-            for key in keys:
-                try:
-                    country_info = countries_dict[key]
-                except KeyError:
-                    continue
+        print(f"Loaded countries for {len(countries_dict)} affiliations.")
+        print(f"Ingest affiliations from {_affiliation_path}..")
+
+        with open(_affiliation_path, "r") as fp:
+            for i, line in enumerate(fp.readlines()[1:]):
+                parent_id, child_id, abbreviation, canonical_name = line.strip().split("\t")
+                
+                # Resolve the country with this method order
+                # 1. Match by parent_id and child_id.
+                # 2. Match by child_id.
+                # 3. Match by parent_id.
+                keys = (f"{parent_id}|{child_id}", f"|{child_id}", f"{parent_id}|")
+                for key in keys:
+                    try:
+                        country_info = countries_dict[key]
+                    except KeyError:
+                        continue
+                    else:
+                        country = country_info[0]
+                        break
                 else:
-                    country = country_info[0]
-                    break
-            else:
-                country = None
-            
-            if parent_id == "0":
-                parent = None
+                    country = None
+                
+                if parent_id == "0":
+                    parent = None
 
-            else:
-                parent = Affiliation(id=parent_id)
+                else:
+                    parent = Affiliation(id=parent_id)
 
-            Affiliation.create(
-                id=child_id,
-                abbreviation=abbreviation,
-                canonical_name=canonical_name,
-                country=country,
-                parent=parent
-            )
+                Affiliation.create(
+                    id=child_id,
+                    abbreviation=abbreviation,
+                    canonical_name=canonical_name,
+                    country=country,
+                    parent=parent
+                )
 
-    print(f"Ingested {i + 1} affiliations")
+        print(f"Ingested {i + 1} affiliations")
 
-    # Load in the journals.
-    print(f"Ingest journals from {_journals_path}..")
-    with open(_journals_path, "r") as fp:
-        journals = json.load(fp)
-    
-    for j, (abbreviation, title) in enumerate(journals.items()):
-        Journal.create(abbreviation=abbreviation, title=title)
+        # Load in the journals.
+        print(f"Ingest journals from {_journals_path}..")
+        with open(_journals_path, "r") as fp:
+            journals = json.load(fp)
+        
+        for j, (abbreviation, title) in enumerate(journals.items()):
+            Journal.create(abbreviation=abbreviation, title=title)
 
-    print(f"Ingested {j + 1} journals")
-    print(f"Done!")
+        print(f"Ingested {j + 1} journals")
+        print(f"Done!")
