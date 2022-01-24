@@ -183,7 +183,8 @@ class SolrQuery:
                         rhs = rhs.replace("%", "*")
 
                     try:
-                        if obj.lhs.field_type == "TEXT" or isinstance(obj.lhs, VirtualField):
+                        if (obj.lhs.field_type == "TEXT" or isinstance(obj.lhs, VirtualField)) \
+                        and not obj.lhs.name in ("aff_id", ):
                             self.literal('"')
                             self.parse(rhs)
                             if obj.op == OP.LIKE:

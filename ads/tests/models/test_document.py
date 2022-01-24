@@ -51,15 +51,15 @@ class TestDocument(unittest.TestCase):
         self.assertEqual('(aff:"flatiron")', expression_as_string(Document.aff == "flatiron"))
     
     def test_aff_id(self):
-        self.assertEqual('(aff_id:"A100")', expression_as_string(Document.aff_id == "A100"))
-        self.assertEqual('(=aff_id:"A100")', expression_as_string(Document.aff_id.exact("A100")))
+        self.assertEqual('(aff_id:A100)', expression_as_string(Document.aff_id == "A100"))
+        self.assertEqual('(=aff_id:A100)', expression_as_string(Document.aff_id.exact("A100")))
         self.assertEqual('(aff_id:[A11118 TO A11130])', expression_as_string(Document.aff_id.between("A11118", "A11130")))
         self.assertEqual('(aff_id:(A11118 OR A11130))', expression_as_string(Document.aff_id.in_(["A11118", "A11130"])))
 
     def test_aff_id_slice(self):
-        self.assertEqual('(pos((=aff_id:"A100"), 1, 1))', expression_as_string(Document.aff_id[0].exact("A100")))
-        self.assertEqual('(pos((aff_id:"A100"), 2, 2))', expression_as_string(Document.aff_id[1] == "A100"))
-        self.assertEqual('(pos((aff_id:"A100"), 4, 6))', expression_as_string(Document.aff_id[3:5] == "A100"))
+        self.assertEqual('(pos((=aff_id:A100), 1, 1))', expression_as_string(Document.aff_id[0].exact("A100")))
+        self.assertEqual('(pos((aff_id:A100), 2, 2))', expression_as_string(Document.aff_id[1] == "A100"))
+        self.assertEqual('(pos((aff_id:A100), 4, 6))', expression_as_string(Document.aff_id[3:5] == "A100"))
         #self.assertEqual('(pos((aff_id:"A100"), 3))', expression_as_string(Document.aff_id[2:] == "A100"))
     
     def test_author_count(self):

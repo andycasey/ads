@@ -87,17 +87,17 @@ class TestJournal(unittest.TestCase):
 
         self.assertEqual(
             expression_as_string(Document.journal == Journal.get(abbreviation="MNRAS")),
-            "(bibstem:MNRAS)"
+            '(bibstem:"MNRAS")'
         )
 
         self.assertEqual(
             expression_as_string(Document.journal.title == "The Astrophysical Journal"),
-            "(bibstem:ApJ)"
+            '(bibstem:"ApJ")'
         )
 
         self.assertEqual(
             expression_as_string(Document.journal.abbreviation == "ApJ"),
-            "(bibstem:ApJ)"
+            '(bibstem:"ApJ")'
         )
 
         if strict:
@@ -114,7 +114,7 @@ class TestJournal(unittest.TestCase):
         s2 = expression_as_string(Document.journal == abbreviation)
         self.assertEqual(s1, s2)
 
-        self.assertEqual(s1, "(bibstem:PASA)")
+        self.assertEqual(s1, '(bibstem:"PASA")')
         
 
     def test_document_select(self):

@@ -78,7 +78,7 @@ class TestAffiliation(unittest.TestCase):
 
         self.assertEqual(
             str(SolrQuery(Document.affiliation == Affiliation.get(abbreviation="MIT"))),
-            "(aff_id:A00331)"
+            '(aff_id:A00331)'
         )
 
         self.assertEqual(
@@ -104,7 +104,7 @@ class TestAffiliation(unittest.TestCase):
         s1 = str(SolrQuery(Document.affiliation == monash))
         s2 = str(SolrQuery(Document.affiliation == abbreviation))
         self.assertEqual(s1, s2)
-        self.assertEqual(s1, "(aff_id:A00409)")
+        self.assertEqual(s1, '(aff_id:A00409)')
         
 
     def test_no_affiliation(self):

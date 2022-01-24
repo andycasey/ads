@@ -9,7 +9,7 @@ class TestLibraryService(unittest.TestCase):
 
     def test_create_library_from_init(self):
 
-        name, description = ("moo", "cow")
+        name, description = ("test_moo", "cow")
         lib = Library(name=name, description=description)
         self.assertNotIn("id", lib.__data__)
         lib.save()
@@ -28,8 +28,7 @@ class TestLibraryService(unittest.TestCase):
         
 
     def test_create_library(self):
-
-        name, public = ("moo2", True)
+        name, public = ("test_moo2", True)
         lib = Library.create(name=name, public=public)
         self.assertEqual(lib.name, name)
         self.assertIn("id", lib.__data__)
