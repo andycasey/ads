@@ -139,7 +139,7 @@ class SolrQuery:
                 elif obj.op in (OP.OR, OP.AND):
                     self.literal(f" {obj.op} ")
                 else:
-                    raise a
+                    raise NotImplementedError()
                 
                 if obj.op in (OP.LT, OP.LTE):
                     self.literal("-")
