@@ -1,12 +1,12 @@
 
 import unittest
-
+from ads.services.search import SolrQuery
 from ads.models.document import Document
 
 
 def expression_as_string(expression):
-    return Document.select().where(expression).__str__()
-
+    return str(SolrQuery(expression))
+    
 
 class TestExpressions(unittest.TestCase):
 
@@ -16,25 +16,25 @@ class TestExpressions(unittest.TestCase):
     #(~(Document.year <= 2020), "-year:-2020")
 
     def test_year_eq(self):
-        self.assertEqual(expression_as_string(Document.year == 2005), "year:2005")
+        self.assertEqual(expression_as_string(Document.year == 2005), "(year:2005)")
 
     def test_year_gt(self):
-        self.assertEqual(expression_as_string(Document.year > 2005), "year:2006-")
+        self.assertEqual(expression_as_string(Document.year > 2005), "(year:2006-)")
     
     def test_year_lt(self):
-        self.assertEqual(expression_as_string(Document.year < 2020), "year:-2019")
+        self.assertEqual(expression_as_string(Document.year < 2020), "(year:-2019)")
     
     def test_year_gte(self):
-        self.assertEqual(expression_as_string(Document.year >= 2020), "year:2020-")
+        self.assertEqual(expression_as_string(Document.year >= 2020), "(year:2020-)")
     
     def test_year_lte(self):
-        self.assertEqual(expression_as_string(Document.year <= 2020), "year:-2020")
+        self.assertEqual(expression_as_string(Document.year <= 2020), "(year:-2020)")
     
     def test_year_between(self):
-        self.assertEqual(expression_as_string(Document.year.between(2005, 2020)), "year:[2005 TO 2020]")
+        self.assertEqual(expression_as_string(Document.year.between(2005, 2020)), "(year:[2005 TO 2020])")
 
     def test_year_like(self):
-        self.assertEqual(expression_as_string(Document.year.like("201?")), "year:201?")
+        self.assertEqual(expression_as_string(Document.year.like("201?")), "(year:201?)")
 
     '''
 
