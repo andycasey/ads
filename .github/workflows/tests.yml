@@ -7,9 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        #python-version: [3.6, 3.7, 3.8, 3.9]
         # 3.6 only needs defaults for namedtuples
         # TODO: We could make a workaround
+
+        # Was causing 500 errors to make so many API requests at once.
+        # For now let's test on 3.9 only
+        python-version: [3.9]
 
     steps:
       - uses: actions/checkout@v2
