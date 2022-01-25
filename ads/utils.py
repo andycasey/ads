@@ -106,15 +106,22 @@ def setup_database():
     except:
         None
 
+    # Close old db
+    database.close()
+
     # Create the databases.
     print(f"Create database")
     with database.atomic():
 
         database.connect(reuse_if_open=True)
+        print(f"Dropping tables")
+        database.drop_tables([Affiliation, Journal])
         print(f"Create tables..")
         database.create_tables([Affiliation, Journal])
 
     with database.atomic():
+        database.connect(reuse_if_open=True)
+
         _journals_path = _get_data_path("journals.json")
         _affiliation_path = _get_data_path("affiliations.tsv")
         _affiliation_country_path = _get_data_path("affiliations_country.tsv")
