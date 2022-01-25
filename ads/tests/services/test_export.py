@@ -34,6 +34,9 @@ class TestExport(unittest.TestCase):
             ads.services.export.bibtex(self.bibcodes, journal_format=0)
 
         with self.assertRaises(TypeError):
+            ads.services.export.bibtex(self.bibcodes, journal_format="aas")
+
+        with self.assertRaises(TypeError):
             ads.services.export.bibtex(self.bibcodes, sort=True)
 
         with self.assertRaises(TypeError):
@@ -83,6 +86,8 @@ class TestExport(unittest.TestCase):
         self.assertIsInstance(data, str)
         with open(export_data_path("bibtex.log"), "r") as fp:
             self.assertEqual(data, fp.read())
+        data2 = ads.services.export.bibtex(self.bibcodes[0], max_author=2, author_cutoff=200, key_format="%1H:%Y%zm", journal_format=3)
+
 
     def test_export_endnote(self):
         data = ads.services.export.endnote(self.bibcodes)
