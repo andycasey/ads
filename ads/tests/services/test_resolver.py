@@ -21,6 +21,10 @@ class TestResolver(unittest.TestCase):
         with open(data_path("external_resources.json"), "r") as fp:
             self.assertEqual(resources, json.load(fp))
 
+    def test_close_match(self):
+        with self.assertRaises(ValueError):
+            resolver.external_resource(self.document, "ads")
+
     def test_resource_arxiv(self):
         r = resolver.external_resource(self.document, "arxiv")
         self.assertIsInstance(r, dict)
