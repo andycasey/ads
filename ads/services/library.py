@@ -96,10 +96,15 @@ class LibraryInterface(Database):
                 return local_query.execute().cursor
 
         elif isinstance(query, Insert):
-            
-            field_names = {"name", "description", "public", "bibcode"}
-            data = { k.name: v for k, v in query._insert.items() if k.name in field_names }
+            data = {}
+            #print(query._insert)
+            for k, v in query._insert.items():
+                if k.name in ("name", "description", "public"):
+                    data[k.name] = v
+                elif k.name == "documents":
+                    data["bibcode"] = v["add"]
 
+            #print(f"Inserting {data}")
             # TODO: Warn about ignored fields.
             with self.database as client:
                 response = client.api_request(
@@ -120,6 +125,7 @@ class LibraryInterface(Database):
             if isinstance(query, Update):
                 data = { k.name: v for k, v in query._update.items() }
                 
+                #print(f"Updating {data}")
                 # Update metadata.
                 metadata_field_names = {"name", "description", "public"}
                 dirty_metadata_field_names = set(data).intersection(metadata_field_names)
@@ -161,6 +167,7 @@ class LibraryInterface(Database):
                 # Update documents.
                 if data.get("documents", None) is not None:
                     # Of the form {'add': {'2018A&A...616A...1G'}, 'remove': set()}
+                    #print(f'Updating documents for library {library_id} {data["documents"]}')
                     with self.database as client:
                         for action, bibcode in data["documents"].items():
                             if not bibcode: continue
@@ -225,20 +232,35 @@ def operation(library, action, libraries=None, return_new_library=False):
     available_actions = ("union", "intersection", "difference", "empty", "copy")
     if action not in available_actions:
         raise ValueError(f"Invalid operation action '{action}'. Must be one of {', '.join(available_actions)}")
-    
+
+    if library.id is None or (libraries and (None in [library.id for library in libraries])):
+        raise ValueError(f"libraries must be created remotely on ADS before set operations can occur")
+
     payload = dict(action=action)
     if libraries:
         payload["libraries"] = [library.id for library in libraries]
 
+    from ads import Document
     with Client() as client:
         response = client.api_request(
             f"biblib/libraries/operations/{library.id}",
             data=json.dumps(payload),
             method="post",
         )
+        # This sends back the documents as `bibcode` keyword.
+        kwds = response.json
+        bibcodes = kwds.pop("bibcode")
+        if not bibcodes:
+            kwds["documents"] = []
+        else:
+            kwds["documents"] = list(
+                Document.select()\
+                        .where(Document.bibcode.in_(bibcodes))\
+                        .limit(len(bibcodes))
+            )
 
     if return_new_library:
-        new = library.__class__(**response.json)
+        new = library.__class__(**kwds)
         new._dirty.clear()
         return new
     return None
@@ -287,35 +309,46 @@ class DocumentsAccessor(ForeignKeyAccessor):
         except AttributeError:
             bibcodes = instance.__data__.get("documents", None)
             if bibcodes is None:
-                with Client() as client:
-                    response = client.api_request(
-                        f"biblib/libraries/{instance.id}", 
-                        params=dict(rows=instance.num_documents)
-                    )
-                    # TODO: The terminology here in the response is not quite right (eg bibcodes / documents)
-                    # Email the ADS team about this.
-            
-                    # Update the metadata.
-                    metadata = response.json["metadata"]
-                    instance.__data__.update(metadata)
-                    instance._dirty -= set(metadata)
+                if instance.id is None:
+                    # Library hasn't been saved yet.
+                    bibcodes = instance.__data__["documents"] = []     
+                    instance._documents = []               
+                else:
+                    with Client() as client:
+                        response = client.api_request(
+                            f"biblib/libraries/{instance.id}", 
+                            params=dict(rows=instance.num_documents)
+                        )
+                        # TODO: The terminology here in the response is not quite right (eg bibcodes / documents)
+                        # Email the ADS team about this.
+                
+                        # Update the metadata.
+                        metadata = response.json["metadata"]
+                        instance.__data__.update(metadata)
+                        instance._dirty -= set(metadata)
 
-                    bibcodes = instance.__data__["documents"] = response.json["documents"]
-            
-            from ads import Document
-            instance._documents = list(
-                Document.select()
-                        .where(Document.bibcode.in_(bibcodes))
-                        .limit(len(bibcodes))
-            )
+                        bibcodes = instance.__data__["documents"] = response.json["documents"]
+                    
+                    from ads import Document
+                    instance._documents = list(
+                        Document.select()
+                                .where(Document.bibcode.in_(bibcodes))
+                                .limit(len(bibcodes))
+                    )
+            elif len(bibcodes) == 0:
+                instance._documents = []
+                
             return instance._documents
 
     def __set__(self, instance, obj):
         if obj is None:
             super().__set__(instance, obj)
         else:
-            instance._documents = obj
+            #print(f"setting documents on {instance} as {obj}")
+            instance._documents = flatten(obj)
             instance._dirty.add("documents")
+            instance.__data__["num_documents"] = len(instance._documents)
+
 
 class DocumentArrayField(ForeignKeyField):
     accessor_class = DocumentsAccessor

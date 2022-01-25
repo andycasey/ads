@@ -119,10 +119,12 @@ class Library(Model):
     # Specifically, we have to work out the `diff` changes needed to send to ADS.
 
     def _populate_unsaved_relations(self, field_dict):
-        # Populate the `documents` key of update kwargs to a list of add/remove executions.
         super()._populate_unsaved_relations(field_dict)
-        if "documents" in field_dict and hasattr(self, "_documents"):
+
+        # Populate the `documents` key of update kwargs to a list of add/remove executions.
+        if hasattr(self, "_documents"):
             old = set(self.__data__.get("documents", [])) # The truth
+
             new = set([doc.bibcode for doc in getattr(self, "_documents", [])])
             add, remove = (list(set(new).difference(old)), list(set(old).difference(new)))
             field_dict["documents"] = dict(add=add, remove=remove)
@@ -136,13 +138,14 @@ class Library(Model):
         
     
     def save(self, force_insert=False, only=None):
+        #print(f"saving {force_insert} {only}")
         self._dirty.update({"documents", "permissions"})
         result = super().save(force_insert=force_insert, only=only)
+
         if getattr(self, "_documents", None) is not None:
             self.__data__["num_documents"] = len(self._documents)
 
-        # If `documents` were given when the library was created, they may have been
-        # a list of bibcodes or a list of `ads.Document` objects. 
+        # Keep documents in sync.
         if getattr(self, "_documents", None) is not None:
             if all(isinstance(doc, Document) for doc in self._documents):
                 self.__data__["documents"] = [doc.bibcode for doc in self._documents]
@@ -152,5 +155,4 @@ class Library(Model):
                 self._documents = None
             else:
                 raise ValueError("eek")
-
         return result
