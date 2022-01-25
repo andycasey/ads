@@ -26,9 +26,11 @@ class TestVis(unittest.TestCase):
         self.assertIsNotNone(data)
         self.assertIsInstance(data, dict)
 
-
     def test_paper_network(self):
         data = ads.services.vis.paper_network(self.bibcodes)
         self.assertIsNotNone(data)
         self.assertIsInstance(data, dict)
-        
+    
+    def test_fail(self):
+        with self.assertRaises(ValueError):
+            ads.services.vis._network_request("foo", self.bibcodes)

@@ -4,7 +4,7 @@ import ads.services.export
 from ads import Document
 
 def export_data_path(basename):
-    return os.path.join(os.path.dirname(__file__), "export_data", basename)
+    return os.path.join(os.path.dirname(__file__), "data", basename)
 
 
 
