@@ -8,15 +8,15 @@ from ads.client import APIResponseError
 def random_library_name(length=40):
     return "test_" + ''.join(random.choice(string.ascii_lowercase) for i in range(length))
 
-
+'''
 class TestCleanUp(unittest.TestCase):
 
     def test_delete_all_test_libraries(self):
         # Failed tests have a tendency to build up libraries named "test_*".
         for library in Library.select():
             if library.name.startswith("test_"):
-                library.delete()
-        
+                library.delete()        
+'''
 
 class TestLibraryDocuments(unittest.TestCase):
 

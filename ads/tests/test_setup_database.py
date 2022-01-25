@@ -8,7 +8,7 @@ class TestSetup(unittest.TestCase):
         setup_database()
 
 
-class TestSetupCLI(unittest.TestCase):
-    def test_setup_cli(self):
-        exit_status = os.system("ads-setup")
-        self.assertEqual(0, exit_status)
+#class TestSetupCLI(unittest.TestCase):
+#    def test_setup_cli(self):
+#        exit_status = os.system("ads-setup")
+#        self.assertEqual(0, exit_status)
