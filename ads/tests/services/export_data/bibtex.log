@@ -1,0 +1,48 @@
+@ARTICLE{2020A&A...642C...1G,
+       author = {{Gaia Collaboration} and {Helmi}, A. and {van Leeuwen}, F. and {McMillan}, P.~J. and {Massari}, D. and {Antoja}, T. and {Robin}, A.~C. and {Lindegren}, L. and {Bastian}, U. and {Arenou}, F. and et al.},
+        title = "{Gaia Data Release 2. The kinematics of globular clusters and dwarf galaxies around the Milky Way (Corrigendum)}",
+      journal = {\aap},
+     keywords = {Galaxy: kinematics and dynamics, astrometry, Magellanic Clouds, galaxies: dwarf, Local Group, errata, addenda},
+         year = 2020,
+        month = oct,
+       volume = {642},
+          eid = {C1},
+        pages = {C1},
+          doi = {10.1051/0004-6361/202039217},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2020A&A...642C...1G},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+@ARTICLE{2020A&A...637C...3G,
+       author = {{Gaia Collaboration} and {Helmi}, A. and {van Leeuwen}, F. and {McMillan}, P.~J. and {Massari}, D. and {Antoja}, T. and {Robin}, A.~C. and {Lindegren}, L. and {Bastian}, U. and {Arenou}, F. and et al.},
+        title = "{Gaia Data Release 2. Kinematics of globular clusters and dwarf galaxies around the Milky Way (Corrigendum)}",
+      journal = {\aap},
+     keywords = {Galaxy: kinematics and dynamics, astrometry, globular clusters: general, galaxies: dwarf, Local Group, errata, addenda},
+         year = 2020,
+        month = may,
+       volume = {637},
+          eid = {C3},
+        pages = {C3},
+          doi = {10.1051/0004-6361/201832698e},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2020A&A...637C...3G},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+@ARTICLE{2019MNRAS.488.2892P,
+       author = {{Pelisoli}, Ingrid and {Vos}, Joris},
+        title = "{Gaia Data Release 2 catalogue of extremely low-mass white dwarf candidates}",
+      journal = {\mnras},
+     keywords = {catalogues, surveys, binaries: close, white dwarfs, Astrophysics - Solar and Stellar Astrophysics},
+         year = 2019,
+        month = sep,
+       volume = {488},
+       number = {2},
+        pages = {2892-2903},
+          doi = {10.1093/mnras/stz1876},
+archivePrefix = {arXiv},
+       eprint = {1907.03766},
+ primaryClass = {astro-ph.SR},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2019MNRAS.488.2892P},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+

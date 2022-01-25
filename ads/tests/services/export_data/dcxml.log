@@ -1,0 +1,948 @@
+<?xml version='1.0' encoding='utf8'?>
+<records xmlns="http://ads.harvard.edu/schema/abs/1.1/dc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://ads.harvard.edu/schema/abs/1.1/dc http://ads.harvard.edu/schema/abs/1.1/dc.xsd" retrieved="3" start="1" selected="3" citations="34">
+<record>
+<dc:identifier>2020A&amp;A...642C...1G</dc:identifier>
+<dc:title>Gaia Data Release 2. The kinematics of globular clusters and dwarf galaxies around the Milky Way (Corrigendum)</dc:title>
+<dc:creator>Gaia Collaboration</dc:creator>
+<dc:creator>Helmi, A.</dc:creator>
+<dc:creator>van Leeuwen, F.</dc:creator>
+<dc:creator>McMillan, P. J.</dc:creator>
+<dc:creator>Massari, D.</dc:creator>
+<dc:creator>Antoja, T.</dc:creator>
+<dc:creator>Robin, A. C.</dc:creator>
+<dc:creator>Lindegren, L.</dc:creator>
+<dc:creator>Bastian, U.</dc:creator>
+<dc:creator>Arenou, F.</dc:creator>
+<dc:creator>Babusiaux, C.</dc:creator>
+<dc:creator>Biermann, M.</dc:creator>
+<dc:creator>Breddels, M. A.</dc:creator>
+<dc:creator>Hobbs, D.</dc:creator>
+<dc:creator>Jordi, C.</dc:creator>
+<dc:creator>Pancino, E.</dc:creator>
+<dc:creator>Reylé, C.</dc:creator>
+<dc:creator>Veljanoski, J.</dc:creator>
+<dc:creator>Brown, A. G. A.</dc:creator>
+<dc:creator>Vallenari, A.</dc:creator>
+<dc:creator>Prusti, T.</dc:creator>
+<dc:creator>de Bruijne, J. H. J.</dc:creator>
+<dc:creator>Bailer-Jones, C. A. L.</dc:creator>
+<dc:creator>Evans, D. W.</dc:creator>
+<dc:creator>Eyer, L.</dc:creator>
+<dc:creator>Jansen, F.</dc:creator>
+<dc:creator>Klioner, S. A.</dc:creator>
+<dc:creator>Lammers, U.</dc:creator>
+<dc:creator>Luri, X.</dc:creator>
+<dc:creator>Mignard, F.</dc:creator>
+<dc:creator>Panem, C.</dc:creator>
+<dc:creator>Pourbaix, D.</dc:creator>
+<dc:creator>Randich, S.</dc:creator>
+<dc:creator>Sartoretti, P.</dc:creator>
+<dc:creator>Siddiqui, H. I.</dc:creator>
+<dc:creator>Soubiran, C.</dc:creator>
+<dc:creator>Walton, N. A.</dc:creator>
+<dc:creator>Cropper, M.</dc:creator>
+<dc:creator>Drimmel, R.</dc:creator>
+<dc:creator>Katz, D.</dc:creator>
+<dc:creator>Lattanzi, M. G.</dc:creator>
+<dc:creator>Bakker, J.</dc:creator>
+<dc:creator>Cacciari, C.</dc:creator>
+<dc:creator>Castañeda, J.</dc:creator>
+<dc:creator>Chaoul, L.</dc:creator>
+<dc:creator>Cheek, N.</dc:creator>
+<dc:creator>De Angeli, F.</dc:creator>
+<dc:creator>Fabricius, C.</dc:creator>
+<dc:creator>Guerra, R.</dc:creator>
+<dc:creator>Holl, B.</dc:creator>
+<dc:creator>Masana, E.</dc:creator>
+<dc:creator>Messineo, R.</dc:creator>
+<dc:creator>Mowlavi, N.</dc:creator>
+<dc:creator>Nienartowicz, K.</dc:creator>
+<dc:creator>Panuzzo, P.</dc:creator>
+<dc:creator>Portell, J.</dc:creator>
+<dc:creator>Riello, M.</dc:creator>
+<dc:creator>Seabroke, G. M.</dc:creator>
+<dc:creator>Tanga, P.</dc:creator>
+<dc:creator>Thévenin, F.</dc:creator>
+<dc:creator>Gracia-Abril, G.</dc:creator>
+<dc:creator>Comoretto, G.</dc:creator>
+<dc:creator>Garcia-Reinaldos, M.</dc:creator>
+<dc:creator>Teyssier, D.</dc:creator>
+<dc:creator>Altmann, M.</dc:creator>
+<dc:creator>Andrae, R.</dc:creator>
+<dc:creator>Audard, M.</dc:creator>
+<dc:creator>Bellas-Velidis, I.</dc:creator>
+<dc:creator>Benson, K.</dc:creator>
+<dc:creator>Berthier, J.</dc:creator>
+<dc:creator>Blomme, R.</dc:creator>
+<dc:creator>Burgess, P.</dc:creator>
+<dc:creator>Busso, G.</dc:creator>
+<dc:creator>Carry, B.</dc:creator>
+<dc:creator>Cellino, A.</dc:creator>
+<dc:creator>Clementini, G.</dc:creator>
+<dc:creator>Clotet, M.</dc:creator>
+<dc:creator>Creevey, O.</dc:creator>
+<dc:creator>Davidson, M.</dc:creator>
+<dc:creator>De Ridder, J.</dc:creator>
+<dc:creator>Delchambre, L.</dc:creator>
+<dc:creator>Dell'Oro, A.</dc:creator>
+<dc:creator>Ducourant, C.</dc:creator>
+<dc:creator>Fernández-Hernández, J.</dc:creator>
+<dc:creator>Fouesneau, M.</dc:creator>
+<dc:creator>Frémat, Y.</dc:creator>
+<dc:creator>Galluccio, L.</dc:creator>
+<dc:creator>García-Torres, M.</dc:creator>
+<dc:creator>González-Núñez, J.</dc:creator>
+<dc:creator>González-Vidal, J. J.</dc:creator>
+<dc:creator>Gosset, E.</dc:creator>
+<dc:creator>Guy, L. P.</dc:creator>
+<dc:creator>Halbwachs, J. -L.</dc:creator>
+<dc:creator>Hambly, N. C.</dc:creator>
+<dc:creator>Harrison, D. L.</dc:creator>
+<dc:creator>Hernández, J.</dc:creator>
+<dc:creator>Hestroffer, D.</dc:creator>
+<dc:creator>Hodgkin, S. T.</dc:creator>
+<dc:creator>Hutton, A.</dc:creator>
+<dc:creator>Jasniewicz, G.</dc:creator>
+<dc:creator>Jean-Antoine-Piccolo, A.</dc:creator>
+<dc:creator>Jordan, S.</dc:creator>
+<dc:creator>Korn, A. J.</dc:creator>
+<dc:creator>Krone-Martins, A.</dc:creator>
+<dc:creator>Lanzafame, A. C.</dc:creator>
+<dc:creator>Lebzelter, T.</dc:creator>
+<dc:creator>Löffler, W.</dc:creator>
+<dc:creator>Manteiga, M.</dc:creator>
+<dc:creator>Marrese, P. M.</dc:creator>
+<dc:creator>Martín-Fleitas, J. M.</dc:creator>
+<dc:creator>Moitinho, A.</dc:creator>
+<dc:creator>Mora, A.</dc:creator>
+<dc:creator>Muinonen, K.</dc:creator>
+<dc:creator>Osinde, J.</dc:creator>
+<dc:creator>Pauwels, T.</dc:creator>
+<dc:creator>Petit, J. -M.</dc:creator>
+<dc:creator>Recio-Blanco, A.</dc:creator>
+<dc:creator>Richards, P. J.</dc:creator>
+<dc:creator>Rimoldini, L.</dc:creator>
+<dc:creator>Sarro, L. M.</dc:creator>
+<dc:creator>Siopis, C.</dc:creator>
+<dc:creator>Smith, M.</dc:creator>
+<dc:creator>Sozzetti, A.</dc:creator>
+<dc:creator>Süveges, M.</dc:creator>
+<dc:creator>Torra, J.</dc:creator>
+<dc:creator>van Reeven, W.</dc:creator>
+<dc:creator>Abbas, U.</dc:creator>
+<dc:creator>Abreu Aramburu, A.</dc:creator>
+<dc:creator>Accart, S.</dc:creator>
+<dc:creator>Aerts, C.</dc:creator>
+<dc:creator>Altavilla, G.</dc:creator>
+<dc:creator>Álvarez, M. A.</dc:creator>
+<dc:creator>Alvarez, R.</dc:creator>
+<dc:creator>Alves, J.</dc:creator>
+<dc:creator>Anderson, R. I.</dc:creator>
+<dc:creator>Andrei, A. H.</dc:creator>
+<dc:creator>Anglada Varela, E.</dc:creator>
+<dc:creator>Antiche, E.</dc:creator>
+<dc:creator>Arcay, B.</dc:creator>
+<dc:creator>Astraatmadja, T. L.</dc:creator>
+<dc:creator>Bach, N.</dc:creator>
+<dc:creator>Baker, S. G.</dc:creator>
+<dc:creator>Balaguer-Núñez, L.</dc:creator>
+<dc:creator>Balm, P.</dc:creator>
+<dc:creator>Barache, C.</dc:creator>
+<dc:creator>Barata, C.</dc:creator>
+<dc:creator>Barbato, D.</dc:creator>
+<dc:creator>Barblan, F.</dc:creator>
+<dc:creator>Barklem, P. S.</dc:creator>
+<dc:creator>Barrado, D.</dc:creator>
+<dc:creator>Barros, M.</dc:creator>
+<dc:creator>Barstow, M. A.</dc:creator>
+<dc:creator>Bartholomé Muñoz, S.</dc:creator>
+<dc:creator>Bassilana, J. -L.</dc:creator>
+<dc:creator>Becciani, U.</dc:creator>
+<dc:creator>Bellazzini, M.</dc:creator>
+<dc:creator>Berihuete, A.</dc:creator>
+<dc:creator>Bertone, S.</dc:creator>
+<dc:creator>Bianchi, L.</dc:creator>
+<dc:creator>Bienaymé, O.</dc:creator>
+<dc:creator>Blanco-Cuaresma, S.</dc:creator>
+<dc:creator>Boch, T.</dc:creator>
+<dc:creator>Boeche, C.</dc:creator>
+<dc:creator>Bombrun, A.</dc:creator>
+<dc:creator>Borrachero, R.</dc:creator>
+<dc:creator>Bossini, D.</dc:creator>
+<dc:creator>Bouquillon, S.</dc:creator>
+<dc:creator>Bourda, G.</dc:creator>
+<dc:creator>Bragaglia, A.</dc:creator>
+<dc:creator>Bramante, L.</dc:creator>
+<dc:creator>Bressan, A.</dc:creator>
+<dc:creator>Brouillet, N.</dc:creator>
+<dc:creator>Brüsemeister, T.</dc:creator>
+<dc:creator>Brugaletta, E.</dc:creator>
+<dc:creator>Bucciarelli, B.</dc:creator>
+<dc:creator>Burlacu, A.</dc:creator>
+<dc:creator>Busonero, D.</dc:creator>
+<dc:creator>Butkevich, A. G.</dc:creator>
+<dc:creator>Buzzi, R.</dc:creator>
+<dc:creator>Caffau, E.</dc:creator>
+<dc:creator>Cancelliere, R.</dc:creator>
+<dc:creator>Cannizzaro, G.</dc:creator>
+<dc:creator>Cantat-Gaudin, T.</dc:creator>
+<dc:creator>Carballo, R.</dc:creator>
+<dc:creator>Carlucci, T.</dc:creator>
+<dc:creator>Carrasco, J. M.</dc:creator>
+<dc:creator>Casamiquela, L.</dc:creator>
+<dc:creator>Castellani, M.</dc:creator>
+<dc:creator>Castro-Ginard, A.</dc:creator>
+<dc:creator>Charlot, P.</dc:creator>
+<dc:creator>Chemin, L.</dc:creator>
+<dc:creator>Chiavassa, A.</dc:creator>
+<dc:creator>Cocozza, G.</dc:creator>
+<dc:creator>Costigan, G.</dc:creator>
+<dc:creator>Cowell, S.</dc:creator>
+<dc:creator>Crifo, F.</dc:creator>
+<dc:creator>Crosta, M.</dc:creator>
+<dc:creator>Crowley, C.</dc:creator>
+<dc:creator>Cuypers, J.</dc:creator>
+<dc:creator>Dafonte, C.</dc:creator>
+<dc:creator>Damerdji, Y.</dc:creator>
+<dc:creator>Dapergolas, A.</dc:creator>
+<dc:creator>David, P.</dc:creator>
+<dc:creator>David, M.</dc:creator>
+<dc:creator>de Laverny, P.</dc:creator>
+<dc:creator>De Luise, F.</dc:creator>
+<dc:creator>De March, R.</dc:creator>
+<dc:creator>de Martino, D.</dc:creator>
+<dc:creator>de Souza, R.</dc:creator>
+<dc:creator>de Torres, A.</dc:creator>
+<dc:creator>Debosscher, J.</dc:creator>
+<dc:creator>del Pozo, E.</dc:creator>
+<dc:creator>Delbo, M.</dc:creator>
+<dc:creator>Delgado, A.</dc:creator>
+<dc:creator>Delgado, H. E.</dc:creator>
+<dc:creator>Di Matteo, P.</dc:creator>
+<dc:creator>Diakite, S.</dc:creator>
+<dc:creator>Diener, C.</dc:creator>
+<dc:creator>Distefano, E.</dc:creator>
+<dc:creator>Dolding, C.</dc:creator>
+<dc:creator>Drazinos, P.</dc:creator>
+<dc:creator>Durán, J.</dc:creator>
+<dc:creator>Edvardsson, B.</dc:creator>
+<dc:creator>Enke, H.</dc:creator>
+<dc:creator>Eriksson, K.</dc:creator>
+<dc:creator>Esquej, P.</dc:creator>
+<dc:creator>Eynard Bontemps, G.</dc:creator>
+<dc:creator>Fabre, C.</dc:creator>
+<dc:creator>Fabrizio, M.</dc:creator>
+<dc:creator>Faigler, S.</dc:creator>
+<dc:creator>Falcão, A. J.</dc:creator>
+<dc:creator>Farràs Casas, M.</dc:creator>
+<dc:creator>Federici, L.</dc:creator>
+<dc:creator>Fedorets, G.</dc:creator>
+<dc:creator>Fernique, P.</dc:creator>
+<dc:creator>Figueras, F.</dc:creator>
+<dc:creator>Filippi, F.</dc:creator>
+<dc:creator>Findeisen, K.</dc:creator>
+<dc:creator>Fonti, A.</dc:creator>
+<dc:creator>Fraile, E.</dc:creator>
+<dc:creator>Fraser, M.</dc:creator>
+<dc:creator>Frézouls, B.</dc:creator>
+<dc:creator>Gai, M.</dc:creator>
+<dc:creator>Galleti, S.</dc:creator>
+<dc:creator>Garabato, D.</dc:creator>
+<dc:creator>García-Sedano, F.</dc:creator>
+<dc:creator>Garofalo, A.</dc:creator>
+<dc:creator>Garralda, N.</dc:creator>
+<dc:creator>Gavel, A.</dc:creator>
+<dc:creator>Gavras, P.</dc:creator>
+<dc:creator>Gerssen, J.</dc:creator>
+<dc:creator>Geyer, R.</dc:creator>
+<dc:creator>Giacobbe, P.</dc:creator>
+<dc:creator>Gilmore, G.</dc:creator>
+<dc:creator>Girona, S.</dc:creator>
+<dc:creator>Giuffrida, G.</dc:creator>
+<dc:creator>Glass, F.</dc:creator>
+<dc:creator>Gomes, M.</dc:creator>
+<dc:creator>Granvik, M.</dc:creator>
+<dc:creator>Gueguen, A.</dc:creator>
+<dc:creator>Guerrier, A.</dc:creator>
+<dc:creator>Guiraud, J.</dc:creator>
+<dc:creator>Gutiérrez-Sánchez, R.</dc:creator>
+<dc:creator>Haigron, R.</dc:creator>
+<dc:creator>Hatzidimitriou, D.</dc:creator>
+<dc:creator>Hauser, M.</dc:creator>
+<dc:creator>Haywood, M.</dc:creator>
+<dc:creator>Heiter, U.</dc:creator>
+<dc:creator>Heu, J.</dc:creator>
+<dc:creator>Hilger, T.</dc:creator>
+<dc:creator>Hofmann, W.</dc:creator>
+<dc:creator>Holland, G.</dc:creator>
+<dc:creator>Huckle, H. E.</dc:creator>
+<dc:creator>Hypki, A.</dc:creator>
+<dc:creator>Icardi, V.</dc:creator>
+<dc:creator>Janßen, K.</dc:creator>
+<dc:creator>Jevardat de Fombelle, G.</dc:creator>
+<dc:creator>Jonker, P. G.</dc:creator>
+<dc:creator>Juhász, Á. L.</dc:creator>
+<dc:creator>Julbe, F.</dc:creator>
+<dc:creator>Karampelas, A.</dc:creator>
+<dc:creator>Kewley, A.</dc:creator>
+<dc:creator>Klar, J.</dc:creator>
+<dc:creator>Kochoska, A.</dc:creator>
+<dc:creator>Kohley, R.</dc:creator>
+<dc:creator>Kolenberg, K.</dc:creator>
+<dc:creator>Kontizas, M.</dc:creator>
+<dc:creator>Kontizas, E.</dc:creator>
+<dc:creator>Koposov, S. E.</dc:creator>
+<dc:creator>Kordopatis, G.</dc:creator>
+<dc:creator>Kostrzewa-Rutkowska, Z.</dc:creator>
+<dc:creator>Koubsky, P.</dc:creator>
+<dc:creator>Lambert, S.</dc:creator>
+<dc:creator>Lanza, A. F.</dc:creator>
+<dc:creator>Lasne, Y.</dc:creator>
+<dc:creator>Lavigne, J. -B.</dc:creator>
+<dc:creator>Le Fustec, Y.</dc:creator>
+<dc:creator>Le Poncin-Lafitte, C.</dc:creator>
+<dc:creator>Lebreton, Y.</dc:creator>
+<dc:creator>Leccia, S.</dc:creator>
+<dc:creator>Leclerc, N.</dc:creator>
+<dc:creator>Lecoeur-Taibi, I.</dc:creator>
+<dc:creator>Lenhardt, H.</dc:creator>
+<dc:creator>Leroux, F.</dc:creator>
+<dc:creator>Liao, S.</dc:creator>
+<dc:creator>Licata, E.</dc:creator>
+<dc:creator>Lindstrøm, H. E. P.</dc:creator>
+<dc:creator>Lister, T. A.</dc:creator>
+<dc:creator>Livanou, E.</dc:creator>
+<dc:creator>Lobel, A.</dc:creator>
+<dc:creator>López, M.</dc:creator>
+<dc:creator>Managau, S.</dc:creator>
+<dc:creator>Mann, R. G.</dc:creator>
+<dc:creator>Mantelet, G.</dc:creator>
+<dc:creator>Marchal, O.</dc:creator>
+<dc:creator>Marchant, J. M.</dc:creator>
+<dc:creator>Marconi, M.</dc:creator>
+<dc:creator>Marinoni, S.</dc:creator>
+<dc:creator>Marschalkó, G.</dc:creator>
+<dc:creator>Marshall, D. J.</dc:creator>
+<dc:creator>Martino, M.</dc:creator>
+<dc:creator>Marton, G.</dc:creator>
+<dc:creator>Mary, N.</dc:creator>
+<dc:creator>Matijevič, G.</dc:creator>
+<dc:creator>Mazeh, T.</dc:creator>
+<dc:creator>Messina, S.</dc:creator>
+<dc:creator>Michalik, D.</dc:creator>
+<dc:creator>Millar, N. R.</dc:creator>
+<dc:creator>Molina, D.</dc:creator>
+<dc:creator>Molinaro, R.</dc:creator>
+<dc:creator>Molnár, L.</dc:creator>
+<dc:creator>Montegriffo, P.</dc:creator>
+<dc:creator>Mor, R.</dc:creator>
+<dc:creator>Morbidelli, R.</dc:creator>
+<dc:creator>Morel, T.</dc:creator>
+<dc:creator>Morris, D.</dc:creator>
+<dc:creator>Mulone, A. F.</dc:creator>
+<dc:creator>Muraveva, T.</dc:creator>
+<dc:creator>Musella, I.</dc:creator>
+<dc:creator>Nelemans, G.</dc:creator>
+<dc:creator>Nicastro, L.</dc:creator>
+<dc:creator>Noval, L.</dc:creator>
+<dc:creator>O'Mullane, W.</dc:creator>
+<dc:creator>Ordénovic, C.</dc:creator>
+<dc:creator>Ordóñez-Blanco, D.</dc:creator>
+<dc:creator>Osborne, P.</dc:creator>
+<dc:creator>Pagani, C.</dc:creator>
+<dc:creator>Pagano, I.</dc:creator>
+<dc:creator>Pailler, F.</dc:creator>
+<dc:creator>Palacin, H.</dc:creator>
+<dc:creator>Palaversa, L.</dc:creator>
+<dc:creator>Panahi, A.</dc:creator>
+<dc:creator>Pawlak, M.</dc:creator>
+<dc:creator>Piersimoni, A. M.</dc:creator>
+<dc:creator>Pineau, F. -X.</dc:creator>
+<dc:creator>Plachy, E.</dc:creator>
+<dc:creator>Plum, G.</dc:creator>
+<dc:creator>Poggio, E.</dc:creator>
+<dc:creator>Poujoulet, E.</dc:creator>
+<dc:creator>Prša, A.</dc:creator>
+<dc:creator>Pulone, L.</dc:creator>
+<dc:creator>Racero, E.</dc:creator>
+<dc:creator>Ragaini, S.</dc:creator>
+<dc:creator>Rambaux, N.</dc:creator>
+<dc:creator>Ramos-Lerate, M.</dc:creator>
+<dc:creator>Regibo, S.</dc:creator>
+<dc:creator>Riclet, F.</dc:creator>
+<dc:creator>Ripepi, V.</dc:creator>
+<dc:creator>Riva, A.</dc:creator>
+<dc:creator>Rivard, A.</dc:creator>
+<dc:creator>Rixon, G.</dc:creator>
+<dc:creator>Roegiers, T.</dc:creator>
+<dc:creator>Roelens, M.</dc:creator>
+<dc:creator>Romero-Gómez, M.</dc:creator>
+<dc:creator>Rowell, N.</dc:creator>
+<dc:creator>Royer, F.</dc:creator>
+<dc:creator>Ruiz-Dern, L.</dc:creator>
+<dc:creator>Sadowski, G.</dc:creator>
+<dc:creator>Sagristà Sellés, T.</dc:creator>
+<dc:creator>Sahlmann, J.</dc:creator>
+<dc:creator>Salgado, J.</dc:creator>
+<dc:creator>Salguero, E.</dc:creator>
+<dc:creator>Sanna, N.</dc:creator>
+<dc:creator>Santana-Ros, T.</dc:creator>
+<dc:creator>Sarasso, M.</dc:creator>
+<dc:creator>Savietto, H.</dc:creator>
+<dc:creator>Schultheis, M.</dc:creator>
+<dc:creator>Sciacca, E.</dc:creator>
+<dc:creator>Segol, M.</dc:creator>
+<dc:creator>Segovia, J. C.</dc:creator>
+<dc:creator>Ségransan, D.</dc:creator>
+<dc:creator>Shih, I. -C.</dc:creator>
+<dc:creator>Siltala, L.</dc:creator>
+<dc:creator>Silva, A. F.</dc:creator>
+<dc:creator>Smart, R. L.</dc:creator>
+<dc:creator>Smith, K. W.</dc:creator>
+<dc:creator>Solano, E.</dc:creator>
+<dc:creator>Solitro, F.</dc:creator>
+<dc:creator>Sordo, R.</dc:creator>
+<dc:creator>Soria Nieto, S.</dc:creator>
+<dc:creator>Souchay, J.</dc:creator>
+<dc:creator>Spagna, A.</dc:creator>
+<dc:creator>Spoto, F.</dc:creator>
+<dc:creator>Stampa, U.</dc:creator>
+<dc:creator>Steele, I. A.</dc:creator>
+<dc:creator>Steidelmüller, H.</dc:creator>
+<dc:creator>Stephenson, C. A.</dc:creator>
+<dc:creator>Stoev, H.</dc:creator>
+<dc:creator>Suess, F. F.</dc:creator>
+<dc:creator>Surdej, J.</dc:creator>
+<dc:creator>Szabados, L.</dc:creator>
+<dc:creator>Szegedi-Elek, E.</dc:creator>
+<dc:creator>Tapiador, D.</dc:creator>
+<dc:creator>Taris, F.</dc:creator>
+<dc:creator>Tauran, G.</dc:creator>
+<dc:creator>Taylor, M. B.</dc:creator>
+<dc:creator>Teixeira, R.</dc:creator>
+<dc:creator>Terrett, D.</dc:creator>
+<dc:creator>Teyssandier, P.</dc:creator>
+<dc:creator>Thuillot, W.</dc:creator>
+<dc:creator>Titarenko, A.</dc:creator>
+<dc:creator>Torra Clotet, F.</dc:creator>
+<dc:creator>Turon, C.</dc:creator>
+<dc:creator>Ulla, A.</dc:creator>
+<dc:creator>Utrilla, E.</dc:creator>
+<dc:creator>Uzzi, S.</dc:creator>
+<dc:creator>Vaillant, M.</dc:creator>
+<dc:creator>Valentini, G.</dc:creator>
+<dc:creator>Valette, V.</dc:creator>
+<dc:creator>van Elteren, A.</dc:creator>
+<dc:creator>Van Hemelryck, E.</dc:creator>
+<dc:creator>van Leeuwen, M.</dc:creator>
+<dc:creator>Vaschetto, M.</dc:creator>
+<dc:creator>Vecchiato, A.</dc:creator>
+<dc:creator>Viala, Y.</dc:creator>
+<dc:creator>Vicente, D.</dc:creator>
+<dc:creator>Vogt, S.</dc:creator>
+<dc:creator>von Essen, C.</dc:creator>
+<dc:creator>Voss, H.</dc:creator>
+<dc:creator>Votruba, V.</dc:creator>
+<dc:creator>Voutsinas, S.</dc:creator>
+<dc:creator>Walmsley, G.</dc:creator>
+<dc:creator>Weiler, M.</dc:creator>
+<dc:creator>Wertz, O.</dc:creator>
+<dc:creator>Wevers, T.</dc:creator>
+<dc:creator>Wyrzykowski, Ł.</dc:creator>
+<dc:creator>Yoldas, A.</dc:creator>
+<dc:creator>Žerjal, M.</dc:creator>
+<dc:creator>Ziaeepour, H.</dc:creator>
+<dc:creator>Zorec, J.</dc:creator>
+<dc:creator>Zschocke, S.</dc:creator>
+<dc:creator>Zucker, S.</dc:creator>
+<dc:creator>Zurbach, C.</dc:creator>
+<dc:creator>Zwitter, T.</dc:creator>
+<dc:source>Astronomy &amp;amp; Astrophysics, Volume 642, id.C1, 5 pp.</dc:source>
+<dc:date>2020-10-01</dc:date>
+<dc:subject>Galaxy: kinematics and dynamics, astrometry, Magellanic Clouds, galaxies: dwarf, Local Group, errata, addenda</dc:subject>
+<dc:relation>https://ui.adsabs.harvard.edu/abs/2020A&amp;A...642C...1G</dc:relation>
+<dc:relation>citations:2</dc:relation>
+<dc:identifier>doi:10.1051/0004-6361/202039217</dc:identifier>
+</record>
+
+<record>
+<dc:identifier>2020A&amp;A...637C...3G</dc:identifier>
+<dc:title>Gaia Data Release 2. Kinematics of globular clusters and dwarf galaxies around the Milky Way (Corrigendum)</dc:title>
+<dc:creator>Gaia Collaboration</dc:creator>
+<dc:creator>Helmi, A.</dc:creator>
+<dc:creator>van Leeuwen, F.</dc:creator>
+<dc:creator>McMillan, P. J.</dc:creator>
+<dc:creator>Massari, D.</dc:creator>
+<dc:creator>Antoja, T.</dc:creator>
+<dc:creator>Robin, A. C.</dc:creator>
+<dc:creator>Lindegren, L.</dc:creator>
+<dc:creator>Bastian, U.</dc:creator>
+<dc:creator>Arenou, F.</dc:creator>
+<dc:creator>Babusiaux, C.</dc:creator>
+<dc:creator>Biermann, M.</dc:creator>
+<dc:creator>Breddels, M. A.</dc:creator>
+<dc:creator>Hobbs, D.</dc:creator>
+<dc:creator>Jordi, C.</dc:creator>
+<dc:creator>Pancino, E.</dc:creator>
+<dc:creator>Reylé, C.</dc:creator>
+<dc:creator>Veljanoski, J.</dc:creator>
+<dc:creator>Brown, A. G. A.</dc:creator>
+<dc:creator>Vallenari, A.</dc:creator>
+<dc:creator>Prusti, T.</dc:creator>
+<dc:creator>de Bruijne, J. H. J.</dc:creator>
+<dc:creator>Bailer-Jones, C. A. L.</dc:creator>
+<dc:creator>Evans, D. W.</dc:creator>
+<dc:creator>Eyer, L.</dc:creator>
+<dc:creator>Jansen, F.</dc:creator>
+<dc:creator>Klioner, S. A.</dc:creator>
+<dc:creator>Lammers, U.</dc:creator>
+<dc:creator>Luri, X.</dc:creator>
+<dc:creator>Mignard, F.</dc:creator>
+<dc:creator>Panem, C.</dc:creator>
+<dc:creator>Pourbaix, D.</dc:creator>
+<dc:creator>Randich, S.</dc:creator>
+<dc:creator>Sartoretti, P.</dc:creator>
+<dc:creator>Siddiqui, H. I.</dc:creator>
+<dc:creator>Soubiran, C.</dc:creator>
+<dc:creator>Walton, N. A.</dc:creator>
+<dc:creator>Cropper, M.</dc:creator>
+<dc:creator>Drimmel, R.</dc:creator>
+<dc:creator>Katz, D.</dc:creator>
+<dc:creator>Lattanzi, M. G.</dc:creator>
+<dc:creator>Bakker, J.</dc:creator>
+<dc:creator>Cacciari, C.</dc:creator>
+<dc:creator>Castañeda, J.</dc:creator>
+<dc:creator>Chaoul, L.</dc:creator>
+<dc:creator>Cheek, N.</dc:creator>
+<dc:creator>De Angeli, F.</dc:creator>
+<dc:creator>Fabricius, C.</dc:creator>
+<dc:creator>Guerra, R.</dc:creator>
+<dc:creator>Holl, B.</dc:creator>
+<dc:creator>Masana, E.</dc:creator>
+<dc:creator>Messineo, R.</dc:creator>
+<dc:creator>Mowlavi, N.</dc:creator>
+<dc:creator>Nienartowicz, K.</dc:creator>
+<dc:creator>Panuzzo, P.</dc:creator>
+<dc:creator>Portell, J.</dc:creator>
+<dc:creator>Riello, M.</dc:creator>
+<dc:creator>Seabroke, G. M.</dc:creator>
+<dc:creator>Tanga, P.</dc:creator>
+<dc:creator>Thévenin, F.</dc:creator>
+<dc:creator>Gracia-Abril, G.</dc:creator>
+<dc:creator>Comoretto, G.</dc:creator>
+<dc:creator>Garcia-Reinaldos, M.</dc:creator>
+<dc:creator>Teyssier, D.</dc:creator>
+<dc:creator>Altmann, M.</dc:creator>
+<dc:creator>Andrae, R.</dc:creator>
+<dc:creator>Audard, M.</dc:creator>
+<dc:creator>Bellas-Velidis, I.</dc:creator>
+<dc:creator>Benson, K.</dc:creator>
+<dc:creator>Berthier, J.</dc:creator>
+<dc:creator>Blomme, R.</dc:creator>
+<dc:creator>Burgess, P.</dc:creator>
+<dc:creator>Busso, G.</dc:creator>
+<dc:creator>Carry, B.</dc:creator>
+<dc:creator>Cellino, A.</dc:creator>
+<dc:creator>Clementini, G.</dc:creator>
+<dc:creator>Clotet, M.</dc:creator>
+<dc:creator>Creevey, O.</dc:creator>
+<dc:creator>Davidson, M.</dc:creator>
+<dc:creator>De Ridder, J.</dc:creator>
+<dc:creator>Delchambre, L.</dc:creator>
+<dc:creator>Dell'Oro, A.</dc:creator>
+<dc:creator>Ducourant, C.</dc:creator>
+<dc:creator>Fernández-Hernández, J.</dc:creator>
+<dc:creator>Fouesneau, M.</dc:creator>
+<dc:creator>Frémat, Y.</dc:creator>
+<dc:creator>Galluccio, L.</dc:creator>
+<dc:creator>García-Torres, M.</dc:creator>
+<dc:creator>González-Núñez, J.</dc:creator>
+<dc:creator>González-Vidal, J. J.</dc:creator>
+<dc:creator>Gosset, E.</dc:creator>
+<dc:creator>Guy, L. P.</dc:creator>
+<dc:creator>Halbwachs, J. -L.</dc:creator>
+<dc:creator>Hambly, N. C.</dc:creator>
+<dc:creator>Harrison, D. L.</dc:creator>
+<dc:creator>Hernández, J.</dc:creator>
+<dc:creator>Hestroffer, D.</dc:creator>
+<dc:creator>Hodgkin, S. T.</dc:creator>
+<dc:creator>Hutton, A.</dc:creator>
+<dc:creator>Jasniewicz, G.</dc:creator>
+<dc:creator>Jean-Antoine-Piccolo, A.</dc:creator>
+<dc:creator>Jordan, S.</dc:creator>
+<dc:creator>Korn, A. J.</dc:creator>
+<dc:creator>Krone-Martins, A.</dc:creator>
+<dc:creator>Lanzafame, A. C.</dc:creator>
+<dc:creator>Lebzelter, T.</dc:creator>
+<dc:creator>Löffler, W.</dc:creator>
+<dc:creator>Manteiga, M.</dc:creator>
+<dc:creator>Marrese, P. M.</dc:creator>
+<dc:creator>Martín-Fleitas, J. M.</dc:creator>
+<dc:creator>Moitinho, A.</dc:creator>
+<dc:creator>Mora, A.</dc:creator>
+<dc:creator>Muinonen, K.</dc:creator>
+<dc:creator>Osinde, J.</dc:creator>
+<dc:creator>Pauwels, T.</dc:creator>
+<dc:creator>Petit, J. -M.</dc:creator>
+<dc:creator>Recio-Blanco, A.</dc:creator>
+<dc:creator>Richards, P. J.</dc:creator>
+<dc:creator>Rimoldini, L.</dc:creator>
+<dc:creator>Sarro, L. M.</dc:creator>
+<dc:creator>Siopis, C.</dc:creator>
+<dc:creator>Smith, M.</dc:creator>
+<dc:creator>Sozzetti, A.</dc:creator>
+<dc:creator>Süveges, M.</dc:creator>
+<dc:creator>Torra, J.</dc:creator>
+<dc:creator>van Reeven, W.</dc:creator>
+<dc:creator>Abbas, U.</dc:creator>
+<dc:creator>Abreu Aramburu, A.</dc:creator>
+<dc:creator>Accart, S.</dc:creator>
+<dc:creator>Aerts, C.</dc:creator>
+<dc:creator>Altavilla, G.</dc:creator>
+<dc:creator>Álvarez, M. A.</dc:creator>
+<dc:creator>Alvarez, R.</dc:creator>
+<dc:creator>Alves, J.</dc:creator>
+<dc:creator>Anderson, R. I.</dc:creator>
+<dc:creator>Andrei, A. H.</dc:creator>
+<dc:creator>Anglada Varela, E.</dc:creator>
+<dc:creator>Antiche, E.</dc:creator>
+<dc:creator>Arcay, B.</dc:creator>
+<dc:creator>Astraatmadja, T. L.</dc:creator>
+<dc:creator>Bach, N.</dc:creator>
+<dc:creator>Baker, S. G.</dc:creator>
+<dc:creator>Balaguer-Núñez, L.</dc:creator>
+<dc:creator>Balm, P.</dc:creator>
+<dc:creator>Barache, C.</dc:creator>
+<dc:creator>Barata, C.</dc:creator>
+<dc:creator>Barbato, D.</dc:creator>
+<dc:creator>Barblan, F.</dc:creator>
+<dc:creator>Barklem, P. S.</dc:creator>
+<dc:creator>Barrado, D.</dc:creator>
+<dc:creator>Barros, M.</dc:creator>
+<dc:creator>Barstow, M. A.</dc:creator>
+<dc:creator>Bartholomé Muñoz, S.</dc:creator>
+<dc:creator>Bassilana, J. -L.</dc:creator>
+<dc:creator>Becciani, U.</dc:creator>
+<dc:creator>Bellazzini, M.</dc:creator>
+<dc:creator>Berihuete, A.</dc:creator>
+<dc:creator>Bertone, S.</dc:creator>
+<dc:creator>Bianchi, L.</dc:creator>
+<dc:creator>Bienaymé, O.</dc:creator>
+<dc:creator>Blanco-Cuaresma, S.</dc:creator>
+<dc:creator>Boch, T.</dc:creator>
+<dc:creator>Boeche, C.</dc:creator>
+<dc:creator>Bombrun, A.</dc:creator>
+<dc:creator>Borrachero, R.</dc:creator>
+<dc:creator>Bossini, D.</dc:creator>
+<dc:creator>Bouquillon, S.</dc:creator>
+<dc:creator>Bourda, G.</dc:creator>
+<dc:creator>Bragaglia, A.</dc:creator>
+<dc:creator>Bramante, L.</dc:creator>
+<dc:creator>Bressan, A.</dc:creator>
+<dc:creator>Brouillet, N.</dc:creator>
+<dc:creator>Brüsemeister, T.</dc:creator>
+<dc:creator>Brugaletta, E.</dc:creator>
+<dc:creator>Bucciarelli, B.</dc:creator>
+<dc:creator>Burlacu, A.</dc:creator>
+<dc:creator>Busonero, D.</dc:creator>
+<dc:creator>Butkevich, A. G.</dc:creator>
+<dc:creator>Buzzi, R.</dc:creator>
+<dc:creator>Caffau, E.</dc:creator>
+<dc:creator>Cancelliere, R.</dc:creator>
+<dc:creator>Cannizzaro, G.</dc:creator>
+<dc:creator>Cantat-Gaudin, T.</dc:creator>
+<dc:creator>Carballo, R.</dc:creator>
+<dc:creator>Carlucci, T.</dc:creator>
+<dc:creator>Carrasco, J. M.</dc:creator>
+<dc:creator>Casamiquela, L.</dc:creator>
+<dc:creator>Castellani, M.</dc:creator>
+<dc:creator>Castro-Ginard, A.</dc:creator>
+<dc:creator>Charlot, P.</dc:creator>
+<dc:creator>Chemin, L.</dc:creator>
+<dc:creator>Chiavassa, A.</dc:creator>
+<dc:creator>Cocozza, G.</dc:creator>
+<dc:creator>Costigan, G.</dc:creator>
+<dc:creator>Cowell, S.</dc:creator>
+<dc:creator>Crifo, F.</dc:creator>
+<dc:creator>Crosta, M.</dc:creator>
+<dc:creator>Crowley, C.</dc:creator>
+<dc:creator>Cuypers, J.</dc:creator>
+<dc:creator>Dafonte, C.</dc:creator>
+<dc:creator>Damerdji, Y.</dc:creator>
+<dc:creator>Dapergolas, A.</dc:creator>
+<dc:creator>David, P.</dc:creator>
+<dc:creator>David, M.</dc:creator>
+<dc:creator>de Laverny, P.</dc:creator>
+<dc:creator>De Luise, F.</dc:creator>
+<dc:creator>De March, R.</dc:creator>
+<dc:creator>de Martino, D.</dc:creator>
+<dc:creator>de Souza, R.</dc:creator>
+<dc:creator>de Torres, A.</dc:creator>
+<dc:creator>Debosscher, J.</dc:creator>
+<dc:creator>del Pozo, E.</dc:creator>
+<dc:creator>Delbo, M.</dc:creator>
+<dc:creator>Delgado, A.</dc:creator>
+<dc:creator>Delgado, H. E.</dc:creator>
+<dc:creator>Di Matteo, P.</dc:creator>
+<dc:creator>Diakite, S.</dc:creator>
+<dc:creator>Diener, C.</dc:creator>
+<dc:creator>Distefano, E.</dc:creator>
+<dc:creator>Dolding, C.</dc:creator>
+<dc:creator>Drazinos, P.</dc:creator>
+<dc:creator>Durán, J.</dc:creator>
+<dc:creator>Edvardsson, B.</dc:creator>
+<dc:creator>Enke, H.</dc:creator>
+<dc:creator>Eriksson, K.</dc:creator>
+<dc:creator>Esquej, P.</dc:creator>
+<dc:creator>Eynard Bontemps, G.</dc:creator>
+<dc:creator>Fabre, C.</dc:creator>
+<dc:creator>Fabrizio, M.</dc:creator>
+<dc:creator>Faigler, S.</dc:creator>
+<dc:creator>Falcão, A. J.</dc:creator>
+<dc:creator>Farràs Casas, M.</dc:creator>
+<dc:creator>Federici, L.</dc:creator>
+<dc:creator>Fedorets, G.</dc:creator>
+<dc:creator>Fernique, P.</dc:creator>
+<dc:creator>Figueras, F.</dc:creator>
+<dc:creator>Filippi, F.</dc:creator>
+<dc:creator>Findeisen, K.</dc:creator>
+<dc:creator>Fonti, A.</dc:creator>
+<dc:creator>Fraile, E.</dc:creator>
+<dc:creator>Fraser, M.</dc:creator>
+<dc:creator>Frézouls, B.</dc:creator>
+<dc:creator>Gai, M.</dc:creator>
+<dc:creator>Galleti, S.</dc:creator>
+<dc:creator>Garabato, D.</dc:creator>
+<dc:creator>García-Sedano, F.</dc:creator>
+<dc:creator>Garofalo, A.</dc:creator>
+<dc:creator>Garralda, N.</dc:creator>
+<dc:creator>Gavel, A.</dc:creator>
+<dc:creator>Gavras, P.</dc:creator>
+<dc:creator>Gerssen, J.</dc:creator>
+<dc:creator>Geyer, R.</dc:creator>
+<dc:creator>Giacobbe, P.</dc:creator>
+<dc:creator>Gilmore, G.</dc:creator>
+<dc:creator>Girona, S.</dc:creator>
+<dc:creator>Giuffrida, G.</dc:creator>
+<dc:creator>Glass, F.</dc:creator>
+<dc:creator>Gomes, M.</dc:creator>
+<dc:creator>Granvik, M.</dc:creator>
+<dc:creator>Gueguen, A.</dc:creator>
+<dc:creator>Guerrier, A.</dc:creator>
+<dc:creator>Guiraud, J.</dc:creator>
+<dc:creator>Gutiérrez-Sánchez, R.</dc:creator>
+<dc:creator>Haigron, R.</dc:creator>
+<dc:creator>Hatzidimitriou, D.</dc:creator>
+<dc:creator>Hauser, M.</dc:creator>
+<dc:creator>Haywood, M.</dc:creator>
+<dc:creator>Heiter, U.</dc:creator>
+<dc:creator>Heu, J.</dc:creator>
+<dc:creator>Hilger, T.</dc:creator>
+<dc:creator>Hofmann, W.</dc:creator>
+<dc:creator>Holland, G.</dc:creator>
+<dc:creator>Huckle, H. E.</dc:creator>
+<dc:creator>Hypki, A.</dc:creator>
+<dc:creator>Icardi, V.</dc:creator>
+<dc:creator>Janßen, K.</dc:creator>
+<dc:creator>Jevardat de Fombelle, G.</dc:creator>
+<dc:creator>Jonker, P. G.</dc:creator>
+<dc:creator>Juhász, Á. L.</dc:creator>
+<dc:creator>Julbe, F.</dc:creator>
+<dc:creator>Karampelas, A.</dc:creator>
+<dc:creator>Kewley, A.</dc:creator>
+<dc:creator>Klar, J.</dc:creator>
+<dc:creator>Kochoska, A.</dc:creator>
+<dc:creator>Kohley, R.</dc:creator>
+<dc:creator>Kolenberg, K.</dc:creator>
+<dc:creator>Kontizas, M.</dc:creator>
+<dc:creator>Kontizas, E.</dc:creator>
+<dc:creator>Koposov, S. E.</dc:creator>
+<dc:creator>Kordopatis, G.</dc:creator>
+<dc:creator>Kostrzewa-Rutkowska, Z.</dc:creator>
+<dc:creator>Koubsky, P.</dc:creator>
+<dc:creator>Lambert, S.</dc:creator>
+<dc:creator>Lanza, A. F.</dc:creator>
+<dc:creator>Lasne, Y.</dc:creator>
+<dc:creator>Lavigne, J. -B.</dc:creator>
+<dc:creator>Le Fustec, Y.</dc:creator>
+<dc:creator>Le Poncin-Lafitte, C.</dc:creator>
+<dc:creator>Lebreton, Y.</dc:creator>
+<dc:creator>Leccia, S.</dc:creator>
+<dc:creator>Leclerc, N.</dc:creator>
+<dc:creator>Lecoeur-Taibi, I.</dc:creator>
+<dc:creator>Lenhardt, H.</dc:creator>
+<dc:creator>Leroux, F.</dc:creator>
+<dc:creator>Liao, S.</dc:creator>
+<dc:creator>Licata, E.</dc:creator>
+<dc:creator>Lindstrøm, H. E. P.</dc:creator>
+<dc:creator>Lister, T. A.</dc:creator>
+<dc:creator>Livanou, E.</dc:creator>
+<dc:creator>Lobel, A.</dc:creator>
+<dc:creator>López, M.</dc:creator>
+<dc:creator>Managau, S.</dc:creator>
+<dc:creator>Mann, R. G.</dc:creator>
+<dc:creator>Mantelet, G.</dc:creator>
+<dc:creator>Marchal, O.</dc:creator>
+<dc:creator>Marchant, J. M.</dc:creator>
+<dc:creator>Marconi, M.</dc:creator>
+<dc:creator>Marinoni, S.</dc:creator>
+<dc:creator>Marschalkó, G.</dc:creator>
+<dc:creator>Marshall, D. J.</dc:creator>
+<dc:creator>Martino, M.</dc:creator>
+<dc:creator>Marton, G.</dc:creator>
+<dc:creator>Mary, N.</dc:creator>
+<dc:creator>Matijevič, G.</dc:creator>
+<dc:creator>Mazeh, T.</dc:creator>
+<dc:creator>Messina, S.</dc:creator>
+<dc:creator>Michalik, D.</dc:creator>
+<dc:creator>Millar, N. R.</dc:creator>
+<dc:creator>Molina, D.</dc:creator>
+<dc:creator>Molinaro, R.</dc:creator>
+<dc:creator>Molnár, L.</dc:creator>
+<dc:creator>Montegriffo, P.</dc:creator>
+<dc:creator>Mor, R.</dc:creator>
+<dc:creator>Morbidelli, R.</dc:creator>
+<dc:creator>Morel, T.</dc:creator>
+<dc:creator>Morris, D.</dc:creator>
+<dc:creator>Mulone, A. F.</dc:creator>
+<dc:creator>Muraveva, T.</dc:creator>
+<dc:creator>Musella, I.</dc:creator>
+<dc:creator>Nelemans, G.</dc:creator>
+<dc:creator>Nicastro, L.</dc:creator>
+<dc:creator>Noval, L.</dc:creator>
+<dc:creator>O'Mullane, W.</dc:creator>
+<dc:creator>Ordénovic, C.</dc:creator>
+<dc:creator>Ordóñez-Blanco, D.</dc:creator>
+<dc:creator>Osborne, P.</dc:creator>
+<dc:creator>Pagani, C.</dc:creator>
+<dc:creator>Pagano, I.</dc:creator>
+<dc:creator>Pailler, F.</dc:creator>
+<dc:creator>Palacin, H.</dc:creator>
+<dc:creator>Palaversa, L.</dc:creator>
+<dc:creator>Panahi, A.</dc:creator>
+<dc:creator>Pawlak, M.</dc:creator>
+<dc:creator>Piersimoni, A. M.</dc:creator>
+<dc:creator>Pineau, F. -X.</dc:creator>
+<dc:creator>Plachy, E.</dc:creator>
+<dc:creator>Plum, G.</dc:creator>
+<dc:creator>Poggio, E.</dc:creator>
+<dc:creator>Poujoulet, E.</dc:creator>
+<dc:creator>Prša, A.</dc:creator>
+<dc:creator>Pulone, L.</dc:creator>
+<dc:creator>Racero, E.</dc:creator>
+<dc:creator>Ragaini, S.</dc:creator>
+<dc:creator>Rambaux, N.</dc:creator>
+<dc:creator>Ramos-Lerate, M.</dc:creator>
+<dc:creator>Regibo, S.</dc:creator>
+<dc:creator>Riclet, F.</dc:creator>
+<dc:creator>Ripepi, V.</dc:creator>
+<dc:creator>Riva, A.</dc:creator>
+<dc:creator>Rivard, A.</dc:creator>
+<dc:creator>Rixon, G.</dc:creator>
+<dc:creator>Roegiers, T.</dc:creator>
+<dc:creator>Roelens, M.</dc:creator>
+<dc:creator>Romero-Gómez, M.</dc:creator>
+<dc:creator>Rowell, N.</dc:creator>
+<dc:creator>Royer, F.</dc:creator>
+<dc:creator>Ruiz-Dern, L.</dc:creator>
+<dc:creator>Sadowski, G.</dc:creator>
+<dc:creator>Sagristà Sellés, T.</dc:creator>
+<dc:creator>Sahlmann, J.</dc:creator>
+<dc:creator>Salgado, J.</dc:creator>
+<dc:creator>Salguero, E.</dc:creator>
+<dc:creator>Sanna, N.</dc:creator>
+<dc:creator>Santana-Ros, T.</dc:creator>
+<dc:creator>Sarasso, M.</dc:creator>
+<dc:creator>Savietto, H.</dc:creator>
+<dc:creator>Schultheis, M.</dc:creator>
+<dc:creator>Sciacca, E.</dc:creator>
+<dc:creator>Segol, M.</dc:creator>
+<dc:creator>Segovia, J. C.</dc:creator>
+<dc:creator>Ségransan, D.</dc:creator>
+<dc:creator>Shih, I. -C.</dc:creator>
+<dc:creator>Siltala, L.</dc:creator>
+<dc:creator>Silva, A. F.</dc:creator>
+<dc:creator>Smart, R. L.</dc:creator>
+<dc:creator>Smith, K. W.</dc:creator>
+<dc:creator>Solano, E.</dc:creator>
+<dc:creator>Solitro, F.</dc:creator>
+<dc:creator>Sordo, R.</dc:creator>
+<dc:creator>Soria Nieto, S.</dc:creator>
+<dc:creator>Souchay, J.</dc:creator>
+<dc:creator>Spagna, A.</dc:creator>
+<dc:creator>Spoto, F.</dc:creator>
+<dc:creator>Stampa, U.</dc:creator>
+<dc:creator>Steele, I. A.</dc:creator>
+<dc:creator>Steidelmüller, H.</dc:creator>
+<dc:creator>Stephenson, C. A.</dc:creator>
+<dc:creator>Stoev, H.</dc:creator>
+<dc:creator>Suess, F. F.</dc:creator>
+<dc:creator>Surdej, J.</dc:creator>
+<dc:creator>Szabados, L.</dc:creator>
+<dc:creator>Szegedi-Elek, E.</dc:creator>
+<dc:creator>Tapiador, D.</dc:creator>
+<dc:creator>Taris, F.</dc:creator>
+<dc:creator>Tauran, G.</dc:creator>
+<dc:creator>Taylor, M. B.</dc:creator>
+<dc:creator>Teixeira, R.</dc:creator>
+<dc:creator>Terrett, D.</dc:creator>
+<dc:creator>Teyssandier, P.</dc:creator>
+<dc:creator>Thuillot, W.</dc:creator>
+<dc:creator>Titarenko, A.</dc:creator>
+<dc:creator>Torra Clotet, F.</dc:creator>
+<dc:creator>Turon, C.</dc:creator>
+<dc:creator>Ulla, A.</dc:creator>
+<dc:creator>Utrilla, E.</dc:creator>
+<dc:creator>Uzzi, S.</dc:creator>
+<dc:creator>Vaillant, M.</dc:creator>
+<dc:creator>Valentini, G.</dc:creator>
+<dc:creator>Valette, V.</dc:creator>
+<dc:creator>van Elteren, A.</dc:creator>
+<dc:creator>Van Hemelryck, E.</dc:creator>
+<dc:creator>van Leeuwen, M.</dc:creator>
+<dc:creator>Vaschetto, M.</dc:creator>
+<dc:creator>Vecchiato, A.</dc:creator>
+<dc:creator>Viala, Y.</dc:creator>
+<dc:creator>Vicente, D.</dc:creator>
+<dc:creator>Vogt, S.</dc:creator>
+<dc:creator>von Essen, C.</dc:creator>
+<dc:creator>Voss, H.</dc:creator>
+<dc:creator>Votruba, V.</dc:creator>
+<dc:creator>Voutsinas, S.</dc:creator>
+<dc:creator>Walmsley, G.</dc:creator>
+<dc:creator>Weiler, M.</dc:creator>
+<dc:creator>Wertz, O.</dc:creator>
+<dc:creator>Wevems, T.</dc:creator>
+<dc:creator>Wyrzykowski, Ł.</dc:creator>
+<dc:creator>Yoldas, A.</dc:creator>
+<dc:creator>Žerjal, M.</dc:creator>
+<dc:creator>Ziaeepour, H.</dc:creator>
+<dc:creator>Zorec, J.</dc:creator>
+<dc:creator>Zschocke, S.</dc:creator>
+<dc:creator>Zucker, S.</dc:creator>
+<dc:creator>Zurbach, C.</dc:creator>
+<dc:creator>Zwitter, T.</dc:creator>
+<dc:source>Astronomy &amp;amp; Astrophysics, Volume 637, id.C3, 4 pp.</dc:source>
+<dc:date>2020-05-01</dc:date>
+<dc:subject>Galaxy: kinematics and dynamics, astrometry, globular clusters: general, galaxies: dwarf, Local Group, errata, addenda</dc:subject>
+<dc:relation>https://ui.adsabs.harvard.edu/abs/2020A&amp;A...637C...3G</dc:relation>
+<dc:relation>citations:1</dc:relation>
+<dc:identifier>doi:10.1051/0004-6361/201832698e</dc:identifier>
+</record>
+
+<record>
+<dc:identifier>2019MNRAS.488.2892P</dc:identifier>
+<dc:title>Gaia Data Release 2 catalogue of extremely low-mass white dwarf candidates</dc:title>
+<dc:creator>Pelisoli, Ingrid</dc:creator>
+<dc:creator>Vos, Joris</dc:creator>
+<dc:source>Monthly Notices of the Royal Astronomical Society, Volume 488, Issue 2, p.2892-2903</dc:source>
+<dc:date>2019-09-01</dc:date>
+<dc:subject>catalogues, surveys, binaries: close, white dwarfs, Astrophysics - Solar and Stellar Astrophysics</dc:subject>
+<dc:rights>2019 The Author(s) Published by Oxford University Press on behalf of the Royal Astronomical Society</dc:rights>
+<dc:relation>https://ui.adsabs.harvard.edu/abs/2019MNRAS.488.2892P</dc:relation>
+<dc:relation>citations:31</dc:relation>
+<dc:description>Extremely low-mass white dwarf stars (ELMs) are M &lt; 0.3 M&lt;SUB&gt;⊙&lt;/SUB&gt; helium-core white dwarfs born either as a result of a common-envelope phase or after a stable Roche lobe overflow episode in a multiple system. The Universe is not old enough for ELMs to have formed through single-star evolution channels. As remnants of binary evolution, ELMs can shed light onto the poorly understood phase of common-envelope evolution and provide constraints to the physics of mass accretion. Most known ELMs will merge in less than a Hubble time, providing an important contribution to the signal to be detected by upcoming space-based gravitational wave detectors. There are currently less than 150 known ELMs; most were selected by colour, focusing on hot objects, in a magnitude-limited survey of the Northern hemisphere only. Recent theoretical models have predicted a much larger space density for ELMs than estimated observationally based on this limited sample. In order to perform meaningful comparisons with theoretical models and test their predictions, a larger well-defined sample is required. In this work, we present a catalogue of ELM candidates selected from the second data release of Gaia (DR2). We have used predictions from theoretical models and analysed the properties of the known sample to map the space spanned by ELMs in the Gaia Hertzsprung-Russell diagram. Defining a set of colour cuts and quality flags, we have obtained a final sample of 5762 ELM candidates down to T&lt;SUB&gt;eff&lt;/SUB&gt; ≈ 5000 K.</dc:description>
+<dc:identifier>doi:10.1093/mnras/stz1876</dc:identifier>
+</record>
+
+</records>

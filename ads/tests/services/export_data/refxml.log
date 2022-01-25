@@ -1,0 +1,1032 @@
+<?xml version='1.0' encoding='utf8'?>
+<records xmlns="http://ads.harvard.edu/schema/abs/1.1/references" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ads.harvard.edu/schema/abs/1.1/references http://ads.harvard.edu/schema/abs/1.1/references.xsd" retrieved="3" start="1" selected="3" citations="34">
+<record>
+<bibcode>2020A&amp;A...642C...1G</bibcode>
+<title>Gaia Data Release 2. The kinematics of globular clusters and dwarf galaxies around the Milky Way (Corrigendum)</title>
+<author>Gaia Collaboration</author>
+<author>Helmi, A.</author>
+<author>van Leeuwen, F.</author>
+<author>McMillan, P. J.</author>
+<author>Massari, D.</author>
+<author>Antoja, T.</author>
+<author>Robin, A. C.</author>
+<author>Lindegren, L.</author>
+<author>Bastian, U.</author>
+<author>Arenou, F.</author>
+<author>Babusiaux, C.</author>
+<author>Biermann, M.</author>
+<author>Breddels, M. A.</author>
+<author>Hobbs, D.</author>
+<author>Jordi, C.</author>
+<author>Pancino, E.</author>
+<author>Reylé, C.</author>
+<author>Veljanoski, J.</author>
+<author>Brown, A. G. A.</author>
+<author>Vallenari, A.</author>
+<author>Prusti, T.</author>
+<author>de Bruijne, J. H. J.</author>
+<author>Bailer-Jones, C. A. L.</author>
+<author>Evans, D. W.</author>
+<author>Eyer, L.</author>
+<author>Jansen, F.</author>
+<author>Klioner, S. A.</author>
+<author>Lammers, U.</author>
+<author>Luri, X.</author>
+<author>Mignard, F.</author>
+<author>Panem, C.</author>
+<author>Pourbaix, D.</author>
+<author>Randich, S.</author>
+<author>Sartoretti, P.</author>
+<author>Siddiqui, H. I.</author>
+<author>Soubiran, C.</author>
+<author>Walton, N. A.</author>
+<author>Cropper, M.</author>
+<author>Drimmel, R.</author>
+<author>Katz, D.</author>
+<author>Lattanzi, M. G.</author>
+<author>Bakker, J.</author>
+<author>Cacciari, C.</author>
+<author>Castañeda, J.</author>
+<author>Chaoul, L.</author>
+<author>Cheek, N.</author>
+<author>De Angeli, F.</author>
+<author>Fabricius, C.</author>
+<author>Guerra, R.</author>
+<author>Holl, B.</author>
+<author>Masana, E.</author>
+<author>Messineo, R.</author>
+<author>Mowlavi, N.</author>
+<author>Nienartowicz, K.</author>
+<author>Panuzzo, P.</author>
+<author>Portell, J.</author>
+<author>Riello, M.</author>
+<author>Seabroke, G. M.</author>
+<author>Tanga, P.</author>
+<author>Thévenin, F.</author>
+<author>Gracia-Abril, G.</author>
+<author>Comoretto, G.</author>
+<author>Garcia-Reinaldos, M.</author>
+<author>Teyssier, D.</author>
+<author>Altmann, M.</author>
+<author>Andrae, R.</author>
+<author>Audard, M.</author>
+<author>Bellas-Velidis, I.</author>
+<author>Benson, K.</author>
+<author>Berthier, J.</author>
+<author>Blomme, R.</author>
+<author>Burgess, P.</author>
+<author>Busso, G.</author>
+<author>Carry, B.</author>
+<author>Cellino, A.</author>
+<author>Clementini, G.</author>
+<author>Clotet, M.</author>
+<author>Creevey, O.</author>
+<author>Davidson, M.</author>
+<author>De Ridder, J.</author>
+<author>Delchambre, L.</author>
+<author>Dell'Oro, A.</author>
+<author>Ducourant, C.</author>
+<author>Fernández-Hernández, J.</author>
+<author>Fouesneau, M.</author>
+<author>Frémat, Y.</author>
+<author>Galluccio, L.</author>
+<author>García-Torres, M.</author>
+<author>González-Núñez, J.</author>
+<author>González-Vidal, J. J.</author>
+<author>Gosset, E.</author>
+<author>Guy, L. P.</author>
+<author>Halbwachs, J. -L.</author>
+<author>Hambly, N. C.</author>
+<author>Harrison, D. L.</author>
+<author>Hernández, J.</author>
+<author>Hestroffer, D.</author>
+<author>Hodgkin, S. T.</author>
+<author>Hutton, A.</author>
+<author>Jasniewicz, G.</author>
+<author>Jean-Antoine-Piccolo, A.</author>
+<author>Jordan, S.</author>
+<author>Korn, A. J.</author>
+<author>Krone-Martins, A.</author>
+<author>Lanzafame, A. C.</author>
+<author>Lebzelter, T.</author>
+<author>Löffler, W.</author>
+<author>Manteiga, M.</author>
+<author>Marrese, P. M.</author>
+<author>Martín-Fleitas, J. M.</author>
+<author>Moitinho, A.</author>
+<author>Mora, A.</author>
+<author>Muinonen, K.</author>
+<author>Osinde, J.</author>
+<author>Pauwels, T.</author>
+<author>Petit, J. -M.</author>
+<author>Recio-Blanco, A.</author>
+<author>Richards, P. J.</author>
+<author>Rimoldini, L.</author>
+<author>Sarro, L. M.</author>
+<author>Siopis, C.</author>
+<author>Smith, M.</author>
+<author>Sozzetti, A.</author>
+<author>Süveges, M.</author>
+<author>Torra, J.</author>
+<author>van Reeven, W.</author>
+<author>Abbas, U.</author>
+<author>Abreu Aramburu, A.</author>
+<author>Accart, S.</author>
+<author>Aerts, C.</author>
+<author>Altavilla, G.</author>
+<author>Álvarez, M. A.</author>
+<author>Alvarez, R.</author>
+<author>Alves, J.</author>
+<author>Anderson, R. I.</author>
+<author>Andrei, A. H.</author>
+<author>Anglada Varela, E.</author>
+<author>Antiche, E.</author>
+<author>Arcay, B.</author>
+<author>Astraatmadja, T. L.</author>
+<author>Bach, N.</author>
+<author>Baker, S. G.</author>
+<author>Balaguer-Núñez, L.</author>
+<author>Balm, P.</author>
+<author>Barache, C.</author>
+<author>Barata, C.</author>
+<author>Barbato, D.</author>
+<author>Barblan, F.</author>
+<author>Barklem, P. S.</author>
+<author>Barrado, D.</author>
+<author>Barros, M.</author>
+<author>Barstow, M. A.</author>
+<author>Bartholomé Muñoz, S.</author>
+<author>Bassilana, J. -L.</author>
+<author>Becciani, U.</author>
+<author>Bellazzini, M.</author>
+<author>Berihuete, A.</author>
+<author>Bertone, S.</author>
+<author>Bianchi, L.</author>
+<author>Bienaymé, O.</author>
+<author>Blanco-Cuaresma, S.</author>
+<author>Boch, T.</author>
+<author>Boeche, C.</author>
+<author>Bombrun, A.</author>
+<author>Borrachero, R.</author>
+<author>Bossini, D.</author>
+<author>Bouquillon, S.</author>
+<author>Bourda, G.</author>
+<author>Bragaglia, A.</author>
+<author>Bramante, L.</author>
+<author>Bressan, A.</author>
+<author>Brouillet, N.</author>
+<author>Brüsemeister, T.</author>
+<author>Brugaletta, E.</author>
+<author>Bucciarelli, B.</author>
+<author>Burlacu, A.</author>
+<author>Busonero, D.</author>
+<author>Butkevich, A. G.</author>
+<author>Buzzi, R.</author>
+<author>Caffau, E.</author>
+<author>Cancelliere, R.</author>
+<author>Cannizzaro, G.</author>
+<author>Cantat-Gaudin, T.</author>
+<author>Carballo, R.</author>
+<author>Carlucci, T.</author>
+<author>Carrasco, J. M.</author>
+<author>Casamiquela, L.</author>
+<author>Castellani, M.</author>
+<author>Castro-Ginard, A.</author>
+<author>Charlot, P.</author>
+<author>Chemin, L.</author>
+<author>Chiavassa, A.</author>
+<author>Cocozza, G.</author>
+<author>Costigan, G.</author>
+<author>Cowell, S.</author>
+<author>Crifo, F.</author>
+<author>Crosta, M.</author>
+<author>Crowley, C.</author>
+<author>Cuypers, J.</author>
+<author>Dafonte, C.</author>
+<author>Damerdji, Y.</author>
+<author>Dapergolas, A.</author>
+<author>David, P.</author>
+<author>David, M.</author>
+<author>de Laverny, P.</author>
+<author>De Luise, F.</author>
+<author>De March, R.</author>
+<author>de Martino, D.</author>
+<author>de Souza, R.</author>
+<author>de Torres, A.</author>
+<author>Debosscher, J.</author>
+<author>del Pozo, E.</author>
+<author>Delbo, M.</author>
+<author>Delgado, A.</author>
+<author>Delgado, H. E.</author>
+<author>Di Matteo, P.</author>
+<author>Diakite, S.</author>
+<author>Diener, C.</author>
+<author>Distefano, E.</author>
+<author>Dolding, C.</author>
+<author>Drazinos, P.</author>
+<author>Durán, J.</author>
+<author>Edvardsson, B.</author>
+<author>Enke, H.</author>
+<author>Eriksson, K.</author>
+<author>Esquej, P.</author>
+<author>Eynard Bontemps, G.</author>
+<author>Fabre, C.</author>
+<author>Fabrizio, M.</author>
+<author>Faigler, S.</author>
+<author>Falcão, A. J.</author>
+<author>Farràs Casas, M.</author>
+<author>Federici, L.</author>
+<author>Fedorets, G.</author>
+<author>Fernique, P.</author>
+<author>Figueras, F.</author>
+<author>Filippi, F.</author>
+<author>Findeisen, K.</author>
+<author>Fonti, A.</author>
+<author>Fraile, E.</author>
+<author>Fraser, M.</author>
+<author>Frézouls, B.</author>
+<author>Gai, M.</author>
+<author>Galleti, S.</author>
+<author>Garabato, D.</author>
+<author>García-Sedano, F.</author>
+<author>Garofalo, A.</author>
+<author>Garralda, N.</author>
+<author>Gavel, A.</author>
+<author>Gavras, P.</author>
+<author>Gerssen, J.</author>
+<author>Geyer, R.</author>
+<author>Giacobbe, P.</author>
+<author>Gilmore, G.</author>
+<author>Girona, S.</author>
+<author>Giuffrida, G.</author>
+<author>Glass, F.</author>
+<author>Gomes, M.</author>
+<author>Granvik, M.</author>
+<author>Gueguen, A.</author>
+<author>Guerrier, A.</author>
+<author>Guiraud, J.</author>
+<author>Gutiérrez-Sánchez, R.</author>
+<author>Haigron, R.</author>
+<author>Hatzidimitriou, D.</author>
+<author>Hauser, M.</author>
+<author>Haywood, M.</author>
+<author>Heiter, U.</author>
+<author>Heu, J.</author>
+<author>Hilger, T.</author>
+<author>Hofmann, W.</author>
+<author>Holland, G.</author>
+<author>Huckle, H. E.</author>
+<author>Hypki, A.</author>
+<author>Icardi, V.</author>
+<author>Janßen, K.</author>
+<author>Jevardat de Fombelle, G.</author>
+<author>Jonker, P. G.</author>
+<author>Juhász, Á. L.</author>
+<author>Julbe, F.</author>
+<author>Karampelas, A.</author>
+<author>Kewley, A.</author>
+<author>Klar, J.</author>
+<author>Kochoska, A.</author>
+<author>Kohley, R.</author>
+<author>Kolenberg, K.</author>
+<author>Kontizas, M.</author>
+<author>Kontizas, E.</author>
+<author>Koposov, S. E.</author>
+<author>Kordopatis, G.</author>
+<author>Kostrzewa-Rutkowska, Z.</author>
+<author>Koubsky, P.</author>
+<author>Lambert, S.</author>
+<author>Lanza, A. F.</author>
+<author>Lasne, Y.</author>
+<author>Lavigne, J. -B.</author>
+<author>Le Fustec, Y.</author>
+<author>Le Poncin-Lafitte, C.</author>
+<author>Lebreton, Y.</author>
+<author>Leccia, S.</author>
+<author>Leclerc, N.</author>
+<author>Lecoeur-Taibi, I.</author>
+<author>Lenhardt, H.</author>
+<author>Leroux, F.</author>
+<author>Liao, S.</author>
+<author>Licata, E.</author>
+<author>Lindstrøm, H. E. P.</author>
+<author>Lister, T. A.</author>
+<author>Livanou, E.</author>
+<author>Lobel, A.</author>
+<author>López, M.</author>
+<author>Managau, S.</author>
+<author>Mann, R. G.</author>
+<author>Mantelet, G.</author>
+<author>Marchal, O.</author>
+<author>Marchant, J. M.</author>
+<author>Marconi, M.</author>
+<author>Marinoni, S.</author>
+<author>Marschalkó, G.</author>
+<author>Marshall, D. J.</author>
+<author>Martino, M.</author>
+<author>Marton, G.</author>
+<author>Mary, N.</author>
+<author>Matijevič, G.</author>
+<author>Mazeh, T.</author>
+<author>Messina, S.</author>
+<author>Michalik, D.</author>
+<author>Millar, N. R.</author>
+<author>Molina, D.</author>
+<author>Molinaro, R.</author>
+<author>Molnár, L.</author>
+<author>Montegriffo, P.</author>
+<author>Mor, R.</author>
+<author>Morbidelli, R.</author>
+<author>Morel, T.</author>
+<author>Morris, D.</author>
+<author>Mulone, A. F.</author>
+<author>Muraveva, T.</author>
+<author>Musella, I.</author>
+<author>Nelemans, G.</author>
+<author>Nicastro, L.</author>
+<author>Noval, L.</author>
+<author>O'Mullane, W.</author>
+<author>Ordénovic, C.</author>
+<author>Ordóñez-Blanco, D.</author>
+<author>Osborne, P.</author>
+<author>Pagani, C.</author>
+<author>Pagano, I.</author>
+<author>Pailler, F.</author>
+<author>Palacin, H.</author>
+<author>Palaversa, L.</author>
+<author>Panahi, A.</author>
+<author>Pawlak, M.</author>
+<author>Piersimoni, A. M.</author>
+<author>Pineau, F. -X.</author>
+<author>Plachy, E.</author>
+<author>Plum, G.</author>
+<author>Poggio, E.</author>
+<author>Poujoulet, E.</author>
+<author>Prša, A.</author>
+<author>Pulone, L.</author>
+<author>Racero, E.</author>
+<author>Ragaini, S.</author>
+<author>Rambaux, N.</author>
+<author>Ramos-Lerate, M.</author>
+<author>Regibo, S.</author>
+<author>Riclet, F.</author>
+<author>Ripepi, V.</author>
+<author>Riva, A.</author>
+<author>Rivard, A.</author>
+<author>Rixon, G.</author>
+<author>Roegiers, T.</author>
+<author>Roelens, M.</author>
+<author>Romero-Gómez, M.</author>
+<author>Rowell, N.</author>
+<author>Royer, F.</author>
+<author>Ruiz-Dern, L.</author>
+<author>Sadowski, G.</author>
+<author>Sagristà Sellés, T.</author>
+<author>Sahlmann, J.</author>
+<author>Salgado, J.</author>
+<author>Salguero, E.</author>
+<author>Sanna, N.</author>
+<author>Santana-Ros, T.</author>
+<author>Sarasso, M.</author>
+<author>Savietto, H.</author>
+<author>Schultheis, M.</author>
+<author>Sciacca, E.</author>
+<author>Segol, M.</author>
+<author>Segovia, J. C.</author>
+<author>Ségransan, D.</author>
+<author>Shih, I. -C.</author>
+<author>Siltala, L.</author>
+<author>Silva, A. F.</author>
+<author>Smart, R. L.</author>
+<author>Smith, K. W.</author>
+<author>Solano, E.</author>
+<author>Solitro, F.</author>
+<author>Sordo, R.</author>
+<author>Soria Nieto, S.</author>
+<author>Souchay, J.</author>
+<author>Spagna, A.</author>
+<author>Spoto, F.</author>
+<author>Stampa, U.</author>
+<author>Steele, I. A.</author>
+<author>Steidelmüller, H.</author>
+<author>Stephenson, C. A.</author>
+<author>Stoev, H.</author>
+<author>Suess, F. F.</author>
+<author>Surdej, J.</author>
+<author>Szabados, L.</author>
+<author>Szegedi-Elek, E.</author>
+<author>Tapiador, D.</author>
+<author>Taris, F.</author>
+<author>Tauran, G.</author>
+<author>Taylor, M. B.</author>
+<author>Teixeira, R.</author>
+<author>Terrett, D.</author>
+<author>Teyssandier, P.</author>
+<author>Thuillot, W.</author>
+<author>Titarenko, A.</author>
+<author>Torra Clotet, F.</author>
+<author>Turon, C.</author>
+<author>Ulla, A.</author>
+<author>Utrilla, E.</author>
+<author>Uzzi, S.</author>
+<author>Vaillant, M.</author>
+<author>Valentini, G.</author>
+<author>Valette, V.</author>
+<author>van Elteren, A.</author>
+<author>Van Hemelryck, E.</author>
+<author>van Leeuwen, M.</author>
+<author>Vaschetto, M.</author>
+<author>Vecchiato, A.</author>
+<author>Viala, Y.</author>
+<author>Vicente, D.</author>
+<author>Vogt, S.</author>
+<author>von Essen, C.</author>
+<author>Voss, H.</author>
+<author>Votruba, V.</author>
+<author>Voutsinas, S.</author>
+<author>Walmsley, G.</author>
+<author>Weiler, M.</author>
+<author>Wertz, O.</author>
+<author>Wevers, T.</author>
+<author>Wyrzykowski, Ł.</author>
+<author>Yoldas, A.</author>
+<author>Žerjal, M.</author>
+<author>Ziaeepour, H.</author>
+<author>Zorec, J.</author>
+<author>Zschocke, S.</author>
+<author>Zucker, S.</author>
+<author>Zurbach, C.</author>
+<author>Zwitter, T.</author>
+<journal>Astronomy &amp;amp; Astrophysics, Volume 642, id.C1, 5 pp.</journal>
+<pubdate>Oct 2020</pubdate>
+<link type="citations">
+<name>Citations to the Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...642C...1G/citations</url>
+<count>2</count>
+</link>
+<link type="reference">
+<name>References in the Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...642C...1G/reference</url>
+<count>3</count>
+</link>
+<link type="coreads">
+<name>Co-Reads</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...642C...1G/coreads</url>
+</link>
+<link type="PUB_HTML">
+<name>Publisher Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...642C...1G/PUB_HTML</url>
+</link>
+<link type="PUB_PDF" access="open">
+<name>Publisher PDF</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...642C...1G/PUB_PDF</url>
+</link>
+<url>https://ui.adsabs.harvard.edu/abs/2020A&amp;A...642C...1G</url>
+<citations>2</citations>
+<DOI>10.1051/0004-6361/202039217</DOI>
+</record>
+
+<record>
+<bibcode>2020A&amp;A...637C...3G</bibcode>
+<title>Gaia Data Release 2. Kinematics of globular clusters and dwarf galaxies around the Milky Way (Corrigendum)</title>
+<author>Gaia Collaboration</author>
+<author>Helmi, A.</author>
+<author>van Leeuwen, F.</author>
+<author>McMillan, P. J.</author>
+<author>Massari, D.</author>
+<author>Antoja, T.</author>
+<author>Robin, A. C.</author>
+<author>Lindegren, L.</author>
+<author>Bastian, U.</author>
+<author>Arenou, F.</author>
+<author>Babusiaux, C.</author>
+<author>Biermann, M.</author>
+<author>Breddels, M. A.</author>
+<author>Hobbs, D.</author>
+<author>Jordi, C.</author>
+<author>Pancino, E.</author>
+<author>Reylé, C.</author>
+<author>Veljanoski, J.</author>
+<author>Brown, A. G. A.</author>
+<author>Vallenari, A.</author>
+<author>Prusti, T.</author>
+<author>de Bruijne, J. H. J.</author>
+<author>Bailer-Jones, C. A. L.</author>
+<author>Evans, D. W.</author>
+<author>Eyer, L.</author>
+<author>Jansen, F.</author>
+<author>Klioner, S. A.</author>
+<author>Lammers, U.</author>
+<author>Luri, X.</author>
+<author>Mignard, F.</author>
+<author>Panem, C.</author>
+<author>Pourbaix, D.</author>
+<author>Randich, S.</author>
+<author>Sartoretti, P.</author>
+<author>Siddiqui, H. I.</author>
+<author>Soubiran, C.</author>
+<author>Walton, N. A.</author>
+<author>Cropper, M.</author>
+<author>Drimmel, R.</author>
+<author>Katz, D.</author>
+<author>Lattanzi, M. G.</author>
+<author>Bakker, J.</author>
+<author>Cacciari, C.</author>
+<author>Castañeda, J.</author>
+<author>Chaoul, L.</author>
+<author>Cheek, N.</author>
+<author>De Angeli, F.</author>
+<author>Fabricius, C.</author>
+<author>Guerra, R.</author>
+<author>Holl, B.</author>
+<author>Masana, E.</author>
+<author>Messineo, R.</author>
+<author>Mowlavi, N.</author>
+<author>Nienartowicz, K.</author>
+<author>Panuzzo, P.</author>
+<author>Portell, J.</author>
+<author>Riello, M.</author>
+<author>Seabroke, G. M.</author>
+<author>Tanga, P.</author>
+<author>Thévenin, F.</author>
+<author>Gracia-Abril, G.</author>
+<author>Comoretto, G.</author>
+<author>Garcia-Reinaldos, M.</author>
+<author>Teyssier, D.</author>
+<author>Altmann, M.</author>
+<author>Andrae, R.</author>
+<author>Audard, M.</author>
+<author>Bellas-Velidis, I.</author>
+<author>Benson, K.</author>
+<author>Berthier, J.</author>
+<author>Blomme, R.</author>
+<author>Burgess, P.</author>
+<author>Busso, G.</author>
+<author>Carry, B.</author>
+<author>Cellino, A.</author>
+<author>Clementini, G.</author>
+<author>Clotet, M.</author>
+<author>Creevey, O.</author>
+<author>Davidson, M.</author>
+<author>De Ridder, J.</author>
+<author>Delchambre, L.</author>
+<author>Dell'Oro, A.</author>
+<author>Ducourant, C.</author>
+<author>Fernández-Hernández, J.</author>
+<author>Fouesneau, M.</author>
+<author>Frémat, Y.</author>
+<author>Galluccio, L.</author>
+<author>García-Torres, M.</author>
+<author>González-Núñez, J.</author>
+<author>González-Vidal, J. J.</author>
+<author>Gosset, E.</author>
+<author>Guy, L. P.</author>
+<author>Halbwachs, J. -L.</author>
+<author>Hambly, N. C.</author>
+<author>Harrison, D. L.</author>
+<author>Hernández, J.</author>
+<author>Hestroffer, D.</author>
+<author>Hodgkin, S. T.</author>
+<author>Hutton, A.</author>
+<author>Jasniewicz, G.</author>
+<author>Jean-Antoine-Piccolo, A.</author>
+<author>Jordan, S.</author>
+<author>Korn, A. J.</author>
+<author>Krone-Martins, A.</author>
+<author>Lanzafame, A. C.</author>
+<author>Lebzelter, T.</author>
+<author>Löffler, W.</author>
+<author>Manteiga, M.</author>
+<author>Marrese, P. M.</author>
+<author>Martín-Fleitas, J. M.</author>
+<author>Moitinho, A.</author>
+<author>Mora, A.</author>
+<author>Muinonen, K.</author>
+<author>Osinde, J.</author>
+<author>Pauwels, T.</author>
+<author>Petit, J. -M.</author>
+<author>Recio-Blanco, A.</author>
+<author>Richards, P. J.</author>
+<author>Rimoldini, L.</author>
+<author>Sarro, L. M.</author>
+<author>Siopis, C.</author>
+<author>Smith, M.</author>
+<author>Sozzetti, A.</author>
+<author>Süveges, M.</author>
+<author>Torra, J.</author>
+<author>van Reeven, W.</author>
+<author>Abbas, U.</author>
+<author>Abreu Aramburu, A.</author>
+<author>Accart, S.</author>
+<author>Aerts, C.</author>
+<author>Altavilla, G.</author>
+<author>Álvarez, M. A.</author>
+<author>Alvarez, R.</author>
+<author>Alves, J.</author>
+<author>Anderson, R. I.</author>
+<author>Andrei, A. H.</author>
+<author>Anglada Varela, E.</author>
+<author>Antiche, E.</author>
+<author>Arcay, B.</author>
+<author>Astraatmadja, T. L.</author>
+<author>Bach, N.</author>
+<author>Baker, S. G.</author>
+<author>Balaguer-Núñez, L.</author>
+<author>Balm, P.</author>
+<author>Barache, C.</author>
+<author>Barata, C.</author>
+<author>Barbato, D.</author>
+<author>Barblan, F.</author>
+<author>Barklem, P. S.</author>
+<author>Barrado, D.</author>
+<author>Barros, M.</author>
+<author>Barstow, M. A.</author>
+<author>Bartholomé Muñoz, S.</author>
+<author>Bassilana, J. -L.</author>
+<author>Becciani, U.</author>
+<author>Bellazzini, M.</author>
+<author>Berihuete, A.</author>
+<author>Bertone, S.</author>
+<author>Bianchi, L.</author>
+<author>Bienaymé, O.</author>
+<author>Blanco-Cuaresma, S.</author>
+<author>Boch, T.</author>
+<author>Boeche, C.</author>
+<author>Bombrun, A.</author>
+<author>Borrachero, R.</author>
+<author>Bossini, D.</author>
+<author>Bouquillon, S.</author>
+<author>Bourda, G.</author>
+<author>Bragaglia, A.</author>
+<author>Bramante, L.</author>
+<author>Bressan, A.</author>
+<author>Brouillet, N.</author>
+<author>Brüsemeister, T.</author>
+<author>Brugaletta, E.</author>
+<author>Bucciarelli, B.</author>
+<author>Burlacu, A.</author>
+<author>Busonero, D.</author>
+<author>Butkevich, A. G.</author>
+<author>Buzzi, R.</author>
+<author>Caffau, E.</author>
+<author>Cancelliere, R.</author>
+<author>Cannizzaro, G.</author>
+<author>Cantat-Gaudin, T.</author>
+<author>Carballo, R.</author>
+<author>Carlucci, T.</author>
+<author>Carrasco, J. M.</author>
+<author>Casamiquela, L.</author>
+<author>Castellani, M.</author>
+<author>Castro-Ginard, A.</author>
+<author>Charlot, P.</author>
+<author>Chemin, L.</author>
+<author>Chiavassa, A.</author>
+<author>Cocozza, G.</author>
+<author>Costigan, G.</author>
+<author>Cowell, S.</author>
+<author>Crifo, F.</author>
+<author>Crosta, M.</author>
+<author>Crowley, C.</author>
+<author>Cuypers, J.</author>
+<author>Dafonte, C.</author>
+<author>Damerdji, Y.</author>
+<author>Dapergolas, A.</author>
+<author>David, P.</author>
+<author>David, M.</author>
+<author>de Laverny, P.</author>
+<author>De Luise, F.</author>
+<author>De March, R.</author>
+<author>de Martino, D.</author>
+<author>de Souza, R.</author>
+<author>de Torres, A.</author>
+<author>Debosscher, J.</author>
+<author>del Pozo, E.</author>
+<author>Delbo, M.</author>
+<author>Delgado, A.</author>
+<author>Delgado, H. E.</author>
+<author>Di Matteo, P.</author>
+<author>Diakite, S.</author>
+<author>Diener, C.</author>
+<author>Distefano, E.</author>
+<author>Dolding, C.</author>
+<author>Drazinos, P.</author>
+<author>Durán, J.</author>
+<author>Edvardsson, B.</author>
+<author>Enke, H.</author>
+<author>Eriksson, K.</author>
+<author>Esquej, P.</author>
+<author>Eynard Bontemps, G.</author>
+<author>Fabre, C.</author>
+<author>Fabrizio, M.</author>
+<author>Faigler, S.</author>
+<author>Falcão, A. J.</author>
+<author>Farràs Casas, M.</author>
+<author>Federici, L.</author>
+<author>Fedorets, G.</author>
+<author>Fernique, P.</author>
+<author>Figueras, F.</author>
+<author>Filippi, F.</author>
+<author>Findeisen, K.</author>
+<author>Fonti, A.</author>
+<author>Fraile, E.</author>
+<author>Fraser, M.</author>
+<author>Frézouls, B.</author>
+<author>Gai, M.</author>
+<author>Galleti, S.</author>
+<author>Garabato, D.</author>
+<author>García-Sedano, F.</author>
+<author>Garofalo, A.</author>
+<author>Garralda, N.</author>
+<author>Gavel, A.</author>
+<author>Gavras, P.</author>
+<author>Gerssen, J.</author>
+<author>Geyer, R.</author>
+<author>Giacobbe, P.</author>
+<author>Gilmore, G.</author>
+<author>Girona, S.</author>
+<author>Giuffrida, G.</author>
+<author>Glass, F.</author>
+<author>Gomes, M.</author>
+<author>Granvik, M.</author>
+<author>Gueguen, A.</author>
+<author>Guerrier, A.</author>
+<author>Guiraud, J.</author>
+<author>Gutiérrez-Sánchez, R.</author>
+<author>Haigron, R.</author>
+<author>Hatzidimitriou, D.</author>
+<author>Hauser, M.</author>
+<author>Haywood, M.</author>
+<author>Heiter, U.</author>
+<author>Heu, J.</author>
+<author>Hilger, T.</author>
+<author>Hofmann, W.</author>
+<author>Holland, G.</author>
+<author>Huckle, H. E.</author>
+<author>Hypki, A.</author>
+<author>Icardi, V.</author>
+<author>Janßen, K.</author>
+<author>Jevardat de Fombelle, G.</author>
+<author>Jonker, P. G.</author>
+<author>Juhász, Á. L.</author>
+<author>Julbe, F.</author>
+<author>Karampelas, A.</author>
+<author>Kewley, A.</author>
+<author>Klar, J.</author>
+<author>Kochoska, A.</author>
+<author>Kohley, R.</author>
+<author>Kolenberg, K.</author>
+<author>Kontizas, M.</author>
+<author>Kontizas, E.</author>
+<author>Koposov, S. E.</author>
+<author>Kordopatis, G.</author>
+<author>Kostrzewa-Rutkowska, Z.</author>
+<author>Koubsky, P.</author>
+<author>Lambert, S.</author>
+<author>Lanza, A. F.</author>
+<author>Lasne, Y.</author>
+<author>Lavigne, J. -B.</author>
+<author>Le Fustec, Y.</author>
+<author>Le Poncin-Lafitte, C.</author>
+<author>Lebreton, Y.</author>
+<author>Leccia, S.</author>
+<author>Leclerc, N.</author>
+<author>Lecoeur-Taibi, I.</author>
+<author>Lenhardt, H.</author>
+<author>Leroux, F.</author>
+<author>Liao, S.</author>
+<author>Licata, E.</author>
+<author>Lindstrøm, H. E. P.</author>
+<author>Lister, T. A.</author>
+<author>Livanou, E.</author>
+<author>Lobel, A.</author>
+<author>López, M.</author>
+<author>Managau, S.</author>
+<author>Mann, R. G.</author>
+<author>Mantelet, G.</author>
+<author>Marchal, O.</author>
+<author>Marchant, J. M.</author>
+<author>Marconi, M.</author>
+<author>Marinoni, S.</author>
+<author>Marschalkó, G.</author>
+<author>Marshall, D. J.</author>
+<author>Martino, M.</author>
+<author>Marton, G.</author>
+<author>Mary, N.</author>
+<author>Matijevič, G.</author>
+<author>Mazeh, T.</author>
+<author>Messina, S.</author>
+<author>Michalik, D.</author>
+<author>Millar, N. R.</author>
+<author>Molina, D.</author>
+<author>Molinaro, R.</author>
+<author>Molnár, L.</author>
+<author>Montegriffo, P.</author>
+<author>Mor, R.</author>
+<author>Morbidelli, R.</author>
+<author>Morel, T.</author>
+<author>Morris, D.</author>
+<author>Mulone, A. F.</author>
+<author>Muraveva, T.</author>
+<author>Musella, I.</author>
+<author>Nelemans, G.</author>
+<author>Nicastro, L.</author>
+<author>Noval, L.</author>
+<author>O'Mullane, W.</author>
+<author>Ordénovic, C.</author>
+<author>Ordóñez-Blanco, D.</author>
+<author>Osborne, P.</author>
+<author>Pagani, C.</author>
+<author>Pagano, I.</author>
+<author>Pailler, F.</author>
+<author>Palacin, H.</author>
+<author>Palaversa, L.</author>
+<author>Panahi, A.</author>
+<author>Pawlak, M.</author>
+<author>Piersimoni, A. M.</author>
+<author>Pineau, F. -X.</author>
+<author>Plachy, E.</author>
+<author>Plum, G.</author>
+<author>Poggio, E.</author>
+<author>Poujoulet, E.</author>
+<author>Prša, A.</author>
+<author>Pulone, L.</author>
+<author>Racero, E.</author>
+<author>Ragaini, S.</author>
+<author>Rambaux, N.</author>
+<author>Ramos-Lerate, M.</author>
+<author>Regibo, S.</author>
+<author>Riclet, F.</author>
+<author>Ripepi, V.</author>
+<author>Riva, A.</author>
+<author>Rivard, A.</author>
+<author>Rixon, G.</author>
+<author>Roegiers, T.</author>
+<author>Roelens, M.</author>
+<author>Romero-Gómez, M.</author>
+<author>Rowell, N.</author>
+<author>Royer, F.</author>
+<author>Ruiz-Dern, L.</author>
+<author>Sadowski, G.</author>
+<author>Sagristà Sellés, T.</author>
+<author>Sahlmann, J.</author>
+<author>Salgado, J.</author>
+<author>Salguero, E.</author>
+<author>Sanna, N.</author>
+<author>Santana-Ros, T.</author>
+<author>Sarasso, M.</author>
+<author>Savietto, H.</author>
+<author>Schultheis, M.</author>
+<author>Sciacca, E.</author>
+<author>Segol, M.</author>
+<author>Segovia, J. C.</author>
+<author>Ségransan, D.</author>
+<author>Shih, I. -C.</author>
+<author>Siltala, L.</author>
+<author>Silva, A. F.</author>
+<author>Smart, R. L.</author>
+<author>Smith, K. W.</author>
+<author>Solano, E.</author>
+<author>Solitro, F.</author>
+<author>Sordo, R.</author>
+<author>Soria Nieto, S.</author>
+<author>Souchay, J.</author>
+<author>Spagna, A.</author>
+<author>Spoto, F.</author>
+<author>Stampa, U.</author>
+<author>Steele, I. A.</author>
+<author>Steidelmüller, H.</author>
+<author>Stephenson, C. A.</author>
+<author>Stoev, H.</author>
+<author>Suess, F. F.</author>
+<author>Surdej, J.</author>
+<author>Szabados, L.</author>
+<author>Szegedi-Elek, E.</author>
+<author>Tapiador, D.</author>
+<author>Taris, F.</author>
+<author>Tauran, G.</author>
+<author>Taylor, M. B.</author>
+<author>Teixeira, R.</author>
+<author>Terrett, D.</author>
+<author>Teyssandier, P.</author>
+<author>Thuillot, W.</author>
+<author>Titarenko, A.</author>
+<author>Torra Clotet, F.</author>
+<author>Turon, C.</author>
+<author>Ulla, A.</author>
+<author>Utrilla, E.</author>
+<author>Uzzi, S.</author>
+<author>Vaillant, M.</author>
+<author>Valentini, G.</author>
+<author>Valette, V.</author>
+<author>van Elteren, A.</author>
+<author>Van Hemelryck, E.</author>
+<author>van Leeuwen, M.</author>
+<author>Vaschetto, M.</author>
+<author>Vecchiato, A.</author>
+<author>Viala, Y.</author>
+<author>Vicente, D.</author>
+<author>Vogt, S.</author>
+<author>von Essen, C.</author>
+<author>Voss, H.</author>
+<author>Votruba, V.</author>
+<author>Voutsinas, S.</author>
+<author>Walmsley, G.</author>
+<author>Weiler, M.</author>
+<author>Wertz, O.</author>
+<author>Wevems, T.</author>
+<author>Wyrzykowski, Ł.</author>
+<author>Yoldas, A.</author>
+<author>Žerjal, M.</author>
+<author>Ziaeepour, H.</author>
+<author>Zorec, J.</author>
+<author>Zschocke, S.</author>
+<author>Zucker, S.</author>
+<author>Zurbach, C.</author>
+<author>Zwitter, T.</author>
+<journal>Astronomy &amp;amp; Astrophysics, Volume 637, id.C3, 4 pp.</journal>
+<pubdate>May 2020</pubdate>
+<link type="citations">
+<name>Citations to the Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...637C...3G/citations</url>
+<count>1</count>
+</link>
+<link type="coreads">
+<name>Co-Reads</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...637C...3G/coreads</url>
+</link>
+<link type="PUB_HTML">
+<name>Publisher Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...637C...3G/PUB_HTML</url>
+</link>
+<link type="PUB_PDF" access="open">
+<name>Publisher PDF</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...637C...3G/PUB_PDF</url>
+</link>
+<url>https://ui.adsabs.harvard.edu/abs/2020A&amp;A...637C...3G</url>
+<citations>1</citations>
+<DOI>10.1051/0004-6361/201832698e</DOI>
+</record>
+
+<record>
+<bibcode>2019MNRAS.488.2892P</bibcode>
+<title>Gaia Data Release 2 catalogue of extremely low-mass white dwarf candidates</title>
+<author>Pelisoli, Ingrid</author>
+<author>Vos, Joris</author>
+<journal>Monthly Notices of the Royal Astronomical Society, Volume 488, Issue 2, p.2892-2903</journal>
+<pubdate>Sep 2019</pubdate>
+<link type="abstract">
+<name>abstract</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/abstract</url>
+</link>
+<link type="citations">
+<name>Citations to the Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/citations</url>
+<count>31</count>
+</link>
+<link type="reference">
+<name>References in the Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/reference</url>
+<count>81</count>
+</link>
+<link type="coreads">
+<name>Co-Reads</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/coreads</url>
+</link>
+<link type="EPRINT_HTML">
+<name>arXiv Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/EPRINT_HTML</url>
+</link>
+<link type="PUB_HTML">
+<name>Publisher Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/PUB_HTML</url>
+</link>
+<link type="EPRINT_PDF" access="open">
+<name>arXiv PDF</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/EPRINT_PDF</url>
+</link>
+<link type="PUB_PDF">
+<name>Publisher PDF</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/PUB_PDF</url>
+</link>
+<link type="SIMBAD">
+<name>SIMBAD Database at the CDS</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/SIMBAD</url>
+<count>3</count>
+</link>
+<link type="MAST">
+<name>Mikulski Archive for Space Telescopes</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/MAST</url>
+<count>1</count>
+</link>
+<link type="IRSA">
+<name>NASA/IPAC Infrared Science Archive</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/IRSA</url>
+<count>2</count>
+</link>
+<url>https://ui.adsabs.harvard.edu/abs/2019MNRAS.488.2892P</url>
+<citations>31</citations>
+<DOI>10.1093/mnras/stz1876</DOI>
+<eprintid>arXiv:1907.03766</eprintid>
+</record>
+
+</records>

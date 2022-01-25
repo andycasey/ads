@@ -1,0 +1,1067 @@
+<?xml version='1.0' encoding='utf8'?>
+<records xmlns="http://ads.harvard.edu/schema/abs/1.1/abstracts" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ads.harvard.edu/schema/abs/1.1/abstracts http://ads.harvard.edu/schema/abs/1.1/abstracts.xsd" retrieved="3" start="1" selected="3" citations="34">
+<record refereed="true" article="true" type="article">
+<bibcode>2020A&amp;A...642C...1G</bibcode>
+<title>Gaia Data Release 2. The kinematics of globular clusters and dwarf galaxies around the Milky Way (Corrigendum)</title>
+<author>Gaia Collaboration</author>
+<author>Helmi, A.</author>
+<author>van Leeuwen, F.</author>
+<author>McMillan, P. J.</author>
+<author>Massari, D.</author>
+<author>Antoja, T.</author>
+<author>Robin, A. C.</author>
+<author>Lindegren, L.</author>
+<author>Bastian, U.</author>
+<author>Arenou, F.</author>
+<author>Babusiaux, C.</author>
+<author>Biermann, M.</author>
+<author>Breddels, M. A.</author>
+<author>Hobbs, D.</author>
+<author>Jordi, C.</author>
+<author>Pancino, E.</author>
+<author>Reylé, C.</author>
+<author>Veljanoski, J.</author>
+<author>Brown, A. G. A.</author>
+<author>Vallenari, A.</author>
+<author>Prusti, T.</author>
+<author>de Bruijne, J. H. J.</author>
+<author>Bailer-Jones, C. A. L.</author>
+<author>Evans, D. W.</author>
+<author>Eyer, L.</author>
+<author>Jansen, F.</author>
+<author>Klioner, S. A.</author>
+<author>Lammers, U.</author>
+<author>Luri, X.</author>
+<author>Mignard, F.</author>
+<author>Panem, C.</author>
+<author>Pourbaix, D.</author>
+<author>Randich, S.</author>
+<author>Sartoretti, P.</author>
+<author>Siddiqui, H. I.</author>
+<author>Soubiran, C.</author>
+<author>Walton, N. A.</author>
+<author>Cropper, M.</author>
+<author>Drimmel, R.</author>
+<author>Katz, D.</author>
+<author>Lattanzi, M. G.</author>
+<author>Bakker, J.</author>
+<author>Cacciari, C.</author>
+<author>Castañeda, J.</author>
+<author>Chaoul, L.</author>
+<author>Cheek, N.</author>
+<author>De Angeli, F.</author>
+<author>Fabricius, C.</author>
+<author>Guerra, R.</author>
+<author>Holl, B.</author>
+<author>Masana, E.</author>
+<author>Messineo, R.</author>
+<author>Mowlavi, N.</author>
+<author>Nienartowicz, K.</author>
+<author>Panuzzo, P.</author>
+<author>Portell, J.</author>
+<author>Riello, M.</author>
+<author>Seabroke, G. M.</author>
+<author>Tanga, P.</author>
+<author>Thévenin, F.</author>
+<author>Gracia-Abril, G.</author>
+<author>Comoretto, G.</author>
+<author>Garcia-Reinaldos, M.</author>
+<author>Teyssier, D.</author>
+<author>Altmann, M.</author>
+<author>Andrae, R.</author>
+<author>Audard, M.</author>
+<author>Bellas-Velidis, I.</author>
+<author>Benson, K.</author>
+<author>Berthier, J.</author>
+<author>Blomme, R.</author>
+<author>Burgess, P.</author>
+<author>Busso, G.</author>
+<author>Carry, B.</author>
+<author>Cellino, A.</author>
+<author>Clementini, G.</author>
+<author>Clotet, M.</author>
+<author>Creevey, O.</author>
+<author>Davidson, M.</author>
+<author>De Ridder, J.</author>
+<author>Delchambre, L.</author>
+<author>Dell'Oro, A.</author>
+<author>Ducourant, C.</author>
+<author>Fernández-Hernández, J.</author>
+<author>Fouesneau, M.</author>
+<author>Frémat, Y.</author>
+<author>Galluccio, L.</author>
+<author>García-Torres, M.</author>
+<author>González-Núñez, J.</author>
+<author>González-Vidal, J. J.</author>
+<author>Gosset, E.</author>
+<author>Guy, L. P.</author>
+<author>Halbwachs, J. -L.</author>
+<author>Hambly, N. C.</author>
+<author>Harrison, D. L.</author>
+<author>Hernández, J.</author>
+<author>Hestroffer, D.</author>
+<author>Hodgkin, S. T.</author>
+<author>Hutton, A.</author>
+<author>Jasniewicz, G.</author>
+<author>Jean-Antoine-Piccolo, A.</author>
+<author>Jordan, S.</author>
+<author>Korn, A. J.</author>
+<author>Krone-Martins, A.</author>
+<author>Lanzafame, A. C.</author>
+<author>Lebzelter, T.</author>
+<author>Löffler, W.</author>
+<author>Manteiga, M.</author>
+<author>Marrese, P. M.</author>
+<author>Martín-Fleitas, J. M.</author>
+<author>Moitinho, A.</author>
+<author>Mora, A.</author>
+<author>Muinonen, K.</author>
+<author>Osinde, J.</author>
+<author>Pauwels, T.</author>
+<author>Petit, J. -M.</author>
+<author>Recio-Blanco, A.</author>
+<author>Richards, P. J.</author>
+<author>Rimoldini, L.</author>
+<author>Sarro, L. M.</author>
+<author>Siopis, C.</author>
+<author>Smith, M.</author>
+<author>Sozzetti, A.</author>
+<author>Süveges, M.</author>
+<author>Torra, J.</author>
+<author>van Reeven, W.</author>
+<author>Abbas, U.</author>
+<author>Abreu Aramburu, A.</author>
+<author>Accart, S.</author>
+<author>Aerts, C.</author>
+<author>Altavilla, G.</author>
+<author>Álvarez, M. A.</author>
+<author>Alvarez, R.</author>
+<author>Alves, J.</author>
+<author>Anderson, R. I.</author>
+<author>Andrei, A. H.</author>
+<author>Anglada Varela, E.</author>
+<author>Antiche, E.</author>
+<author>Arcay, B.</author>
+<author>Astraatmadja, T. L.</author>
+<author>Bach, N.</author>
+<author>Baker, S. G.</author>
+<author>Balaguer-Núñez, L.</author>
+<author>Balm, P.</author>
+<author>Barache, C.</author>
+<author>Barata, C.</author>
+<author>Barbato, D.</author>
+<author>Barblan, F.</author>
+<author>Barklem, P. S.</author>
+<author>Barrado, D.</author>
+<author>Barros, M.</author>
+<author>Barstow, M. A.</author>
+<author>Bartholomé Muñoz, S.</author>
+<author>Bassilana, J. -L.</author>
+<author>Becciani, U.</author>
+<author>Bellazzini, M.</author>
+<author>Berihuete, A.</author>
+<author>Bertone, S.</author>
+<author>Bianchi, L.</author>
+<author>Bienaymé, O.</author>
+<author>Blanco-Cuaresma, S.</author>
+<author>Boch, T.</author>
+<author>Boeche, C.</author>
+<author>Bombrun, A.</author>
+<author>Borrachero, R.</author>
+<author>Bossini, D.</author>
+<author>Bouquillon, S.</author>
+<author>Bourda, G.</author>
+<author>Bragaglia, A.</author>
+<author>Bramante, L.</author>
+<author>Bressan, A.</author>
+<author>Brouillet, N.</author>
+<author>Brüsemeister, T.</author>
+<author>Brugaletta, E.</author>
+<author>Bucciarelli, B.</author>
+<author>Burlacu, A.</author>
+<author>Busonero, D.</author>
+<author>Butkevich, A. G.</author>
+<author>Buzzi, R.</author>
+<author>Caffau, E.</author>
+<author>Cancelliere, R.</author>
+<author>Cannizzaro, G.</author>
+<author>Cantat-Gaudin, T.</author>
+<author>Carballo, R.</author>
+<author>Carlucci, T.</author>
+<author>Carrasco, J. M.</author>
+<author>Casamiquela, L.</author>
+<author>Castellani, M.</author>
+<author>Castro-Ginard, A.</author>
+<author>Charlot, P.</author>
+<author>Chemin, L.</author>
+<author>Chiavassa, A.</author>
+<author>Cocozza, G.</author>
+<author>Costigan, G.</author>
+<author>Cowell, S.</author>
+<author>Crifo, F.</author>
+<author>Crosta, M.</author>
+<author>Crowley, C.</author>
+<author>Cuypers, J.</author>
+<author>Dafonte, C.</author>
+<author>Damerdji, Y.</author>
+<author>Dapergolas, A.</author>
+<author>David, P.</author>
+<author>David, M.</author>
+<author>de Laverny, P.</author>
+<author>De Luise, F.</author>
+<author>De March, R.</author>
+<author>de Martino, D.</author>
+<author>de Souza, R.</author>
+<author>de Torres, A.</author>
+<author>Debosscher, J.</author>
+<author>del Pozo, E.</author>
+<author>Delbo, M.</author>
+<author>Delgado, A.</author>
+<author>Delgado, H. E.</author>
+<author>Di Matteo, P.</author>
+<author>Diakite, S.</author>
+<author>Diener, C.</author>
+<author>Distefano, E.</author>
+<author>Dolding, C.</author>
+<author>Drazinos, P.</author>
+<author>Durán, J.</author>
+<author>Edvardsson, B.</author>
+<author>Enke, H.</author>
+<author>Eriksson, K.</author>
+<author>Esquej, P.</author>
+<author>Eynard Bontemps, G.</author>
+<author>Fabre, C.</author>
+<author>Fabrizio, M.</author>
+<author>Faigler, S.</author>
+<author>Falcão, A. J.</author>
+<author>Farràs Casas, M.</author>
+<author>Federici, L.</author>
+<author>Fedorets, G.</author>
+<author>Fernique, P.</author>
+<author>Figueras, F.</author>
+<author>Filippi, F.</author>
+<author>Findeisen, K.</author>
+<author>Fonti, A.</author>
+<author>Fraile, E.</author>
+<author>Fraser, M.</author>
+<author>Frézouls, B.</author>
+<author>Gai, M.</author>
+<author>Galleti, S.</author>
+<author>Garabato, D.</author>
+<author>García-Sedano, F.</author>
+<author>Garofalo, A.</author>
+<author>Garralda, N.</author>
+<author>Gavel, A.</author>
+<author>Gavras, P.</author>
+<author>Gerssen, J.</author>
+<author>Geyer, R.</author>
+<author>Giacobbe, P.</author>
+<author>Gilmore, G.</author>
+<author>Girona, S.</author>
+<author>Giuffrida, G.</author>
+<author>Glass, F.</author>
+<author>Gomes, M.</author>
+<author>Granvik, M.</author>
+<author>Gueguen, A.</author>
+<author>Guerrier, A.</author>
+<author>Guiraud, J.</author>
+<author>Gutiérrez-Sánchez, R.</author>
+<author>Haigron, R.</author>
+<author>Hatzidimitriou, D.</author>
+<author>Hauser, M.</author>
+<author>Haywood, M.</author>
+<author>Heiter, U.</author>
+<author>Heu, J.</author>
+<author>Hilger, T.</author>
+<author>Hofmann, W.</author>
+<author>Holland, G.</author>
+<author>Huckle, H. E.</author>
+<author>Hypki, A.</author>
+<author>Icardi, V.</author>
+<author>Janßen, K.</author>
+<author>Jevardat de Fombelle, G.</author>
+<author>Jonker, P. G.</author>
+<author>Juhász, Á. L.</author>
+<author>Julbe, F.</author>
+<author>Karampelas, A.</author>
+<author>Kewley, A.</author>
+<author>Klar, J.</author>
+<author>Kochoska, A.</author>
+<author>Kohley, R.</author>
+<author>Kolenberg, K.</author>
+<author>Kontizas, M.</author>
+<author>Kontizas, E.</author>
+<author>Koposov, S. E.</author>
+<author>Kordopatis, G.</author>
+<author>Kostrzewa-Rutkowska, Z.</author>
+<author>Koubsky, P.</author>
+<author>Lambert, S.</author>
+<author>Lanza, A. F.</author>
+<author>Lasne, Y.</author>
+<author>Lavigne, J. -B.</author>
+<author>Le Fustec, Y.</author>
+<author>Le Poncin-Lafitte, C.</author>
+<author>Lebreton, Y.</author>
+<author>Leccia, S.</author>
+<author>Leclerc, N.</author>
+<author>Lecoeur-Taibi, I.</author>
+<author>Lenhardt, H.</author>
+<author>Leroux, F.</author>
+<author>Liao, S.</author>
+<author>Licata, E.</author>
+<author>Lindstrøm, H. E. P.</author>
+<author>Lister, T. A.</author>
+<author>Livanou, E.</author>
+<author>Lobel, A.</author>
+<author>López, M.</author>
+<author>Managau, S.</author>
+<author>Mann, R. G.</author>
+<author>Mantelet, G.</author>
+<author>Marchal, O.</author>
+<author>Marchant, J. M.</author>
+<author>Marconi, M.</author>
+<author>Marinoni, S.</author>
+<author>Marschalkó, G.</author>
+<author>Marshall, D. J.</author>
+<author>Martino, M.</author>
+<author>Marton, G.</author>
+<author>Mary, N.</author>
+<author>Matijevič, G.</author>
+<author>Mazeh, T.</author>
+<author>Messina, S.</author>
+<author>Michalik, D.</author>
+<author>Millar, N. R.</author>
+<author>Molina, D.</author>
+<author>Molinaro, R.</author>
+<author>Molnár, L.</author>
+<author>Montegriffo, P.</author>
+<author>Mor, R.</author>
+<author>Morbidelli, R.</author>
+<author>Morel, T.</author>
+<author>Morris, D.</author>
+<author>Mulone, A. F.</author>
+<author>Muraveva, T.</author>
+<author>Musella, I.</author>
+<author>Nelemans, G.</author>
+<author>Nicastro, L.</author>
+<author>Noval, L.</author>
+<author>O'Mullane, W.</author>
+<author>Ordénovic, C.</author>
+<author>Ordóñez-Blanco, D.</author>
+<author>Osborne, P.</author>
+<author>Pagani, C.</author>
+<author>Pagano, I.</author>
+<author>Pailler, F.</author>
+<author>Palacin, H.</author>
+<author>Palaversa, L.</author>
+<author>Panahi, A.</author>
+<author>Pawlak, M.</author>
+<author>Piersimoni, A. M.</author>
+<author>Pineau, F. -X.</author>
+<author>Plachy, E.</author>
+<author>Plum, G.</author>
+<author>Poggio, E.</author>
+<author>Poujoulet, E.</author>
+<author>Prša, A.</author>
+<author>Pulone, L.</author>
+<author>Racero, E.</author>
+<author>Ragaini, S.</author>
+<author>Rambaux, N.</author>
+<author>Ramos-Lerate, M.</author>
+<author>Regibo, S.</author>
+<author>Riclet, F.</author>
+<author>Ripepi, V.</author>
+<author>Riva, A.</author>
+<author>Rivard, A.</author>
+<author>Rixon, G.</author>
+<author>Roegiers, T.</author>
+<author>Roelens, M.</author>
+<author>Romero-Gómez, M.</author>
+<author>Rowell, N.</author>
+<author>Royer, F.</author>
+<author>Ruiz-Dern, L.</author>
+<author>Sadowski, G.</author>
+<author>Sagristà Sellés, T.</author>
+<author>Sahlmann, J.</author>
+<author>Salgado, J.</author>
+<author>Salguero, E.</author>
+<author>Sanna, N.</author>
+<author>Santana-Ros, T.</author>
+<author>Sarasso, M.</author>
+<author>Savietto, H.</author>
+<author>Schultheis, M.</author>
+<author>Sciacca, E.</author>
+<author>Segol, M.</author>
+<author>Segovia, J. C.</author>
+<author>Ségransan, D.</author>
+<author>Shih, I. -C.</author>
+<author>Siltala, L.</author>
+<author>Silva, A. F.</author>
+<author>Smart, R. L.</author>
+<author>Smith, K. W.</author>
+<author>Solano, E.</author>
+<author>Solitro, F.</author>
+<author>Sordo, R.</author>
+<author>Soria Nieto, S.</author>
+<author>Souchay, J.</author>
+<author>Spagna, A.</author>
+<author>Spoto, F.</author>
+<author>Stampa, U.</author>
+<author>Steele, I. A.</author>
+<author>Steidelmüller, H.</author>
+<author>Stephenson, C. A.</author>
+<author>Stoev, H.</author>
+<author>Suess, F. F.</author>
+<author>Surdej, J.</author>
+<author>Szabados, L.</author>
+<author>Szegedi-Elek, E.</author>
+<author>Tapiador, D.</author>
+<author>Taris, F.</author>
+<author>Tauran, G.</author>
+<author>Taylor, M. B.</author>
+<author>Teixeira, R.</author>
+<author>Terrett, D.</author>
+<author>Teyssandier, P.</author>
+<author>Thuillot, W.</author>
+<author>Titarenko, A.</author>
+<author>Torra Clotet, F.</author>
+<author>Turon, C.</author>
+<author>Ulla, A.</author>
+<author>Utrilla, E.</author>
+<author>Uzzi, S.</author>
+<author>Vaillant, M.</author>
+<author>Valentini, G.</author>
+<author>Valette, V.</author>
+<author>van Elteren, A.</author>
+<author>Van Hemelryck, E.</author>
+<author>van Leeuwen, M.</author>
+<author>Vaschetto, M.</author>
+<author>Vecchiato, A.</author>
+<author>Viala, Y.</author>
+<author>Vicente, D.</author>
+<author>Vogt, S.</author>
+<author>von Essen, C.</author>
+<author>Voss, H.</author>
+<author>Votruba, V.</author>
+<author>Voutsinas, S.</author>
+<author>Walmsley, G.</author>
+<author>Weiler, M.</author>
+<author>Wertz, O.</author>
+<author>Wevers, T.</author>
+<author>Wyrzykowski, Ł.</author>
+<author>Yoldas, A.</author>
+<author>Žerjal, M.</author>
+<author>Ziaeepour, H.</author>
+<author>Zorec, J.</author>
+<author>Zschocke, S.</author>
+<author>Zucker, S.</author>
+<author>Zurbach, C.</author>
+<author>Zwitter, T.</author>
+<affiliation>AB(Kapteyn Astronomical Institute, University of Groningen, Landleven 12, 9747 AD, Groningen, The Netherlands;), AC(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), AD(Lund Observatory, Department of Astronomy and Theoretical Physics, Lund University, Box 43, 22100, Lund, Sweden), AE(Kapteyn Astronomical Institute, University of Groningen, Landleven 12, 9747 AD, Groningen, The Netherlands), AF(Science Support Office, Directorate of Science, European Space Research and Technology Centre (ESA/ESTEC), Keplerlaan 1, 2201AZ, Noordwijk, The Netherlands; Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), AG(Institut UTINAM UMR6213, CNRS, OSU THETA Franche-Comté Bourgogne, Université Bourgogne Franche-Comté, 25000, Besançon, France), AH(Lund Observatory, Department of Astronomy and Theoretical Physics, Lund University, Box 43, 22100, Lund, Sweden), AI(Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), AJ(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), AK(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France; Univ. Grenoble Alpes, CNRS, IPAG, 38000, Grenoble, France), AL(Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), AM(Kapteyn Astronomical Institute, University of Groningen, Landleven 12, 9747 AD, Groningen, The Netherlands), AN(Lund Observatory, Department of Astronomy and Theoretical Physics, Lund University, Box 43, 22100, Lund, Sweden), AO(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), AP(INAF - Osservatorio Astrofisico di Arcetri, Largo Enrico Fermi 5, 50125, Firenze, Italy; Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy), AQ(Institut UTINAM UMR6213, CNRS, OSU THETA Franche-Comté Bourgogne, Université Bourgogne Franche-Comté, 25000, Besançon, France), AR(Kapteyn Astronomical Institute, University of Groningen, Landleven 12, 9747 AD, Groningen, The Netherlands), AS(Leiden Observatory, Leiden University, Niels Bohrweg 2, 2333 CA, Leiden, The Netherlands), AT(INAF - Osservatorio astronomico di Padova, Vicolo Osservatorio 5, 35122, Padova, Italy), AU(Science Support Office, Directorate of Science, European Space Research and Technology Centre (ESA/ESTEC), Keplerlaan 1, 2201AZ, Noordwijk, The Netherlands), AV(Science Support Office, Directorate of Science, European Space Research and Technology Centre (ESA/ESTEC), Keplerlaan 1, 2201AZ, Noordwijk, The Netherlands), AW(Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany), AX(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), AY(Department of Astronomy, University of Geneva, Chemin des Maillettes 51, 1290, Versoix, Switzerland), AZ(Mission Operations Division, Operations Department, Directorate of Science, European Space Research and Technology Centre (ESA/ESTEC), Keplerlaan 1, 2201 AZ, Noordwijk, The Netherlands), BA(Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany), BB(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), BC(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), BD(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), BE(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), BF(Institut d'Astronomie et d'Astrophysique, Université Libre de Bruxelles CP 226, Boulevard du Triomphe, 1050, Brussels, Belgium; F.R.S.-FNRS, Rue d'Egmont 5, 1000, Brussels, Belgium), BG(INAF - Osservatorio Astrofisico di Arcetri, Largo Enrico Fermi 5, 50125, Firenze, Italy), BH(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), BI(Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), BJ(Laboratoire d'astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France), BK(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), BL(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), BM(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), BN(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), BO(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), BP(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), BQ(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), BR(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), BS(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), BT(Serco Gestión de Negocios for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), BU(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), BV(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), BW(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), BX(Department of Astronomy, University of Geneva, Chemin des Maillettes 51, 1290, Versoix, Switzerland), BY(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), BZ(ALTEC S.p.a, Corso Marche, 79, 10146, Torino, Italy), CA(Department of Astronomy, University of Geneva, Chemin des Maillettes 51, 1290, Versoix, Switzerland), CB(Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland), CC(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), CD(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), CE(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), CF(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), CG(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), CH(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), CI(Gaia DPAC Project Office, ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), CJ(Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), CK(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), CL(Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), CM(Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany; SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, LNE, 61 avenue de l'Observatoire, 75014, Paris, France), CN(Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany), CO(Department of Astronomy, University of Geneva, Chemin des Maillettes 51, 1290, Versoix, Switzerland), CP(National Observatory of Athens, I. Metaxa and Vas. Pavlou, Palaia Penteli, 15236, Athens, Greece), CQ(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), CR(IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), CS(Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium), CT(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), CU(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), CV(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France; IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), CW(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), CX(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), CY(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), CZ(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France; Institut d'Astrophysique Spatiale, Université Paris XI, UMR 8617, CNRS, Bâtiment 121, 91405, Orsay Cedex, France), DA(Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK), DB(Instituut voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium), DC(Institut d'Astrophysique et de Géophysique, Université de Liège, 19c, Allée du 6 Août, 4000, Liège, Belgium), DD(INAF - Osservatorio Astrofisico di Arcetri, Largo Enrico Fermi 5, 50125, Firenze, Italy), DE(Laboratoire d'astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France), DF(ATG Europe for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), DG(Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany), DH(Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium), DI(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), DJ(Área de Lenguajes y Sistemas Informáticos, Universidad Pablo de Olavide, Ctra. de Utrera, km 1. 41013, Sevilla, Spain), DK(Serco Gestión de Negocios for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; ETSE Telecomunicación, Universidade de Vigo, Campus Lagoas-Marcosende, 36310, Vigo, Galicia, Spain), DL(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), DM(Institut d'Astrophysique et de Géophysique, Université de Liège, 19c, Allée du 6 Août, 4000, Liège, Belgium; F.R.S.-FNRS, Rue d'Egmont 5, 1000, Brussels, Belgium), DN(Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland; Large Synoptic Survey Telescope, 950 N. Cherry Avenue, Tucson, AZ, 85719, USA), DO(Observatoire Astronomique de Strasbourg, Université de Strasbourg, CNRS, UMR 7550, 11 rue de l'Université, 67000, Strasbourg, France), DP(Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK), DQ(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; Kavli Institute for Cosmology, University of Cambridge, Madingley Road, Cambride, CB3 0HA, UK), DR(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), DS(IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), DT(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), DU(Aurora Technology for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), DV(Laboratoire Univers et Particules de Montpellier, Université Montpellier, Place Eugène Bataillon, CC72, 34095, Montpellier Cedex 05, France), DW(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), DX(Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), DY(Department of Physics and Astronomy, Division of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden), DZ(CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal), EA(Università di Catania, Dipartimento di Fisica e Astronomia, Sezione Astrofisica, Via S. Sofia 78, 95123, Catania, Italy; INAF - Osservatorio Astrofisico di Catania, Via S. Sofia 78, 95123, Catania, Italy), EB(University of Vienna, Department of Astrophysics, Türkenschanzstraße 17, A1180, Vienna, Austria), EC(Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), ED(CITIC - Department of Computer Science, University of A Coruña, Campus de Elviña s/n, 15071-, A Coruña, Spain; CITIC - Astronomy and Astrophysics, University of A Coruña, Campus de Elviña s/n, 15071-, A Coruña, Spain), EE(INAF - Osservatorio Astronomico di Roma, Via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy; Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy), EF(Aurora Technology for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), EG(CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal), EH(Aurora Technology for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), EI(University of Helsinki, Department of Physics, PO Box 64, 00014, Helsinki, Finland; Finnish Geospatial Research Institute FGI, Geodeetinrinne 2, 02430, Masala, Finland), EJ(Isdefe for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), EK(Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium), EL(Institut UTINAM UMR6213, CNRS, OSU THETA Franche-Comté Bourgogne, Université Bourgogne Franche-Comté, 25000, Besançon, France), EM(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), EN(STFC, Rutherford Appleton Laboratory, Harwell, Didcot, OX11 0QX, UK), EO(Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland), EP(Departamento de Inteligencia Artificial, UNED, c/ Juan del Rosal 16, 28040, Madrid, Spain), EQ(Institut d'Astronomie et d'Astrophysique, Université Libre de Bruxelles CP 226, Boulevard du Triomphe, 1050, Brussels, Belgium), ER(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), ES(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), ET(Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany), EU(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), EV(Aurora Technology for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), EW(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), EX(Elecnor Deimos Space for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), EY(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), EZ(Instituut voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium; Department of Astrophysics/IMAPP, Radboud University, PO Box 9010, 6500, GL Nijmegen, The Netherlands), FA(INAF - Osservatorio Astronomico di Roma, Via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy; Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy; INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), FB(CITIC - Department of Computer Science, University of A Coruña, Campus de Elviña s/n, 15071-, A Coruña, Spain), FC(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), FD(University of Vienna, Department of Astrophysics, Türkenschanzstraße 17, A1180, Vienna, Austria), FE(European Southern Observatory, Karl-Schwarzschild-Str. 2, 85748, Garching, Germany; Department of Astronomy, University of Geneva, Chemin des Maillettes 51, 1290, Versoix, Switzerland), FF(ON/MCTI-BR, Rua Gal. José Cristino 77, Rio de Janeiro, CEP 20921-400, RJ, Brazil; OV/UFRJ-BR, Ladeira Pedro Antônio 43, Rio de Janeiro, CEP 20080-090, RJ, Brazil; SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, LNE, 61 avenue de l'Observatoire, 75014, Paris, France), FG(ATG Europe for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), FH(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), FI(CITIC - Department of Computer Science, University of A Coruña, Campus de Elviña s/n, 15071-, A Coruña, Spain), FJ(Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany; Department of Terrestrial Magnetism, Carnegie Institution for Science, 5241 Broad Branch Road, NW, Washington, DC 20015-1305, USA), FK(Aurora Technology for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), FL(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), FM(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), FN(Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), FO(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, LNE, 61 avenue de l'Observatoire, 75014, Paris, France), FP(CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal), FQ(Università di Torino, Dipartimento di Fisica, Via Pietro Giuria 1, 10125, Torino, Italy; INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), FR(Department of Astronomy, University of Geneva, Chemin des Maillettes 51, 1290, Versoix, Switzerland), FS(Department of Physics and Astronomy, Division of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden), FT(Departamento de Astrofísica, Centro de Astrobiología (CSIC-INTA), ESA-ESAC. Camino Bajo del Castillo s/n. 28692 Villanueva de la Cañada, Madrid, Spain), FU(CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal), FV(Leicester Institute of Space and Earth Observation and Department of Physics and Astronomy, University of Leicester, University Road, Leicester, LE1 7RH, UK), FW(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), FX(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), FY(INAF - Osservatorio Astrofisico di Catania, Via S. Sofia 78, 95123, Catania, Italy), FZ(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), GA(Departamento de Estadística, Universidad de Cádiz, Calle República Árabe Saharawi s/n. 11510, Puerto Real, Cádiz, Spain), GB(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy; SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, LNE, 61 avenue de l'Observatoire, 75014, Paris, France; Astronomical Institute Bern University, Sidlerstrasse 5, 3012, Bern, Switzerland (present address)), GC(EURIX S.r.l., Corso Vittorio Emanuele II 61, 10128, Torino, Italy), GD(Observatoire Astronomique de Strasbourg, Université de Strasbourg, CNRS, UMR 7550, 11 rue de l'Université, 67000, Strasbourg, France), GE(Department of Astronomy, University of Geneva, Chemin des Maillettes 51, 1290, Versoix, Switzerland; Laboratoire d'astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France; Harvard-Smithsonian Center for Astrophysics, 60 Garden Street, Cambridge, MA, 02138, USA), GF(Observatoire Astronomique de Strasbourg, Université de Strasbourg, CNRS, UMR 7550, 11 rue de l'Université, 67000, Strasbourg, France), GG(INAF - Osservatorio astronomico di Padova, Vicolo Osservatorio 5, 35122, Padova, Italy), GH(HE Space Operations BV for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), GI(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), GJ(INAF - Osservatorio astronomico di Padova, Vicolo Osservatorio 5, 35122, Padova, Italy), GK(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, LNE, 61 avenue de l'Observatoire, 75014, Paris, France), GL(Laboratoire d'astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France), GM(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), GN(ALTEC S.p.a, Corso Marche, 79, 10146, Torino, Italy), GO(SISSA - Scuola Internazionale Superiore di Studi Avanzati, Via Bonomea 265, 34136, Trieste, Italy), GP(Laboratoire d'astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France), GQ(Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), GR(INAF - Osservatorio Astrofisico di Catania, Via S. Sofia 78, 95123, Catania, Italy), GS(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), GT(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), GU(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), GV(Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany), GW(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), GX(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), GY(University of Turin, Department of Computer Sciences, Corso Svizzera 185, 10149, Torino, Italy), GZ(SRON, Netherlands Institute for Space Research, Sorbonnelaan 2, 3584CA, Utrecht, The Netherlands; Department of Astrophysics/IMAPP, Radboud University, PO Box 9010, 6500, GL Nijmegen, The Netherlands), HA(INAF - Osservatorio astronomico di Padova, Vicolo Osservatorio 5, 35122, Padova, Italy; Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), HB(Departamento de Matemática Aplicada y Ciencias de la Computación, Univ. de Cantabria, ETS Ingenieros de Caminos, Canales y Puertos, Avda. de los Castros s/n, 39005, Santander, Spain), HC(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, LNE, 61 avenue de l'Observatoire, 75014, Paris, France), HD(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), HE(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), HF(INAF - Osservatorio Astronomico di Roma, Via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy), HG(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), HH(Laboratoire d'astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France), HI(Unidad de Astronomía, Universidad de Antofagasta, Avenida Angamos 601, Antofagasta, 1270300, Chile), HJ(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), HK(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), HL(Leiden Observatory, Leiden University, Niels Bohrweg 2, 2333 CA, Leiden, The Netherlands), HM(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), HN(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), HO(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), HP(HE Space Operations BV for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), HQ(Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium), HR(CITIC - Department of Computer Science, University of A Coruña, Campus de Elviña s/n, 15071-, A Coruña, Spain), HS(Institut d'Astrophysique et de Géophysique, Université de Liège, 19c, Allée du 6 Août, 4000, Liège, Belgium; CRAAG - Centre de Recherche en Astronomie, Astrophysique et Géophysique, Route de l'Observatoire Bp 63 Bouzareah, 16340, Algiers, Algeria), HT(National Observatory of Athens, I. Metaxa and Vas. Pavlou, Palaia Penteli, 15236, Athens, Greece), HU(IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), HV(University of Antwerp, Onderzoeksgroep Toegepaste Wiskunde, Middelheimlaan 1, 2020, Antwerp, Belgium), HW(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), HX(INAF - Osservatorio Astronomico d'Abruzzo, Via Mentore Maggini, 64100, Teramo, Italy), HY(ALTEC S.p.a, Corso Marche, 79, 10146, Torino, Italy), HZ(INAF - Osservatorio Astronomico di Capodimonte, Via Moiariello 16, 80131, Napoli, Italy), IA(Instituto de Astronomia, Geofìsica e Ciências Atmosféricas, Universidade de São Paulo, Rua do Matão, 1226, Cidade Universitaria, 05508-900, São Paulo, SP, Brazil), IB(HE Space Operations BV for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), IC(Instituut voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium), ID(Aurora Technology for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), IE(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), IF(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), IG(Departamento de Inteligencia Artificial, UNED, c/ Juan del Rosal 16, 28040, Madrid, Spain), IH(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), II(Institut UTINAM UMR6213, CNRS, OSU THETA Franche-Comté Bourgogne, Université Bourgogne Franche-Comté, 25000, Besançon, France), IJ(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), IK(INAF - Osservatorio Astrofisico di Catania, Via S. Sofia 78, 95123, Catania, Italy), IL(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), IM(Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece), IN(Isdefe for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), IO(Department of Physics and Astronomy, Division of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden), IP(Leibniz Institute for Astrophysics Potsdam (AIP), An der Sternwarte 16, 14482, Potsdam, Germany), IQ(Department of Physics and Astronomy, Division of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden), IR(RHEA for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), IS(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), IT(ATOS for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), IU(INAF - Osservatorio Astronomico di Roma, Via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy; Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy), IV(School of Physics and Astronomy, Tel Aviv University, Tel Aviv, 6997801, Israel), IW(UNINOVA - CTS, Campus FCT-UNL, Monte da Caparica, 2829-516, Caparica, Portugal), IX(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), IY(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), IZ(University of Helsinki, Department of Physics, PO Box 64, 00014, Helsinki, Finland), JA(Observatoire Astronomique de Strasbourg, Université de Strasbourg, CNRS, UMR 7550, 11 rue de l'Université, 67000, Strasbourg, France), JB(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), JC(ALTEC S.p.a, Corso Marche, 79, 10146, Torino, Italy), JD(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), JE(ALTEC S.p.a, Corso Marche, 79, 10146, Torino, Italy), JF(RHEA for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), JG(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; School of Physics, O'Brien Centre for Science North, University College Dublin, Belfield, Dublin 4, Ireland), JH(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), JI(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), JJ(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), JK(CITIC - Department of Computer Science, University of A Coruña, Campus de Elviña s/n, 15071-, A Coruña, Spain), JL(Departamento de Inteligencia Artificial, UNED, c/ Juan del Rosal 16, 28040, Madrid, Spain), JM(Dipartimento di Fisica e Astronomia, Università di Bologna, Via Piero Gobetti 93/2, 40129, Bologna, Italy; INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), JN(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), JO(Department of Physics and Astronomy, Division of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden), JP(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France; National Observatory of Athens, I. Metaxa and Vas. Pavlou, Palaia Penteli, 15236, Athens, Greece; Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece), JQ(Leibniz Institute for Astrophysics Potsdam (AIP), An der Sternwarte 16, 14482, Potsdam, Germany), JR(Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany), JS(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), JT(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), JU(Barcelona Supercomputing Center - Centro Nacional de Supercomputación, c/ Jordi Girona 29, Ed. Nexus II, 08034, Barcelona, Spain), JV(Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy; INAF - Osservatorio Astronomico di Roma, Via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy), JW(Department of Astronomy, University of Geneva, Chemin des Maillettes 51, 1290, Versoix, Switzerland), JX(CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal), JY(University of Helsinki, Department of Physics, PO Box 64, 00014, Helsinki, Finland; Department of Computer Science, Electrical and Space Engineering, Luleå University of Technology, Box 848, 981 28, Kiruna, Sweden), JZ(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France; Max Planck Institute for Extraterrestrial Physics, High Energy Group, Gießenbachstraße, 85741, Garching, Germany), KA(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), KB(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), KC(Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), KD(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), KE(Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece; National Observatory of Athens, I. Metaxa and Vas. Pavlou, Palaia Penteli, 15236, Athens, Greece), KF(Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany; Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany), KG(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), KH(Department of Physics and Astronomy, Division of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden), KI(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), KJ(Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany), KK(Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), KL(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), KM(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), KN(Leiden Observatory, Leiden University, Niels Bohrweg 2, 2333 CA, Leiden, The Netherlands; Astronomical Observatory Institute, Faculty of Physics, Adam Mickiewicz University, Słoneczna 36, 60-286, Poznań, Poland), KO(ALTEC S.p.a, Corso Marche, 79, 10146, Torino, Italy), KP(Leibniz Institute for Astrophysics Potsdam (AIP), An der Sternwarte 16, 14482, Potsdam, Germany), KQ(Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland), KR(SRON, Netherlands Institute for Space Research, Sorbonnelaan 2, 3584CA, Utrecht, The Netherlands; Department of Astrophysics/IMAPP, Radboud University, PO Box 9010, 6500, GL Nijmegen, The Netherlands), KS(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary; Eötvös Loránd University, Egyetem tér 1-3, 1053, Budapest, Hungary), KT(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), KU(Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece; American Community Schools of Athens, 129 Aghias Paraskevis Ave. &amp;amp; Kazantzaki Street, Halandri, 15234, Athens, Greece), KV(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), KW(Leibniz Institute for Astrophysics Potsdam (AIP), An der Sternwarte 16, 14482, Potsdam, Germany), KX(Faculty of Mathematics and Physics, University of Ljubljana, Jadranska ulica 19, 1000, Ljubljana, Slovenia; Villanova University, Department of Astrophysics and Planetary Science, 800 E Lancaster Avenue, Villanova, PA, 19085, USA), KY(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), KZ(Physics Department, University of Antwerp, Groenenborgerlaan 171, 2020, Antwerp, Belgium; Instituut voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium; Harvard-Smithsonian Center for Astrophysics, 60 Garden Street, Cambridge, MA, 02138, USA), LA(Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece), LB(National Observatory of Athens, I. Metaxa and Vas. Pavlou, Palaia Penteli, 15236, Athens, Greece), LC(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; McWilliams Center for Cosmology, Department of Physics, Carnegie Mellon University, 5000 Forbes Avenue, Pittsburgh, PA, 15213, USA), LD(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), LE(SRON, Netherlands Institute for Space Research, Sorbonnelaan 2, 3584CA, Utrecht, The Netherlands; Department of Astrophysics/IMAPP, Radboud University, PO Box 9010, 6500, GL Nijmegen, The Netherlands), LF(Astronomical Institute, Academy of Sciences of the Czech Republic, Fričova 298, 25165, Ondřejov, Czech Republic), LG(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, LNE, 61 avenue de l'Observatoire, 75014, Paris, France), LH(INAF - Osservatorio Astrofisico di Catania, Via S. Sofia 78, 95123, Catania, Italy), LI(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), LJ(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), LK(Telespazio for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), LL(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, LNE, 61 avenue de l'Observatoire, 75014, Paris, France), LM(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France; Institut de Physique de Rennes, Université de Rennes 1, 35042, Rennes, France), LN(INAF - Osservatorio Astronomico di Capodimonte, Via Moiariello 16, 80131, Napoli, Italy), LO(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), LP(Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland), LQ(Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), LR(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), LS(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy; Shanghai Astronomical Observatory, Chinese Academy of Sciences, 80 Nandan Rd, 200030, Shanghai, PR China; School of Astronomy and Space Science, University of Chinese Academy of Sciences, Beijing, 100049, PR China), LT(EURIX S.r.l., Corso Vittorio Emanuele II 61, 10128, Torino, Italy), LU(Niels Bohr Institute, University of Copenhagen, Juliane Maries Vej 30, 2100, Copenhagen Ø, Denmark; DXC Technology, Retortvej 8, 2500, Valby, Denmark), LV(Las Cumbres Observatory, 6740 Cortona Drive Suite 102, Goleta, CA, 93117, USA), LW(Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece), LX(Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium), LY(Departamento de Astrofísica, Centro de Astrobiología (CSIC-INTA), ESA-ESAC. Camino Bajo del Castillo s/n. 28692 Villanueva de la Cañada, Madrid, Spain), LZ(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), MA(Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK), MB(Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), MC(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), MD(Astrophysics Research Institute, Liverpool John Moores University, 146 Brownlow Hill, Liverpool, L3 5RF, UK), ME(INAF - Osservatorio Astronomico di Capodimonte, Via Moiariello 16, 80131, Napoli, Italy), MF(INAF - Osservatorio Astronomico di Roma, Via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy; Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy), MG(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary; Baja Observatory of University of Szeged, Szegedi út III/70, 6500, Baja, Hungary), MH(Laboratoire AIM, IRFU/Service d'Astrophysique - CEA/DSM - CNRS - Université Paris Diderot, Bât 709, CEA-Saclay, 91191, Gif-sur-Yvette Cedex, France), MI(ALTEC S.p.a, Corso Marche, 79, 10146, Torino, Italy), MJ(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary), MK(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), ML(Leibniz Institute for Astrophysics Potsdam (AIP), An der Sternwarte 16, 14482, Potsdam, Germany), MM(School of Physics and Astronomy, Tel Aviv University, Tel Aviv, 6997801, Israel), MN(INAF - Osservatorio Astrofisico di Catania, Via S. Sofia 78, 95123, Catania, Italy), MO(Lund Observatory, Department of Astronomy and Theoretical Physics, Lund University, Box 43, 22100, Lund, Sweden), MP(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), MQ(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), MR(INAF - Osservatorio Astronomico di Capodimonte, Via Moiariello 16, 80131, Napoli, Italy), MS(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary), MT(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), MU(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), MV(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), MW(Institut d'Astrophysique et de Géophysique, Université de Liège, 19c, Allée du 6 Août, 4000, Liège, Belgium), MX(Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK), MY(ALTEC S.p.a, Corso Marche, 79, 10146, Torino, Italy), MZ(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), NA(INAF - Osservatorio Astronomico di Capodimonte, Via Moiariello 16, 80131, Napoli, Italy), NB(Department of Astrophysics/IMAPP, Radboud University, PO Box 9010, 6500, GL Nijmegen, The Netherlands; Instituut voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium), NC(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), ND(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), NE(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Large Synoptic Survey Telescope, 950 N. Cherry Avenue, Tucson, AZ, 85719, USA), NF(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), NG(Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland), NH(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), NI(Leicester Institute of Space and Earth Observation and Department of Physics and Astronomy, University of Leicester, University Road, Leicester, LE1 7RH, UK), NJ(INAF - Osservatorio Astrofisico di Catania, Via S. Sofia 78, 95123, Catania, Italy), NK(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), NL(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), NM(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; Department of Astronomy, University of Geneva, Chemin des Maillettes 51, 1290, Versoix, Switzerland), NN(School of Physics and Astronomy, Tel Aviv University, Tel Aviv, 6997801, Israel), NO(Warsaw University Observatory, Al. Ujazdowskie 4, 00-478, Warszawa, Poland; Institute of Theoretical Physics, Faculty of Mathematics and Physics, Charles University in Prague, Czech Republic), NP(INAF - Osservatorio Astronomico d'Abruzzo, Via Mentore Maggini, 64100, Teramo, Italy), NQ(Observatoire Astronomique de Strasbourg, Université de Strasbourg, CNRS, UMR 7550, 11 rue de l'Université, 67000, Strasbourg, France), NR(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary), NS(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), NT(Università di Torino, Dipartimento di Fisica, Via Pietro Giuria 1, 10125, Torino, Italy; INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), NU(AKKA for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), NV(Villanova University, Department of Astrophysics and Planetary Science, 800 E Lancaster Avenue, Villanova, PA, 19085, USA), NW(INAF - Osservatorio Astronomico di Roma, Via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy), NX(Serco Gestión de Negocios for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), NY(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, Via Piero Gobetti 93/3, 40129, Bologna, Italy), NZ(IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), OA(Vitrociset Belgium for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), OB(Instituut voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium), OC(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), OD(INAF - Osservatorio Astronomico di Capodimonte, Via Moiariello 16, 80131, Napoli, Italy), OE(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), OF(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), OG(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), OH(HE Space Operations BV for ESA/ESTEC, Keplerlaan 1, 2201AZ, Noordwijk, The Netherlands), OI(Department of Astronomy, University of Geneva, Chemin des Maillettes 51, 1290, Versoix, Switzerland), OJ(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), OK(Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK), OL(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), OM(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), ON(Institut d'Astronomie et d'Astrophysique, Université Libre de Bruxelles CP 226, Boulevard du Triomphe, 1050, Brussels, Belgium), OO(Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), OP(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Space Telescope Science Institute, 3700 San Martin Drive, Baltimore, MD, 21218, USA), OQ(QUASAR Science Resources for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), OR(ATG Europe for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), OS(INAF - Osservatorio Astrofisico di Arcetri, Largo Enrico Fermi 5, 50125, Firenze, Italy), OT(Astronomical Observatory Institute, Faculty of Physics, Adam Mickiewicz University, Słoneczna 36, 60-286, Poznań, Poland), OU(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), OV(Fork Research, Rua do Cruzado Osberno, Lt. 1, 9 esq., Lisboa, Portugal), OW(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), OX(INAF - Osservatorio Astrofisico di Catania, Via S. Sofia 78, 95123, Catania, Italy), OY(APAVE SUDEUROPE SAS for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), OZ(Serco Gestión de Negocios for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), PA(Department of Astronomy, University of Geneva, Chemin des Maillettes 51, 1290, Versoix, Switzerland), PB(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), PC(University of Helsinki, Department of Physics, PO Box 64, 00014, Helsinki, Finland; Nordic Optical Telescope, Rambla José Ana Fernández Pérez 7, 38711, Breña Baja, Spain), PD(CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal), PE(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), PF(Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany), PG(Departamento de Astrofísica, Centro de Astrobiología (CSIC-INTA), ESA-ESAC. Camino Bajo del Castillo s/n. 28692 Villanueva de la Cañada, Madrid, Spain; Spanish Virtual Observatory, Spain), PH(ALTEC S.p.a, Corso Marche, 79, 10146, Torino, Italy), PI(INAF - Osservatorio astronomico di Padova, Vicolo Osservatorio 5, 35122, Padova, Italy), PJ(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), PK(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, LNE, 61 avenue de l'Observatoire, 75014, Paris, France), PL(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), PM(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France; IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), PN(Astronomisches Rechen-Institut, Zentrum für Astronomie der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), PO(Astrophysics Research Institute, Liverpool John Moores University, 146 Brownlow Hill, Liverpool, L3 5RF, UK), PP(Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany), PQ(Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), PR(Fundación Galileo Galilei - INAF, Rambla José Ana Fernández Pérez 7, 38712, Breña Baja, Santa Cruz de Tenerife, Spain), PS(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), PT(Institut d'Astrophysique et de Géophysique, Université de Liège, 19c, Allée du 6 Août, 4000, Liège, Belgium), PU(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary), PV(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary), PW(INSA for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Departamento Arquitectura de Computadores y Automática, Facultad de Informática, Universidad Complutense de Madrid, C/ Prof. José García Santesmases s/n, 28040, Madrid, Spain), PX(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, LNE, 61 avenue de l'Observatoire, 75014, Paris, France), PY(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), PZ(H H Wills Physics Laboratory, University of Bristol, Tyndall Avenue, Bristol, BS8 1TL, UK), QA(Instituto de Astronomia, Geofìsica e Ciências Atmosféricas, Universidade de São Paulo, Rua do Matão, 1226, Cidade Universitaria, 05508-900, São Paulo, SP, Brazil), QB(STFC, Rutherford Appleton Laboratory, Harwell, Didcot, OX11 0QX, UK), QC(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, LNE, 61 avenue de l'Observatoire, 75014, Paris, France), QD(IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), QE(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), QF(Institut d'Estudis Espacials de Catalunya (IEEC), Gran Capita 2-4, 08034, Barcelona, Spain), QG(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), QH(Applied Physics Department, Universidade de Vigo, 36310, Vigo, Spain), QI(Aurora Technology for ESA/ESAC, Camino bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), QJ(ALTEC S.p.a, Corso Marche, 79, 10146, Torino, Italy), QK(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), QL(INAF - Osservatorio Astronomico d'Abruzzo, Via Mentore Maggini, 64100, Teramo, Italy), QM(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), QN(Leiden Observatory, Leiden University, Niels Bohrweg 2, 2333 CA, Leiden, The Netherlands), QO(Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium), QP(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), QQ(ALTEC S.p.a, Corso Marche, 79, 10146, Torino, Italy), QR(INAF - Osservatorio Astrofisico di Torino, Via Osservatorio 20, 10025, Pino Torinese (TO), Italy), QS(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules Janssen, 92190, Meudon, France), QT(Barcelona Supercomputing Center - Centro Nacional de Supercomputación, c/ Jordi Girona 29, Ed. Nexus II, 08034, Barcelona, Spain), QU(HE Space Operations BV for ESA/ESTEC, Keplerlaan 1, 2201AZ, Noordwijk, The Netherlands), QV(Stellar Astrophysics Centre, Aarhus University, Department of Physics and Astronomy, 120 Ny Munkegade, Building 1520, 8000, Aarhus C, Denmark), QW(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), QX(Astronomical Institute, Academy of Sciences of the Czech Republic, Fričova 298, 25165, Ondřejov, Czech Republic), QY(Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK), QZ(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), RA(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), RB(Argelander-Institut für Astronomie, Universität Bonn, Auf dem Hügel 71, 53121, Bonn, Germany), RC(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; Department of Astrophysics/IMAPP, Radboud University, PO Box 9010, 6500, GL Nijmegen, The Netherlands), RD(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; Warsaw University Observatory, Al. Ujazdowskie 4, 00-478, Warszawa, Poland), RE(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), RF(Faculty of Mathematics and Physics, University of Ljubljana, Jadranska ulica 19, 1000, Ljubljana, Slovenia; Research School of Astronomy and Astrophysics, Australian National University, Canberra, ACT 2611, Australia), RG(Institut UTINAM UMR6213, CNRS, OSU THETA Franche-Comté Bourgogne, Université Bourgogne Franche-Comté, 25000, Besançon, France), RH(Sorbonne Universités, UPMC Univ. Paris 6 et CNRS, UMR 7095, Institut d'Astrophysique de Paris, 98 bis bd. Arago, 75014, Paris, France), RI(Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany), RJ(Department of Geosciences, Tel Aviv University, Tel Aviv, 6997801, Israel), RK(Laboratoire Univers et Particules de Montpellier, Université Montpellier, Place Eugène Bataillon, CC72, 34095, Montpellier Cedex 05, France), RL(Faculty of Mathematics and Physics, University of Ljubljana, Jadranska ulica 19, 1000, Ljubljana, Slovenia)</affiliation>
+<journal>Astronomy &amp;amp; Astrophysics, Volume 642, id.C1, 5 pp.</journal>
+<volume>642</volume>
+<pubdate>Oct 2020</pubdate>
+<keywords>
+<keyword>Galaxy: kinematics and dynamics</keyword>
+<keyword>astrometry</keyword>
+<keyword>Magellanic Clouds</keyword>
+<keyword>galaxies: dwarf</keyword>
+<keyword>Local Group</keyword>
+<keyword>errata</keyword>
+<keyword>addenda</keyword>
+</keywords>
+<link type="citations">
+<name>Citations to the Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...642C...1G/citations</url>
+<count>2</count>
+</link>
+<link type="reference">
+<name>References in the Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...642C...1G/reference</url>
+<count>3</count>
+</link>
+<link type="coreads">
+<name>Co-Reads</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...642C...1G/coreads</url>
+</link>
+<link type="PUB_HTML">
+<name>Publisher Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...642C...1G/PUB_HTML</url>
+</link>
+<link type="PUB_PDF" access="open">
+<name>Publisher PDF</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...642C...1G/PUB_PDF</url>
+</link>
+<url>https://ui.adsabs.harvard.edu/abs/2020A&amp;A...642C...1G</url>
+<citations>2</citations>
+<DOI>10.1051/0004-6361/202039217</DOI>
+</record>
+
+<record refereed="true" article="true" type="article">
+<bibcode>2020A&amp;A...637C...3G</bibcode>
+<title>Gaia Data Release 2. Kinematics of globular clusters and dwarf galaxies around the Milky Way (Corrigendum)</title>
+<author>Gaia Collaboration</author>
+<author>Helmi, A.</author>
+<author>van Leeuwen, F.</author>
+<author>McMillan, P. J.</author>
+<author>Massari, D.</author>
+<author>Antoja, T.</author>
+<author>Robin, A. C.</author>
+<author>Lindegren, L.</author>
+<author>Bastian, U.</author>
+<author>Arenou, F.</author>
+<author>Babusiaux, C.</author>
+<author>Biermann, M.</author>
+<author>Breddels, M. A.</author>
+<author>Hobbs, D.</author>
+<author>Jordi, C.</author>
+<author>Pancino, E.</author>
+<author>Reylé, C.</author>
+<author>Veljanoski, J.</author>
+<author>Brown, A. G. A.</author>
+<author>Vallenari, A.</author>
+<author>Prusti, T.</author>
+<author>de Bruijne, J. H. J.</author>
+<author>Bailer-Jones, C. A. L.</author>
+<author>Evans, D. W.</author>
+<author>Eyer, L.</author>
+<author>Jansen, F.</author>
+<author>Klioner, S. A.</author>
+<author>Lammers, U.</author>
+<author>Luri, X.</author>
+<author>Mignard, F.</author>
+<author>Panem, C.</author>
+<author>Pourbaix, D.</author>
+<author>Randich, S.</author>
+<author>Sartoretti, P.</author>
+<author>Siddiqui, H. I.</author>
+<author>Soubiran, C.</author>
+<author>Walton, N. A.</author>
+<author>Cropper, M.</author>
+<author>Drimmel, R.</author>
+<author>Katz, D.</author>
+<author>Lattanzi, M. G.</author>
+<author>Bakker, J.</author>
+<author>Cacciari, C.</author>
+<author>Castañeda, J.</author>
+<author>Chaoul, L.</author>
+<author>Cheek, N.</author>
+<author>De Angeli, F.</author>
+<author>Fabricius, C.</author>
+<author>Guerra, R.</author>
+<author>Holl, B.</author>
+<author>Masana, E.</author>
+<author>Messineo, R.</author>
+<author>Mowlavi, N.</author>
+<author>Nienartowicz, K.</author>
+<author>Panuzzo, P.</author>
+<author>Portell, J.</author>
+<author>Riello, M.</author>
+<author>Seabroke, G. M.</author>
+<author>Tanga, P.</author>
+<author>Thévenin, F.</author>
+<author>Gracia-Abril, G.</author>
+<author>Comoretto, G.</author>
+<author>Garcia-Reinaldos, M.</author>
+<author>Teyssier, D.</author>
+<author>Altmann, M.</author>
+<author>Andrae, R.</author>
+<author>Audard, M.</author>
+<author>Bellas-Velidis, I.</author>
+<author>Benson, K.</author>
+<author>Berthier, J.</author>
+<author>Blomme, R.</author>
+<author>Burgess, P.</author>
+<author>Busso, G.</author>
+<author>Carry, B.</author>
+<author>Cellino, A.</author>
+<author>Clementini, G.</author>
+<author>Clotet, M.</author>
+<author>Creevey, O.</author>
+<author>Davidson, M.</author>
+<author>De Ridder, J.</author>
+<author>Delchambre, L.</author>
+<author>Dell'Oro, A.</author>
+<author>Ducourant, C.</author>
+<author>Fernández-Hernández, J.</author>
+<author>Fouesneau, M.</author>
+<author>Frémat, Y.</author>
+<author>Galluccio, L.</author>
+<author>García-Torres, M.</author>
+<author>González-Núñez, J.</author>
+<author>González-Vidal, J. J.</author>
+<author>Gosset, E.</author>
+<author>Guy, L. P.</author>
+<author>Halbwachs, J. -L.</author>
+<author>Hambly, N. C.</author>
+<author>Harrison, D. L.</author>
+<author>Hernández, J.</author>
+<author>Hestroffer, D.</author>
+<author>Hodgkin, S. T.</author>
+<author>Hutton, A.</author>
+<author>Jasniewicz, G.</author>
+<author>Jean-Antoine-Piccolo, A.</author>
+<author>Jordan, S.</author>
+<author>Korn, A. J.</author>
+<author>Krone-Martins, A.</author>
+<author>Lanzafame, A. C.</author>
+<author>Lebzelter, T.</author>
+<author>Löffler, W.</author>
+<author>Manteiga, M.</author>
+<author>Marrese, P. M.</author>
+<author>Martín-Fleitas, J. M.</author>
+<author>Moitinho, A.</author>
+<author>Mora, A.</author>
+<author>Muinonen, K.</author>
+<author>Osinde, J.</author>
+<author>Pauwels, T.</author>
+<author>Petit, J. -M.</author>
+<author>Recio-Blanco, A.</author>
+<author>Richards, P. J.</author>
+<author>Rimoldini, L.</author>
+<author>Sarro, L. M.</author>
+<author>Siopis, C.</author>
+<author>Smith, M.</author>
+<author>Sozzetti, A.</author>
+<author>Süveges, M.</author>
+<author>Torra, J.</author>
+<author>van Reeven, W.</author>
+<author>Abbas, U.</author>
+<author>Abreu Aramburu, A.</author>
+<author>Accart, S.</author>
+<author>Aerts, C.</author>
+<author>Altavilla, G.</author>
+<author>Álvarez, M. A.</author>
+<author>Alvarez, R.</author>
+<author>Alves, J.</author>
+<author>Anderson, R. I.</author>
+<author>Andrei, A. H.</author>
+<author>Anglada Varela, E.</author>
+<author>Antiche, E.</author>
+<author>Arcay, B.</author>
+<author>Astraatmadja, T. L.</author>
+<author>Bach, N.</author>
+<author>Baker, S. G.</author>
+<author>Balaguer-Núñez, L.</author>
+<author>Balm, P.</author>
+<author>Barache, C.</author>
+<author>Barata, C.</author>
+<author>Barbato, D.</author>
+<author>Barblan, F.</author>
+<author>Barklem, P. S.</author>
+<author>Barrado, D.</author>
+<author>Barros, M.</author>
+<author>Barstow, M. A.</author>
+<author>Bartholomé Muñoz, S.</author>
+<author>Bassilana, J. -L.</author>
+<author>Becciani, U.</author>
+<author>Bellazzini, M.</author>
+<author>Berihuete, A.</author>
+<author>Bertone, S.</author>
+<author>Bianchi, L.</author>
+<author>Bienaymé, O.</author>
+<author>Blanco-Cuaresma, S.</author>
+<author>Boch, T.</author>
+<author>Boeche, C.</author>
+<author>Bombrun, A.</author>
+<author>Borrachero, R.</author>
+<author>Bossini, D.</author>
+<author>Bouquillon, S.</author>
+<author>Bourda, G.</author>
+<author>Bragaglia, A.</author>
+<author>Bramante, L.</author>
+<author>Bressan, A.</author>
+<author>Brouillet, N.</author>
+<author>Brüsemeister, T.</author>
+<author>Brugaletta, E.</author>
+<author>Bucciarelli, B.</author>
+<author>Burlacu, A.</author>
+<author>Busonero, D.</author>
+<author>Butkevich, A. G.</author>
+<author>Buzzi, R.</author>
+<author>Caffau, E.</author>
+<author>Cancelliere, R.</author>
+<author>Cannizzaro, G.</author>
+<author>Cantat-Gaudin, T.</author>
+<author>Carballo, R.</author>
+<author>Carlucci, T.</author>
+<author>Carrasco, J. M.</author>
+<author>Casamiquela, L.</author>
+<author>Castellani, M.</author>
+<author>Castro-Ginard, A.</author>
+<author>Charlot, P.</author>
+<author>Chemin, L.</author>
+<author>Chiavassa, A.</author>
+<author>Cocozza, G.</author>
+<author>Costigan, G.</author>
+<author>Cowell, S.</author>
+<author>Crifo, F.</author>
+<author>Crosta, M.</author>
+<author>Crowley, C.</author>
+<author>Cuypers, J.</author>
+<author>Dafonte, C.</author>
+<author>Damerdji, Y.</author>
+<author>Dapergolas, A.</author>
+<author>David, P.</author>
+<author>David, M.</author>
+<author>de Laverny, P.</author>
+<author>De Luise, F.</author>
+<author>De March, R.</author>
+<author>de Martino, D.</author>
+<author>de Souza, R.</author>
+<author>de Torres, A.</author>
+<author>Debosscher, J.</author>
+<author>del Pozo, E.</author>
+<author>Delbo, M.</author>
+<author>Delgado, A.</author>
+<author>Delgado, H. E.</author>
+<author>Di Matteo, P.</author>
+<author>Diakite, S.</author>
+<author>Diener, C.</author>
+<author>Distefano, E.</author>
+<author>Dolding, C.</author>
+<author>Drazinos, P.</author>
+<author>Durán, J.</author>
+<author>Edvardsson, B.</author>
+<author>Enke, H.</author>
+<author>Eriksson, K.</author>
+<author>Esquej, P.</author>
+<author>Eynard Bontemps, G.</author>
+<author>Fabre, C.</author>
+<author>Fabrizio, M.</author>
+<author>Faigler, S.</author>
+<author>Falcão, A. J.</author>
+<author>Farràs Casas, M.</author>
+<author>Federici, L.</author>
+<author>Fedorets, G.</author>
+<author>Fernique, P.</author>
+<author>Figueras, F.</author>
+<author>Filippi, F.</author>
+<author>Findeisen, K.</author>
+<author>Fonti, A.</author>
+<author>Fraile, E.</author>
+<author>Fraser, M.</author>
+<author>Frézouls, B.</author>
+<author>Gai, M.</author>
+<author>Galleti, S.</author>
+<author>Garabato, D.</author>
+<author>García-Sedano, F.</author>
+<author>Garofalo, A.</author>
+<author>Garralda, N.</author>
+<author>Gavel, A.</author>
+<author>Gavras, P.</author>
+<author>Gerssen, J.</author>
+<author>Geyer, R.</author>
+<author>Giacobbe, P.</author>
+<author>Gilmore, G.</author>
+<author>Girona, S.</author>
+<author>Giuffrida, G.</author>
+<author>Glass, F.</author>
+<author>Gomes, M.</author>
+<author>Granvik, M.</author>
+<author>Gueguen, A.</author>
+<author>Guerrier, A.</author>
+<author>Guiraud, J.</author>
+<author>Gutiérrez-Sánchez, R.</author>
+<author>Haigron, R.</author>
+<author>Hatzidimitriou, D.</author>
+<author>Hauser, M.</author>
+<author>Haywood, M.</author>
+<author>Heiter, U.</author>
+<author>Heu, J.</author>
+<author>Hilger, T.</author>
+<author>Hofmann, W.</author>
+<author>Holland, G.</author>
+<author>Huckle, H. E.</author>
+<author>Hypki, A.</author>
+<author>Icardi, V.</author>
+<author>Janßen, K.</author>
+<author>Jevardat de Fombelle, G.</author>
+<author>Jonker, P. G.</author>
+<author>Juhász, Á. L.</author>
+<author>Julbe, F.</author>
+<author>Karampelas, A.</author>
+<author>Kewley, A.</author>
+<author>Klar, J.</author>
+<author>Kochoska, A.</author>
+<author>Kohley, R.</author>
+<author>Kolenberg, K.</author>
+<author>Kontizas, M.</author>
+<author>Kontizas, E.</author>
+<author>Koposov, S. E.</author>
+<author>Kordopatis, G.</author>
+<author>Kostrzewa-Rutkowska, Z.</author>
+<author>Koubsky, P.</author>
+<author>Lambert, S.</author>
+<author>Lanza, A. F.</author>
+<author>Lasne, Y.</author>
+<author>Lavigne, J. -B.</author>
+<author>Le Fustec, Y.</author>
+<author>Le Poncin-Lafitte, C.</author>
+<author>Lebreton, Y.</author>
+<author>Leccia, S.</author>
+<author>Leclerc, N.</author>
+<author>Lecoeur-Taibi, I.</author>
+<author>Lenhardt, H.</author>
+<author>Leroux, F.</author>
+<author>Liao, S.</author>
+<author>Licata, E.</author>
+<author>Lindstrøm, H. E. P.</author>
+<author>Lister, T. A.</author>
+<author>Livanou, E.</author>
+<author>Lobel, A.</author>
+<author>López, M.</author>
+<author>Managau, S.</author>
+<author>Mann, R. G.</author>
+<author>Mantelet, G.</author>
+<author>Marchal, O.</author>
+<author>Marchant, J. M.</author>
+<author>Marconi, M.</author>
+<author>Marinoni, S.</author>
+<author>Marschalkó, G.</author>
+<author>Marshall, D. J.</author>
+<author>Martino, M.</author>
+<author>Marton, G.</author>
+<author>Mary, N.</author>
+<author>Matijevič, G.</author>
+<author>Mazeh, T.</author>
+<author>Messina, S.</author>
+<author>Michalik, D.</author>
+<author>Millar, N. R.</author>
+<author>Molina, D.</author>
+<author>Molinaro, R.</author>
+<author>Molnár, L.</author>
+<author>Montegriffo, P.</author>
+<author>Mor, R.</author>
+<author>Morbidelli, R.</author>
+<author>Morel, T.</author>
+<author>Morris, D.</author>
+<author>Mulone, A. F.</author>
+<author>Muraveva, T.</author>
+<author>Musella, I.</author>
+<author>Nelemans, G.</author>
+<author>Nicastro, L.</author>
+<author>Noval, L.</author>
+<author>O'Mullane, W.</author>
+<author>Ordénovic, C.</author>
+<author>Ordóñez-Blanco, D.</author>
+<author>Osborne, P.</author>
+<author>Pagani, C.</author>
+<author>Pagano, I.</author>
+<author>Pailler, F.</author>
+<author>Palacin, H.</author>
+<author>Palaversa, L.</author>
+<author>Panahi, A.</author>
+<author>Pawlak, M.</author>
+<author>Piersimoni, A. M.</author>
+<author>Pineau, F. -X.</author>
+<author>Plachy, E.</author>
+<author>Plum, G.</author>
+<author>Poggio, E.</author>
+<author>Poujoulet, E.</author>
+<author>Prša, A.</author>
+<author>Pulone, L.</author>
+<author>Racero, E.</author>
+<author>Ragaini, S.</author>
+<author>Rambaux, N.</author>
+<author>Ramos-Lerate, M.</author>
+<author>Regibo, S.</author>
+<author>Riclet, F.</author>
+<author>Ripepi, V.</author>
+<author>Riva, A.</author>
+<author>Rivard, A.</author>
+<author>Rixon, G.</author>
+<author>Roegiers, T.</author>
+<author>Roelens, M.</author>
+<author>Romero-Gómez, M.</author>
+<author>Rowell, N.</author>
+<author>Royer, F.</author>
+<author>Ruiz-Dern, L.</author>
+<author>Sadowski, G.</author>
+<author>Sagristà Sellés, T.</author>
+<author>Sahlmann, J.</author>
+<author>Salgado, J.</author>
+<author>Salguero, E.</author>
+<author>Sanna, N.</author>
+<author>Santana-Ros, T.</author>
+<author>Sarasso, M.</author>
+<author>Savietto, H.</author>
+<author>Schultheis, M.</author>
+<author>Sciacca, E.</author>
+<author>Segol, M.</author>
+<author>Segovia, J. C.</author>
+<author>Ségransan, D.</author>
+<author>Shih, I. -C.</author>
+<author>Siltala, L.</author>
+<author>Silva, A. F.</author>
+<author>Smart, R. L.</author>
+<author>Smith, K. W.</author>
+<author>Solano, E.</author>
+<author>Solitro, F.</author>
+<author>Sordo, R.</author>
+<author>Soria Nieto, S.</author>
+<author>Souchay, J.</author>
+<author>Spagna, A.</author>
+<author>Spoto, F.</author>
+<author>Stampa, U.</author>
+<author>Steele, I. A.</author>
+<author>Steidelmüller, H.</author>
+<author>Stephenson, C. A.</author>
+<author>Stoev, H.</author>
+<author>Suess, F. F.</author>
+<author>Surdej, J.</author>
+<author>Szabados, L.</author>
+<author>Szegedi-Elek, E.</author>
+<author>Tapiador, D.</author>
+<author>Taris, F.</author>
+<author>Tauran, G.</author>
+<author>Taylor, M. B.</author>
+<author>Teixeira, R.</author>
+<author>Terrett, D.</author>
+<author>Teyssandier, P.</author>
+<author>Thuillot, W.</author>
+<author>Titarenko, A.</author>
+<author>Torra Clotet, F.</author>
+<author>Turon, C.</author>
+<author>Ulla, A.</author>
+<author>Utrilla, E.</author>
+<author>Uzzi, S.</author>
+<author>Vaillant, M.</author>
+<author>Valentini, G.</author>
+<author>Valette, V.</author>
+<author>van Elteren, A.</author>
+<author>Van Hemelryck, E.</author>
+<author>van Leeuwen, M.</author>
+<author>Vaschetto, M.</author>
+<author>Vecchiato, A.</author>
+<author>Viala, Y.</author>
+<author>Vicente, D.</author>
+<author>Vogt, S.</author>
+<author>von Essen, C.</author>
+<author>Voss, H.</author>
+<author>Votruba, V.</author>
+<author>Voutsinas, S.</author>
+<author>Walmsley, G.</author>
+<author>Weiler, M.</author>
+<author>Wertz, O.</author>
+<author>Wevems, T.</author>
+<author>Wyrzykowski, Ł.</author>
+<author>Yoldas, A.</author>
+<author>Žerjal, M.</author>
+<author>Ziaeepour, H.</author>
+<author>Zorec, J.</author>
+<author>Zschocke, S.</author>
+<author>Zucker, S.</author>
+<author>Zurbach, C.</author>
+<author>Zwitter, T.</author>
+<affiliation>AA(Kapteyn Astronomical Institute, University of Groningen, Landleven 12, 9747 AD, Groningen, The Netherlands; INAF - Osservatorio Astrofisico di Arcetri, Largo Enrico Fermi 5, 50125, Firenze, Italy; American Community Schools of Athens, 129 Aghias Paraskevis Ave. &amp;amp; Kazantzaki Street, Halandri, 15234, Athens, Greece; Faculty of Mathematics and Physics, University of Ljubljana, Jadranska ulica 19, 1000, Ljubljana, Slovenia; Villanova University, Dept. of Astrophysics and Planetary Science, 800 E Lancaster Avenue, Villanova, PA, 19085, USA; Physics Department, University of Antwerp, Groenenborgerlaan 171, 2020, Antwerp, Belgium; McWilliams Center for Cosmology, Department of Physics, Carnegie Mellon University, 5000 Forbes Avenue, Pittsburgh, PA, 15213, USA; Astronomical Institute, Academy of Sciences of the Czech Republic, Fričova 298, 25165, Ondřejov, Czech Republic; Telespazio for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France; Institut de Physique de Rennes, Université de Rennes 1, 35042, Rennes, France; Shanghai Astronomical Observatory, Chinese Academy of Sciences, 80 Nandan Rd, 200030, Shanghai, PR China; School of Astronomy and Space Science, University of Chinese Academy of Sciences, Beijing, 100049, PR China; Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy; Niels Bohr Institute, University of Copenhagen, Juliane Maries Vej 30, 2100, Copenhagen Ø, Denmark; DXC Technology, Retortvej 8, 2500, Valby, Denmark; Las Cumbres Observatory, 6740 Cortona Drive Suite 102, Goleta, CA, 93117, USA; Astrophysics Research Institute, Liverpool John Moores University, 146 Brownlow Hill, Liverpool, L3 5RF, UK; Baja Observatory of University of Szeged, Szegedi út III/70, 6500, Baja, Hungary; Laboratoire AIM, IRFU/Service d'Astrophysique - CEA/DSM - CNRS - Université Paris Diderot, Bât. 709, CEA-Saclay, 91191, Gif-sur-Yvette Cedex, France; Warsaw University Observatory, Al. Ujazdowskie 4, 00-478, Warszawa, Poland; Institute of Theoretical Physics, Faculty of Mathematics and Physics, Charles University in Prague, Czech Republic; AKKA for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France; Vitrociset Belgium for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Leiden Observatory, Leiden University, Niels Bohrweg 2, 2333, CA Leiden, The Netherlands; HE Space Operations BV for ESA/ESTEC, Keplerlaan 1, 2201AZ, Noordwijk, The Netherlands; Space Telescope Science Institute, 3700 San Martin Drive, Baltimore, MD, 21218, USA; QUASAR Science Resources for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Fork Research, Rua do Cruzado Osberno, Lt. 1, 9 esq., Lisboa, Portugal; APAVE SUDEUROPE SAS for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France; Nordic Optical Telescope, Rambla José Ana Fernández Pérez 7, 38711, Breña Baja, Spain; Spanish Virtual Observatory, Spain; Fundación Galileo Galilei - INAF, Rambla José Ana Fernández Pérez 7, 38712 Breña Baja, Santa Cruz de Tenerife, Spain; INSA for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Departamento de Arquitectura de Computadores y Automática, Facultad de Informática, Universidad Complutense de Madrid, C/ Prof. José García Santesmases s/n, 28040, Madrid, Spain; INAF - Osservatorio astronomico di Padova, Vicolo Osservatorio 5, 35122, Padova, Italy; H H Wills Physics Laboratory, University of Bristol, Tyndall Avenue, Bristol, BS8 1TL, UK; Institut d'Estudis Espacials de Catalunya (IEEC), Gran Capità 2-4, 08034, Barcelona, Spain; Applied Physics Department, Universidade de Vigo, 36310, Vigo, Spain; Stellar Astrophysics Centre, Aarhus University, Department of Physics and Astronomy, 120 Ny Munkegade, Building 1520, DK-8000, Aarhus C, Denmark; Argelander-Institut fü Astronomie, Universität Bonn, Auf dem Hügel 71, 53121, Bonn, Germany; Research School of Astronomy and Astrophysics, Australian National University, Canberra, ACT 2611, Australia; Sorbonne Universités, UPMC Univ. Paris 6 et CNRS, UMR 7095, Institut d'Astrophysique de Paris, 98 bis bd. Arago, 75014, Paris, France; Department of Geosciences, Tel Aviv University, Tel Aviv, 6997801, Israel; Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany; Department of Astronomy, University of Geneva, chemin des Maillettes 51, 1290, Versoix, Switzerland; Mission Operations Division, Operations Dep., Directorate of Science, European Space Research and Technology Centre (ESA/ESTEC), Keplerlaan 1, 2201 AZ, Noordwijk, The Netherlands; Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany; European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France; Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France; Institut d'Astronomie et d'Astrophysique, Université Libre de Bruxelles CP 226, Boulevard du Triomphe, 1050, Brussels, Belgium; F.R.S.-FNRS, Rue d'Egmont 5, 1000, Brussels, Belgium; Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Laboratoire d'Astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France; Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK; INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy; INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy; Serco Gestión de Negocios for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; ALTEC S.p.a, Corso Marche 79, 10146, Torino, Italy; Lund Observatory, Department of Astronomy and Theoretical Physics, Lund University, Box 43, 22100, Lund, Sweden; Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland; Gaia DPAC Project Office, ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., LNE, 61 av. de l'Observatoire, 75014, Paris, France; National Observatory of Athens, I. Metaxa and Vas. Pavlou, Palaia Penteli, 15236, Athens, Greece; IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France; Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium; Institut d'Astrophysique Spatiale, Université Paris XI, UMR 8617, CNRS, Bâtiment 121, 91405, Orsay Cedex, France; Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK; Institute voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium; Institut d'Astrophysique et de Géophysique, Université de Liège, 19c allée du 6 Août, B-4000, Liège, Belgium; Science Support Office, Directorate of Science, European Space Research and Technology Centre (ESA/ESTEC), Keplerlaan 1, 2201AZ, Noordwijk, The Netherlands; ATG Europe for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Área de Lenguajes y Sistemas Informáticos, Universidad Pablo de Olavide, Ctra. de Utrera 1, 41013, Sevilla, Spain; ETSE Telecomunicación, Universidade de Vigo, Campus Lagoas-Marcosende, 36310, Vigo, Galicia, Spain; Large Synoptic Survey Telescope, 950 N. Cherry Avenue, Tucson, AZ 85719, USA; Observatoire Astronomique de Strasbourg, Université de Strasbourg, CNRS, UMR 7550, 11 rue de l'Université, 67000, Strasbourg, France; Kavli Institute for Cosmology, University of Cambridge, Madingley Road, Cambride, CB3 0HA, UK; Aurora Technology for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Laboratoire Univers et Particules de Montpellier, Université Montpellier, Place Eugène Bataillon, CC72, 34095, Montpellier Cedex 05, France; Dep. of Physics and Astronomy, Div. of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden; CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal; Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain; Univ. di Catania, Dipartimento di Fisica e Astronomia, Sezione Astrofisica, via S. Sofia 78, 95123, Catania, Italy; INAF - Osservatorio Astrofisico di Catania, via S. Sofia 78, 95123, Catania, Italy; University of Vienna, Department of Astrophysics, Türkenschanzstraße 17, A1180, Vienna, Austria; CITIC ? Department of Computer Science, University of A Coruña, Campus de Elviña s/n, 15071, A Coruña, Spain; CITIC ? Astronomy and Astrophysics, University of A Coruña, Campus de Elviña s/n, 15071, A Coruña, Spain; INAF - Osservatorio Astronomico di Roma, via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy; University of Helsinki, Department of Physics, P.O. Box 64, 00014, Helsinki, Finland; Finnish Geospatial Research Institute FGI, Geodeetinrinne 2, 02430, Masala, Finland; Isdefe for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; STFC, Rutherford Appleton Laboratory, Harwell, Didcot, OX11 0QX, UK; Institut UTINAM UMR6213, CNRS, OSU THETA Franche-Comté Bourgogne, Université Bourgogne Franche-Comté, 25000, Besançon, France; Departamento de Inteligencia Artificial, UNED, c/ Juan del Rosal 16, 28040, Madrid, Spain; Elecnor Deimos Space for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France; Department of Astrophysics/IMAPP, Radboud University, P.O.Box 9010, 6500 GL, Nijmegen, The Netherlands; European Southern Observatory, Karl-Schwarzschild-Str. 2, 85748, Garching, Germany; ON/MCTI-BR, Rua Gen. José Cristino 77, Rio de Janeiro, CEP 20921-400, Brazil; OV/UFRJ-BR, Ladeira Pedro Antônio 43, Rio de Janeiro, CEP 20080-090, Brazil; Dept. of Terrestrial Magnetism, Carnegie Institution for Science, 5241 Broad Branch Road, NW, Washington, DC, 20015-1305, USA; Università di Torino, Dipartimento di Fisica, via Pietro Giuria 1, 10125, Torino, Italy; Departamento de Astrofísica, Centro de Astrobiología (CSIC-INTA), ESA-ESAC. Camino Bajo del Castillo s/n. 28692 Villanueva de la Cañada, Madrid, Spain; Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany; Leicester Institute for Space and Earth Observation and Department of Physics and Astronomy, University of Leicester, University Road, Leicester, LE1 7RH, UK; Departamento de Estadística, Universidad de Cádiz, Calle República Árabe Saharawi s/n, 11510 Puerto Real, Cádiz, Spain; Astronomical Institute, Bern University, Sidlerstrasse 5, 3012, Bern, Switzerland; EURIX S.r.l., Corso Vittorio Emanuele II 61, 10128, Torino, Italy; Harvard-Smithsonian Center for Astrophysics, 60 Garden Street, Cambridge MA, 02138, USA; HE Space Operations BV for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; SISSA - Scuola Internazionale Superiore di Studi Avanzati, via Bonomea 265, 34136, Trieste, Italy; University of Turin, Department of Computer Sciences, Corso Svizzera 185, 10149, Torino, Italy; SRON, Netherlands Institute for Space Research, Sorbonnelaan 2, 3584 CA, Utrecht, The Netherlands; Departamento de Matemática Aplicada y Ciencias de la Computación, Univ. de Cantabria, ETS Ingenieros de Caminos, Canales y Puertos, Avda. de los Castros s/n, 39005, Santander, Spain; GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France; Unidad de Astronomía, Universidad de Antofagasta, Avenida Angamos 601, Antofagasta, 1270300, Chile; CRAAG - Centre de Recherche en Astronomie, Astrophysique et Géophysique, Route de l'Observatoire BP 63, Bouzareah, 16340, Alger, Algeria; University of Antwerp, Onderzoeksgroep Toegepaste Wiskunde, Middelheimlaan 1, 2020, Antwerp, Belgium; INAF - Osservatorio Astronomico d'Abruzzo, Via Mentore Maggini, 64100, Teramo, Italy; INAF - Osservatorio Astronomico di Capodimonte, via Moiariello 16, 80131, Napoli, Italy; Instituto de Astronomia, Geofìsica e Ciências Atmosféricas, Universidade de São Paulo, Rua do Matão 1226, Cidade Universitária, 05508-900, São Paulo, Brazil; Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece; Leibniz Institute for Astrophysics Potsdam (AIP), An der Sternwarte 16, 14482, Potsdam, Germany; RHEA for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; ATOS for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France; Université Grenoble Alpes, CNRS, IPAG, 38000, Grenoble, France; School of Physics and Astronomy, Tel Aviv University, Tel Aviv, 6997801, Israel; UNINOVA - CTS, Campus FCT-UNL, Monte da Caparica, 2829-516, Caparica, Portugal; School of Physics, O'Brien Centre for Science North, University College Dublin, Belfield, Dublin 4, Ireland; Dipartimento di Fisica e Astronomia, Università di Bologna, Via Piero Gobetti 93/2, 40129, Bologna, Italy; Barcelona Supercomputing Center - Centro Nacional de Supercomputación, c/ Jordi Girona 29, Ed. Nexus II, 08034, Barcelona, Spain; Department of Computer Science, Electrical and Space Engineering, Luleå University of Technology, Box 848, S-981 28, Kiruna, Sweden; Max Planck Institute for Extraterrestrial Physics, High Energy Group, Gießenbachstraße, 85741, Garching, Germany; Astronomical Observatory Institute, Faculty of Physics, Adam Mickiewicz University, Słoneczna 36, 60-286, Poznań, Poland; Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary; Eötvös Loránd University, Egyetem tér 1-3, H-1053, Budapest, Hungary), AB(Kapteyn Astronomical Institute, University of Groningen, Landleven 12, 9747 AD, Groningen, The Netherlands), AC(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), AD(Lund Observatory, Department of Astronomy and Theoretical Physics, Lund University, Box 43, 22100, Lund, Sweden), AE(Kapteyn Astronomical Institute, University of Groningen, Landleven 12, 9747 AD, Groningen, The Netherlands), AF(Science Support Office, Directorate of Science, European Space Research and Technology Centre (ESA/ESTEC), Keplerlaan 1, 2201AZ, Noordwijk, The Netherlands; Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), AG(Institut UTINAM UMR6213, CNRS, OSU THETA Franche-Comté Bourgogne, Université Bourgogne Franche-Comté, 25000, Besançon, France), AH(Lund Observatory, Department of Astronomy and Theoretical Physics, Lund University, Box 43, 22100, Lund, Sweden), AI(Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), AJ(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), AK(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France; Université Grenoble Alpes, CNRS, IPAG, 38000, Grenoble, France), AL(Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), AM(Kapteyn Astronomical Institute, University of Groningen, Landleven 12, 9747 AD, Groningen, The Netherlands), AN(Lund Observatory, Department of Astronomy and Theoretical Physics, Lund University, Box 43, 22100, Lund, Sweden), AO(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), AP(INAF - Osservatorio Astrofisico di Arcetri, Largo Enrico Fermi 5, 50125, Firenze, Italy; Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy), AQ(Institut UTINAM UMR6213, CNRS, OSU THETA Franche-Comté Bourgogne, Université Bourgogne Franche-Comté, 25000, Besançon, France), AR(Kapteyn Astronomical Institute, University of Groningen, Landleven 12, 9747 AD, Groningen, The Netherlands), AS(Leiden Observatory, Leiden University, Niels Bohrweg 2, 2333, CA Leiden, The Netherlands), AT(INAF - Osservatorio astronomico di Padova, Vicolo Osservatorio 5, 35122, Padova, Italy), AU(Science Support Office, Directorate of Science, European Space Research and Technology Centre (ESA/ESTEC), Keplerlaan 1, 2201AZ, Noordwijk, The Netherlands), AV(Science Support Office, Directorate of Science, European Space Research and Technology Centre (ESA/ESTEC), Keplerlaan 1, 2201AZ, Noordwijk, The Netherlands), AW(Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany), AX(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), AY(Department of Astronomy, University of Geneva, chemin des Maillettes 51, 1290, Versoix, Switzerland), AZ(Mission Operations Division, Operations Dep., Directorate of Science, European Space Research and Technology Centre (ESA/ESTEC), Keplerlaan 1, 2201 AZ, Noordwijk, The Netherlands), BA(Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany), BB(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), BC(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), BD(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), BE(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), BF(Institut d'Astronomie et d'Astrophysique, Université Libre de Bruxelles CP 226, Boulevard du Triomphe, 1050, Brussels, Belgium; F.R.S.-FNRS, Rue d'Egmont 5, 1000, Brussels, Belgium), BG(INAF - Osservatorio Astrofisico di Arcetri, Largo Enrico Fermi 5, 50125, Firenze, Italy), BH(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), BI(Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), BJ(Laboratoire d'Astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France), BK(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), BL(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), BM(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), BN(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), BO(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), BP(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), BQ(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), BR(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), BS(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), BT(Serco Gestión de Negocios for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), BU(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), BV(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), BW(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), BX(Department of Astronomy, University of Geneva, chemin des Maillettes 51, 1290, Versoix, Switzerland), BY(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), BZ(ALTEC S.p.a, Corso Marche 79, 10146, Torino, Italy), CA(Department of Astronomy, University of Geneva, chemin des Maillettes 51, 1290, Versoix, Switzerland), CB(Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland), CC(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), CD(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), CE(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), CF(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), CG(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), CH(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), CI(Gaia DPAC Project Office, ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), CJ(Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), CK(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), CL(Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), CM(Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany; SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., LNE, 61 av. de l'Observatoire, 75014, Paris, France), CN(Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany), CO(Department of Astronomy, University of Geneva, chemin des Maillettes 51, 1290, Versoix, Switzerland), CP(National Observatory of Athens, I. Metaxa and Vas. Pavlou, Palaia Penteli, 15236, Athens, Greece), CQ(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), CR(IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), CS(Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium), CT(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), CU(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), CV(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France; IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), CW(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), CX(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), CY(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), CZ(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France; Institut d'Astrophysique Spatiale, Université Paris XI, UMR 8617, CNRS, Bâtiment 121, 91405, Orsay Cedex, France), DA(Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK), DB(Institute voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium), DC(Institut d'Astrophysique et de Géophysique, Université de Liège, 19c allée du 6 Août, B-4000, Liège, Belgium), DD(INAF - Osservatorio Astrofisico di Arcetri, Largo Enrico Fermi 5, 50125, Firenze, Italy), DE(Laboratoire d'Astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France), DF(ATG Europe for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), DG(Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany), DH(Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium), DI(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), DJ(Área de Lenguajes y Sistemas Informáticos, Universidad Pablo de Olavide, Ctra. de Utrera 1, 41013, Sevilla, Spain), DK(Serco Gestión de Negocios for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; ETSE Telecomunicación, Universidade de Vigo, Campus Lagoas-Marcosende, 36310, Vigo, Galicia, Spain), DL(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), DM(Institut d'Astrophysique et de Géophysique, Université de Liège, 19c allée du 6 Août, B-4000, Liège, Belgium; F.R.S.-FNRS, Rue d'Egmont 5, 1000, Brussels, Belgium), DN(Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland; Large Synoptic Survey Telescope, 950 N. Cherry Avenue, Tucson, AZ 85719, USA), DO(Observatoire Astronomique de Strasbourg, Université de Strasbourg, CNRS, UMR 7550, 11 rue de l'Université, 67000, Strasbourg, France), DP(Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK), DQ(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; Kavli Institute for Cosmology, University of Cambridge, Madingley Road, Cambride, CB3 0HA, UK), DR(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), DS(IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), DT(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), DU(Aurora Technology for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), DV(Laboratoire Univers et Particules de Montpellier, Université Montpellier, Place Eugène Bataillon, CC72, 34095, Montpellier Cedex 05, France), DW(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), DX(Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), DY(Dep. of Physics and Astronomy, Div. of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden), DZ(CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal), EA(Univ. di Catania, Dipartimento di Fisica e Astronomia, Sezione Astrofisica, via S. Sofia 78, 95123, Catania, Italy; INAF - Osservatorio Astrofisico di Catania, via S. Sofia 78, 95123, Catania, Italy), EB(University of Vienna, Department of Astrophysics, Türkenschanzstraße 17, A1180, Vienna, Austria), EC(Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), ED(CITIC ? Department of Computer Science, University of A Coruña, Campus de Elviña s/n, 15071, A Coruña, Spain; CITIC ? Astronomy and Astrophysics, University of A Coruña, Campus de Elviña s/n, 15071, A Coruña, Spain), EE(INAF - Osservatorio Astronomico di Roma, via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy; Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy), EF(Aurora Technology for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), EG(CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal), EH(Aurora Technology for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), EI(University of Helsinki, Department of Physics, P.O. Box 64, 00014, Helsinki, Finland; Finnish Geospatial Research Institute FGI, Geodeetinrinne 2, 02430, Masala, Finland), EJ(Isdefe for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), EK(Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium), EL(Institut UTINAM UMR6213, CNRS, OSU THETA Franche-Comté Bourgogne, Université Bourgogne Franche-Comté, 25000, Besançon, France), EM(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), EN(STFC, Rutherford Appleton Laboratory, Harwell, Didcot, OX11 0QX, UK), EO(Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland), EP(Departamento de Inteligencia Artificial, UNED, c/ Juan del Rosal 16, 28040, Madrid, Spain), EQ(Institut d'Astronomie et d'Astrophysique, Université Libre de Bruxelles CP 226, Boulevard du Triomphe, 1050, Brussels, Belgium), ER(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), ES(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), ET(Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany), EU(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), EV(Aurora Technology for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), EW(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), EX(Elecnor Deimos Space for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), EY(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), EZ(Institute voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium; Department of Astrophysics/IMAPP, Radboud University, P.O.Box 9010, 6500 GL, Nijmegen, The Netherlands), FA(INAF - Osservatorio Astronomico di Roma, via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy; Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy; INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), FB(CITIC ? Department of Computer Science, University of A Coruña, Campus de Elviña s/n, 15071, A Coruña, Spain), FC(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), FD(University of Vienna, Department of Astrophysics, Türkenschanzstraße 17, A1180, Vienna, Austria), FE(European Southern Observatory, Karl-Schwarzschild-Str. 2, 85748, Garching, Germany; Department of Astronomy, University of Geneva, chemin des Maillettes 51, 1290, Versoix, Switzerland), FF(ON/MCTI-BR, Rua Gen. José Cristino 77, Rio de Janeiro, CEP 20921-400, Brazil; OV/UFRJ-BR, Ladeira Pedro Antônio 43, Rio de Janeiro, CEP 20080-090, Brazil; SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., LNE, 61 av. de l'Observatoire, 75014, Paris, France), FG(ATG Europe for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), FH(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), FI(CITIC ? Department of Computer Science, University of A Coruña, Campus de Elviña s/n, 15071, A Coruña, Spain), FJ(Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany; Dept. of Terrestrial Magnetism, Carnegie Institution for Science, 5241 Broad Branch Road, NW, Washington, DC, 20015-1305, USA), FK(Aurora Technology for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), FL(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), FM(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), FN(Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), FO(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., LNE, 61 av. de l'Observatoire, 75014, Paris, France), FP(CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal), FQ(Università di Torino, Dipartimento di Fisica, via Pietro Giuria 1, 10125, Torino, Italy; INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), FR(Department of Astronomy, University of Geneva, chemin des Maillettes 51, 1290, Versoix, Switzerland), FS(Dep. of Physics and Astronomy, Div. of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden), FT(Departamento de Astrofísica, Centro de Astrobiología (CSIC-INTA), ESA-ESAC. Camino Bajo del Castillo s/n. 28692 Villanueva de la Cañada, Madrid, Spain), FU(CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal), FV(Leicester Institute for Space and Earth Observation and Department of Physics and Astronomy, University of Leicester, University Road, Leicester, LE1 7RH, UK), FW(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), FX(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), FY(INAF - Osservatorio Astrofisico di Catania, via S. Sofia 78, 95123, Catania, Italy), FZ(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), GA(Departamento de Estadística, Universidad de Cádiz, Calle República Árabe Saharawi s/n, 11510 Puerto Real, Cádiz, Spain), GB(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy; SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., LNE, 61 av. de l'Observatoire, 75014, Paris, France; Astronomical Institute, Bern University, Sidlerstrasse 5, 3012, Bern, Switzerland), GC(EURIX S.r.l., Corso Vittorio Emanuele II 61, 10128, Torino, Italy), GD(Observatoire Astronomique de Strasbourg, Université de Strasbourg, CNRS, UMR 7550, 11 rue de l'Université, 67000, Strasbourg, France), GE(Department of Astronomy, University of Geneva, chemin des Maillettes 51, 1290, Versoix, Switzerland; Laboratoire d'Astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France; Harvard-Smithsonian Center for Astrophysics, 60 Garden Street, Cambridge MA, 02138, USA), GF(Observatoire Astronomique de Strasbourg, Université de Strasbourg, CNRS, UMR 7550, 11 rue de l'Université, 67000, Strasbourg, France), GG(INAF - Osservatorio astronomico di Padova, Vicolo Osservatorio 5, 35122, Padova, Italy), GH(HE Space Operations BV for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), GI(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), GJ(INAF - Osservatorio astronomico di Padova, Vicolo Osservatorio 5, 35122, Padova, Italy), GK(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., LNE, 61 av. de l'Observatoire, 75014, Paris, France), GL(Laboratoire d'Astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France), GM(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), GN(ALTEC S.p.a, Corso Marche 79, 10146, Torino, Italy), GO(SISSA - Scuola Internazionale Superiore di Studi Avanzati, via Bonomea 265, 34136, Trieste, Italy), GP(Laboratoire d'Astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France), GQ(Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), GR(INAF - Osservatorio Astrofisico di Catania, via S. Sofia 78, 95123, Catania, Italy), GS(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), GT(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), GU(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), GV(Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany), GW(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), GX(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), GY(University of Turin, Department of Computer Sciences, Corso Svizzera 185, 10149, Torino, Italy), GZ(SRON, Netherlands Institute for Space Research, Sorbonnelaan 2, 3584 CA, Utrecht, The Netherlands; Department of Astrophysics/IMAPP, Radboud University, P.O.Box 9010, 6500 GL, Nijmegen, The Netherlands), HA(INAF - Osservatorio astronomico di Padova, Vicolo Osservatorio 5, 35122, Padova, Italy; Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), HB(Departamento de Matemática Aplicada y Ciencias de la Computación, Univ. de Cantabria, ETS Ingenieros de Caminos, Canales y Puertos, Avda. de los Castros s/n, 39005, Santander, Spain), HC(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., LNE, 61 av. de l'Observatoire, 75014, Paris, France), HD(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), HE(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), HF(INAF - Osservatorio Astronomico di Roma, via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy), HG(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), HH(Laboratoire d'Astrophysique de Bordeaux, Univ. Bordeaux, CNRS, B18N, allée Geoffroy Saint-Hilaire, 33615, Pessac, France), HI(Unidad de Astronomía, Universidad de Antofagasta, Avenida Angamos 601, Antofagasta, 1270300, Chile), HJ(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), HK(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), HL(Leiden Observatory, Leiden University, Niels Bohrweg 2, 2333, CA Leiden, The Netherlands), HM(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), HN(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), HO(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), HP(HE Space Operations BV for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), HQ(Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium), HR(CITIC ? Department of Computer Science, University of A Coruña, Campus de Elviña s/n, 15071, A Coruña, Spain), HS(Institut d'Astrophysique et de Géophysique, Université de Liège, 19c allée du 6 Août, B-4000, Liège, Belgium; CRAAG - Centre de Recherche en Astronomie, Astrophysique et Géophysique, Route de l'Observatoire BP 63, Bouzareah, 16340, Alger, Algeria), HT(National Observatory of Athens, I. Metaxa and Vas. Pavlou, Palaia Penteli, 15236, Athens, Greece), HU(IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), HV(University of Antwerp, Onderzoeksgroep Toegepaste Wiskunde, Middelheimlaan 1, 2020, Antwerp, Belgium), HW(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), HX(INAF - Osservatorio Astronomico d'Abruzzo, Via Mentore Maggini, 64100, Teramo, Italy), HY(ALTEC S.p.a, Corso Marche 79, 10146, Torino, Italy), HZ(INAF - Osservatorio Astronomico di Capodimonte, via Moiariello 16, 80131, Napoli, Italy), IA(Instituto de Astronomia, Geofìsica e Ciências Atmosféricas, Universidade de São Paulo, Rua do Matão 1226, Cidade Universitária, 05508-900, São Paulo, Brazil), IB(HE Space Operations BV for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), IC(Institute voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium), ID(Aurora Technology for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), IE(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), IF(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), IG(Departamento de Inteligencia Artificial, UNED, c/ Juan del Rosal 16, 28040, Madrid, Spain), IH(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), II(Institut UTINAM UMR6213, CNRS, OSU THETA Franche-Comté Bourgogne, Université Bourgogne Franche-Comté, 25000, Besançon, France), IJ(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), IK(INAF - Osservatorio Astrofisico di Catania, via S. Sofia 78, 95123, Catania, Italy), IL(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), IM(Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece), IN(Isdefe for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), IO(Dep. of Physics and Astronomy, Div. of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden), IP(Leibniz Institute for Astrophysics Potsdam (AIP), An der Sternwarte 16, 14482, Potsdam, Germany), IQ(Dep. of Physics and Astronomy, Div. of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden), IR(RHEA for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), IS(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), IT(ATOS for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), IU(INAF - Osservatorio Astronomico di Roma, via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy; Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy), IV(School of Physics and Astronomy, Tel Aviv University, Tel Aviv, 6997801, Israel), IW(UNINOVA - CTS, Campus FCT-UNL, Monte da Caparica, 2829-516, Caparica, Portugal), IX(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), IY(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), IZ(University of Helsinki, Department of Physics, P.O. Box 64, 00014, Helsinki, Finland), JA(Observatoire Astronomique de Strasbourg, Université de Strasbourg, CNRS, UMR 7550, 11 rue de l'Université, 67000, Strasbourg, France), JB(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), JC(ALTEC S.p.a, Corso Marche 79, 10146, Torino, Italy), JD(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), JE(ALTEC S.p.a, Corso Marche 79, 10146, Torino, Italy), JF(RHEA for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), JG(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; School of Physics, O'Brien Centre for Science North, University College Dublin, Belfield, Dublin 4, Ireland), JH(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), JI(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), JJ(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), JK(CITIC ? Department of Computer Science, University of A Coruña, Campus de Elviña s/n, 15071, A Coruña, Spain), JL(Departamento de Inteligencia Artificial, UNED, c/ Juan del Rosal 16, 28040, Madrid, Spain), JM(Dipartimento di Fisica e Astronomia, Università di Bologna, Via Piero Gobetti 93/2, 40129, Bologna, Italy; INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), JN(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), JO(Dep. of Physics and Astronomy, Div. of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden), JP(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France; National Observatory of Athens, I. Metaxa and Vas. Pavlou, Palaia Penteli, 15236, Athens, Greece; Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece), JQ(Leibniz Institute for Astrophysics Potsdam (AIP), An der Sternwarte 16, 14482, Potsdam, Germany), JR(Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany), JS(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), JT(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), JU(Barcelona Supercomputing Center - Centro Nacional de Supercomputación, c/ Jordi Girona 29, Ed. Nexus II, 08034, Barcelona, Spain), JV(Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy; INAF - Osservatorio Astronomico di Roma, via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy), JW(Department of Astronomy, University of Geneva, chemin des Maillettes 51, 1290, Versoix, Switzerland), JX(CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal), JY(University of Helsinki, Department of Physics, P.O. Box 64, 00014, Helsinki, Finland; Department of Computer Science, Electrical and Space Engineering, Luleå University of Technology, Box 848, S-981 28, Kiruna, Sweden), JZ(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France; Max Planck Institute for Extraterrestrial Physics, High Energy Group, Gießenbachstraße, 85741, Garching, Germany), KA(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), KB(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), KC(Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), KD(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), KE(Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece; National Observatory of Athens, I. Metaxa and Vas. Pavlou, Palaia Penteli, 15236, Athens, Greece), KF(Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany; Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany), KG(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), KH(Dep. of Physics and Astronomy, Div. of Astronomy and Space Physics, Uppsala University, Box 516, 75120, Uppsala, Sweden), KI(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), KJ(Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany), KK(Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), KL(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), KM(Mullard Space Science Laboratory, University College London, Holmbury St Mary, Dorking, Surrey, RH5 6NT, UK), KN(Leiden Observatory, Leiden University, Niels Bohrweg 2, 2333, CA Leiden, The Netherlands; Astronomical Observatory Institute, Faculty of Physics, Adam Mickiewicz University, Słoneczna 36, 60-286, Poznań, Poland), KO(ALTEC S.p.a, Corso Marche 79, 10146, Torino, Italy), KP(Leibniz Institute for Astrophysics Potsdam (AIP), An der Sternwarte 16, 14482, Potsdam, Germany), KQ(Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland), KR(SRON, Netherlands Institute for Space Research, Sorbonnelaan 2, 3584 CA, Utrecht, The Netherlands; Department of Astrophysics/IMAPP, Radboud University, P.O.Box 9010, 6500 GL, Nijmegen, The Netherlands), KS(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary; Eötvös Loránd University, Egyetem tér 1-3, H-1053, Budapest, Hungary), KT(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), KU(Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece; American Community Schools of Athens, 129 Aghias Paraskevis Ave. &amp;amp; Kazantzaki Street, Halandri, 15234, Athens, Greece), KV(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), KW(Leibniz Institute for Astrophysics Potsdam (AIP), An der Sternwarte 16, 14482, Potsdam, Germany), KX(Faculty of Mathematics and Physics, University of Ljubljana, Jadranska ulica 19, 1000, Ljubljana, Slovenia; Villanova University, Dept. of Astrophysics and Planetary Science, 800 E Lancaster Avenue, Villanova, PA, 19085, USA), KY(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), KZ(Physics Department, University of Antwerp, Groenenborgerlaan 171, 2020, Antwerp, Belgium; Institute voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium; Harvard-Smithsonian Center for Astrophysics, 60 Garden Street, Cambridge MA, 02138, USA), LA(Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece), LB(National Observatory of Athens, I. Metaxa and Vas. Pavlou, Palaia Penteli, 15236, Athens, Greece), LC(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; McWilliams Center for Cosmology, Department of Physics, Carnegie Mellon University, 5000 Forbes Avenue, Pittsburgh, PA, 15213, USA), LD(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), LE(SRON, Netherlands Institute for Space Research, Sorbonnelaan 2, 3584 CA, Utrecht, The Netherlands; Department of Astrophysics/IMAPP, Radboud University, P.O.Box 9010, 6500 GL, Nijmegen, The Netherlands), LF(Astronomical Institute, Academy of Sciences of the Czech Republic, Fričova 298, 25165, Ondřejov, Czech Republic), LG(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., LNE, 61 av. de l'Observatoire, 75014, Paris, France), LH(INAF - Osservatorio Astrofisico di Catania, via S. Sofia 78, 95123, Catania, Italy), LI(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), LJ(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), LK(Telespazio for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), LL(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., LNE, 61 av. de l'Observatoire, 75014, Paris, France), LM(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France; Institut de Physique de Rennes, Université de Rennes 1, 35042, Rennes, France), LN(INAF - Osservatorio Astronomico di Capodimonte, via Moiariello 16, 80131, Napoli, Italy), LO(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), LP(Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland), LQ(Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), LR(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), LS(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy; Shanghai Astronomical Observatory, Chinese Academy of Sciences, 80 Nandan Rd, 200030, Shanghai, PR China; School of Astronomy and Space Science, University of Chinese Academy of Sciences, Beijing, 100049, PR China), LT(EURIX S.r.l., Corso Vittorio Emanuele II 61, 10128, Torino, Italy), LU(Niels Bohr Institute, University of Copenhagen, Juliane Maries Vej 30, 2100, Copenhagen Ø, Denmark; DXC Technology, Retortvej 8, 2500, Valby, Denmark), LV(Las Cumbres Observatory, 6740 Cortona Drive Suite 102, Goleta, CA, 93117, USA), LW(Department of Astrophysics, Astronomy and Mechanics, National and Kapodistrian University of Athens, Panepistimiopolis, Zografos, 15783, Athens, Greece), LX(Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium), LY(Departamento de Astrofísica, Centro de Astrobiología (CSIC-INTA), ESA-ESAC. Camino Bajo del Castillo s/n. 28692 Villanueva de la Cañada, Madrid, Spain), LZ(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), MA(Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK), MB(Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), MC(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), MD(Astrophysics Research Institute, Liverpool John Moores University, 146 Brownlow Hill, Liverpool, L3 5RF, UK), ME(INAF - Osservatorio Astronomico di Capodimonte, via Moiariello 16, 80131, Napoli, Italy), MF(INAF - Osservatorio Astronomico di Roma, via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy; Space Science Data Center - ASI, Via del Politecnico SNC, 00133, Roma, Italy), MG(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary; Baja Observatory of University of Szeged, Szegedi út III/70, 6500, Baja, Hungary), MH(Laboratoire AIM, IRFU/Service d'Astrophysique - CEA/DSM - CNRS - Université Paris Diderot, Bât. 709, CEA-Saclay, 91191, Gif-sur-Yvette Cedex, France), MI(ALTEC S.p.a, Corso Marche 79, 10146, Torino, Italy), MJ(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary), MK(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), ML(Leibniz Institute for Astrophysics Potsdam (AIP), An der Sternwarte 16, 14482, Potsdam, Germany), MM(School of Physics and Astronomy, Tel Aviv University, Tel Aviv, 6997801, Israel), MN(INAF - Osservatorio Astrofisico di Catania, via S. Sofia 78, 95123, Catania, Italy), MO(Lund Observatory, Department of Astronomy and Theoretical Physics, Lund University, Box 43, 22100, Lund, Sweden), MP(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), MQ(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), MR(INAF - Osservatorio Astronomico di Capodimonte, via Moiariello 16, 80131, Napoli, Italy), MS(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary), MT(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), MU(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), MV(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), MW(Institut d'Astrophysique et de Géophysique, Université de Liège, 19c allée du 6 Août, B-4000, Liège, Belgium), MX(Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK), MY(ALTEC S.p.a, Corso Marche 79, 10146, Torino, Italy), MZ(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), NA(INAF - Osservatorio Astronomico di Capodimonte, via Moiariello 16, 80131, Napoli, Italy), NB(Department of Astrophysics/IMAPP, Radboud University, P.O.Box 9010, 6500 GL, Nijmegen, The Netherlands; Institute voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium), NC(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), ND(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), NE(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Large Synoptic Survey Telescope, 950 N. Cherry Avenue, Tucson, AZ 85719, USA), NF(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), NG(Department of Astronomy, University of Geneva, Chemin d'Ecogia 16, 1290, Versoix, Switzerland), NH(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), NI(Leicester Institute for Space and Earth Observation and Department of Physics and Astronomy, University of Leicester, University Road, Leicester, LE1 7RH, UK), NJ(INAF - Osservatorio Astrofisico di Catania, via S. Sofia 78, 95123, Catania, Italy), NK(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), NL(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), NM(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; Department of Astronomy, University of Geneva, chemin des Maillettes 51, 1290, Versoix, Switzerland), NN(School of Physics and Astronomy, Tel Aviv University, Tel Aviv, 6997801, Israel), NO(Warsaw University Observatory, Al. Ujazdowskie 4, 00-478, Warszawa, Poland; Institute of Theoretical Physics, Faculty of Mathematics and Physics, Charles University in Prague, Czech Republic), NP(INAF - Osservatorio Astronomico d'Abruzzo, Via Mentore Maggini, 64100, Teramo, Italy), NQ(Observatoire Astronomique de Strasbourg, Université de Strasbourg, CNRS, UMR 7550, 11 rue de l'Université, 67000, Strasbourg, France), NR(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary), NS(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), NT(Università di Torino, Dipartimento di Fisica, via Pietro Giuria 1, 10125, Torino, Italy; INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), NU(AKKA for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), NV(Villanova University, Dept. of Astrophysics and Planetary Science, 800 E Lancaster Avenue, Villanova, PA, 19085, USA), NW(INAF - Osservatorio Astronomico di Roma, via di Frascati 33, 00078, Monte Porzio Catone (Roma), Italy), NX(Serco Gestión de Negocios for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), NY(INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna, via Piero Gobetti 93/3, 40129, Bologna, Italy), NZ(IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), OA(Vitrociset Belgium for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), OB(Institute voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D, 3001, Leuven, Belgium), OC(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), OD(INAF - Osservatorio Astronomico di Capodimonte, via Moiariello 16, 80131, Napoli, Italy), OE(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), OF(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), OG(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), OH(HE Space Operations BV for ESA/ESTEC, Keplerlaan 1, 2201AZ, Noordwijk, The Netherlands), OI(Department of Astronomy, University of Geneva, chemin des Maillettes 51, 1290, Versoix, Switzerland), OJ(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), OK(Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK), OL(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), OM(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), ON(Institut d'Astronomie et d'Astrophysique, Université Libre de Bruxelles CP 226, Boulevard du Triomphe, 1050, Brussels, Belgium), OO(Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), OP(European Space Astronomy Centre (ESA/ESAC), Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Space Telescope Science Institute, 3700 San Martin Drive, Baltimore, MD, 21218, USA), OQ(QUASAR Science Resources for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), OR(ATG Europe for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), OS(INAF - Osservatorio Astrofisico di Arcetri, Largo Enrico Fermi 5, 50125, Firenze, Italy), OT(Astronomical Observatory Institute, Faculty of Physics, Adam Mickiewicz University, Słoneczna 36, 60-286, Poznań, Poland), OU(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), OV(Fork Research, Rua do Cruzado Osberno, Lt. 1, 9 esq., Lisboa, Portugal), OW(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), OX(INAF - Osservatorio Astrofisico di Catania, via S. Sofia 78, 95123, Catania, Italy), OY(APAVE SUDEUROPE SAS for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), OZ(Serco Gestión de Negocios for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), PA(Department of Astronomy, University of Geneva, chemin des Maillettes 51, 1290, Versoix, Switzerland), PB(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), PC(University of Helsinki, Department of Physics, P.O. Box 64, 00014, Helsinki, Finland; Nordic Optical Telescope, Rambla José Ana Fernández Pérez 7, 38711, Breña Baja, Spain), PD(CENTRA, Universidade de Lisboa, FCUL, Campo Grande, Edif. C8, 1749-016, Lisboa, Portugal), PE(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), PF(Max Planck Institute for Astronomy, Königstuhl 17, 69117, Heidelberg, Germany), PG(Departamento de Astrofísica, Centro de Astrobiología (CSIC-INTA), ESA-ESAC. Camino Bajo del Castillo s/n. 28692 Villanueva de la Cañada, Madrid, Spain; Spanish Virtual Observatory, Spain), PH(ALTEC S.p.a, Corso Marche 79, 10146, Torino, Italy), PI(INAF - Osservatorio astronomico di Padova, Vicolo Osservatorio 5, 35122, Padova, Italy), PJ(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), PK(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., LNE, 61 av. de l'Observatoire, 75014, Paris, France), PL(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), PM(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France; IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), PN(Astronomisches Rechen-Institut, Zentrum für Astron. der Universität Heidelberg, Mönchhofstr. 12-14, 69120, Heidelberg, Germany), PO(Astrophysics Research Institute, Liverpool John Moores University, 146 Brownlow Hill, Liverpool, L3 5RF, UK), PP(Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany), PQ(Telespazio Vega UK Ltd for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), PR(Fundación Galileo Galilei - INAF, Rambla José Ana Fernández Pérez 7, 38712 Breña Baja, Santa Cruz de Tenerife, Spain), PS(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), PT(Institut d'Astrophysique et de Géophysique, Université de Liège, 19c allée du 6 Août, B-4000, Liège, Belgium), PU(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary), PV(Konkoly Observatory, Research Centre for Astronomy and Earth Sciences, Hungarian Academy of Sciences, Konkoly Thege Miklós út 15-17, 1121, Budapest, Hungary), PW(INSA for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain; Departamento de Arquitectura de Computadores y Automática, Facultad de Informática, Universidad Complutense de Madrid, C/ Prof. José García Santesmases s/n, 28040, Madrid, Spain), PX(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., LNE, 61 av. de l'Observatoire, 75014, Paris, France), PY(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), PZ(H H Wills Physics Laboratory, University of Bristol, Tyndall Avenue, Bristol, BS8 1TL, UK), QA(Instituto de Astronomia, Geofìsica e Ciências Atmosféricas, Universidade de São Paulo, Rua do Matão 1226, Cidade Universitária, 05508-900, São Paulo, Brazil), QB(STFC, Rutherford Appleton Laboratory, Harwell, Didcot, OX11 0QX, UK), QC(SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., LNE, 61 av. de l'Observatoire, 75014, Paris, France), QD(IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Univ., Univ. Lille, 77 av. Denfert-Rochereau, 75014, Paris, France), QE(Université Côte d'Azur, Observatoire de la Côte d'Azur, CNRS, Laboratoire Lagrange, Bd de l'Observatoire, CS 34229, 06304, Nice Cedex 4, France), QF(Institut d'Estudis Espacials de Catalunya (IEEC), Gran Capità 2-4, 08034, Barcelona, Spain), QG(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), QH(Applied Physics Department, Universidade de Vigo, 36310, Vigo, Spain), QI(Aurora Technology for ESA/ESAC, Camino bajo del Castillo s/n, Urbanización Villafranca del Castillo, Villanueva de la Cañada, 28692, Madrid, Spain), QJ(ALTEC S.p.a, Corso Marche 79, 10146, Torino, Italy), QK(Thales Services for CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), QL(INAF - Osservatorio Astronomico d'Abruzzo, Via Mentore Maggini, 64100, Teramo, Italy), QM(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), QN(Leiden Observatory, Leiden University, Niels Bohrweg 2, 2333, CA Leiden, The Netherlands), QO(Royal Observatory of Belgium, Ringlaan 3, 1180, Brussels, Belgium), QP(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), QQ(ALTEC S.p.a, Corso Marche 79, 10146, Torino, Italy), QR(INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20, 10025, Pino Torinese, Italy), QS(GEPI, Observatoire de Paris, Université PSL, CNRS, 5 place Jules Janssen, 92190, Meudon, France), QT(Barcelona Supercomputing Center - Centro Nacional de Supercomputación, c/ Jordi Girona 29, Ed. Nexus II, 08034, Barcelona, Spain), QU(HE Space Operations BV for ESA/ESTEC, Keplerlaan 1, 2201AZ, Noordwijk, The Netherlands), QV(Stellar Astrophysics Centre, Aarhus University, Department of Physics and Astronomy, 120 Ny Munkegade, Building 1520, DK-8000, Aarhus C, Denmark), QW(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), QX(Astronomical Institute, Academy of Sciences of the Czech Republic, Fričova 298, 25165, Ondřejov, Czech Republic), QY(Institute for Astronomy, University of Edinburgh, Royal Observatory, Blackford Hill, Edinburgh, EH9 3HJ, UK), QZ(CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401, Toulouse Cedex 9, France), RA(Institut de Ciències del Cosmos, Universitat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028, Barcelona, Spain), RB(Argelander-Institut fü Astronomie, Universität Bonn, Auf dem Hügel 71, 53121, Bonn, Germany), RC(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; Department of Astrophysics/IMAPP, Radboud University, P.O.Box 9010, 6500 GL, Nijmegen, The Netherlands), RD(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK; Warsaw University Observatory, Al. Ujazdowskie 4, 00-478, Warszawa, Poland), RE(Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA, UK), RF(Faculty of Mathematics and Physics, University of Ljubljana, Jadranska ulica 19, 1000, Ljubljana, Slovenia; Research School of Astronomy and Astrophysics, Australian National University, Canberra, ACT 2611, Australia), RG(Institut UTINAM UMR6213, CNRS, OSU THETA Franche-Comté Bourgogne, Université Bourgogne Franche-Comté, 25000, Besançon, France), RH(Sorbonne Universités, UPMC Univ. Paris 6 et CNRS, UMR 7095, Institut d'Astrophysique de Paris, 98 bis bd. Arago, 75014, Paris, France), RI(Lohrmann Observatory, Technische Universität Dresden, Mommsenstraße 13, 01062, Dresden, Germany), RJ(Department of Geosciences, Tel Aviv University, Tel Aviv, 6997801, Israel), RK(Laboratoire Univers et Particules de Montpellier, Université Montpellier, Place Eugène Bataillon, CC72, 34095, Montpellier Cedex 05, France), RL(Faculty of Mathematics and Physics, University of Ljubljana, Jadranska ulica 19, 1000, Ljubljana, Slovenia)</affiliation>
+<journal>Astronomy &amp;amp; Astrophysics, Volume 637, id.C3, 4 pp.</journal>
+<volume>637</volume>
+<pubdate>May 2020</pubdate>
+<keywords>
+<keyword>Galaxy: kinematics and dynamics</keyword>
+<keyword>astrometry</keyword>
+<keyword>globular clusters: general</keyword>
+<keyword>galaxies: dwarf</keyword>
+<keyword>Local Group</keyword>
+<keyword>errata</keyword>
+<keyword>addenda</keyword>
+</keywords>
+<link type="citations">
+<name>Citations to the Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...637C...3G/citations</url>
+<count>1</count>
+</link>
+<link type="coreads">
+<name>Co-Reads</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...637C...3G/coreads</url>
+</link>
+<link type="PUB_HTML">
+<name>Publisher Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...637C...3G/PUB_HTML</url>
+</link>
+<link type="PUB_PDF" access="open">
+<name>Publisher PDF</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2020A&amp;A...637C...3G/PUB_PDF</url>
+</link>
+<url>https://ui.adsabs.harvard.edu/abs/2020A&amp;A...637C...3G</url>
+<citations>1</citations>
+<DOI>10.1051/0004-6361/201832698e</DOI>
+</record>
+
+<record refereed="true" article="true" type="article">
+<bibcode>2019MNRAS.488.2892P</bibcode>
+<title>Gaia Data Release 2 catalogue of extremely low-mass white dwarf candidates</title>
+<author>Pelisoli, Ingrid</author>
+<author>Vos, Joris</author>
+<affiliation>AA(Institut für Physik und Astronomie, Universität Potsdam, Haus 28, Karl-Liebknecht-Str. 24/25, D-14476 Potsdam-Golm, Germany), AB(Institut für Physik und Astronomie, Universität Potsdam, Haus 28, Karl-Liebknecht-Str. 24/25, D-14476 Potsdam-Golm, Germany)</affiliation>
+<journal>Monthly Notices of the Royal Astronomical Society, Volume 488, Issue 2, p.2892-2903</journal>
+<volume>488</volume>
+<pubdate>Sep 2019</pubdate>
+<page>2892</page>
+<lastpage>2903</lastpage>
+<keywords>
+<keyword>catalogues</keyword>
+<keyword>surveys</keyword>
+<keyword>binaries: close</keyword>
+<keyword>white dwarfs</keyword>
+<keyword>Astrophysics - Solar and Stellar Astrophysics</keyword>
+</keywords>
+<copyright>2019 The Author(s) Published by Oxford University Press on behalf of the Royal Astronomical Society</copyright>
+<link type="abstract">
+<name>abstract</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/abstract</url>
+</link>
+<link type="citations">
+<name>Citations to the Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/citations</url>
+<count>31</count>
+</link>
+<link type="reference">
+<name>References in the Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/reference</url>
+<count>81</count>
+</link>
+<link type="coreads">
+<name>Co-Reads</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/coreads</url>
+</link>
+<link type="EPRINT_HTML">
+<name>arXiv Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/EPRINT_HTML</url>
+</link>
+<link type="PUB_HTML">
+<name>Publisher Article</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/PUB_HTML</url>
+</link>
+<link type="EPRINT_PDF" access="open">
+<name>arXiv PDF</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/EPRINT_PDF</url>
+</link>
+<link type="PUB_PDF">
+<name>Publisher PDF</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/PUB_PDF</url>
+</link>
+<link type="SIMBAD">
+<name>SIMBAD Database at the CDS</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/SIMBAD</url>
+<count>3</count>
+</link>
+<link type="MAST">
+<name>Mikulski Archive for Space Telescopes</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/MAST</url>
+<count>1</count>
+</link>
+<link type="IRSA">
+<name>NASA/IPAC Infrared Science Archive</name>
+<url>https://ui.adsabs.harvard.edu/link_gateway/2019MNRAS.488.2892P/IRSA</url>
+<count>2</count>
+</link>
+<url>https://ui.adsabs.harvard.edu/abs/2019MNRAS.488.2892P</url>
+<citations>31</citations>
+<abstract>Extremely low-mass white dwarf stars (ELMs) are M &lt; 0.3 M&lt;SUB&gt;⊙&lt;/SUB&gt; helium-core white dwarfs born either as a result of a common-envelope phase or after a stable Roche lobe overflow episode in a multiple system. The Universe is not old enough for ELMs to have formed through single-star evolution channels. As remnants of binary evolution, ELMs can shed light onto the poorly understood phase of common-envelope evolution and provide constraints to the physics of mass accretion. Most known ELMs will merge in less than a Hubble time, providing an important contribution to the signal to be detected by upcoming space-based gravitational wave detectors. There are currently less than 150 known ELMs; most were selected by colour, focusing on hot objects, in a magnitude-limited survey of the Northern hemisphere only. Recent theoretical models have predicted a much larger space density for ELMs than estimated observationally based on this limited sample. In order to perform meaningful comparisons with theoretical models and test their predictions, a larger well-defined sample is required. In this work, we present a catalogue of ELM candidates selected from the second data release of Gaia (DR2). We have used predictions from theoretical models and analysed the properties of the known sample to map the space spanned by ELMs in the Gaia Hertzsprung-Russell diagram. Defining a set of colour cuts and quality flags, we have obtained a final sample of 5762 ELM candidates down to T&lt;SUB&gt;eff&lt;/SUB&gt; ≈ 5000 K.</abstract>
+<DOI>10.1093/mnras/stz1876</DOI>
+<eprintid>arXiv:1907.03766</eprintid>
+</record>
+
+</records>

@@ -1,0 +1,15 @@
+@ARTICLE{GaiaCollaboration:2020,
+       author = {{Gaia Collaboration} and {Helmi}, A. and et al.},
+        title = "{Gaia Data Release 2. The kinematics of globular clusters and dwarf galaxies around the Milky Way (Corrigendum)}",
+      journal = {Astronomy and Astrophysics},
+     keywords = {Galaxy: kinematics and dynamics, astrometry, Magellanic Clouds, galaxies: dwarf, Local Group, errata, addenda},
+         year = 2020,
+        month = oct,
+       volume = {642},
+          eid = {C1},
+        pages = {C1},
+          doi = {10.1051/0004-6361/202039217},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2020A&A...642C...1G},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
