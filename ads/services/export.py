@@ -39,7 +39,7 @@ def bibtex(*iterable, max_author=10, author_cutoff=200, key_format=None, journal
         For example:
 
         .. code-block:
-        
+
             Accomazzi:2019              -- %1H:%Y
             Accomazzi:2019:AAS          -- %1H:%Y:%q
             Accomazzi2019               -- %1H%Y
@@ -404,9 +404,7 @@ def _check_bibtex_inputs(max_author, author_cutoff, key_format, journal_format):
         int(author_cutoff)
     except:
         raise TypeError(f"`author_cutoff` must be an integer")
-    try:
-        str(key_format)
-    except:
+    if key_format is not None and not isinstance(key_format, str):
         raise TypeError(f"`key_format` must be a string")
     _check_journal_format(journal_format)
 

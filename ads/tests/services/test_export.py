@@ -21,6 +21,27 @@ class TestExport(unittest.TestCase):
         with self.assertRaises(ValueError):
             ads.services.export.ads([])
     
+        with self.assertRaises(TypeError):
+            ads.services.export.bibtex(self.bibcodes, max_author="infinity and beyond")
+
+        with self.assertRaises(TypeError):
+            ads.services.export.bibtex(self.bibcodes, author_cutoff="A")
+
+        with self.assertRaises(TypeError):
+            ads.services.export.bibtex(self.bibcodes, key_format=1)
+
+        with self.assertRaises(ValueError):
+            ads.services.export.bibtex(self.bibcodes, journal_format=0)
+
+        with self.assertRaises(TypeError):
+            ads.services.export.bibtex(self.bibcodes, sort=True)
+
+        with self.assertRaises(TypeError):
+            ads.services.export.bibtex(self.bibcodes, sort=[])
+
+        with self.assertRaises(ValueError):
+            ads.services.export.csl(self.bibcodes, style="aas", format=1)
+
     def test_export_sort(self):
         no_sort = ads.services.export.ads(self.bibcodes, sort=None)
         title_str = ads.services.export.ads(self.bibcodes, sort="title desc")
