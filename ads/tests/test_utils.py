@@ -5,17 +5,30 @@ import requests
 import warnings
 from tempfile import NamedTemporaryFile
 
-from ads.utils import parse_bibcode
+import ads.utils
 
 class TestSetup(unittest.TestCase):
     def test_setup(self):
         exit_status = os.system("ads-setup")
         self.assertEqual(0, exit_status)
 
+
+
 class TestUtilities(unittest.TestCase):
         
+    def test_flatten(self):
+        structs = [
+            ((1, 2, 3), [1, 2, 3]),
+            ([1, [2, 3]], [1, 2, 3]),
+            (["A", "B", ["C", ["D"], ["E"]]], ["A", "B", "C", "D", "E"]),
+            (1, [1]),   
+        ]
+        for struct, expected in structs:
+            self.assertEqual(ads.utils.flatten(struct), expected)
+
+
     def test_parse_arxiv_bibcode(self):
-        parts = parse_bibcode("2022arXiv220105796S")
+        parts = ads.utils.parse_bibcode("2022arXiv220105796S")
         expected = {
             'year': '2022',
             'journal_abbreviation': 'arXiv',
@@ -28,7 +41,7 @@ class TestUtilities(unittest.TestCase):
             self.assertEqual(parts[key], value)
 
     def test_parse_bibcode(self):
-        parts = parse_bibcode("2018A&A...616A...1G")
+        parts = ads.utils.parse_bibcode("2018A&A...616A...1G")
         expected = {
             'year': '2018',
             'journal_abbreviation': 'A&A',
@@ -41,7 +54,7 @@ class TestUtilities(unittest.TestCase):
             self.assertEqual(parts[key], value)
 
     def test_parse_bibcode_with_long_page_number(self):
-        parts = parse_bibcode("2018JOURN151512345G")
+        parts = ads.utils.parse_bibcode("2018JOURN151512345G")
         expected = {
             'year': '2018',
             'journal_abbreviation': 'JOURN',
@@ -56,4 +69,4 @@ class TestUtilities(unittest.TestCase):
     
     def test_parse_bibcode_fail(self):
         with self.assertRaises(ValueError):
-            parse_bibcode("A018JOURN151512345G")
+            ads.utils.parse_bibcode("A018JOURN151512345G")

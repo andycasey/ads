@@ -4,12 +4,51 @@ The ADS export service returns BibTeX and other formats for a set of records.
 
 ## Overview
 
-The export service in ADS ({obj}`ads.services.export`) has one function that does everything you want: {func}`ads.services.export.export`. You can use this function to export records into any format. This function always returns a string, and it takes in any combination of:
+The export service in ADS ({obj}`ads.services.export`) has functions to export citation strings for documents and libraries. You can use these function to export records into any format. These functions always returns a string, and it takes in any combination of:
  - {obj}`ads.Document` objects,
  - {obj}`ads.Library` objects, or 
  - strings of bibcodes.
 
-You can use these formats together in the one export command. In other words, when calling {obj}`ads.services.export.export` you can give bibcode strings, some {obj}`ads.Library` objects, and some {obj}`ads.Document` objects all in the one function call.
+You can use these formats together in the command. For example, when calling {obj}`ads.services.export.ads` you can give bibcode strings, some {obj}`ads.Library` objects, and some {obj}`ads.Document` objects all in the one function call.
+
+## API
+
+```{eval-rst}
+.. autosummary::
+    :nosignatures:
+
+    ads.services.export.ads
+    ads.services.export.bibtex
+    ads.services.export.bibtexabs
+    ads.services.export.endnote
+    ads.services.export.medlars
+    ads.services.export.procite
+    ads.services.export.refworks
+    ads.services.export.ris
+    ads.services.export.aastex
+    ads.services.export.icarus
+    ads.services.export.mnras
+    ads.services.export.soph
+    ads.services.export.dcxml
+    ads.services.export.refxml
+    ads.services.export.refabsxml
+    ads.services.export.votable
+    ads.services.export.csl
+    ads.services.export.custom
+    ads.services.export.ieee
+```
+
+:::{note}
+Most (*but not all*) of these API end points have the same arguments. Here are some contrarian examples:
+
+- {obj}`ads.services.export.custom` requires a ``format`` argument and does not allow for ``sort``
+- {obj}`ads.services.export.csl` requires both a ``style`` and ``format`` argument
+- {obj}`ads.services.export.bibtex` has optional arguments: ``max_author``, ``author_cutoff``, ``key_format``, and ``journal_format``
+- {obj}`ads.services.export.bibtexabs` has the same optional arguments as {obj}`ads.services.export.bibtex`, but the default value for ``max_author`` is different (the difference comes from the defaults in the ADS API endpoints, not from the ``ads`` package).
+
+Be sure to check the required and optional arguments for each function.
+:::
+
 
 ## Export a single record
 
@@ -18,13 +57,13 @@ In the example below you can see the Python code and the example output in diffe
 ``````{tab} Python
 ```python
 from ads import Document
-from ads.services.export import export
+import ads.services.export as export
 
 # Retrieve any document.
 doc = Document.get()
 
 # Print the exported citation for this document.
-print(export(doc, format="bibtex"))
+print(export.bibtex(doc))
 ```
 ``````
 ``````{tab} Output
@@ -52,7 +91,7 @@ Exporting data for multiple records is very similar to a single record request. 
 ``````{tab} Python
 ```python
 from ads import Document
-from ads.services.export import export
+import ads.services.export as export
 
 # Retrieve 3 documents
 docs = Document.select().limit(3)
@@ -61,7 +100,7 @@ docs = Document.select().limit(3)
 other_docs = ["2015ApJ...808...16N", "2017arXiv171103234K"]
 
 # Print the exported citations.
-print(export(other_docs, docs))
+print(export.bibtex(other_docs, docs))
 ```
 ``````
 ``````{tab} Output
@@ -153,13 +192,13 @@ You can supply {obj}`ads.Document`, a bibcode string, or a {obj}`ads.Library` to
 ``````{tab} Python
 ```python
 from ads import Library
-from ads.services.export import export
+import ads.services.export as export
 
 # Retrieve a public library with ~50 papers.
 lib = Library.get(id="7vKRL51sSFKXUfFVMZHC6g")
 
 # Export all documents in the library in AASTeX format.
-output = export(lib, format="aastex")
+output = export.aastex(lib)
 
 # Print it.
 print(output)

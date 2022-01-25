@@ -32,4 +32,5 @@ def citation_helper(*iterable, as_documents=True):
         missing_bibcodes = [each["bibcode"] for each in response.json]
         return Document.select().where(Document.bibcode.in_(missing_bibcodes))
     else:
-        return response.json["data"]
+        return response.json
+        
