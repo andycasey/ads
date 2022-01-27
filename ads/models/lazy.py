@@ -31,7 +31,7 @@ class LazyLibraryFieldAccessor:
         instance._dirty.add(self.name)
 
     def __get__(self, instance, instance_type=None):
-        raise a
+        ...
 
 class LazyDocumentFieldAccessor:
 

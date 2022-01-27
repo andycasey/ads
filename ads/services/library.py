@@ -117,7 +117,6 @@ class LibraryInterface(Database):
                     data[k.name] = v
                 elif k.name == "documents":
                     if isinstance(v, dict):
-                        raise a
                         data["bibcode"] = v["add"]
                     else:
                         data["bibcode"] = list(map(to_bibcode, v))
@@ -394,12 +393,11 @@ class NewDocumentsAccessor(ForeignKeyAccessor):
                 if instance.__data__.get("num_documents", None) is None:
                     instance.__data__["num_documents"] = len(obj)
             else:
-                raise a
+                raise NotImplementedError()
 
         else:
-            raise a
+            raise NotImplementedError()
 
-            raise a
             obj = flatten([obj])
             instance._dirty.add("documents")
 
