@@ -66,8 +66,12 @@ class IndexedFieldMixin(object):
         super(IndexedFieldMixin, self).__init__(*args, **kwargs)
 
 
+from ads.models.lazy import LazyDocumentFieldAccessor
+
 class ArrayField(IndexedFieldMixin, Field):
     passthrough = True
+
+    accessor_class = LazyDocumentFieldAccessor
 
     def __init__(self, field_class=IntegerField, field_kwargs=None,
                  dimensions=1, convert_values=False, *args, **kwargs):

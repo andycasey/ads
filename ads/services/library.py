@@ -7,7 +7,7 @@ from collections import ChainMap, namedtuple
 from peewee import (Database, SqliteDatabase, Select, Insert, Update, Delete, ForeignKeyAccessor, ForeignKeyField)
 
 from ads.client import Client
-from ads.utils import flatten
+from ads.utils import flatten, to_bibcode
 
 Cursor = namedtuple("Cursor", ["lastrowid", "rowcount"], defaults=[1])
 
@@ -53,15 +53,16 @@ def request_library_ids(expression):
 class LibraryInterface(Database):
 
     def init(self, database=None, *args):
-        self.database = database or Client()
-
+        self.database = database 
+        
     def execute(self, query, **kwargs):
         if isinstance(query, Select):
 
             # If there is an expression given that requires a specific ID, then we should retrieve that
             # because it may be a public library that is not owned by the user.
             kwds = []
-            with self.database as client:
+            bibcodes = {}
+            with Client() as client:
                 for library_id in request_library_ids(query._where):
                     if library_id is None:
                         # Retrieve all listing.
@@ -74,14 +75,17 @@ class LibraryInterface(Database):
                             f"biblib/libraries/{library_id}",
                             # If we don't specify a number of rows, we only get 20.
                             # Let's request the maximum that we think could exist.
-                            #params=dict(rows=20_000_000)
+                            params=dict(rows=20_000_000)
                         )
+                        bibcodes[response.json["metadata"]["id"]] = response.json["documents"]
                         kwds.append(response.json["metadata"])
                         #kwds[-1]["documents"] = response.json["documents"]
 
             # Now bind the model to an in-memory database so that we evaluate the query.
             model = query.model
             local_database = SqliteDatabase(":memory:")
+            from ads.services.search import MockCursor
+
             with local_database.bind_ctx([model], bind_refs=False, bind_backrefs=False):
                 local_database.create_tables([model])
 
@@ -93,20 +97,34 @@ class LibraryInterface(Database):
                                    .order_by(query._order_by)\
                                    .limit(query._limit)
 
-                return local_query.execute().cursor
+                foo = local_query.execute().cursor
+                results = []
+                field_names = [field.name for field in local_query._returning]
+                for field_values in foo:
+
+                    kwds = dict(zip(field_names, field_values))
+                    if kwds["id"] in bibcodes:
+                        kwds["documents"] = bibcodes[kwds["id"]]
+                    results.append(kwds)
+
+                return MockCursor(local_query, results)
 
         elif isinstance(query, Insert):
             data = {}
-            #print(query._insert)
+            print("Insert", query._insert)
             for k, v in query._insert.items():
                 if k.name in ("name", "description", "public"):
                     data[k.name] = v
                 elif k.name == "documents":
-                    data["bibcode"] = v["add"]
+                    if isinstance(v, dict):
+                        raise a
+                        data["bibcode"] = v["add"]
+                    else:
+                        data["bibcode"] = list(map(to_bibcode, v))
 
             #print(f"Inserting {data}")
             # TODO: Warn about ignored fields.
-            with self.database as client:
+            with Client() as client:
                 response = client.api_request(
                     f"biblib/libraries",
                     method="post",
@@ -125,24 +143,35 @@ class LibraryInterface(Database):
             if isinstance(query, Update):
                 data = { k.name: v for k, v in query._update.items() }
                 
-                #print(f"Updating {data}")
+                print(f"Updating {data}")
+                # TODO: Should this check go somewhere else? Because when we get
+                #       to this point the user has to get a fresh copy of the library
+                #       or reset thne value to its original, and update ._dirty
+                read_only_field_names = {"id", "num_users", "num_documents", "date_created", "date_last_modified"}
+                ignore_fields = set(data).intersection(read_only_field_names)
+                if ignore_fields:
+                    raise ValueError(f"Cannot update fields {', '.join(ignore_fields)}: these cannot be edited directly.")
+
+
                 # Update metadata.
                 metadata_field_names = {"name", "description", "public"}
                 dirty_metadata_field_names = set(data).intersection(metadata_field_names)
                 if dirty_metadata_field_names:
                     update_metadata = { k: data[k] for k in dirty_metadata_field_names }
-                    with self.database as client:
-                        client.api_request(
+                    with Client() as client:
+                        r = client.api_request(
                             f"biblib/documents/{library_id}",
                             data=json.dumps(update_metadata),
                             method="put"
                         )
+                        print(r, r.json)
                 
                 # Update permissions.
-                '''
-                if "permissions" in data:
+                if data.get("permissions", None) is not None:
                     _, all_permission_kinds = valid_permissions([])
                     for email in data["permissions"]:
+                        if "owner" in data["permissions"][email]:
+                            continue
                         print(f"Updating permission for {email}")
                         update_permissions = dict(
                             email=email, 
@@ -154,7 +183,7 @@ class LibraryInterface(Database):
                                 dict(zip(permission_kinds, [True] * len(permission_kinds)))
                             )
 
-                        with self.database as client:
+                        with Client() as client:
                             client.api_request(
                                 f"biblib/permissions/{library_id}",
                                 data=json.dumps(update_permissions),
@@ -162,13 +191,12 @@ class LibraryInterface(Database):
                             )
 
                         print(f"Update permissions for  {update_permissions}")
-                '''
 
                 # Update documents.
                 if data.get("documents", None) is not None:
                     # Of the form {'add': {'2018A&A...616A...1G'}, 'remove': set()}
                     #print(f'Updating documents for library {library_id} {data["documents"]}')
-                    with self.database as client:
+                    with Client() as client:
                         for action, bibcode in data["documents"].items():
                             if not bibcode: continue
                             response = client.api_request(
@@ -184,9 +212,9 @@ class LibraryInterface(Database):
                     if not valid_email_address(owner):
                         raise ValueError(f"Invalid email address for new owner: '{owner}'")
                     
-                    with self.database as client:
+                    with Client() as client:
                         client.api_request(
-                            f"biblib/documents/{library_id}",
+                            f"biblib/transfer/{library_id}",
                             data=json.dumps(dict(email=owner)),
                             method="post"
                         )
@@ -195,7 +223,7 @@ class LibraryInterface(Database):
                 
             
             elif isinstance(query, Delete):
-                with self.database as client:
+                with Client() as client:
                     # I assumed that this endpoint would be biblib/libraries/{id},
                     # but it is actually biblib/documents/{id}. I don't know why.
                     # The documentation correctly says biblib/documents/{id}, but
@@ -301,6 +329,90 @@ class Permissions(dict):
         return response
 
 
+class NewDocumentsAccessor(ForeignKeyAccessor):
+
+
+    def get_rel_instance(self, instance):
+        print(f"getting {instance}")
+        if instance.id is None:
+            instance.__data__["documents"] = []
+        else:
+            # We need to make sure we have a listing from the server.
+            if "bibcodes" not in instance.__data__:
+                print(f"retrieving")
+                with Client() as client:
+                    response = client.api_request(
+                        f"biblib/libraries/{instance.id}", 
+                        params=dict(rows=instance.num_documents)
+                    )
+                    # TODO: The terminology here in the response is not quite right (eg bibcodes / documents)
+                    # Email the ADS team about this.
+            
+                    # Update any missing metadata.
+                    for key, value in response.json["metadata"].items():
+                        if instance.__data__.get(key, None) is None:
+                            instance.__data__[key] = value
+                    #instance._dirty -= set(metadata)
+
+                    instance.__data__["bibcodes"] = response.json["documents"]
+                    if instance.__data__.get("num_documents", None) is None:
+                        instance.__data__["num_documents"] = len(instance.__data__["bibcodes"])
+
+            # We may have already retrieved them.
+            if instance.__data__.get("documents", None) is None:
+                from ads import Document
+                bibcodes = instance.__data__["bibcodes"]
+                if bibcodes:
+                    instance.__data__["documents"] = list(
+                        Document.select()
+                                .where(Document.bibcode.in_(bibcodes))
+                                .limit(len(bibcodes))
+                    )
+                else:
+                    instance.__data__["documents"] = []
+        return instance.__data__["documents"]
+
+    
+    def __set__(self, instance, obj):
+        from ads import Document
+        print(f"setting {instance} {obj}")
+        # Check if the object was created with a list of bibcodes given to the constructor.
+        # (The user might have done this, but it's usually how a library is created when we select by specific ID.)
+        obj = flatten([obj])
+        
+        if isinstance(obj, list):
+            if all(isinstance(item, str) for item in obj):
+                # TODO: we should only believe this if the lbirary is new.
+                instance.__data__["bibcodes"] = obj
+                if instance.__data__.get("num_documents", None) is None:
+                    instance.__data__["num_documents"] = len(obj)
+
+                return None
+
+            elif all(isinstance(item, Document) for item in obj):
+                instance.__data__["documents"] = obj
+                if instance.__data__.get("num_documents", None) is None:
+                    instance.__data__["num_documents"] = len(obj)
+            else:
+                raise a
+
+        else:
+            raise a
+
+            raise a
+            obj = flatten([obj])
+            instance._dirty.add("documents")
+
+            bibcodes = list(map(to_bibcode, obj))
+            instance.__data__["bibcodes"] = bibcodes
+
+            if all(isinstance(doc, Document) for doc in obj):
+                instance.__data__["documents"] = obj
+            return None
+        #return super().__set__(instance, obj)
+        
+
+'''
 class DocumentsAccessor(ForeignKeyAccessor):
 
     def get_rel_instance(self, instance):
@@ -349,9 +461,14 @@ class DocumentsAccessor(ForeignKeyAccessor):
             instance._dirty.add("documents")
             instance.__data__["num_documents"] = len(instance._documents)
 
-
+'''
 class DocumentArrayField(ForeignKeyField):
-    accessor_class = DocumentsAccessor
+    accessor_class = NewDocumentsAccessor
+
+    # We could be creating Document objects here from just the bibcode, but this causes a lot of lazy loading operations.
+    # Instead we will let upstream deal with these as bibcodes and make one request.
+    python_value = lambda self, value: value
+
 
 class PermissionsAccessor(ForeignKeyAccessor):
 

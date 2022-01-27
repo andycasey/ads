@@ -18,12 +18,28 @@ OP.EX = "==" # exact
 class LazyAttributesWarning(UserWarning):
     pass
 
+
+class LazyLibraryFieldAccessor:
+
+    def __init__(self, model, field, name):
+        self.model = model
+        self.field = field
+        self.name = name
+
+    def __set__(self, instance, value):
+        instance.__data__[self.name] = value
+        instance._dirty.add(self.name)
+
+    def __get__(self, instance, instance_type=None):
+        raise a
+
 class LazyDocumentFieldAccessor:
 
     def __init__(self, model, field, name):
         self.model = model
         self.field = field
         self.name = name
+
 
     def __get__(self, instance, instance_type=None):
         if instance is not None:
@@ -73,6 +89,20 @@ class LazyDocumentFieldAccessor:
 
 class LazyDocumentField:
     accessor_class = LazyDocumentFieldAccessor
+
+class LazyLibraryField:
+    accessor_class = LazyLibraryFieldAccessor
+
+class LibraryIntegerField(LazyLibraryField, _IntegerField):
+    pass
+class LibraryTextField(LazyLibraryField, _TextField):
+    pass
+class LibraryDateTimeField(LazyLibraryField, _DateTimeField):
+    pass
+
+class LibraryDateField(LazyLibraryField, _DateField):
+    pass
+
 
 class TextField(LazyDocumentField, _TextField):
 
