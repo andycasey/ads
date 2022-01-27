@@ -41,6 +41,12 @@ jobs:
       - name: Run tests
         env:
           ADS_API_TOKEN: '${{ secrets.ADS_API_TOKEN }}'
+          ALICE_ADS_API_TOKEN: '${{ secrets.ALICE_ADS_API_TOKEN }}'
+          ALICE_ADS_OWNER: '${{ secrets.ALICE_ADS_OWNER }}'
+          ALICE_EMAIL: '${{ secrets.ALICE_EMAIL }}'
+          BOB_ADS_API_TOKEN: '${{ secrets.BOB_ADS_API_TOKEN }}'
+          BOB_ADS_OWNER: '${{ secrets.BOB_ADS_OWNER }}'
+          BOB_EMAIL: '${{ secrets.BOB_EMAIL }}'
         run: |
           nosetests --with-coverage --cover-package=ads
       - name: Coveralls
