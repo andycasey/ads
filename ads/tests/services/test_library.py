@@ -99,9 +99,6 @@ class TestMetaDataChanges(unittest.TestCase):
     #    self.library.id = old
 
 
-# Cannot test library ownership transfer because I seem to get 500 errors now
-# I don't think the code has changed,.. it used to work.
-# Email the ADS team about this.
 class TestLibraryOwnershipTransfer(unittest.TestCase):
 
     def setUp(self):
@@ -119,6 +116,22 @@ class TestLibraryOwnershipTransfer(unittest.TestCase):
         self.assertIsNotNone(self.bob_token)
         self.assertIsNotNone(self.alice_email)
         self.assertIsNotNone(self.bob_email)
+
+        print("OK")
+        print(self.alice_owner)
+        print(self.alice_token)
+        print(self.alice_email)
+        print(self.bob_owner)
+        print(self.bob_token)
+        print(self.bob_email)
+        print("OK")
+
+        self.assertGreater(len(self.alice_owner), 0)
+        self.assertGreater(len(self.alice_token), 0)
+        self.assertGreater(len(self.alice_email), 0)
+        self.assertGreater(len(self.bob_owner), 0)
+        self.assertGreater(len(self.bob_email), 0)
+        self.assertGreater(len(self.bob_token), 0)
 
     def test_transfer_to_alice(self):
         name = random_library_name()
