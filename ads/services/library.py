@@ -293,41 +293,6 @@ def operation(library, action, libraries=None, return_new_library=False):
     return None
 
 
-class Permissions(dict):
-    
-    def __init__(self, library):
-        self._library = library
-        self._dirty = set()
-        return None
-
-    def __setitem__(self, item, value):
-        value = list(set(flatten(value)))
-        if not valid_email_address(item):
-            raise ValueError(f"Invalid email address '{item}'")
-        is_valid, valid_values = valid_permissions(value)
-        if not is_valid:
-            raise ValueError(f"Invalid permissions among '{value}': must contain only {valid_values}")
-        self._set_dirty(item)
-        super().__setitem__(item, value)
-
-
-    def _set_dirty(self, item):
-        self._dirty.add(item)
-        self._library._dirty.add("permissions")
-
-
-    def __delitem__(self, item):
-        self._set_dirty(item)
-        super().__delitem__(item)
-
-
-    def refresh(self):
-        with Client() as client:
-            response = client.api_request(f"biblib/permissions/{self._library.id}")
-        self.update(dict(ChainMap(*response.json)))
-        return response
-
-
 class NewDocumentsAccessor(ForeignKeyAccessor):
 
 
@@ -397,69 +362,8 @@ class NewDocumentsAccessor(ForeignKeyAccessor):
 
         else:
             raise NotImplementedError()
-
-            obj = flatten([obj])
-            instance._dirty.add("documents")
-
-            bibcodes = list(map(to_bibcode, obj))
-            instance.__data__["bibcodes"] = bibcodes
-
-            if all(isinstance(doc, Document) for doc in obj):
-                instance.__data__["documents"] = obj
-            return None
-        #return super().__set__(instance, obj)
         
 
-'''
-class DocumentsAccessor(ForeignKeyAccessor):
-
-    def get_rel_instance(self, instance):
-        try:
-            return instance._documents
-        except AttributeError:
-            bibcodes = instance.__data__.get("documents", None)
-            if bibcodes is None:
-                if instance.id is None:
-                    # Library hasn't been saved yet.
-                    bibcodes = instance.__data__["documents"] = []     
-                    instance._documents = []               
-                else:
-                    with Client() as client:
-                        response = client.api_request(
-                            f"biblib/libraries/{instance.id}", 
-                            params=dict(rows=instance.num_documents)
-                        )
-                        # TODO: The terminology here in the response is not quite right (eg bibcodes / documents)
-                        # Email the ADS team about this.
-                
-                        # Update the metadata.
-                        metadata = response.json["metadata"]
-                        instance.__data__.update(metadata)
-                        instance._dirty -= set(metadata)
-
-                        bibcodes = instance.__data__["documents"] = response.json["documents"]
-                    
-                    from ads import Document
-                    instance._documents = list(
-                        Document.select()
-                                .where(Document.bibcode.in_(bibcodes))
-                                .limit(len(bibcodes))
-                    )
-            elif len(bibcodes) == 0:
-                instance._documents = []
-                
-            return instance._documents
-
-    def __set__(self, instance, obj):
-        if obj is None:
-            super().__set__(instance, obj)
-        else:
-            #print(f"setting documents on {instance} as {obj}")
-            instance._documents = flatten(obj)
-            instance._dirty.add("documents")
-            instance.__data__["num_documents"] = len(instance._documents)
-
-'''
 class DocumentArrayField(ForeignKeyField):
     accessor_class = NewDocumentsAccessor
 

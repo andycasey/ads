@@ -383,6 +383,17 @@ class TestLibrarySetOperations(unittest.TestCase):
         )
         lib_intersection_both_2005.delete()
 
+
+    def test_bad_action(self):
+        from ads.services.library import operation
+        with self.assertRaises(ValueError):
+            operation(None, "moo")
+        
+        local_lib = Library()
+        with self.assertRaises(ValueError):
+            operation(local_lib, "empty")
+    
+
     def test_union(self):
         d = set(self.lib_both).union(self.lib_2006)
         self.assertGreater(len(d), 0)
@@ -438,12 +449,12 @@ class TestLibrarySetOperations(unittest.TestCase):
         A.delete()
 
 
-
-
-
 class TestLibraryService(unittest.TestCase):
 
-        
+    def test_library_select(self):
+        libs = list(Library.select())
+        self.assertGreater(len(libs), 0)
+
 
     def test_create_library_with_documents(self):
         N = 3
