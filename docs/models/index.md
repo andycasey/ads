@@ -22,8 +22,7 @@ If you haven't used data models or an ORM before then you might get the feeling 
 
 ```{admonition} A tip if you're *old-school* and don't like change!
 :class: tip
-If you already have hand-crafted Solr queries that you want to supply directly to ADS, you can still do that using the {obj}`ads.SearchQuery` interface.
-See [this tutorial on providing explicit Solr queries](#).
+If you already have hand-crafted Solr queries that you want to supply directly to ADS, [you can still do that](models/document.md#use-explicit-solr-queries) using the {obj}`ads.SearchQuery` interface.
 ```
 
 ## Contents
