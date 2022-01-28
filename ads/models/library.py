@@ -7,6 +7,8 @@ from ads.utils import to_bibcode
 
 from ads.services.library import (LibraryInterface, DocumentArrayField, PermissionsField, operation)
 
+from ads import logger
+
 class Library(Model):
 
     """ A data model for a library managed by ADS. """
@@ -149,8 +151,8 @@ class Library(Model):
             new = getattr(self, "_permissions", {})
 
             field_dict["permissions"] = new
-            print(old)
-            print(new)
+            logger.debug(old)
+            logger.debug(new)
 
 
 

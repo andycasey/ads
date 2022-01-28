@@ -61,10 +61,10 @@ A Python client for the SAO/NASA Astrophysics Data System
 :::
 
 ::::
-**[Make sophisticated metrics queries](#)**
-: New querying tools for building complex metrics queries and visualizations.
+**[Use object relational mappers for complex, easy-to-read queries](#)**
+: A new querying tools for building complex queries.
 
-**[Asynchronous coroutines for faster queries](#)**
+**[Asynchronous queries for faster results](#)**
 : Use asynchronous coroutines for blazingly fast queries, or make synchronous queries with improved pagination behaviour.
 
 **[Update remote services with ease](#)**

@@ -494,7 +494,7 @@ library.delete()
 The `library` object will still exist in your Python script, but any further modifications you make to the `libary` will result in an error, because ADS has deleted the library from their server.
 
 
-## Querying with `ads.Document` and `ads.Library`
+## Search for documents in a library
 
 You can combine searches for documents in libraries without much user effort. (Instead, the `ads` package is doing the work for you.) If you wanted to search among documents in a library for those published in 2020, here's what it might look like:
 

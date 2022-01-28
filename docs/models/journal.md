@@ -86,7 +86,7 @@ When searching for documents, any expression referencing {class}`ads.Journal` is
 That's why you won't find the `journal` field on the [NASA ADS API documentation](http://adsabs.github.io/help/api/api-docs.html),
 or on the [comphrensive list of operators](https://ui.adsabs.harvard.edu/help/search/comprehensive-solr-term-list).
 
-## Search with {obj}`ads.Journal`
+## Search for documents by Journal
 
 The primary use for the {class}`ads.Journal` object is to allow for more complex document searches. 
 
