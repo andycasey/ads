@@ -1,4 +1,4 @@
-# Getting an API token 
+# API token 
 
 An Application Programming Interface (API) token is a secret, unique string that allows you to access the SAO/NASA ADS API. You need a token to access any of the API end points at SAO/NASA ADS.
 

@@ -1,20 +1,5 @@
 # Journals
 
-Every document in ADS that appears in a peer-reviewed journal will have a bibliographic code (bibcode) that includes an abbreviation of the journal name. The bibliographic code is a 19 character string and follows the syntax `YYYYJJJJJVVVVMPPPPA`, where:
-
-- `YYYY`: Year of publication
-- `JJJJJ`: A standard abbreviation for the journal (e.g. ApJ, AJ, MNRAS, Sci, PASP, etc.). [A list of abbreviations is available](https://adsabs.harvard.edu/abs_doc/journals1.html#).
-- `VVVV`: The volume number (for a serial) or an abbreviation that specifies what type of publication it is (e.g. conf for conference proceedings, meet for Meeting proceedings, book for a book, coll for colloquium proceedings, proc for any other type of proceedings).
-- `M`: Qualifier for publication:
-    - `E`: Electronic Abstract (usually a counter, not a page number)
-    - `L`: Letter
-    - `P`: Pink page
-    - `Q-Z`: Unduplicating character for identical codes
-- `PPPP`: Page number. Note that for page numbers greater than 9999, the page number is continued in the m column.
-- `A`: The first letter of the last name of the first author.
-
-You can [read more about bibliographic codes here](https://ui.adsabs.harvard.edu/help/actions/bibcode). 
-
 When the `ads` Python package is first installed, a local SQLite database is created that stores the names and abbreviations of journals, as well as [curated affiliations](affiliations). You can access the records from this local database in the same way that you would access a {class}`ads.Document` or {class}`ads.Library`.
 
 You will need the following imports in order to execute all code blocks on this page:
@@ -154,6 +139,22 @@ docs = Document.select()\
                )
 ```
 
+## Bibliographic codes
+
+Every document in ADS that appears in a peer-reviewed journal will have a bibliographic code (bibcode) that includes an abbreviation of the journal name. The bibliographic code is a 19 character string and follows the syntax `YYYYJJJJJVVVVMPPPPA`, where:
+
+- `YYYY`: Year of publication
+- `JJJJJ`: A standard abbreviation for the journal (e.g. ApJ, AJ, MNRAS, Sci, PASP, etc.). [A list of abbreviations is available](https://adsabs.harvard.edu/abs_doc/journals1.html#).
+- `VVVV`: The volume number (for a serial) or an abbreviation that specifies what type of publication it is (e.g. conf for conference proceedings, meet for Meeting proceedings, book for a book, coll for colloquium proceedings, proc for any other type of proceedings).
+- `M`: Qualifier for publication:
+    - `E`: Electronic Abstract (usually a counter, not a page number)
+    - `L`: Letter
+    - `P`: Pink page
+    - `Q-Z`: Unduplicating character for identical codes
+- `PPPP`: Page number. Note that for page numbers greater than 9999, the page number is continued in the m column.
+- `A`: The first letter of the last name of the first author.
+
+You can [read more about bibliographic codes here](https://ui.adsabs.harvard.edu/help/actions/bibcode). 
 
 ```{admonition} Contributions
 :class: note

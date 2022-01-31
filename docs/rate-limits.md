@@ -1,3 +1,7 @@
+---
+hide-toc: true
+---
+
 # Rate limits and throttling 
 
 ## Rate limits

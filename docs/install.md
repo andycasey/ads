@@ -23,7 +23,7 @@ If you encounter any unexpected behaviour with Version 1 and [there isn't an iss
 
 The recommended method to install ``ads`` is with [conda](https://conda.io/). You can also install ``ads`` using [pip](https://pip.pypa.io/en/stable/), or download the source code directly from GitHub.
 
-The ``ads`` package comes with a post-installation script, ``ads-setup``. This is used to create a local [SQLite](https://www.sqlite.org/index.html) database, which enables a powerful query syntax. SQLite comes bundled with Python, so you won't need to install anything extra.
+The ``ads`` package comes with a post-installation script, ``ads-setup``. This is used to create a local [SQLite](https://www.sqlite.org/index.html) database that stores curated records of journals and affiliations. SQLite comes bundled with Python, so you won't need to install anything extra.
 
 ``````{tab} Using conda
 ```bash
@@ -70,6 +70,15 @@ pytest
 All of the tests should pass. If they don't, and there is no obvious reason why they do not, you can [open an issue on GitHub](https://github.com/andycasey/ads/issues/create).
 
 &nbsp;
+
+## Test coverage
+
+Coveralls is used for checking which lines of code are executed by the unit tests, and which are not. [See the Coveralls report](https://coveralls.io/github/andycasey/ads?branch=v1). 
+
+[![Coverage Status](https://coveralls.io/repos/github/andycasey/ads/badge.svg?branch=v1)](https://coveralls.io/github/andycasey/ads?branch=v1)
+
+&nbsp;
+
 
 ## Building documentation locally
 

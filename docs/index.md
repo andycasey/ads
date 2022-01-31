@@ -13,9 +13,9 @@ api-key
 ```{toctree}
 :caption: User guide
 :hidden:
+:maxdepth: 1
 
-getting-started
-models/index
+getting-started/index
 services/index
 tutorials/index
 api

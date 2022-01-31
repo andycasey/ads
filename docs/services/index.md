@@ -6,7 +6,9 @@ hide-toc: true
 
 ```{toctree}
 export
+library
 misc
+search
 resolver
 vis
 ```
