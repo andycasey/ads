@@ -116,7 +116,11 @@ class TestAffiliation(unittest.TestCase):
         flatiron = Affiliation.get(abbreviation=abbreviation)
 
         doc = Document.get(Document.pos(Document.affiliation == flatiron, 1, 1))
-        self.assertIn(flatiron, doc.affiliation[0])
+        # First author could have single affiliation, or multiple.
+        if isinstance(doc.affiliation[0], Affiliation):
+            self.assertEqual(doc.affiliation[0], flatiron)
+        else:
+            self.assertIn(flatiron, doc.affiliation[0])
 
 
     def test_repr_affiliation(self):
