@@ -24,3 +24,4 @@ else:
     logger.addHandler(logging.NullHandler())
 
 from ads.models import (Affiliation, Document, Journal, Library)
+from ads.client import SearchQuery

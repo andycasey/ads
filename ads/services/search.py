@@ -269,7 +269,7 @@ def as_solr(query, bibcode_limit=10):
     use_bigquery = counter(query._where, count_bibcodes) > bibcode_limit
     if use_bigquery:
         # Remove the bibcodes from the expression so they are don't appear in the search query.
-        print("WARNING: you're living dangeriously")
+        #print("WARNING: you're living dangeriously")
         end_point = "/search/bigquery"
         
         params = dict(
@@ -314,7 +314,7 @@ def as_solr(query, bibcode_limit=10):
 
         kwds = dict(method="get", params=params)
 
-    print(end_point, kwds)
+    #print(end_point, kwds)
     return (end_point, kwds)
     
 

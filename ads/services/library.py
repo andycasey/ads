@@ -111,7 +111,7 @@ class LibraryInterface(Database):
 
         elif isinstance(query, Insert):
             data = {}
-            print("Insert", query._insert)
+            #print("Insert", query._insert)
             for k, v in query._insert.items():
                 if k.name in ("name", "description", "public"):
                     data[k.name] = v
@@ -142,7 +142,7 @@ class LibraryInterface(Database):
             if isinstance(query, Update):
                 data = { k.name: v for k, v in query._update.items() }
                 
-                print(f"Updating {data}")
+                #print(f"Updating {data}")
                 # TODO: Should this check go somewhere else? Because when we get
                 #       to this point the user has to get a fresh copy of the library
                 #       or reset thne value to its original, and update ._dirty
@@ -163,7 +163,7 @@ class LibraryInterface(Database):
                             data=json.dumps(update_metadata),
                             method="put"
                         )
-                        print(r, r.json)
+                        #print(r, r.json)
                 
                 # Update permissions.
                 if data.get("permissions", None) is not None:
@@ -171,7 +171,7 @@ class LibraryInterface(Database):
                     for email in data["permissions"]:
                         if "owner" in data["permissions"][email]:
                             continue
-                        print(f"Updating permission for {email}")
+                        #print(f"Updating permission for {email}")
                         update_permissions = dict(
                             email=email, 
                             permission={ kind: False for kind in all_permission_kinds}
@@ -297,13 +297,13 @@ class NewDocumentsAccessor(ForeignKeyAccessor):
 
 
     def get_rel_instance(self, instance):
-        print(f"getting {instance}")
+        #print(f"getting {instance}")
         if instance.id is None:
             instance.__data__["documents"] = []
         else:
             # We need to make sure we have a listing from the server.
             if "bibcodes" not in instance.__data__:
-                print(f"retrieving")
+                #print(f"retrieving")
                 with Client() as client:
                     response = client.api_request(
                         f"biblib/libraries/{instance.id}", 
@@ -339,7 +339,7 @@ class NewDocumentsAccessor(ForeignKeyAccessor):
     
     def __set__(self, instance, obj):
         from ads import Document
-        print(f"setting {instance} {obj}")
+        #print(f"setting {instance} {obj}")
         # Check if the object was created with a list of bibcodes given to the constructor.
         # (The user might have done this, but it's usually how a library is created when we select by specific ID.)
         obj = flatten([obj])

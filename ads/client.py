@@ -352,3 +352,9 @@ def has_multiple_pages(response):
         return True
     return False
 """
+
+
+class SearchQuery:
+
+    def __init__(self, **kwargs):
+        raise NotImplementedError("Despite what the docs say, this backward-compatibility is not done yet")
