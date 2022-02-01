@@ -4,7 +4,7 @@ from peewee import (Model, VirtualField, fn)
 
 from ads.models.journal import Journal, JournalField
 from ads.models.affiliation import (Affiliation, AffiliationField)
-from ads.models.lazy import (DateField, DateTimeField, IntegerField, TextField)
+from ads.models.lazy import (DateField, DateTimeField, IntegerField, FloatField, TextField)
 from ads.models.utils import ArrayField
 from ads.services.search import SearchInterface
 
@@ -49,8 +49,12 @@ class Document(Model):
     body = VirtualField(help_text="Search for a word or phrase in (only) the full text.", null=True) 
     #: The number of citations to this document.
     citation_count = IntegerField(help_text="The number of citations to this document.", null=True)
+    #: Normalised citation count.
+    citation_count_norm = FloatField(help_text="Normalised citation count", null=True) # not in https://ui.adsabs.harvard.edu/help/search/comprehensive-solr-term-list but exists 
     #: The normalized boost factor.
     cite_read_boost = IntegerField(help_text="The normalized boost factor.", null=True)
+    #: A classic prestige score, designed to more highly rank papers that are relevant and popular now.
+    classic_factor = FloatField(help_text="A classic prestige score, designed to more highly rank papers that are relevant and popular now.", null=True)
     #: Related data sources.
     data = TextField(help_text="Related data sources. For example: data:\"CDS\" will return records that have CDS data.", null=True)
     #: The database the document resides in (e.g., astronomy or physics).
@@ -130,6 +134,8 @@ class Document(Model):
     pubdate = DateField(help_text="Publication date (to month-level granularity only).", null=True, formats=["%Y-%m-00"])
     #: The number of times the record has been viewed within a 90 day window.
     read_count = IntegerField(help_text="The number of times the record has been viewed within a 90 day window.", null=True)
+    #: The closeness of the document to the query match.
+    score = FloatField(help_text="The closeness of the document to the query match.", null=True) # not in https://ui.adsabs.harvard.edu/help/search/comprehensive-solr-term-list but exists 
     #: List of SIMBAD IDs within a document. This field has privacy restrictions.
     simbid = ArrayField(TextField, help_text="List of SIMBAD IDs within a document. This field has privacy restrictions.", null=True)
     #: Keywords used to describe the SIMBAD type.
@@ -161,7 +167,7 @@ class Document(Model):
     full = VirtualField(help_text="Search by title, abstract, body, keyword, and ack.")
     #: Search by ORCID identifier, from all possible sources: :obj:`ads.Document.orcid_other`, :obj:`ads.Document.orcid_pub`, and :obj:`ads.Document.orcid_user`.
     orcid = VirtualField(help_text="ORCID identifier, from all possible sources.")
-
+    
     # Functions
 
     @classmethod

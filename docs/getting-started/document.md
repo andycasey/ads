@@ -47,7 +47,9 @@ The following fields can be **searched and viewed**:
     ads.Document.bibgroup
     ads.Document.bibstem
     ads.Document.citation_count
+    ads.Document.citation_count_norm
     ads.Document.cite_read_boost
+    ads.Document.classic_factor
     ads.Document.data
     ads.Document.database
     ads.Document.date
@@ -81,6 +83,7 @@ The following fields can be **searched and viewed**:
     ads.Document.pub
     ads.Document.pub_raw
     ads.Document.pubdate
+    ads.Document.score
     ads.Document.simbid
     ads.Document.simbtype
     ads.Document.read_count
@@ -298,13 +301,13 @@ The default ordering for documents returned by ADS is by relevance (computed by 
     ads.Document.author_count
     ads.Document.bibcode
     ads.Document.citation_count
+    ads.Document.citation_count_norm
+    ads.Document.classic_factor
     ads.Document.date
     ads.Document.entry_date    
+    ads.Document.read_count
+    ads.Document.score
 ```
-
-:::{todo}
-first_author, citation_count_norm, score, classic_factor, read_count
-:::
 
 Use the `.order_by()` function to order results:
 

@@ -348,6 +348,13 @@ def count_bibcodes(expression, total=0):
 
 
 
+def field_names(query):
+    names = []
+    for field in query._returning:
+        name = field if isinstance(field, str) else field.name
+        names.append(name)
+    return names
+
 class MockCursor:
     
     # TODO: Where should this go?
@@ -356,7 +363,9 @@ class MockCursor:
         self._query = query
         self._results = results
         self._index = 0
-        self.description = [tuple([field.name] + [None] * 6) for field in self._query._returning]
+        self.description = []
+        for name in field_names(self._query):
+            self.description.append(tuple([name] + [None] * 6))
 
     def fetchone(self):
         try:
@@ -365,8 +374,7 @@ class MockCursor:
             return None
         else:
             self._index += 1
-            names = [field.name for field in self._query._returning]
-            return tuple([result.get(name, None) for name in names])
+            return tuple([result.get(name, None) for name in field_names(self._query)])
 
     def close(self):
         pass

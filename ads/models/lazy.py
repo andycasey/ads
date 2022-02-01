@@ -10,7 +10,8 @@ from peewee import (
     TextField as _TextField, 
     IntegerField as _IntegerField, 
     DateTimeField as _DateTimeField,
-    DateField as _DateField
+    DateField as _DateField,
+    FloatField as _FloatField
 )
 
 OP.EX = "==" # exact
@@ -88,4 +89,8 @@ class DateTimeField(LazyDocumentField, _DateTimeField):
     pass
 
 class DateField(LazyDocumentField, _DateField):
+    pass
+
+
+class FloatField(LazyDocumentField, _FloatField):
     pass
