@@ -437,45 +437,7 @@ library.refresh()
 :::{Warning}
 Once you transfer ownership of a library to another user you will **immediately** lose all read and write access to that library.
 
-The moment that someone else owns the library, you cannot give yourself read, write, or admin permissions. And if you own the library, then you cannot edit your own permissions. That means if you want to transfer ownership of a library to another user and keep some permissions (e.g., read-only), you have two options:
-
-1. Ask the new owner to update the library permissions.
-
-2. If Alice is transferring a library to Bob, but Bob will be unable to give read permissions to Alice, then Alice will need a second ADS account (Charlie). First, Alice will need to make Charlie an administrator of the library. Then Alice can transfer ownership of the library to Bob. After that, Charlie can give Alice read permissions on the library. For example:
-```python
-# By default, Alice is using her own ADS token.
-alice_email_address = "alice@gmail.com"
-alice_token = ads.config.token 
-
-# Bob will be the new owner of the library.
-bob_email_address = "bob@gmail.com"
-
-# This is the ADS token for Alice's second account, Charlie.
-charlie_email_address = "alice+charlie@gmail.com"
-charlie_token = "..." 
-
-# Alice creates a library, and gives Charlie administrator access.
-lib = ads.Library()
-lib.permissions.update({
-    charlie_email_address: ["admin", "read", "write"]
-})
-lib.save()
-
-# Alice transfers the ownership to Bob.
-lib.owner = bob_email_address
-lib.save()
-
-# Retrieve the transferred library by the ADS identifier.
-# This library is owned by Bob, but Charlie has admin permissions.
-ads.config.token = charlie_token # Use Charlie's account.
-transferred_lib = ads.Library.get(id=lib.id)
-
-# Give Alice read-only permissions.
-transferred_lib.permissions.update({
-    alice_email_address: ["read"]
-})
-transferred_lib.save()
-```
+The moment that someone else owns the library, you cannot give yourself read, write, or admin permissions. And if you own the library, then you cannot edit your own permissions. That means if you want to transfer ownership of a library to another user and keep some permissions (e.g., read-only), you have to ask the new owner to update the library permissions.
 :::
 
 
