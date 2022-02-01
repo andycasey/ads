@@ -28,6 +28,7 @@ rate-limits
 
 motivation
 upgrading
+limitations
 ```
 
 ```{toctree}
@@ -62,16 +63,19 @@ A Python client for the SAO/NASA Astrophysics Data System
 
 ::::
 **[Use object relational mappers for complex, easy-to-read queries](#)**
-: A new querying tools for building complex queries.
+: New data models for building programmatic queries.
+
+**[New ways to search](#)**
+: Search by author email, journal title, country of affiliation, and more.
 
 **[Asynchronous queries for faster results](#)**
 : Use asynchronous coroutines for blazingly fast queries, or make synchronous queries with improved pagination behaviour.
 
-**[Update remote services with ease](#)**
+**[Libraries and notifications](#)**
 : Use a Pythonic API to create, update, and delete remote libraries or myADS notifications.
 
-**Lots more...**
-: There are a lot of new changes in version 1.0 of the ``ads`` module. [See what's new](changelog).
+**And much more...**
+: There's a lot of changes in version 1 of the ``ads`` module. Explore these docs to learn more.
 
 ```{important} Important
 :class: important
@@ -87,37 +91,3 @@ Version 1.0 of ``ads`` is only compatible with Python 3. If you haven't upgraded
 &nbsp;
 
 
-# Basic examples
-
-You can search by keywords for documents on ADS.
-
-``````{tab} Synchronous
-```python
-import ads
-
-for document in ads.SearchQuery(q="stellar astrophysics"):
-   print(document.title)
-```
-``````
-``````{tab} Asynchronous
-```python
-import ads
-
-def main():
-   async for document in ads.SearchQuery(q="stellar astrophysics"):
-      print(document.title)
-
-asyncio.run(main())
-```
-``````
-``````{tab} Example Output
-```
-['foo']
-```
-``````
-
-:::{ToDo}
-- Search by author
-- Search by year
-- Search by affiliation
-:::
