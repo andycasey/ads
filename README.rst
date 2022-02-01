@@ -7,7 +7,7 @@ It's tried, true, and people go crazy on the rare occasions when it goes down.
 .. image:: https://readthedocs.org/projects/ads/badge/?version=v1
     :target:  https://ads.readthedocs.io/en/v1/
 
-.. image: https://github.com/andycasey/ads/actions/workflows/tests/badge.svg
+.. image:: https://github.com/andycasey/ads/actions/workflows/tests/badge.svg
     :target: https://github.com/andycasey/ads/actions
 
 .. image:: https://coveralls.io/repos/github/andycasey/ads/badge.svg?branch=v1
