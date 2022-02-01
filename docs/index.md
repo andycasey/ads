@@ -75,7 +75,7 @@ A Python client for the SAO/NASA Astrophysics Data System
 : Use a Pythonic API to create, update, and delete remote libraries or myADS notifications.
 
 **And much more...**
-: There's a lot of changes in version 1 of the ``ads`` module. Explore these docs to learn more.
+: There's a lot of changes in version 1 of the ``ads`` module. [Read this to find out why](motivation.md).
 
 ```{important} Important
 :class: important
