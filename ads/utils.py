@@ -27,9 +27,9 @@ class cached_property(_cached_property):
                 "You are lazy loading attributes via '{}', and so are "
                 "making multiple calls to the API. This will impact your overall "
                 "rate limits."
-                .format(self.func.__name__),
+                .format(self.__name__),
                 UserWarning,
             )
-            value = self.func(obj)
+            value = self.fget(obj)
             obj.__dict__[self.__name__] = value
         return value
