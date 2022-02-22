@@ -16,6 +16,7 @@ def get_user_libraries():
     return [Library(id=o.pop('id'), **o) for o in out]
     
 class Library(BaseQuery):
+    """An object representing an ADS library."""
     _biblib_url = f"{ADSWS_API_URL}/biblib"
     _libraries_url = f"{_biblib_url}/libraries"
     
@@ -32,6 +33,12 @@ class Library(BaseQuery):
             self._refresh_metadata()
         self._meta_keys = tuple(self._meta.keys())
         
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        
+        return self.id == other.id
+    
     def _refresh_metadata(self):
         self._meta = self.session.get(self._library_url).json()
     
@@ -51,7 +58,7 @@ class Library(BaseQuery):
             
 
     def get_documents(self, **kwargs):
-        """Return a SearchQuery representing all documents in this library."""
+        """Return a :class:`~search.SearchQuery` representing all documents in this library."""
         return SearchQuery(q=f'docs(library/{self.id})', **kwargs)
 
     @staticmethod
@@ -72,6 +79,12 @@ class Library(BaseQuery):
         return out        
         
     def add_documents(self, docs) -> int:
+        """Add a list of documents to the library.
+        
+        :param docs: documents to add to the library.
+        :type docs: string bibcode, or sequence of string bibcodes, or sequence of 
+            :class:`search.Article`
+        """
         docs = self._to_bibcodes(docs)
         payload = {
             'bibcode': docs,
@@ -86,6 +99,12 @@ class Library(BaseQuery):
     
     
     def remove_documents(self, docs) -> int:
+        """Remove a list of documents from the library.
+        
+        :param docs: documents to remove from the library.
+        :type docs: string bibcode, or sequence of string bibcodes, or sequence of 
+            :class:`search.Article`
+        """
         docs = self._to_bibcodes(docs)
                     
         payload = {
@@ -100,9 +119,22 @@ class Library(BaseQuery):
         
     @classmethod
     def new(cls, name=None, description='My ADS Library', public=False, docs=None):
+        """Create a new library and return it.
+        
+        :param name: Name of the library, default "Untitled Library" with incremented
+            integer appended.
+        :type name: string
+        :param description: description of the library.
+        :type description: str
+        :param public: whether the library should be public
+        :type public: bool
+        :param docs: documents to add to the library 
+        :type docs: string bibcode, or sequence of string bibcodes, or sequence of 
+            :class:`search.Article`
+        """
         docs = cls._to_bibcodes(docs)
         
-        payload = {'description': description, 'public': public}
+        payload = {'description': description, 'public': bool(public})
         if name:
             payload['name'] = name
             
@@ -115,9 +147,18 @@ class Library(BaseQuery):
         return cls(result.json()['id'])
     
     def get_user_permissions(self):
+        """Get persmissions of different users."""
         return self.session.get(self._permissions_url).json()
     
     def edit_user_persmissions(self, email, permission):
+        """Edit permissions of a user (or add new user).
+        
+        :param email: email of the (new) user
+        :type email: str
+        :param permission: the associated permissions to set, should be a string
+            containing any combination of 'rwa' (read, write, admin).
+        """
+
         assert [p in 'rwa' for p in permission]
 
         permission = {
@@ -144,7 +185,21 @@ class Library(BaseQuery):
         res = self.session.post(self._ops_url, payload = json.dumps(payload))
         return res.json()
         
-    def union(self, libraries, name=None, description=None, public=False):        
+    def union(self, libraries, name=None, description=None, public=False):
+        """Form a new library from the union of this library and other libraries.
+        
+        Returns the new :class:`Library` object.
+        
+        :param libraries: libraries to take the union of.
+        :type libraries: str identifier, :class:`Library` or sequence of such.
+        :param name: Name of the library, default "Untitled Library" with incremented
+            integer appended.
+        :type name: string
+        :param description: description of the library.
+        :type description: str
+        :param public: whether the library should be public
+        :type public: bool
+        """    
         if isinstance(libraries, (str, Library)):
             libraries = [libraries]
         
@@ -152,6 +207,20 @@ class Library(BaseQuery):
         return self.__class__(res['id'])
     
     def difference(self, libraries, name=None, description=None, public=False):
+        """Form a new library from the difference of this library and other libraries.
+        
+        Returns the new :class:`Library` object.
+        
+        :param libraries: libraries to difference with this one.
+        :type libraries: str identifier, :class:`Library` or sequence of such.
+        :param name: Name of the library, default "Untitled Library" with incremented
+            integer appended.
+        :type name: string
+        :param description: description of the library.
+        :type description: str
+        :param public: whether the library should be public
+        :type public: bool
+        """
         if isinstance(libraries, (Library, str)):
             libraries = [libraries]
         
@@ -159,6 +228,20 @@ class Library(BaseQuery):
         return self.__class__(res['id'])
     
     def intersection(self, libraries, name=None, description=None, public=False):
+        """Form a new library from the intersection of this library and other libraries.
+        
+        Returns the new :class:`Library` object.
+        
+        :param libraries: libraries to take the intersect.
+        :type libraries: str identifier, :class:`Library` or sequence of such.
+        :param name: Name of the library, default "Untitled Library" with incremented
+            integer appended.
+        :type name: string
+        :param description: description of the library.
+        :type description: str
+        :param public: whether the library should be public
+        :type public: bool
+        """
         if isinstance(libraries, (Library, str)):
             libraries = [libraries]
         
@@ -166,16 +249,26 @@ class Library(BaseQuery):
         return self.__class__(res['id'])
     
     def empty(self):
+        """Empty this library of all documents."""
         del self._meta['num_documents']
         del self._meta['date_last_modified']
         self._set_operations('empty', libraries=[])
         
     def copy_to(self, library):
+        """Copy documents in this library to another library.
+        
+        :param library: the library to copy to
+        :type library: str id or :class:`Library`.
+        """
         library = [library]            
         res = self._set_operations('copy', library)
         return self.__class__(res['id'])
     
     def transfer_to(self, email):
+        """Transfer the library ownership to another user.
+        
+        :param email: the email to transfer ownership to.
+        """
         self.session.post(f"{self._biblib_url}/transfer/{self.id}", payload=json.dumps({'email': email}))
         
     
