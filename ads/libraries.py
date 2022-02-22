@@ -134,7 +134,7 @@ class Library(BaseQuery):
         """
         docs = cls._to_bibcodes(docs)
         
-        payload = {'description': description, 'public': bool(public})
+        payload = {'description': description, 'public': bool(public)}
         if name:
             payload['name'] = name
             
