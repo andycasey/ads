@@ -5,6 +5,7 @@
 *__pycache__*
 *.egg-info
 .coverage
+build
 
 docs/_build
 venv/
