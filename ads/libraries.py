@@ -21,17 +21,18 @@ class Library(BaseQuery):
     _libraries_url = f"{_biblib_url}/libraries"
     
     def __init__(self, id: str, **meta):
-        self.id = id
         
-        self._library_url = f"{self._libraries_url}/{self.id}"
-        self._docs_url = f"{self._biblib_url}/documents/{self.id}"
-        self._permissions_url = f"{self._biblib_url}/permissions/{self.id}"
-        self._ops_url = f"{self._libraries_url}/operations/{self.id}"
-        if meta:
-            self._meta = meta
-        else:
+        self.id = id
+        self._library_url = f"{self._libraries_url}/{id}"
+        self._docs_url = f"{self._biblib_url}/documents/{id}"
+        self._permissions_url = f"{self._biblib_url}/permissions/{id}"
+        self._ops_url = f"{self._libraries_url}/operations/{id}"
+
+        if not meta:
             self._refresh_metadata()
-        self._meta_keys = tuple(self._meta.keys())
+        else:
+            for key, val in meta.items():
+                setattr(self, key, val)
         
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
@@ -40,22 +41,14 @@ class Library(BaseQuery):
         return self.id == other.id
     
     def _refresh_metadata(self):
-        self._meta = self.session.get(self._library_url).json()
-    
-    def __getattr__(self, item):
-        if item in self._meta_keys:
-            if item not in self._meta:
-                self._refresh_metadata()
-            return self._meta[item]
-        
-        raise AttributeError(f"'{item}' is not an attribute of Library")
-        
-    def __setattr__(self, item, value):
-        if item in ['name', 'description', 'public']:
-            self.session.put(self._docs_url, payload=json.dumps({item: value}))
-            self._meta[item] = value
-            del self._meta['date_last_modified']
-            
+        meta = self.session.get(self._library_url).json()
+        for key, val in meta.items():
+            setattr(self, key, val)
+                
+    def set(self, **items):
+        assert all(name in ['name', 'description', 'public'] for name in items)
+        self.session.put(self._docs_url, payload=json.dumps(items))
+        self._refresh_metadata()
 
     def get_documents(self, **kwargs):
         """Return a :class:`~search.SearchQuery` representing all documents in this library."""
@@ -93,8 +86,7 @@ class Library(BaseQuery):
         
         result = self.session.post(self._docs_url, data=json.dumps(payload))
         
-        del self._meta['num_documents']
-        del self._meta['date_last_modified']
+        self._refresh_metadata()
         return result.json()['number_added']
     
     
@@ -112,8 +104,7 @@ class Library(BaseQuery):
             'action': 'remove'
         }
 
-        del self._meta['num_documents']
-        del self._meta['date_last_modified']     
+        self._refresh_metadata()  
         result = self.session.post(self._docs_url, data=json.dumps(payload))
         return result.json()['number_removed']
         
@@ -170,8 +161,7 @@ class Library(BaseQuery):
         payload = {'permission': permission, 'email': email}
         res = self.session.post(self._permissions_url, payload=json.dumps(payload))
         
-        del self._meta['num_users']
-        del self._meta['date_last_modified']
+        self._refresh_metadata()
         
         return res.json()['message']
     
@@ -250,10 +240,9 @@ class Library(BaseQuery):
     
     def empty(self):
         """Empty this library of all documents."""
-        del self._meta['num_documents']
-        del self._meta['date_last_modified']
         self._set_operations('empty', libraries=[])
-        
+        self._refresh_metadata()
+
     def copy_to(self, library):
         """Copy documents in this library to another library.
         
@@ -270,5 +259,5 @@ class Library(BaseQuery):
         :param email: the email to transfer ownership to.
         """
         self.session.post(f"{self._biblib_url}/transfer/{self.id}", payload=json.dumps({'email': email}))
-        
+        self._refresh_metadata()
     

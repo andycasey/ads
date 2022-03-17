@@ -58,6 +58,13 @@ class Article(object):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    def __hash__(self):
+        bibcode = self._raw.get('bibcode')
+        if bibcode is None:
+            raise TypeError("unhashable type: 'Article'")
+            
+        return hash(bibcode)
+
     def keys(self):
         return self._raw.keys()
 
