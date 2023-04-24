@@ -87,7 +87,7 @@ class Library(BaseQuery):
         result = self.session.post(self._docs_url, data=json.dumps(payload))
         
         self._refresh_metadata()
-        return result.json()['number_added']
+        return result.json().get('number_added', -1)
     
     
     def remove_documents(self, docs) -> int:
