@@ -3,6 +3,8 @@ python:
 - 2.7
 - 2.7_with_system_site_packages
 - 3.4
+- 3.9.6
+- 3.10.2
 install:
 - pip install -r requirements.txt
 - pip install coverage coveralls
