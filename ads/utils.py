@@ -30,6 +30,10 @@ class cached_property(_cached_property):
                 .format(self.__name__),
                 UserWarning,
             )
-            value = self.fget(obj)
+            try:
+                value = self.func(obj)
+            except AttributeError:
+                # for python versions at least >= 3.9.6
+                value = self.fget(obj)            
             obj.__dict__[self.__name__] = value
         return value
