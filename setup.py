@@ -42,6 +42,7 @@ setup(name="ads",
           readfile(os.path.join(os.path.dirname(__file__), "README.md")),
       install_requires=\
           readfile(os.path.join(os.path.dirname(__file__), "requirements.txt")),
+      long_description_content_type="text/markdown",
       extras_require={
           "tests": [
             "httpretty>=0.8.10",
