@@ -32,7 +32,7 @@ Abundances of the elements: Meteoritic and solar
 ## Running tests
 
 ```bash
-pip install "ads[tests]"
 cd /path/to/ads
+pip install -e . "ads[tests]"
 python -m unittest discover
 ```
