@@ -41,5 +41,10 @@ setup(name="ads",
       long_description=\
           readfile(os.path.join(os.path.dirname(__file__), "README.rst")),
       install_requires=\
-          readfile(os.path.join(os.path.dirname(__file__), "requirements.txt"))
+          readfile(os.path.join(os.path.dirname(__file__), "requirements.txt")),
+      extras_require={
+          "tests": [
+            "httpretty>=0.8.10",
+          ]
+      }
      )
