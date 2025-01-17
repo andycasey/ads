@@ -33,16 +33,34 @@ class MetricsQuery(BaseQuery):
 
     HTTP_ENDPOINT = METRICS_URL
 
-    def __init__(self, bibcodes):
-        """
-        :param bibcodes: Bibcodes to send to in the metrics query
-        :type bibcodes: list or string
-        """
-        self.response = None  # current MetricsResponse object
-        if isinstance(bibcodes, six.string_types):
-            bibcodes = [bibcodes]
-        self.bibcodes = bibcodes
-        self.json_payload = json.dumps({"bibcodes": bibcodes})
+    def __init__(self, bibcodes, types=None, histograms=None):
+    """
+    :param bibcodes: Bibcodes to send to in the metrics query
+    :type bibcodes: list or string
+    :param types: Optional keyword to specify the metrics type to retrieve.
+    :type types: list or string
+    :param histograms: Optional keyword can be set to specify the histograms to
+        return, if `histograms` is specified under types.
+    :type histograms: list or string
+    """
+    self.response = None  # current MetricsResponse object
+    if isinstance(bibcodes, six.string_types):
+        bibcodes = [bibcodes]
+    self.bibcodes = bibcodes
+    
+    # Handle optionals
+    optionals = {}
+    for opt in ["types", "histograms"]:
+        par = locals()[opt]
+        if isinstance(par, six.string_types):
+            par = [par]
+        setattr(self, opt, par)
+    if types is not None:
+        optionals["types"] = self.types
+        if "histograms" in types and histograms is not None:
+            optionals["histograms"] = self.histograms
+    
+    self.json_payload = json.dumps({"bibcodes": bibcodes, **optionals})
 
     def execute(self):
         """
