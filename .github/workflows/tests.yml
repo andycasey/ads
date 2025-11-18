@@ -1,40 +1,25 @@
-on: push
+name: Continuous Integration
+
 jobs:
-  build:
-    name: continuous-integration
+  tests:
+    name: python
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version:
-          - "3.9"
-          - "3.10"
-          - "3.11"
-          - "3.12"
 
     steps:
       - uses: actions/checkout@v5
 
-      - name: Install uv and set the Python version
+      - name: Install uv
         uses: astral-sh/setup-uv@v6
-        with:
-          python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
-        run: |
-          uv pip install flake8 nose coverage coveralls
       - name: Install package
         run: |
           uv pip install git+https://github.com/andycasey/ads.git@v1
-      - name: Set up database
-        run: |
-          ads-setup
-      - name: Lint with flake8
-        run: |
-          # stop the build if there are Python syntax errors or undefined names
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
+
       - name: Run tests
+        run: uv run pytest tests
         env:
           ADS_API_TOKEN: '${{ secrets.ADS_API_TOKEN }}'
           ALICE_ADS_API_TOKEN: '${{ secrets.ALICE_ADS_API_TOKEN }}'
@@ -43,10 +28,3 @@ jobs:
           BOB_ADS_API_TOKEN: '${{ secrets.BOB_ADS_API_TOKEN }}'
           BOB_ADS_OWNER: '${{ secrets.BOB_ADS_OWNER }}'
           BOB_EMAIL: '${{ secrets.BOB_EMAIL }}'
-        run: |
-          nosetests --with-coverage --cover-package=ads
-      - name: Coveralls
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          coveralls --service=github
