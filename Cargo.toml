@@ -7,13 +7,13 @@ description = "Interactive command-line tool for querying NASA/ADS (Astrophysics
 homepage = "https://github.com/andycasey/ads"
 repository = "https://github.com/andycasey/ads"
 license = "MIT"
-keywords = ["astronomy", "astrophysics", "research", "nasa", "ads" "papers", "cli"]
+keywords = ["astronomy", "astrophysics", "research", "nasa", "ads", "papers", "cli"]
 categories = ["command-line-utilities", "science"]
 readme = "README.md"
 
 [[bin]]
 name = "ads"
-path = "src/main.rs"
+path = "src/rust/main.rs"
 
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }

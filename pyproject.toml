@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ads"
+version = "0.2.dev0"
+description = "A Python module for NASA's ADS that doesn't suck."
+readme = "README.rst"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [
+    {name = "Andrew R. Casey", email = "andy@astrowizici.st"}
+]
+dependencies = [
+    "aiohttp",
+    "requests",
+    "httpretty>=0.8.10",
+    "werkzeug",
+    "mock",
+    "peewee",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+
+[project.urls]
+Homepage = "http://www.github.com/andycasey/ads/"
+Repository = "http://www.github.com/andycasey/ads/"
+
+[project.scripts]
+ads-setup = "ads.utils:setup_database"
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src/python"]
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "*.tsv"]
