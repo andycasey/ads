@@ -1,0 +1,53 @@
+name: Package Python with Rust Binaries
+
+on:
+  workflow_run:
+    workflows: ["Build Rust Binaries"]
+    types:
+      - completed
+    branches: [v1, master]
+  release:
+    types: [created]
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'release' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.11"
+
+      - name: Download all binaries
+        uses: actions/download-artifact@v4
+        with:
+          path: binaries/
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Copy binaries to package
+        run: |
+          mkdir -p src/python/ads/bin
+          find binaries/ -type f -exec cp {} src/python/ads/bin/ \;
+          chmod +x src/python/ads/bin/*
+          ls -lh src/python/ads/bin/
+
+      - name: Build Python package
+        run: |
+          uv build
+
+      - name: Upload package artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package
+          path: dist/*
+
+      - name: Publish to PyPI (if release)
+        if: github.event_name == 'release'
+        env:
+          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          uv publish
