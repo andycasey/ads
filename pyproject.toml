@@ -42,6 +42,7 @@ Repository = "http://www.github.com/andycasey/ads/"
 
 [project.scripts]
 ads-setup = "ads.utils:setup_database"
+ads-cli = "ads.cli:main"
 
 [tool.setuptools]
 zip-safe = false
@@ -52,3 +53,9 @@ where = ["src/python"]
 
 [tool.setuptools.package-data]
 "*" = ["*.json", "*.tsv"]
+ads = ["bin/*"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
