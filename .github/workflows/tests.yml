@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install --system flake8 nose coverage coveralls
+          uv pip install flake8 nose coverage coveralls
       - name: Install package
         run: |
           uv pip install git+https://github.com/andycasey/ads.git@v1
