@@ -10,7 +10,7 @@ readme = "README.rst"
 requires-python = ">=3.7"
 license = {text = "MIT"}
 authors = [
-    {name = "Andrew R. Casey", email = "andy@astrowizici.st"}
+    {name = "Andy Casey", email = "acasey@flatironinstitute.org"}
 ]
 dependencies = [
     "aiohttp",
@@ -19,6 +19,8 @@ dependencies = [
     "werkzeug",
     "mock",
     "peewee",
+    "pydantic>=2.0",
+    "pyyaml",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",

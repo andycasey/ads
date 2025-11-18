@@ -12,3 +12,12 @@ It's tried, true, and people go crazy on the rare occasions when it goes down.
 
 .. image:: https://coveralls.io/repos/github/andycasey/ads/badge.svg?branch=v1
     :target: https://coveralls.io/github/andycasey/ads?branch=v1
+
+Installation
+------------
+
+To install this version using `uv <https://docs.astral.sh/uv/>`_:
+
+.. code-block:: bash
+
+    uv pip install git+https://github.com/andycasey/ads.git@v1
