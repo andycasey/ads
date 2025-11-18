@@ -1,36 +1,29 @@
-name: tests
-on: push
-
-
 jobs:
-  test:
+  build:
+    name: continuous-integration
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        #python-version: [3.6, 3.7, 3.8, 3.9]
-        # 3.6 only needs defaults for namedtuples
-        # TODO: We could make a workaround
-
-        # Was causing 500 errors to make so many API requests at once.
-        # For now let's test on 3.9 only
-        python-version: [3.9]
+        python-version:
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Install uv
-        uses: astral-sh/setup-uv@v4
-        with:
-          enable-cache: true
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+
+      - name: Install uv and set the Python version
+        uses: astral-sh/setup-uv@v6
         with:
           python-version: ${{ matrix.python-version }}
+
       - name: Install dependencies
         run: |
           uv pip install --system flake8 nose coverage coveralls
       - name: Install package
         run: |
-          uv pip install --system -e .
+          uv pip install git+https://github.com/andycasey/ads.git@v1
       - name: Set up database
         run: |
           ads-setup
