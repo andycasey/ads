@@ -77,11 +77,6 @@ A Python client for the SAO/NASA Astrophysics Data System
 **And much more...**
 : There's a lot of changes in version 1 of the ``ads`` module. [Read this to find out why](motivation.md).
 
-```{important} Important
-:class: important
-Version 1.0 of ``ads`` is only compatible with Python 3. If you haven't upgraded from Python 2, the time to upgrade was [two years ago](https://www.python.org/doc/sunset-python-2/).
-```
-
 
 &nbsp;
 
