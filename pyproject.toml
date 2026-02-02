@@ -45,6 +45,7 @@ ads-setup = "ads.utils:setup_database"
 ads-cli = "ads.cli:main"
 
 [tool.setuptools]
+package-dir = {"" = "src/python"}
 zip-safe = false
 include-package-data = true
 
@@ -52,8 +53,7 @@ include-package-data = true
 where = ["src/python"]
 
 [tool.setuptools.package-data]
-"*" = ["*.json", "*.tsv"]
-ads = ["bin/*"]
+"ads" = ["data/*.json", "data/*.tsv", "bin/*"]
 
 [project.optional-dependencies]
 dev = [
