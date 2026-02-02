@@ -1,5 +1,6 @@
 import logging
-
+import os
+from pathlib import Path
 
 debug = False
 
@@ -18,10 +19,21 @@ if debug:
     logger.addHandler(handler)
     logger.setLevel(level)
     """
-    
+
 else:
     logger = logging.getLogger(__name__)
     logger.addHandler(logging.NullHandler())
 
-from ads.models import (Affiliation, Document, Journal, Library)
+# setup config for first time
+CONFIG = Path.home() / ".ads/config.json"
+if not os.path.exists(CONFIG):
+    from ads.settings import ADSConfig
+
+    os.makedirs(CONFIG.parents[0], exist_ok=True)
+    ADSConfig().save(CONFIG)
+    print("Generated config at ~/.ads/config.json")
+
+
+# namespace discovery
 from ads.client import SearchQuery
+from ads.models import Affiliation, Document, Journal, Library
