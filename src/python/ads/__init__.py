@@ -25,8 +25,8 @@ else:
     logger.addHandler(logging.NullHandler())
 
 # setup config for first time
-CONFIG = Path.home() / ".ads" / "config.json"
-if ~os.path.exists(CONFIG):
+CONFIG = Path.home() / ".ads/config.json"
+if not os.path.exists(CONFIG):
     from ads.settings import ADSConfig
 
     os.makedirs(CONFIG.parents[0], exist_ok=True)
@@ -37,4 +37,3 @@ if ~os.path.exists(CONFIG):
 # namespace discovery
 from ads.client import SearchQuery
 from ads.models import Affiliation, Document, Journal, Library
-
