@@ -53,7 +53,8 @@ include-package-data = true
 where = ["src/python"]
 
 [tool.setuptools.package-data]
-"ads" = ["data/*.json", "data/*.tsv", "bin/*"]
+"*" = ["data/*.json", "data/*.tsv"]
+"ads" = ["bin/*"]
 
 [project.optional-dependencies]
 dev = [
