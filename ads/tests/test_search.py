@@ -5,6 +5,7 @@ Tests for the search interface
 import sys
 import unittest
 import requests
+import json
 from mock import patch
 import six
 import warnings
@@ -224,6 +225,61 @@ class TestSearchQuery(unittest.TestCase):
             self.assertEqual(
                 sq.query['cursorMark'], sq.response.json['nextCursorMark']
             )
+
+    def test_iter_stops_cleanly_on_empty_page(self):
+        """
+        If a follow-up page returns no additional records, iteration should
+        stop cleanly instead of raising IndexError.
+        """
+        class MockSession(object):
+            def __init__(self, responses):
+                self._responses = iter(responses)
+
+            def get(self, *args, **kwargs):
+                return next(self._responses)
+
+        first_page = {
+            "responseHeader": {"params": {"rows": 1, "fl": ["id", "bibcode"]}},
+            "response": {
+                "numFound": 2,
+                "start": 0,
+                "docs": [{"id": "1", "bibcode": "1971Sci...174..142S"}]
+            }
+        }
+        empty_page = {
+            "responseHeader": {"params": {"rows": 1, "fl": ["id", "bibcode"]}},
+            "response": {"numFound": 2, "start": 1, "docs": []}
+        }
+
+        def make_response(body):
+            response = requests.Response()
+            response.status_code = 200
+            response._content = json.dumps(body).encode("utf-8")
+            return response
+
+        sq = SearchQuery(q="unittest", rows=1, max_pages=5, start=0, fl=["bibcode"])
+        sq._session = MockSession([
+            make_response(first_page),
+            make_response(empty_page)
+        ])
+
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.assertEqual(
+                [article.bibcode for article in list(sq)],
+                ["1971Sci...174..142S"]
+            )
+
+        self.assertEqual(len(w), 1)
+        if six.PY3:
+            msg = w[-1].message.args[0]
+        elif six.PY2:
+            msg = w[-1].message.message
+        self.assertEqual(
+            msg,
+            "ADS returned an empty page of results before all records were "
+            "retrieved; stopping iteration early."
+        )
 
     def test_init(self):
         """

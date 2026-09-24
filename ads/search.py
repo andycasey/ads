@@ -528,7 +528,17 @@ class SearchQuery(BaseQuery):
             # We aren't on the max_page of results nor do we have all
             # results: execute the next query and yield from the newly
             # extended .articles array.
+            previous_article_count = len(self.articles)
             self.execute()
+            if len(self.articles) <= previous_article_count:
+                warnings.warn(
+                    "ADS returned an empty page of results before all records "
+                    "were retrieved; stopping iteration early.",
+                    RuntimeWarning
+                )
+                raise StopIteration(
+                    "Query pagination returned no additional records"
+                )
             cur = self._articles[self.__iter_counter]
 
         self.__iter_counter += 1
