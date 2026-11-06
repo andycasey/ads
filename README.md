@@ -1,6 +1,6 @@
-# A Python Module to Interact with NASA's ADS that Doesn't Suck™
+# A Python Module to Interact with NASA's ~~ADS~~ SciX that Doesn't Suck™
 
-If you're in astro research, then you pretty much *need* NASA's ADS. It's tried, true, and people go crazy on the rare occasions when it goes down.
+If you're in astro research, then you pretty much *need* NASA's ~~ADS~~ SciX. It's tried, true, and people go crazy on the rare occasions when it goes down.
 
 * Docs: https://ads.readthedocs.io/
 * Repo: https://github.com/andycasey/ads
