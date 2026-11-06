@@ -4,7 +4,7 @@ configuration
 import os
 
 # API urls
-ADSWS_API_URL = 'https://api.adsabs.harvard.edu/v1'
+ADSWS_API_URL = 'https://api.scixplorer.org/v1'
 SEARCH_URL = '{}/search/query'.format(ADSWS_API_URL)
 BIGQUERY_URL = '{}/search/bigquery'.format(ADSWS_API_URL)
 METRICS_URL = '{}/metrics'.format(ADSWS_API_URL)
