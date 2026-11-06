@@ -15,7 +15,7 @@ It's tried, true, and people go crazy on the rare occasions when it goes down.
 Getting Started
 ===============
 
-1. You'll need an API key from NASA ADS labs. Sign up for the newest version of ADS search at https://ui.adsabs.harvard.edu, visit account settings and generate a new API token. The official documentation is available at https://github.com/adsabs/adsabs-dev-api
+1. You'll need an API token from NASA ADS / SciX. Sign up at https://scixplorer.org, visit account settings and generate a new API token. The official documentation is available at https://github.com/adsabs/adsabs-dev-api
 
 2. When you get your API key, save it to a file called ``~/.ads/dev_key`` or save it as an environment variable named ``ADS_DEV_KEY``
 
